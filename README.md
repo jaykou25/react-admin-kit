@@ -1,4 +1,4 @@
-# react-admin-toolkit
+# react-admin-kit
 
 ## Getting Started
 

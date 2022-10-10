@@ -31,6 +31,22 @@ group:
 
 <code src="./gridHorizontal/index.tsx"></code>
 
+### 空白占位
+
+<code src="./placeholder/index.tsx"></code>
+
+### 只读模式
+
+<code src="./readonly/index.tsx"></code>
+
+### 内嵌模式
+
+对于复杂表单, 每个区块可以单独设置布局, 数据收集也能在各自的对象里.
+
+开发中...
+
+<code src="./embed/index.tsx"></code>
+
 ### SchemaForm 自定义的 API
 
 <API exports='["Self"]' hideTitle src="../../../src/SchemaForm/index.tsx"></API>

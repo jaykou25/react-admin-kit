@@ -13,6 +13,12 @@ export type SchemaFormSelfProps = {
   embed?: Boolean;
 
   /**
+   * @description       是否为只读模式
+   * @default           false
+   */
+  readonly?: Boolean;
+
+  /**
    * @description 表单项的配置描述;
    */
   columns: any;

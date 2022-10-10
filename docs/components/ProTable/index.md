@@ -9,21 +9,4 @@ group:
 
 ### 一个基本的表格(CRUD)
 
-```tsx
-import React, { useState } from 'react';
-import { Modal } from 'antd';
-
-const Basic = () => {
-  const [visible, setVisible] = useState(false);
-  return (
-    <div>
-      <div onClick={() => setVisible(true)}>open</div>
-      <Modal visible={visible} title="hi">
-        hi
-      </Modal>
-    </div>
-  );
-};
-
-export default Basic;
-```
+<code src="./basic/index.tsx"></code>

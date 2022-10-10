@@ -28,8 +28,8 @@ export type MyProTableType = Omit<
    * 如果点击的是行上的删除, record是该行的数据, selectedIds是该行的id; 如果是多选后的删除, record是空对象
    * 同时在columns中, 对于valueType为option的那一列, 如果声明了enableDelete, 操作列就会自动加入删除按钮
    */
-  deleteFunction?: (record, selectedIds, callback?) => Promise<any>;
-  delPermission?: string; // 权限标识符
+  delFunction?: (selectedIds, record, callback?) => Promise<any>;
+  delPermission?: () => Boolean; // 是否有删除权限
   /**
    * 移除了原来ProTable中的tableAlertOptionRender接口而用tableAlertOptions来替代.
    * 是因为在tableAlert中封装了多选删除的功能

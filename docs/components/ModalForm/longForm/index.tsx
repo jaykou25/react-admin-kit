@@ -1,4 +1,4 @@
-import { ModalForm } from 'react-admin-toolkit';
+import { ModalForm } from 'react-admin-kit';
 import { Button, Modal } from 'antd';
 import { columns } from './columns';
 import { useState } from 'react';

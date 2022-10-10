@@ -13,7 +13,15 @@ class ModalForm extends Component<ModalFormProps, any> {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      visible: false,
+      formData: {},
+    };
+
+    if (props.innerRef) {
+      props.innerRef.current = {};
+      props.innerRef.current.openModal = this.openModal;
+    }
 
     this.formRef = createRef<FormInstance>();
   }
@@ -22,21 +30,14 @@ class ModalForm extends Component<ModalFormProps, any> {
     if (!prevProps.open && this.props.open) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        console.log('in');
         await this.props.onOpen(this.formRef);
-        console.log('out');
         this.setState({ loading: false });
       }
     }
+  };
 
-    // 兼容模式
-    if (!prevProps.visible && this.props.visible) {
-      if (this.props.onOpen) {
-        this.setState({ loading: true });
-        await this.props.onOpen(this.formRef);
-        this.setState({ loading: false });
-      }
-    }
+  openModal = (initialData) => {
+    this.setState({ visible: true, formData: initialData || {} });
   };
 
   onOk = () => {
@@ -48,7 +49,7 @@ class ModalForm extends Component<ModalFormProps, any> {
   };
 
   onFinish = async (values) => {
-    const { onCancel, onFinish } = this.props;
+    const { onFinish } = this.props;
     this.setState({ loading: true });
     try {
       await onFinish(values);
@@ -59,12 +60,11 @@ class ModalForm extends Component<ModalFormProps, any> {
       this.setState({ loading: false });
     }
 
-    // @ts-ignore
-    if (onCancel) onCancel();
+    this.getOnCancel();
   };
 
   handleOnCancel = () => {
-    const { onCancel, getContainer } = this.props;
+    const { getContainer } = this.props;
 
     const isTouched = this.formRef.current?.isFieldsTouched();
 
@@ -75,23 +75,32 @@ class ModalForm extends Component<ModalFormProps, any> {
         centered: true,
         closable: true,
         onOk: () => {
-          // @ts-ignore
-          onCancel();
+          this.getOnCancel();
         },
         getContainer,
       });
     } else {
+      this.getOnCancel();
+    }
+  };
+
+  getOnCancel = () => {
+    const { onCancel, open } = this.props;
+    if (open) {
       // @ts-ignore
-      onCancel();
+      if (onCancel) onCancel();
+    } else {
+      this.setState({ visible: false });
     }
   };
 
   render() {
-    const { columns, onFinish, onCancel, formProps, bodyStyle = {}, ...rest } = this.props;
+    const { columns, onFinish, onCancel, formProps, bodyStyle = {}, open, ...rest } = this.props;
 
     const {
       isKeyPressSubmit = true,
       autoFocusFirstInput = true,
+      initialValues,
       ...restFormProps
     } = formProps || {};
 
@@ -103,6 +112,7 @@ class ModalForm extends Component<ModalFormProps, any> {
           maxHeight: 'calc(100vh - 108px - 100px - 25px)',
           overflow: 'auto',
         }}
+        open={open ? open : this.state.visible}
         {...rest}
         onCancel={this.handleOnCancel}
         onOk={this.onOk}
@@ -115,6 +125,7 @@ class ModalForm extends Component<ModalFormProps, any> {
           onFinish={this.onFinish}
           autoFocusFirstInput={autoFocusFirstInput}
           isKeyPressSubmit={isKeyPressSubmit}
+          initialValues={open ? initialValues : this.state.formData}
           {...restFormProps}
         />
       </Modal>

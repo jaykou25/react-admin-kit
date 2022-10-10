@@ -1,0 +1,16 @@
+.linkButton {
+  // 默认的antd button会有白色背景
+  :global .ant-btn::before {
+    background: unset;
+  }
+
+  :global .ant-btn-loading {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.noPadding {
+  :global .ant-btn {
+    padding: unset;
+  }
+}

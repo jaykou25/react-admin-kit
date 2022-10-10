@@ -23,6 +23,12 @@ group:
 
 <code src="./onOpen/index.tsx"></code>
 
+### 非受控模式(推荐)
+
+非受控模式只需要传入 innerRef 就能控制弹窗, 使用更加简洁
+
+<code src="./innerRef/index.tsx"></code>
+
 ### ModalForm 自定义的 API
 
 <API hideTitle exports='["Self"]' src="../../../src/ModalForm/index.tsx"></API>

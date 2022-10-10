@@ -4,16 +4,18 @@ import type { ProFormProps } from '@ant-design/pro-form';
 import type { SchemaFormProps, SchemaFormSelfProps } from './types';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
-  const { embed = false, submitter = false, ...rest } = props;
+  const { embed = false, readonly = false, submitter = false, columns = [], ...rest } = props;
+
+  const $columns = readonly ? columns.map((col) => ({ ...col, readonly: true })) : columns;
 
   /**
    * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
    */
   if (embed) {
-    return <BetaSchemaForm {...rest} layoutType={'Embed'} />;
+    return <BetaSchemaForm {...rest} columns={$columns} layoutType={'Embed'} />;
   }
 
-  return <BetaSchemaForm submitter={submitter} {...rest} layoutType={'Form'} />;
+  return <BetaSchemaForm submitter={submitter} {...rest} columns={$columns} layoutType={'Form'} />;
 };
 
 export default SchemaForm;

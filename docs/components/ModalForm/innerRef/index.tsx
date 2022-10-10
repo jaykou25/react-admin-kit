@@ -1,10 +1,10 @@
 import { ModalForm } from 'react-admin-kit';
 import { Button } from 'antd';
 import { columns } from './columns';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-const OnOpenDemo = () => {
-  const [visible, setVisible] = useState(false);
+const InnerRefDemo = () => {
+  const ref = useRef();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -25,21 +25,17 @@ const OnOpenDemo = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => setVisible(true)}>
+        <Button
+          type="primary"
+          onClick={() => ref.current?.openModal({ username: '王先生', phone: 134 })}
+        >
           打开弹窗
         </Button>
       </div>
 
-      <ModalForm
-        title={'基本表单'}
-        open={visible}
-        onCancel={() => setVisible(false)}
-        onFinish={onFinish}
-        columns={columns}
-        onOpen={handleOnOpen}
-      />
+      <ModalForm innerRef={ref} title={'基本表单非受控'} onFinish={onFinish} columns={columns} />
     </div>
   );
 };
 
-export default OnOpenDemo;
+export default InnerRefDemo;
