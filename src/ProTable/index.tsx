@@ -10,7 +10,7 @@ import { exportAntTableDataToExcel } from './utils/excel';
 import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
-import styles from './styles.less';
+import './styles.less';
 import cs from 'classnames';
 import { handleValuesForEdit, handleValuesForSubmit } from './utils/form';
 
@@ -302,6 +302,7 @@ class ProTable extends Component<MyProTableType, any> {
       sticky = true,
       className,
       optionColSpaceSize,
+      search,
       request,
       modalProps = {},
       ...rest
@@ -310,10 +311,15 @@ class ProTable extends Component<MyProTableType, any> {
     // state
     const { formVisible, formType, formData } = this.state;
 
+    const defaultSearchConfig: any = {
+      defaultCollapsed: false,
+      className: 'searchFormStyleFix',
+    };
+
     return (
       <>
         <AntProTable
-          className={cs(className, optionColSpaceSize === 'small' && styles.myTableSmallOptionCol)}
+          className={cs(className, optionColSpaceSize === 'small' && 'myTableSmallOptionCol')}
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore
@@ -324,6 +330,7 @@ class ProTable extends Component<MyProTableType, any> {
           tableAlertOptionRender={this.tableAlertOptionRender}
           rowSelection={this.getRowSelection()}
           sticky={sticky}
+          search={search === false ? false : { ...defaultSearchConfig, ...search }}
           request={
             request
               ? (params, sort, filter) => {

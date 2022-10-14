@@ -41,16 +41,16 @@ export const columns = [
     dataIndex: 'idNumber',
     hideInSearch: true,
   },
-  // {
-  //   title: '操作',
-  //   valueType: 'option',
-  //   enableDelete: true,
-  //   render: (text, record, index, actionRef, innerRef) => [
-  //     <LinkButton key={1} onClick={() => innerRef.current?.openModal('edit', record)}>
-  //       编辑
-  //     </LinkButton>,
-  //   ],
-  // },
+  {
+    title: '操作',
+    valueType: 'option',
+    enableDelete: true,
+    render: (text, record, index, actionRef, innerRef) => [
+      <LinkButton key={1} onClick={() => innerRef.current?.openModal('edit', record)}>
+        编辑
+      </LinkButton>,
+    ],
+  },
 ];
 
 export const FORM_TYPE_MAP = {
@@ -105,27 +105,25 @@ const Basic = () => {
     <div>
       <ProTable
         name="用户"
-        size="small"
         columns={columns}
-        innerRef={innerRef}
-        actionRef={actionRef}
-        request={mockRequest}
-        onFinish={onFinish}
-        bordered
-        toolbar={{
-          actions: [
-            <Button
-              type="primary"
-              onClick={() => {
-                innerRef.current?.openModal();
-              }}
-            >
-              新增
-            </Button>,
-          ],
-        }}
-        rowSelection={{}}
-        delFunction={delFunction}
+        // innerRef={innerRef}
+        // actionRef={actionRef}
+        // request={mockRequest}
+        // onFinish={onFinish}
+        // toolbar={{
+        //   actions: [
+        //     <Button
+        //       type="primary"
+        //       onClick={() => {
+        //         innerRef.current?.openModal();
+        //       }}
+        //     >
+        //       新增
+        //     </Button>,
+        //   ],
+        // }}
+        // rowSelection={{}}
+        // delFunction={delFunction}
       />
     </div>
   );
