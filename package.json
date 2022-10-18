@@ -1,8 +1,17 @@
 {
   "private": false,
   "name": "react-admin-kit",
-  "version": "0.1.2",
+  "description": "A react based UI components for admin system",
+  "version": "0.1.5",
   "license": "MIT",
+  "homepage": "https://jaykou25.github.io/react-admin-kit/",
+  "bugs": {
+    "url": "https://github.com/jaykou25/react-admin-kit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaykou25/react-admin-kit"
+  },
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -31,7 +40,6 @@
     ]
   },
   "dependencies": {
-    "react": "^17.0.0",
     "@ant-design/pro-form": "^2.2.2",
     "@ant-design/pro-table": "^3.0.11",
     "antd": "^4.23.4",
@@ -49,6 +57,7 @@
     "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
+    "react": "^17.0.0",
     "yorkie": "^2.0.0"
   }
 }

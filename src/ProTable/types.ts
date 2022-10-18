@@ -1,13 +1,15 @@
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
+import type { ModalProps } from 'antd';
+import { SettingFormProps } from '../SettingProvider/types';
 
 export type ToolbarType = {
   title?: string | false;
   actions?: ReactElement[];
 };
 
-type InnerRefType = {
+export type InnerRefType = {
   openModal: OpenModalType;
   params?: any; // 查询参数
   total?: number; // 总条数
@@ -43,7 +45,8 @@ export type MyProTableType = Omit<
   // 操作列的space间距
   optionColSpaceSize?: 'small';
   editable?: boolean;
-  modalProps?: any;
+  modalProps?: ModalProps;
+  formProps?: SettingFormProps;
 };
 
 export type OpenModalType = (type?: 'new' | 'edit', record?: any) => void;

@@ -1,6 +1,6 @@
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-var _excluded = ["globalUpdate", "dispatch", "type", "loadFunction", "labelKey", "valueKey", "renderLabel", "onChange", "queryParams"];
+var _excluded = ["globalUpdate", "dispatch", "type", "loadFunction", "labelKey", "valueKey", "renderLabel", "onChange", "queryParams", "noCache"];
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -32,18 +32,19 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-import { normalizeSelect } from '@/utils/tree';
+import { normalizeSelect } from "./tree";
 import { Select } from 'antd';
 import { Component } from 'react';
-import { connect } from 'umi';
 import { debounce } from 'lodash';
 import isEqual from 'lodash/isEqual';
-import { jsx as _jsx } from "react/jsx-runtime";
-
+import { SelectName, SelectStatusName, SelectTotalName } from '..';
 /**
  * 分页选择组件
  *
  */
+
+import { jsx as _jsx } from "react/jsx-runtime";
+
 var BasePaginationSelect = /*#__PURE__*/function (_Component) {
   _inherits(BasePaginationSelect, _Component);
 
@@ -55,6 +56,16 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, BasePaginationSelect);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "reRender", function (e) {
+      if (e.detail.type === _this.props.type) {
+        _this.setState({
+          loading: false,
+          dataSource: window[SelectName][_this.props.type] || [],
+          total: window[SelectTotalName][_this.props.type] || 0
+        });
+      }
+    });
 
     _defineProperty(_assertThisInitialized(_this), "isNoCache", function () {
       // queryParams为依赖列表, 依赖列表有值则不缓存
@@ -79,11 +90,18 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
           loadFunction = _this$props2.loadFunction,
           dispatch = _this$props2.dispatch; // 如果同时有多个请求, 后面的请求return掉
 
-      if (window.selectDataIsStart[type]) return;
-      window.selectDataIsStart[type] = true; // 如果window.selectData中有数据则不请求后台
+      if (window[SelectStatusName][type]) {
+        _this.setState({
+          loading: true
+        });
+
+        return;
+      }
+
+      window[SelectStatusName][type] = true; // 如果window.selectData中有数据则不请求后台
       // 同时对于依赖参数变化的请求不缓存
 
-      if (window.selectData[type]) {
+      if (window[SelectName][type]) {
         return;
       }
 
@@ -92,12 +110,14 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
       });
 
       loadFunction({}).then(function (res) {
-        window.selectData[type] = res.data;
-        window.selectDataTotal[type] = res.total;
-        dispatch({
-          type: 'global/globalUpdate',
-          payload: type
+        window[SelectName][type] = res.data;
+        window[SelectTotalName][type] = res.total;
+        var event = new CustomEvent('selectGlobalUpdate', {
+          detail: {
+            type: type
+          }
         });
+        document.dispatchEvent(event);
       }).finally(function () {
         _this.setState({
           loading: false
@@ -131,7 +151,7 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
         return _this.state.total;
       }
 
-      return window.selectDataTotal[_this.props.type];
+      return window[SelectTotalName][_this.props.type];
     });
 
     _defineProperty(_assertThisInitialized(_this), "reset", function () {
@@ -139,13 +159,15 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
 
       _this.setState({
         searchValue: undefined,
-        dataSource: window.selectData[type] || [],
-        total: window.selectDataTotal[type],
+        dataSource: window[SelectName][type] || [],
+        total: window[SelectTotalName][type],
         current: 1
       }); // bugfix: 针对没缓存的需要重新获取数据
 
 
-      _this.handleLoadData();
+      if (_this.isNoCache()) {
+        _this.handleLoadData();
+      }
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleOnChange", function (val) {
@@ -196,6 +218,14 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
           loading: false,
           total: res.total
         });
+        /**
+         * 非search的时候把返回的数据存到缓存
+         */
+
+
+        if (!searchValue) {
+          window[SelectName][_this.props.type] = dataSource.concat(res.data);
+        }
       });
     });
 
@@ -258,8 +288,8 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
     });
 
     _this.state = {
-      dataSource: window.selectData[props.type] || [],
-      total: window.selectDataTotal[props.type] || 0,
+      dataSource: window[SelectName][props.type] || [],
+      total: window[SelectTotalName][props.type] || 0,
       loading: false,
       searchValue: '',
       current: 1
@@ -271,23 +301,16 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.handleLoadData();
+      document.addEventListener('selectGlobalUpdate', this.reRender);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener('selectGlobalUpdate', this.reRender);
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var _this$props$globalUpd;
-
-      if (prevProps.globalUpdate.value !== ((_this$props$globalUpd = this.props.globalUpdate) === null || _this$props$globalUpd === void 0 ? void 0 : _this$props$globalUpd.value)) {
-        var _this$props$globalUpd2;
-
-        if (this.props.type === ((_this$props$globalUpd2 = this.props.globalUpdate) === null || _this$props$globalUpd2 === void 0 ? void 0 : _this$props$globalUpd2.type)) {
-          this.setState({
-            dataSource: window.selectData[this.props.type] || [],
-            total: window.selectDataTotal[this.props.type] || 0
-          });
-        }
-      }
-
       if (!isEqual(prevProps.queryParams, this.props.queryParams)) {
         this.handleLoadData();
       }
@@ -306,6 +329,7 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
           renderLabel = _this$props5.renderLabel,
           onChange = _this$props5.onChange,
           queryParams = _this$props5.queryParams,
+          noCache = _this$props5.noCache,
           rest = _objectWithoutProperties(_this$props5, _excluded);
 
       return /*#__PURE__*/_jsx(Select, _objectSpread(_objectSpread({}, rest), {}, {
@@ -330,8 +354,4 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
   return BasePaginationSelect;
 }(Component);
 
-export default connect(function (state) {
-  return {
-    globalUpdate: state.global.globalUpdate
-  };
-})(BasePaginationSelect);
+export default BasePaginationSelect;

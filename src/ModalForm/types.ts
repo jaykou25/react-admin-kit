@@ -1,7 +1,7 @@
 import type { ModalProps, FormProps, FormInstance } from 'antd';
 import type { MyProColumnType } from '../ProTable/types';
 import type { SubmitterProps } from '@ant-design/pro-form/es/components/Submitter';
-import { SchemaFormProps } from '../SchemaForm/types';
+import { SettingFormProps } from '../SettingProvider/types';
 
 type InnerRefType = {
   openModal: (initialValues?: any) => void;
@@ -35,7 +35,7 @@ export type ModalFormSelfProps = {
   /**
    * @description 传递给表单的参数, 请参考SchemaForm组件的api
    */
-  formProps?: SchemaFormProps;
+  formProps?: SettingFormProps;
 };
 
 export type ModalFormProps = ModalProps & ModalFormSelfProps;

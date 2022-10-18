@@ -40,9 +40,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 import SchemaForm from "../SchemaForm";
-import { Modal } from 'antd';
+import { ConfigProvider, Modal } from 'antd';
 import { Component, createRef } from 'react';
 import omit from 'omit.js';
+import zhCN from 'antd/es/locale/zh_CN';
 import { jsx as _jsx } from "react/jsx-runtime";
 
 var ModalForm = /*#__PURE__*/function (_Component) {
@@ -237,31 +238,34 @@ var ModalForm = /*#__PURE__*/function (_Component) {
           initialValues = _ref3.initialValues,
           restFormProps = _objectWithoutProperties(_ref3, _excluded2);
 
-      return /*#__PURE__*/_jsx(Modal, _objectSpread(_objectSpread({
-        destroyOnClose: true,
-        bodyStyle: _objectSpread(_objectSpread({}, bodyStyle), {}, {
-          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
-          overflow: 'auto'
-        }),
-        open: open ? open : this.state.visible
-      }, rest), {}, {
-        onCancel: this.handleOnCancel,
-        onOk: this.onOk,
-        okButtonProps: {
-          loading: this.state.loading
-        },
-        children: /*#__PURE__*/_jsx(SchemaForm, _objectSpread({
-          scrollToFirstError: true,
-          formRef: this.formRef,
-          columns: columns.map(function (col) {
-            return omit(col, ['width']);
+      return /*#__PURE__*/_jsx(ConfigProvider, {
+        locale: zhCN,
+        children: /*#__PURE__*/_jsx(Modal, _objectSpread(_objectSpread({
+          destroyOnClose: true,
+          bodyStyle: _objectSpread(_objectSpread({}, bodyStyle), {}, {
+            maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+            overflow: 'auto'
           }),
-          onFinish: this.onFinish,
-          autoFocusFirstInput: autoFocusFirstInput,
-          isKeyPressSubmit: isKeyPressSubmit,
-          initialValues: open ? initialValues : this.state.formData
-        }, restFormProps))
-      }));
+          open: open ? open : this.state.visible
+        }, rest), {}, {
+          onCancel: this.handleOnCancel,
+          onOk: this.onOk,
+          okButtonProps: {
+            loading: this.state.loading
+          },
+          children: /*#__PURE__*/_jsx(SchemaForm, _objectSpread({
+            scrollToFirstError: true,
+            formRef: this.formRef,
+            columns: columns.map(function (col) {
+              return omit(col, ['width']);
+            }),
+            onFinish: this.onFinish,
+            autoFocusFirstInput: autoFocusFirstInput,
+            isKeyPressSubmit: isKeyPressSubmit,
+            initialValues: open ? initialValues : this.state.formData
+          }, restFormProps))
+        }))
+      });
     }
   }]);
 

@@ -1,11 +1,12 @@
-import { ProTable, LinkButton } from 'react-admin-kit';
+import { ProTable, LinkButton, SettingProvider } from 'react-admin-kit';
 import { useRef } from 'react';
 
 import { Button, message } from 'antd';
+import type { MyProColumnType } from 'react-admin-kit';
 
 import 'antd/dist/antd.min.css';
 
-export const columns = [
+export const columns: MyProColumnType[] = [
   {
     title: '用户名',
     dataIndex: 'name',
@@ -103,28 +104,42 @@ const Basic = () => {
 
   return (
     <div>
-      <ProTable
-        name="用户"
-        columns={columns}
-        // innerRef={innerRef}
-        // actionRef={actionRef}
-        // request={mockRequest}
-        // onFinish={onFinish}
-        // toolbar={{
-        //   actions: [
-        //     <Button
-        //       type="primary"
-        //       onClick={() => {
-        //         innerRef.current?.openModal();
-        //       }}
-        //     >
-        //       新增
-        //     </Button>,
-        //   ],
-        // }}
-        // rowSelection={{}}
-        // delFunction={delFunction}
-      />
+      <SettingProvider
+        proTableSetting={{
+          size: 'small',
+          searchConfig: { defaultCollapsed: false },
+          modalProps: { width: 680 },
+          formProps: {
+            grid: true,
+            rowProps: { gutter: [24, 0] },
+            colProps: { span: 12 },
+          },
+        }}
+      >
+        <ProTable
+          name="用户"
+          columns={columns}
+          innerRef={innerRef}
+          actionRef={actionRef}
+          request={mockRequest}
+          onFinish={onFinish}
+          bordered
+          toolbar={{
+            actions: [
+              <Button
+                type="primary"
+                onClick={() => {
+                  innerRef.current?.openModal();
+                }}
+              >
+                新增
+              </Button>,
+            ],
+          }}
+          rowSelection={{}}
+          delFunction={delFunction}
+        />
+      </SettingProvider>
     </div>
   );
 };

@@ -1,14 +1,44 @@
+---
+order: 0
+---
 
-## 简介 
+## 简介
 
 ### 为什么要有这套组件库
 
-中后台业务系统(简称admin系统), 虽然各自的业务不同, 但是大部分的页面都是由两类页面构成, 分别是表格类(包括搜索查询和crud)和表单类. 之前我们一直使用ProTable和BetaSchemaForm来应对这两类页面, 开发体验还是比较好的. 
+或者说已经有了 ProComponent 为什么还要有这套 ReactAdminKit(RAK)?
 
-但是有的时候他们还是不能完全贴合我们的业务需要, 或者说很多页面都需要写一些相似的代码来实现需求, 我们列举了这些问题, 希望可以抽象出一个更好的实践.
-1. ProTable本身是集成了crud的, 但是它是行内编辑的. 而我们更多的业务是弹窗新增和弹窗编辑. 所以这一部分的业务可以封装进组件.
-2. 在弹窗新增或者编辑提交的时候, 需要组装数据给后台, 比如labelInValue的值需要提取出value和label, 还有比如一个下拉选项会带出一些额外的数据需要提交给后台, 但是原来的form并没有可以存储额外数据的地方, 一定要先声明getFieldDecorator. 我们这一部分也一起封装进组件.
-3. 在弹窗编辑的时候, 一些组件需要做回显, 比如select如果声明了labelInValue就需要拼成一个对象给它. 拼接的逻辑可以通过约定默认来处理. 
-4. 原来的BetaSchemaForm集成了很多类型, 有Form, ModalForm, StepsForm等, 我们想简化这个组件, 简化成只有QueryFilter和Embed. 另外原来的QueryFilter模式在表单项排列上并不能完全满足业务需要, 比如到某表单项需要强制换行(colSize并不能完全符合需要), 我们想扩展这块需求.
+对于中后台业务系统(简称 admin 系统), ProComponent 的`ProLayout`, `ProTable`等组件已经成为了一个典范, 它们极大的方便了我们前端开发者.
 
-除了对ProTable和SchemaForm的封装以外, 我们还扩展了其它的一些组件和工具函数. 具体用法请看各组件说明.
+然而, ProComponent 还是存在着一些问题, 或者说它总是达不到像 Antd 一样的使用体验. 究其原因, 对我而言, 是在文档的阅读和组件的选择上需要较多的时间成本...
+
+我们只想把视角聚焦在两个点上, 表格(Table)和表单(Form), 也是 admin 系统使用最多的页面结构, 以 schema 为核心把 Table 和 Form 串联起来. 并以此衍生出一些其它的组件.
+
+如果你是 ProComponent 用户, 那大部分的 api 都可以透传给 RAK. 如果你之前未使用过 ProComponent, 那也完全可以直接通过 RAK 的用例和文档来开始使用, 渐近式的使用其它的 api.
+
+### 如何使用
+
+```bash
+$ yarn add react-admin-kit
+```
+
+#### 以 ProTable 为例
+
+```js
+import { ProTable } from 'react-admin-kit';
+
+const Demo = () => {
+  return (
+    <ProTable
+      name="用户"
+      columns={columns}
+      innerRef={innerRef}
+      actionRef={actionRef}
+      request={mockRequest}
+      onFinish={onFinish}
+    />
+  );
+};
+
+// 具体参考各组件文档
+```

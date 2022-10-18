@@ -2,10 +2,11 @@ import { ProTable, LinkButton } from 'react-admin-kit';
 import { useRef } from 'react';
 
 import { Button, message } from 'antd';
+import type { MyProColumnType } from 'react-admin-kit';
 
 import 'antd/dist/antd.min.css';
 
-export const columns = [
+export const columns: MyProColumnType[] = [
   {
     title: '用户名',
     dataIndex: 'name',
@@ -41,16 +42,16 @@ export const columns = [
     dataIndex: 'idNumber',
     hideInSearch: true,
   },
-  // {
-  //   title: '操作',
-  //   valueType: 'option',
-  //   enableDelete: true,
-  //   render: (text, record, index, actionRef, innerRef) => [
-  //     <LinkButton key={1} onClick={() => innerRef.current?.openModal('edit', record)}>
-  //       编辑
-  //     </LinkButton>,
-  //   ],
-  // },
+  {
+    title: '操作',
+    valueType: 'option',
+    enableDelete: true,
+    render: (text, record, index, actionRef, innerRef) => [
+      <LinkButton key={1} onClick={() => innerRef.current?.openModal('edit', record)}>
+        编辑
+      </LinkButton>,
+    ],
+  },
 ];
 
 export const FORM_TYPE_MAP = {
@@ -126,6 +127,12 @@ const Basic = () => {
         }}
         rowSelection={{}}
         delFunction={delFunction}
+        modalProps={{ width: 680 }}
+        formProps={{
+          grid: true,
+          rowProps: { gutter: [24, 0] },
+          colProps: { span: 12 },
+        }}
       />
     </div>
   );

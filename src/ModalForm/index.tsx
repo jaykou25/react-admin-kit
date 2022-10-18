@@ -1,5 +1,5 @@
 import SchemaForm from '../SchemaForm';
-import { Modal } from 'antd';
+import { ConfigProvider, Modal } from 'antd';
 import { Component, createRef } from 'react';
 import type { FormInstance } from 'antd';
 
@@ -7,8 +7,14 @@ import omit from 'omit.js';
 
 import type { ModalFormProps, ModalFormSelfProps } from './types';
 
+import zhCN from 'antd/es/locale/zh_CN';
+import { ModalFormContext } from '../SettingProvider/context';
+
 class ModalForm extends Component<ModalFormProps, any> {
   private formRef;
+
+  static contextType = ModalFormContext;
+  context!: React.ContextType<typeof ModalFormContext>;
 
   constructor(props) {
     super(props);
@@ -104,31 +110,42 @@ class ModalForm extends Component<ModalFormProps, any> {
       ...restFormProps
     } = formProps || {};
 
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { modalProps: settingModalProps = {}, formProps: settingFormProps = {} } = setting;
+
+    const formRest = { ...settingFormProps, ...restFormProps };
+    const modalRest = { ...settingModalProps, ...rest };
+
     return (
-      <Modal
-        destroyOnClose
-        bodyStyle={{
-          ...bodyStyle,
-          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
-          overflow: 'auto',
-        }}
-        open={open ? open : this.state.visible}
-        {...rest}
-        onCancel={this.handleOnCancel}
-        onOk={this.onOk}
-        okButtonProps={{ loading: this.state.loading }}
-      >
-        <SchemaForm
-          scrollToFirstError={true}
-          formRef={this.formRef}
-          columns={columns.map((col) => omit(col, ['width']))}
-          onFinish={this.onFinish}
-          autoFocusFirstInput={autoFocusFirstInput}
-          isKeyPressSubmit={isKeyPressSubmit}
-          initialValues={open ? initialValues : this.state.formData}
-          {...restFormProps}
-        />
-      </Modal>
+      <ConfigProvider locale={zhCN}>
+        <Modal
+          destroyOnClose
+          bodyStyle={{
+            ...bodyStyle,
+            maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+            overflow: 'auto',
+          }}
+          open={open ? open : this.state.visible}
+          {...modalRest}
+          onCancel={this.handleOnCancel}
+          onOk={this.onOk}
+          okButtonProps={{ loading: this.state.loading }}
+        >
+          <SchemaForm
+            scrollToFirstError={true}
+            formRef={this.formRef}
+            columns={columns.map((col) => omit(col, ['width']))}
+            onFinish={this.onFinish}
+            autoFocusFirstInput={autoFocusFirstInput}
+            isKeyPressSubmit={isKeyPressSubmit}
+            initialValues={open ? initialValues : this.state.formData}
+            {...formRest}
+          />
+        </Modal>
+      </ConfigProvider>
     );
   }
 }

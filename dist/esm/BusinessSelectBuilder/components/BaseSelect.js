@@ -36,6 +36,7 @@ import { normalizeSelect } from "./tree";
 import { Select } from 'antd';
 import { Component } from 'react';
 import isEqual from 'lodash/isEqual';
+import { SelectName, SelectStatusName, SelectTotalName } from '..';
 import { jsx as _jsx } from "react/jsx-runtime";
 
 var BaseSelect = /*#__PURE__*/function (_Component) {
@@ -49,6 +50,17 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, BaseSelect);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "reRender", function (e) {
+      if (e.detail.type === _this.props.type) {
+        // console.log('event', e);
+        _this.setState({
+          loading: false,
+          dataSource: window[SelectName][_this.props.type] || [],
+          total: window[SelectTotalName][_this.props.type] || 0
+        });
+      }
+    });
 
     _defineProperty(_assertThisInitialized(_this), "handleLoadData", function () {
       var _this$props = _this.props,
@@ -69,11 +81,18 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
           loadFunction = _this$props2.loadFunction,
           dispatch = _this$props2.dispatch; // 如果同时有多个请求, 后面的请求return掉
 
-      if (window.selectDataIsStart[type]) return;
-      window.selectDataIsStart[type] = true; // 如果window.selectData中有数据则不请求后台
+      if (window[SelectStatusName][type]) {
+        _this.setState({
+          loading: true
+        });
+
+        return;
+      }
+
+      window[SelectStatusName][type] = true; // 如果window.selectData中有数据则不请求后台
       // 同时对于依赖参数变化的请求不缓存
 
-      if (window.selectData[type]) {
+      if (window[SelectName][type]) {
         return;
       }
 
@@ -82,12 +101,14 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
       });
 
       loadFunction({}).then(function (res) {
-        window.selectData[type] = res.data;
-        window.selectDataTotal[type] = res.total;
-        dispatch({
-          type: 'global/globalUpdate',
-          payload: type
+        window[SelectName][type] = res.data;
+        window[SelectTotalName][type] = res.total;
+        var event = new CustomEvent('selectGlobalUpdate', {
+          detail: {
+            type: type
+          }
         });
+        document.dispatchEvent(event); // dispatch({ type: 'global/globalUpdate', payload: type });
       }).finally(function () {
         _this.setState({
           loading: false
@@ -105,8 +126,6 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
       });
 
       loadFunction(queryParams).then(function (res) {
-        console.log('baseselect', res, _this.props.type);
-
         _this.setState({
           dataSource: res.data,
           total: res.total
@@ -147,7 +166,7 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       loading: false,
-      dataSource: window.selectData[props.type] || []
+      dataSource: window[SelectName][props.type] || []
     };
     return _this;
   }
@@ -156,23 +175,16 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.handleLoadData();
+      document.addEventListener('selectGlobalUpdate', this.reRender);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener('selectGlobalUpdate', this.reRender);
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var _this$props$globalUpd;
-
-      if (prevProps.globalUpdate.value !== ((_this$props$globalUpd = this.props.globalUpdate) === null || _this$props$globalUpd === void 0 ? void 0 : _this$props$globalUpd.value)) {
-        var _this$props$globalUpd2;
-
-        if (this.props.type === ((_this$props$globalUpd2 = this.props.globalUpdate) === null || _this$props$globalUpd2 === void 0 ? void 0 : _this$props$globalUpd2.type)) {
-          this.setState({
-            dataSource: window.selectData[this.props.type] || [],
-            total: window.selectDataTotal[this.props.type] || 0
-          });
-        }
-      }
-
       if (!isEqual(prevProps.queryParams, this.props.queryParams)) {
         this.handleLoadData();
       }

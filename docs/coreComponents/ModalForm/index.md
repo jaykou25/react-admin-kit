@@ -1,6 +1,7 @@
 ---
 group:
-  title: 组件
+  title: 核心组件
+  order: 2
 ---
 
 ## ModalForm - 弹窗表单

@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 import type { FormInstance } from 'antd';
 
-const GridHorizontal = () => {
+const Horizontal = () => {
   const formRef = useRef<FormInstance>();
 
   const onFinish = (values: any) => {
@@ -16,13 +16,11 @@ const GridHorizontal = () => {
     <div>
       <SchemaForm
         layout="horizontal"
-        grid={true}
-        rowProps={{ gutter: [0, 0] }}
-        colProps={{ span: 8 }}
-        labelCol={{ span: 9 }}
+        labelCol={{ span: 3 }}
         onFinish={onFinish}
         formRef={formRef}
         columns={columns}
+        autoFocusFirstInput={false}
       />
 
       <div style={{ textAlign: 'end' }}>
@@ -37,4 +35,4 @@ const GridHorizontal = () => {
   );
 };
 
-export default GridHorizontal;
+export default Horizontal;

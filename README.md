@@ -1,33 +1,16 @@
-# react-admin-kit
+# React Admin Kit
 
-## Getting Started
+<p align="left">
+  <a href="https://ant.design">
+    <img width="100" src="https://jaykou25.github.io/react-admin-kit/logo.png">
+  </a>
+  <span style="font-size: 22px">React Admin Kit</span>
+</p>
 
-Install dependencies,
+[组件库文档](https://jaykou25.github.io/react-admin-kit/)
 
-```bash
-$ npm i
-```
-
-Start the dev server,
-
-```bash
-$ npm start
-```
-
-Build documentation,
+## 开始使用
 
 ```bash
-$ npm run docs:build
-```
-
-Run test,
-
-```bash
-$ npm test
-```
-
-Build library via `father`,
-
-```bash
-$ npm run build
+$ yarn add react-admin-kit
 ```

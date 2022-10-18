@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 import type { FormInstance } from 'antd';
 
-const Basic = () => {
+const Grid = () => {
   const formRef = useRef<FormInstance>();
 
   const onFinish = (values: any) => {
@@ -14,7 +14,15 @@ const Basic = () => {
 
   return (
     <div>
-      <SchemaForm onFinish={onFinish} formRef={formRef} columns={columns} />
+      <SchemaForm
+        grid={true}
+        rowProps={{ gutter: [8, 0] }}
+        colProps={{ span: 8 }}
+        onFinish={onFinish}
+        formRef={formRef}
+        columns={columns}
+        autoFocusFirstInput={false}
+      />
 
       <div style={{ textAlign: 'end' }}>
         <Button style={{ marginRight: '10px' }} onClick={() => formRef.current?.resetFields()}>
@@ -28,4 +36,4 @@ const Basic = () => {
   );
 };
 
-export default Basic;
+export default Grid;

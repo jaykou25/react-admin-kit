@@ -5,7 +5,7 @@ export declare type ToolbarType = {
     title?: string | false;
     actions?: ReactElement[];
 };
-declare type InnerRefType = {
+export declare type InnerRefType = {
     openModal: OpenModalType;
     params?: any;
     total?: number;

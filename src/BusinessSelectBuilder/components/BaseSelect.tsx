@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import type { SelectProps } from 'antd';
 import { Component } from 'react';
 import isEqual from 'lodash/isEqual';
+import { SelectName, SelectStatusName, SelectTotalName } from '..';
 
 export interface BaseSelectProps extends SelectProps<any> {
   dispatch?: any;
@@ -23,24 +24,32 @@ class BaseSelect extends Component<BaseSelectProps, any> {
 
     this.state = {
       loading: false,
-      dataSource: window.selectData[props.type] || [],
+      dataSource: window[SelectName][props.type] || [],
     };
   }
 
+  reRender = (e) => {
+    if (e.detail.type === this.props.type) {
+      // console.log('event', e);
+      this.setState({
+        loading: false,
+        dataSource: window[SelectName][this.props.type] || [],
+        total: window[SelectTotalName][this.props.type] || 0,
+      });
+    }
+  };
+
   componentDidMount() {
     this.handleLoadData();
+
+    document.addEventListener('selectGlobalUpdate', this.reRender);
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('selectGlobalUpdate', this.reRender);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.globalUpdate.value !== this.props.globalUpdate?.value) {
-      if (this.props.type === this.props.globalUpdate?.type) {
-        this.setState({
-          dataSource: window.selectData[this.props.type] || [],
-          total: window.selectDataTotal[this.props.type] || 0,
-        });
-      }
-    }
-
     if (!isEqual(prevProps.queryParams, this.props.queryParams)) {
       this.handleLoadData();
     }
@@ -61,21 +70,27 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     const { type, loadFunction, dispatch } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
-    if (window.selectDataIsStart[type]) return;
-    window.selectDataIsStart[type] = true;
+    if (window[SelectStatusName][type]) {
+      this.setState({ loading: true });
+      return;
+    }
+    window[SelectStatusName][type] = true;
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
-    if (window.selectData[type]) {
+    if (window[SelectName][type]) {
       return;
     }
 
     this.setState({ loading: true });
     loadFunction({})
       .then((res) => {
-        window.selectData[type] = res.data;
-        window.selectDataTotal[type] = res.total;
-        dispatch({ type: 'global/globalUpdate', payload: type });
+        window[SelectName][type] = res.data;
+        window[SelectTotalName][type] = res.total;
+
+        const event = new CustomEvent('selectGlobalUpdate', { detail: { type } });
+        document.dispatchEvent(event);
+        // dispatch({ type: 'global/globalUpdate', payload: type });
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -88,7 +103,6 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     this.setState({ loading: true });
     loadFunction(queryParams)
       .then((res) => {
-        console.log('baseselect', res, this.props.type);
         this.setState({
           dataSource: res.data,
           total: res.total,

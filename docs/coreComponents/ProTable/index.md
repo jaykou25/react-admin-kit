@@ -13,6 +13,6 @@ group:
 
 <code src="./basic/index.tsx"></code>
 
-### 一个基本的 CRUD 表格2
+### 更改弹窗表单的布局
 
-<code src="./basic2/index.tsx"></code>
+<code src="./modalFormLayout/index.tsx"></code>

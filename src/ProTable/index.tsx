@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, useContext } from 'react';
 import produce from 'immer';
 import type { MyProColumnType, MyProTableType } from './types';
 
@@ -13,6 +13,8 @@ import { handleRequestParams } from './utils';
 import './styles.less';
 import cs from 'classnames';
 import { handleValuesForEdit, handleValuesForSubmit } from './utils/form';
+import { ProTableContext } from '../SettingProvider/context';
+import { ProTableSetting } from '../SettingProvider/types';
 
 /**
  * 表单类型的映射
@@ -25,6 +27,9 @@ export const FORM_TYPE_MAP = {
 
 class ProTable extends Component<MyProTableType, any> {
   private targetId;
+
+  static contextType: any = ProTableContext;
+  context!: React.ContextType<typeof ProTableContext>;
 
   constructor(props) {
     super(props);
@@ -305,14 +310,29 @@ class ProTable extends Component<MyProTableType, any> {
       search,
       request,
       modalProps = {},
+      formProps = {},
       ...rest
     } = this.props;
 
     // state
     const { formVisible, formType, formData } = this.state;
 
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const {
+      modalProps: settingModalProps = {},
+      formProps: settingFormProps = {},
+      searchConfig = {},
+      ...restSetting
+    } = setting;
+
+    const tableRest = { ...restSetting, ...rest };
+    const modalRest = { ...settingModalProps, ...modalProps };
+
     const defaultSearchConfig: any = {
-      defaultCollapsed: false,
+      ...searchConfig,
       className: 'searchFormStyleFix',
     };
 
@@ -349,7 +369,7 @@ class ProTable extends Component<MyProTableType, any> {
                 }
               : undefined
           }
-          {...rest}
+          {...tableRest}
         />
         <ModalForm
           open={formVisible}
@@ -361,9 +381,11 @@ class ProTable extends Component<MyProTableType, any> {
             onFinish && onFinish(handleValuesForSubmit(values), formType, formData)
           }
           formProps={{
+            ...settingFormProps,
+            ...formProps,
             initialValues: formData,
           }}
-          {...modalProps}
+          {...modalRest}
         />
       </>
     );

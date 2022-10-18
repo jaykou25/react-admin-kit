@@ -23,6 +23,7 @@ const Placeholder = () => {
         onFinish={onFinish}
         formRef={formRef}
         columns={columns}
+        autoFocusFirstInput={false}
       />
 
       <div style={{ textAlign: 'end' }}>

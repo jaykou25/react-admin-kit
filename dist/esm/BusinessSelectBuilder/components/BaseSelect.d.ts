@@ -17,7 +17,9 @@ export interface BaseSelectProps extends SelectProps<any> {
 }
 declare class BaseSelect extends Component<BaseSelectProps, any> {
     constructor(props: any);
+    reRender: (e: any) => void;
     componentDidMount(): void;
+    componentWillUnmount(): void;
     componentDidUpdate(prevProps: any): void;
     handleLoadData: () => void;
     loadDataForCache: () => void;

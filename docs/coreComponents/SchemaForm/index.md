@@ -1,6 +1,8 @@
 ---
 group:
-  title: 组件
+  title: 核心组件
+  order: 1
+order: 1
 ---
 
 ## SchemaForm - JSON 表单
@@ -23,11 +25,15 @@ group:
 
 ### grid 模式(推荐)
 
+grid 模式可以任意控制每个 FormItem 所占的空间
+
 <code src="./grid/index.tsx"></code>
 
 ### grid 模式(水平方向)
 
-该例子中保持 label 的固定宽度比较困难, 第一行占 24, 第二行每个表单项占 8, 第三行占 16. 可以在 columns 的 formItemProps 里指定每个表单项的 labelCol. 有的时候 span 计算出来可能不是整数, 可以改传 flex 来达到效果.
+该例子中保持 label 的固定宽度比较困难, 第一行占 24, 第二行每个表单项占 8, 第三行占 16. 可以在 columns 的 formItemProps 里指定每个表单项的 labelCol.
+
+有的时候 span 计算出来可能不是整数, 以这个例子为例, 可以改传 flex 来达到效果.
 
 <code src="./gridHorizontal/index.tsx"></code>
 
@@ -41,7 +47,7 @@ group:
 
 ### 内嵌模式
 
-对于复杂表单, 每个区块可以单独设置布局, 数据收集也能在各自的对象里.
+对于复杂表单, 每个区块可以单独设置布局, 数据收集也可以收集在各自的对象里.
 
 开发中...
 

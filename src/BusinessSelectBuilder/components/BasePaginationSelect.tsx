@@ -1,10 +1,10 @@
-import { normalizeSelect } from '@/utils/tree';
+import { normalizeSelect } from './tree';
 import { Select } from 'antd';
 import { Component } from 'react';
-import { connect } from 'umi';
 import { debounce } from 'lodash';
 import isEqual from 'lodash/isEqual';
 import type { BaseSelectProps } from './BaseSelect';
+import { SelectName, SelectStatusName, SelectTotalName } from '..';
 
 /**
  * 分页选择组件
@@ -15,28 +15,35 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     super(props);
 
     this.state = {
-      dataSource: window.selectData[props.type] || [],
-      total: window.selectDataTotal[props.type] || 0,
+      dataSource: window[SelectName][props.type] || [],
+      total: window[SelectTotalName][props.type] || 0,
       loading: false,
       searchValue: '',
       current: 1,
     };
   }
 
+  reRender = (e) => {
+    if (e.detail.type === this.props.type) {
+      this.setState({
+        loading: false,
+        dataSource: window[SelectName][this.props.type] || [],
+        total: window[SelectTotalName][this.props.type] || 0,
+      });
+    }
+  };
+
   componentDidMount() {
     this.handleLoadData();
+
+    document.addEventListener('selectGlobalUpdate', this.reRender);
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('selectGlobalUpdate', this.reRender);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.globalUpdate.value !== this.props.globalUpdate?.value) {
-      if (this.props.type === this.props.globalUpdate?.type) {
-        this.setState({
-          dataSource: window.selectData[this.props.type] || [],
-          total: window.selectDataTotal[this.props.type] || 0,
-        });
-      }
-    }
-
     if (!isEqual(prevProps.queryParams, this.props.queryParams)) {
       this.handleLoadData();
     }
@@ -61,21 +68,26 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     const { type, loadFunction, dispatch } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
-    if (window.selectDataIsStart[type]) return;
-    window.selectDataIsStart[type] = true;
+    if (window[SelectStatusName][type]) {
+      this.setState({ loading: true });
+      return;
+    }
+    window[SelectStatusName][type] = true;
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
-    if (window.selectData[type]) {
+    if (window[SelectName][type]) {
       return;
     }
 
     this.setState({ loading: true });
     loadFunction({})
       .then((res) => {
-        window.selectData[type] = res.data;
-        window.selectDataTotal[type] = res.total;
-        dispatch({ type: 'global/globalUpdate', payload: type });
+        window[SelectName][type] = res.data;
+        window[SelectTotalName][type] = res.total;
+
+        const event = new CustomEvent('selectGlobalUpdate', { detail: { type } });
+        document.dispatchEvent(event);
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -103,7 +115,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       return this.state.total;
     }
 
-    return window.selectDataTotal[this.props.type];
+    return window[SelectTotalName][this.props.type];
   };
 
   // 恢复初始状态
@@ -112,13 +124,15 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
     this.setState({
       searchValue: undefined,
-      dataSource: window.selectData[type] || [],
-      total: window.selectDataTotal[type],
+      dataSource: window[SelectName][type] || [],
+      total: window[SelectTotalName][type],
       current: 1,
     });
 
     // bugfix: 针对没缓存的需要重新获取数据
-    this.handleLoadData();
+    if (this.isNoCache()) {
+      this.handleLoadData();
+    }
   };
 
   handleOnChange = (val) => {
@@ -158,6 +172,13 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
         loading: false,
         total: res.total,
       });
+
+      /**
+       * 非search的时候把返回的数据存到缓存
+       */
+      if (!searchValue) {
+        window[SelectName][this.props.type] = dataSource.concat(res.data);
+      }
     });
   };
 
@@ -217,6 +238,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       renderLabel,
       onChange,
       queryParams,
+      noCache,
       ...rest
     } = this.props;
 
@@ -238,6 +260,4 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   }
 }
 
-export default connect((state: any) => ({
-  globalUpdate: state.global.globalUpdate,
-}))(BasePaginationSelect);
+export default BasePaginationSelect;

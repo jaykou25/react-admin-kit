@@ -1,31 +1,18 @@
 import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
-import { useRef } from 'react';
+import { queryBrand, queryColor } from './query';
 
-import { Button, message } from 'antd';
-
-import 'antd/dist/antd.min.css';
-
-const queryColor = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve([]), 1000);
-  });
-};
-
-const BusinessSelect = BusinessSelectBuilder({
+export const BusinessSelect = BusinessSelectBuilder({
   apis: [
     {
       api: queryColor,
       type: 'color',
       pagination: false,
+      labelKey: 'name',
+      valueKey: 'id',
     },
     {
-      api: queryColor,
+      api: queryBrand,
       type: 'brand',
-      pagination: false,
-    },
-    {
-      api: queryColor,
-      type: 'company',
       pagination: true,
     },
   ],
@@ -36,18 +23,16 @@ const Basic = () => {
     <SchemaForm
       grid
       colProps={{ span: 8 }}
+      onFinish={(values) => console.log({ values })}
+      autoFocusFirstInput={false}
       columns={[
         {
           title: '颜色-不分页',
-          renderFormItem: () => <BusinessSelect options={[{ label: 1, value: 1 }]} />,
+          renderFormItem: () => <BusinessSelect type="color" />,
         },
         {
-          title: '品牌-不分页',
-          renderFormItem: () => <BusinessSelect options={[{ label: 2, value: 1 }]} />,
-        },
-        {
-          title: '公司-分页',
-          renderFormItem: () => <BusinessSelect options={[{ label: 2, value: 1 }]} />,
+          title: '品牌-分页(带搜索)',
+          renderFormItem: () => <BusinessSelect type="brand" />,
         },
       ]}
     />
