@@ -13,7 +13,7 @@ export type BusinessSelectBuilderProps = {
   apis: ApiType[];
 };
 
-export interface BusinessSelectProps extends Omit<SelectProps<T>, 'onChange'> {
+export interface BusinessSelectProps extends Omit<SelectProps, 'onChange'> {
   type: string;
   newPlaceholder?: string; // 用于覆盖原来的placehoder
   labelKey?: string;

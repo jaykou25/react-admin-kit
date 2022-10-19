@@ -17,4 +17,5 @@ export default defineConfig({
   ],
   publicPath: '/react-admin-kit/',
   base: '/react-admin-kit/',
+  mfsu: {},
 });

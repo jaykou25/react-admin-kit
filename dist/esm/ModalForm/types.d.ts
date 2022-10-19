@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import type { ModalProps, FormInstance } from 'antd';
 import type { MyProColumnType } from '../ProTable/types';
-import { SchemaFormProps } from '../SchemaForm/types';
+import { SettingFormProps } from '../SettingProvider/types';
 declare type InnerRefType = {
     openModal: (initialValues?: any) => void;
 };
@@ -28,7 +28,7 @@ export declare type ModalFormSelfProps = {
     /**
      * @description 传递给表单的参数, 请参考SchemaForm组件的api
      */
-    formProps?: SchemaFormProps;
+    formProps?: SettingFormProps;
 };
 export declare type ModalFormProps = ModalProps & ModalFormSelfProps;
 export {};

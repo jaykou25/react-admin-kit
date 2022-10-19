@@ -6,7 +6,7 @@ export type SettingFormProps = Omit<SchemaFormProps, 'onFinish' | 'columns'>;
 
 export type ProTableSetting =
   | {
-      size?: 'small' | 'default' | 'large';
+      size?: 'small' | 'default' | 'middle';
       searchConfig?: SearchConfig;
       modalProps?: ModalProps;
       formProps?: SettingFormProps;

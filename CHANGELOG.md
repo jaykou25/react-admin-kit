@@ -25,3 +25,7 @@
 - 增加组件 BusinessSelect
 - 增加组件 BusinessTreeSelect
 - 增加组件 SettingProvider
+
+## 0.1.6
+
+- 增加 SchemaForm 的 embed 模式

@@ -1,8 +1,5 @@
 /// <reference types="react" />
-import type { ButtonProps } from 'antd';
-import './styles.less';
-interface IProps extends ButtonProps {
-    noPadding?: boolean;
-}
-export default function LinkButton(props: IProps): JSX.Element;
-export {};
+import type { MyButtonProps } from '../Button/types';
+import './styles.css';
+declare const LinkButton: (props: MyButtonProps) => JSX.Element;
+export default LinkButton;

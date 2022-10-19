@@ -1,6 +1,6 @@
 import { SchemaForm } from 'react-admin-kit';
 import { Button } from 'antd';
-import { columns } from './columns';
+import { getColumns } from './columns';
 import { useRef } from 'react';
 
 import type { FormInstance } from 'antd';
@@ -22,7 +22,7 @@ const GridHorizontal = () => {
         labelCol={{ span: 9 }}
         onFinish={onFinish}
         formRef={formRef}
-        columns={columns}
+        columns={getColumns()}
         autoFocusFirstInput={false}
       />
 

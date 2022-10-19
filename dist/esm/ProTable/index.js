@@ -1,6 +1,7 @@
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-var _excluded = ["rowKey", "name", "columns", "options", "pagination", "formColumns", "scroll", "onFinish", "tableAlertOption", "rowSelection", "sticky", "className", "optionColSpaceSize", "search", "request", "modalProps"];
+var _excluded = ["rowKey", "name", "columns", "options", "pagination", "formColumns", "scroll", "onFinish", "tableAlertOption", "rowSelection", "sticky", "className", "optionColSpaceSize", "search", "request", "modalProps", "formProps"],
+    _excluded2 = ["modalProps", "formProps", "searchConfig"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -44,13 +45,14 @@ import { handleRequestParams } from "./utils";
 import "./styles.less";
 import cs from 'classnames';
 import { handleValuesForEdit, handleValuesForSubmit } from "./utils/form";
-/**
- * 表单类型的映射
- */
-
+import { ProTableContext } from "../SettingProvider/context";
 import { jsx as _jsx } from "react/jsx-runtime";
 import { jsxs as _jsxs } from "react/jsx-runtime";
 import { Fragment as _Fragment } from "react/jsx-runtime";
+
+/**
+ * 表单类型的映射
+ */
 export var FORM_TYPE_MAP = {
   new: '新增',
   edit: '编辑',
@@ -70,6 +72,8 @@ var ProTable = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "targetId", void 0);
+
+    _defineProperty(_assertThisInitialized(_this), "context", void 0);
 
     _defineProperty(_assertThisInitialized(_this), "getTitle", function () {
       var _this$props = _this.props,
@@ -388,6 +392,8 @@ var ProTable = /*#__PURE__*/function (_Component) {
           request = _this$props5.request,
           _this$props5$modalPro = _this$props5.modalProps,
           modalProps = _this$props5$modalPro === void 0 ? {} : _this$props5$modalPro,
+          _this$props5$formProp = _this$props5.formProps,
+          formProps = _this$props5$formProp === void 0 ? {} : _this$props5$formProp,
           rest = _objectWithoutProperties(_this$props5, _excluded); // state
 
 
@@ -395,10 +401,28 @@ var ProTable = /*#__PURE__*/function (_Component) {
           formVisible = _this$state.formVisible,
           formType = _this$state.formType,
           formData = _this$state.formData;
-      var defaultSearchConfig = {
-        defaultCollapsed: false,
+      /**
+       * 全局默认设置
+       */
+
+      var setting = this.context || {};
+
+      var _setting$modalProps = setting.modalProps,
+          settingModalProps = _setting$modalProps === void 0 ? {} : _setting$modalProps,
+          _setting$formProps = setting.formProps,
+          settingFormProps = _setting$formProps === void 0 ? {} : _setting$formProps,
+          _setting$searchConfig = setting.searchConfig,
+          searchConfig = _setting$searchConfig === void 0 ? {} : _setting$searchConfig,
+          restSetting = _objectWithoutProperties(setting, _excluded2);
+
+      var tableRest = _objectSpread(_objectSpread({}, restSetting), rest);
+
+      var modalRest = _objectSpread(_objectSpread({}, settingModalProps), modalProps);
+
+      var defaultSearchConfig = _objectSpread(_objectSpread({}, searchConfig), {}, {
         className: 'searchFormStyleFix'
-      };
+      });
+
       return /*#__PURE__*/_jsxs(_Fragment, {
         children: [/*#__PURE__*/_jsx(AntProTable, _objectSpread({
           className: cs(className, optionColSpaceSize === 'small' && 'myTableSmallOptionCol'),
@@ -428,7 +452,7 @@ var ProTable = /*#__PURE__*/function (_Component) {
               });
             });
           } : undefined
-        }, rest)), /*#__PURE__*/_jsx(ModalForm, _objectSpread({
+        }, tableRest)), /*#__PURE__*/_jsx(ModalForm, _objectSpread({
           open: formVisible,
           onCancel: function onCancel() {
             return _this2.setState({
@@ -441,15 +465,17 @@ var ProTable = /*#__PURE__*/function (_Component) {
           onFinish: function onFinish(values) {
             return _onFinish && _onFinish(handleValuesForSubmit(values), formType, formData);
           },
-          formProps: {
+          formProps: _objectSpread(_objectSpread(_objectSpread({}, settingFormProps), formProps), {}, {
             initialValues: formData
-          }
-        }, modalProps))]
+          })
+        }, modalRest))]
       });
     }
   }]);
 
   return ProTable;
 }(Component);
+
+_defineProperty(ProTable, "contextType", ProTableContext);
 
 export default ProTable;

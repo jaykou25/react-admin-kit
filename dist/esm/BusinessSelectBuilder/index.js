@@ -1,4 +1,4 @@
-var _excluded = ["type"];
+var _excluded = ["type", "valueKey", "labelKey"];
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -33,6 +33,8 @@ var BusinessSelectBuilder = function BusinessSelectBuilder(_ref) {
   window[SelectTotalName] = {};
   return function (props) {
     var type = props.type,
+        valueKey = props.valueKey,
+        labelKey = props.labelKey,
         rest = _objectWithoutProperties(props, _excluded);
 
     var target = apis.find(function (item) {
@@ -44,14 +46,18 @@ var BusinessSelectBuilder = function BusinessSelectBuilder(_ref) {
       return /*#__PURE__*/_jsx(BasePaginationSelect, _objectSpread({
         type: type,
         loadFunction: target.api,
-        noCache: target.noCache
+        noCache: target.noCache,
+        valueKey: valueKey || target.valueKey || 'id',
+        labelKey: labelKey || target.labelKey || 'name'
       }, rest));
     }
 
     return /*#__PURE__*/_jsx(BaseSelect, _objectSpread({
       type: type,
       loadFunction: target.api,
-      noCache: target.noCache
+      noCache: target.noCache,
+      valueKey: valueKey || target.valueKey || 'id',
+      labelKey: labelKey || target.labelKey || 'name'
     }, rest));
   };
 };

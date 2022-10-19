@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import type { MyProTableType } from './types';
 import './styles.less';
+import { ProTableContext } from '../SettingProvider/context';
 /**
  * 表单类型的映射
  */
@@ -11,6 +12,8 @@ export declare const FORM_TYPE_MAP: {
 };
 declare class ProTable extends Component<MyProTableType, any> {
     private targetId;
+    static contextType: any;
+    context: React.ContextType<typeof ProTableContext>;
     constructor(props: any);
     componentDidMount(): void;
     getTitle: () => string | number | true | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | import("react").ReactFragment;

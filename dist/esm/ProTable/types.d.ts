@@ -1,6 +1,8 @@
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
+import type { ModalProps } from 'antd';
+import { SettingFormProps } from '../SettingProvider/types';
 export declare type ToolbarType = {
     title?: string | false;
     actions?: ReactElement[];
@@ -36,7 +38,8 @@ export declare type MyProTableType = Omit<ProTableProps<any, any>, 'columns' | '
     };
     optionColSpaceSize?: 'small';
     editable?: boolean;
-    modalProps?: any;
+    modalProps?: ModalProps;
+    formProps?: SettingFormProps;
 };
 export declare type OpenModalType = (type?: 'new' | 'edit', record?: any) => void;
 export declare type FetchOptionType = {

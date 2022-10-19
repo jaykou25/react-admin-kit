@@ -1,4 +1,4 @@
-export const columns = [
+export const getColumns = () => [
   {
     title: '用户名',
     dataIndex: 'username',
@@ -50,8 +50,8 @@ export const columns = [
     title: '身份证号',
     colProps: { span: 16 },
     formItemProps: {
-      labelCol: { flex: 4.5 },
-      wrapperCol: { flex: 95.5 },
+      // 3 / 16 = 0.1875
+      labelCol: { flex: '0 0 18.75%' },
       rules: [
         {
           required: true,

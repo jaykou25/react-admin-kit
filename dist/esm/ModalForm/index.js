@@ -44,6 +44,7 @@ import { ConfigProvider, Modal } from 'antd';
 import { Component, createRef } from 'react';
 import omit from 'omit.js';
 import zhCN from 'antd/es/locale/zh_CN';
+import { ModalFormContext } from "../SettingProvider/context";
 import { jsx as _jsx } from "react/jsx-runtime";
 
 var ModalForm = /*#__PURE__*/function (_Component) {
@@ -59,6 +60,8 @@ var ModalForm = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "formRef", void 0);
+
+    _defineProperty(_assertThisInitialized(_this), "context", void 0);
 
     _defineProperty(_assertThisInitialized(_this), "componentDidUpdate", /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(prevProps) {
@@ -237,6 +240,20 @@ var ModalForm = /*#__PURE__*/function (_Component) {
           autoFocusFirstInput = _ref3$autoFocusFirstI === void 0 ? true : _ref3$autoFocusFirstI,
           initialValues = _ref3.initialValues,
           restFormProps = _objectWithoutProperties(_ref3, _excluded2);
+      /**
+       * 全局默认设置
+       */
+
+
+      var setting = this.context || {};
+      var _setting$modalProps = setting.modalProps,
+          settingModalProps = _setting$modalProps === void 0 ? {} : _setting$modalProps,
+          _setting$formProps = setting.formProps,
+          settingFormProps = _setting$formProps === void 0 ? {} : _setting$formProps;
+
+      var formRest = _objectSpread(_objectSpread({}, settingFormProps), restFormProps);
+
+      var modalRest = _objectSpread(_objectSpread({}, settingModalProps), rest);
 
       return /*#__PURE__*/_jsx(ConfigProvider, {
         locale: zhCN,
@@ -247,7 +264,7 @@ var ModalForm = /*#__PURE__*/function (_Component) {
             overflow: 'auto'
           }),
           open: open ? open : this.state.visible
-        }, rest), {}, {
+        }, modalRest), {}, {
           onCancel: this.handleOnCancel,
           onOk: this.onOk,
           okButtonProps: {
@@ -263,7 +280,7 @@ var ModalForm = /*#__PURE__*/function (_Component) {
             autoFocusFirstInput: autoFocusFirstInput,
             isKeyPressSubmit: isKeyPressSubmit,
             initialValues: open ? initialValues : this.state.formData
-          }, restFormProps))
+          }, formRest))
         }))
       });
     }
@@ -271,6 +288,8 @@ var ModalForm = /*#__PURE__*/function (_Component) {
 
   return ModalForm;
 }(Component);
+
+_defineProperty(ModalForm, "contextType", ModalFormContext);
 
 export default ModalForm;
 export var Self = function Self() {

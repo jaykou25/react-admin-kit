@@ -1,9 +1,9 @@
 import { SchemaForm } from 'react-admin-kit';
-import { Button, Card, Form } from 'antd';
+import { Button, Card } from 'antd';
 import { ProForm } from '@ant-design/pro-form';
-import { baseColumns } from './baseColumns';
-import { businessColumns } from './businessColumns';
-import { useRef } from 'react';
+import { getBaseColumns } from './baseColumns';
+import getBusinessColumns from './businessColumns';
+import { useRef, useState } from 'react';
 
 import type { FormInstance } from 'antd';
 
@@ -17,9 +17,40 @@ const Embed = () => {
     return true;
   };
 
+  const [readonly, setReadonly] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const handleFillData = () => {
+    setLoading(true);
+    setTimeout(() => {
+      formRef.current?.setFieldsValue({
+        base: {
+          username: '王先生',
+          phone: '15588888',
+          nickName: 'wang',
+          sex: '男',
+          idNumber: 3202335566,
+        },
+        business: { company: '信息技术有限公司', address: '江苏省无锡市', serviceName: '1' },
+      });
+      setLoading(false);
+    }, 1000);
+  };
+
+  const [update, setUpdate] = useState(1);
+  const onValuesChange = () => {
+    setUpdate((val) => val + 1);
+  };
+
   return (
     <div>
-      <ProForm submitter={false} layout="horizontal" onFinish={onFinish} formRef={formRef}>
+      <ProForm
+        layout="horizontal"
+        onFinish={onFinish}
+        submitter={false}
+        onValuesChange={onValuesChange}
+        formRef={formRef}
+      >
         <Card
           style={{ marginBottom: '24px' }}
           size="small"
@@ -32,16 +63,30 @@ const Embed = () => {
             rowProps={{ gutter: [0, 0] }}
             colProps={{ span: 8 }}
             labelCol={{ span: 9 }}
-            columns={baseColumns}
+            columns={getBaseColumns()}
+            valueName="base"
+            readonly={readonly}
           />
         </Card>
 
         <Card size="small" title="业务信息" headStyle={{ background: '#ebebeb' }}>
-          <SchemaForm embed columns={businessColumns} />
+          <SchemaForm
+            embed
+            columns={getBusinessColumns()}
+            labelCol={{ span: 3 }}
+            valueName="business"
+            readonly={readonly}
+          />
         </Card>
       </ProForm>
 
-      <div style={{ textAlign: 'end' }}>
+      <div style={{ marginTop: '10px', textAlign: 'end' }}>
+        <Button style={{ marginRight: '10px' }} onClick={() => setReadonly((val) => !val)}>
+          切换只读
+        </Button>
+        <Button loading={loading} style={{ marginRight: '20px' }} onClick={handleFillData}>
+          回显数据
+        </Button>
         <Button style={{ marginRight: '10px' }} onClick={() => formRef.current?.resetFields()}>
           重置
         </Button>
