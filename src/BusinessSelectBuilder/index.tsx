@@ -1,6 +1,11 @@
 import BasePaginationSelect from './components/BasePaginationSelect';
 import BaseSelect from './components/BaseSelect';
-import { BusinessSelectBuilderProps, BusinessSelectProps } from './types';
+import {
+  ApiType,
+  BusinessSelectBuilderProps,
+  BusinessSelectProps,
+  BusinessSelectSelfProps,
+} from './types';
 
 /**
  * select数据挂在window上作为缓存, 避免重复请求
@@ -51,3 +56,13 @@ const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
 };
 
 export default BusinessSelectBuilder;
+
+// 用于生成api文档
+export const Api: React.FC<ApiType> = () => {
+  return null;
+};
+
+// 用于生成api文档
+export const Self: React.FC<BusinessSelectSelfProps> = () => {
+  return null;
+};

@@ -9,7 +9,7 @@ group:
 
 下面的图列出了 ProTable 各区域的名称, 方便理解它的 api ![ProTable各区域名称](./ProTable.png)
 
-如果你之前并不熟悉 ProTable 的 api, 完全可以先暂时跳过这张图. 直接看例子的源码来开使用.
+如果你之前并不熟悉 ProTable 的 api, 完全可以先暂时跳过这张图. 直接看例子的源码来开始使用.
 
 ### 一个基本的 CRUD 表格
 

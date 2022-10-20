@@ -62,4 +62,12 @@ var BusinessSelectBuilder = function BusinessSelectBuilder(_ref) {
   };
 };
 
-export default BusinessSelectBuilder;
+export default BusinessSelectBuilder; // 用于生成api文档
+
+export var Api = function Api() {
+  return null;
+}; // 用于生成api文档
+
+export var Self = function Self() {
+  return null;
+};

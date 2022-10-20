@@ -53,12 +53,13 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "reRender", function (e) {
       if (e.detail.type === _this.props.type) {
-        // console.log('event', e);
         _this.setState({
           loading: false,
           dataSource: window[SelectName][_this.props.type] || [],
           total: window[SelectTotalName][_this.props.type] || 0
         });
+
+        window[SelectStatusName][_this.props.type] = false;
       }
     });
 
@@ -87,14 +88,15 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
         });
 
         return;
-      }
-
-      window[SelectStatusName][type] = true; // 如果window.selectData中有数据则不请求后台
+      } // 如果window.selectData中有数据则不请求后台
       // 同时对于依赖参数变化的请求不缓存
+
 
       if (window[SelectName][type]) {
         return;
       }
+
+      window[SelectStatusName][type] = true;
 
       _this.setState({
         loading: true
@@ -108,7 +110,7 @@ var BaseSelect = /*#__PURE__*/function (_Component) {
             type: type
           }
         });
-        document.dispatchEvent(event); // dispatch({ type: 'global/globalUpdate', payload: type });
+        document.dispatchEvent(event);
       }).finally(function () {
         _this.setState({
           loading: false

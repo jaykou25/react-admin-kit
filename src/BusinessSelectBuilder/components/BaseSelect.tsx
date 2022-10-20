@@ -30,12 +30,12 @@ class BaseSelect extends Component<BaseSelectProps, any> {
 
   reRender = (e) => {
     if (e.detail.type === this.props.type) {
-      // console.log('event', e);
       this.setState({
         loading: false,
         dataSource: window[SelectName][this.props.type] || [],
         total: window[SelectTotalName][this.props.type] || 0,
       });
+      window[SelectStatusName][this.props.type] = false;
     }
   };
 
@@ -74,13 +74,14 @@ class BaseSelect extends Component<BaseSelectProps, any> {
       this.setState({ loading: true });
       return;
     }
-    window[SelectStatusName][type] = true;
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
     if (window[SelectName][type]) {
       return;
     }
+
+    window[SelectStatusName][type] = true;
 
     this.setState({ loading: true });
     loadFunction({})
@@ -90,7 +91,6 @@ class BaseSelect extends Component<BaseSelectProps, any> {
 
         const event = new CustomEvent('selectGlobalUpdate', { detail: { type } });
         document.dispatchEvent(event);
-        // dispatch({ type: 'global/globalUpdate', payload: type });
       })
       .finally(() => {
         this.setState({ loading: false });

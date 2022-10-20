@@ -33,6 +33,7 @@ const Basic = () => {
     <div>
       <ProTable
         name="用户"
+        search={false}
         columns={getColumns()}
         innerRef={innerRef}
         actionRef={actionRef}

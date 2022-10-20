@@ -29,3 +29,8 @@
 ## 0.1.6
 
 - 增加 SchemaForm 的 embed 模式
+
+## 0.1.7
+
+- 增加组件 Button
+- 增加组件 LinkButton

@@ -64,6 +64,8 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
           dataSource: window[SelectName][_this.props.type] || [],
           total: window[SelectTotalName][_this.props.type] || 0
         });
+
+        window[SelectStatusName][_this.props.type] = false;
       }
     });
 
@@ -96,14 +98,15 @@ var BasePaginationSelect = /*#__PURE__*/function (_Component) {
         });
 
         return;
-      }
-
-      window[SelectStatusName][type] = true; // 如果window.selectData中有数据则不请求后台
+      } // 如果window.selectData中有数据则不请求后台
       // 同时对于依赖参数变化的请求不缓存
+
 
       if (window[SelectName][type]) {
         return;
       }
+
+      window[SelectStatusName][type] = true;
 
       _this.setState({
         loading: true
