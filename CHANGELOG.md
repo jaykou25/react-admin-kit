@@ -34,3 +34,8 @@
 
 - 增加组件 Button
 - 增加组件 LinkButton
+
+## 0.1.8
+
+- 修复 LinkButton 告警
+- 修复 BusinessTreeSelect loading 错误

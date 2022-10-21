@@ -48,9 +48,12 @@ const BusinessTreeSelectBuilder = ({ apis = [] }: BusinessTreeSelectBuilderProps
       }
 
       // 以下为走缓存逻辑
-      const reRender = () => {
-        setNum((val) => val + 1);
-        setLoading(false);
+      const reRender = (e) => {
+        if (e.detail.type === type) {
+          setNum((val) => val + 1);
+          setLoading(false);
+          window[CacheStatusName][type] = false;
+        }
       };
       document.addEventListener('treeSelectGlobalUpdate', reRender);
 
@@ -60,11 +63,11 @@ const BusinessTreeSelectBuilder = ({ apis = [] }: BusinessTreeSelectBuilderProps
         return;
       }
 
-      window[CacheStatusName][type] = true;
-
       if (window[CacheName][type]) {
         return;
       }
+
+      window[CacheStatusName][type] = true;
 
       setLoading(true);
       target

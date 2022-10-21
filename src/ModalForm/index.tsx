@@ -21,7 +21,7 @@ class ModalForm extends Component<ModalFormProps, any> {
 
     this.state = {
       visible: false,
-      formData: {},
+      formData: props.formProps?.initialValues || {},
     };
 
     if (props.innerRef) {
@@ -43,7 +43,12 @@ class ModalForm extends Component<ModalFormProps, any> {
   };
 
   openModal = (initialData) => {
-    this.setState({ visible: true, formData: initialData || {} });
+    if (initialData) {
+      this.setState({ visible: true, formData: initialData || {} });
+      return;
+    }
+
+    this.setState({ visible: true });
   };
 
   onOk = () => {
