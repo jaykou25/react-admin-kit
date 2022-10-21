@@ -1,8 +1,10 @@
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
+import type { ProColumns, ProTableProps, ProColumnsValueType } from '@ant-design/pro-table';
+import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaForm/typing';
 import type { ModalProps } from 'antd';
 import { SettingFormProps } from '../SettingProvider/types';
+import type { ProFormColumnsType } from '@ant-design/pro-form';
 
 export type ToolbarType = {
   title?: string | false;
@@ -63,26 +65,16 @@ type EnableDeleteType = {
 
 export type selfColumnsValueType = 'export';
 
+export type MyFieldType = ProColumnsValueType | FormFieldType;
+
 export type MyProColumnType<Type = string> = Omit<
-  ProColumns,
+  ProFormColumnsType,
   'renderFormItem' | 'render' | 'editable'
 > & {
   children?: MyProColumnType<Type>[];
   enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
   renderFormItem?: (item, config, form, innerRef) => any;
   render?: (text, record, index, actionRef, innerRef) => any;
-  editable?: boolean | (() => boolean);
   type?: Type | Type[];
   transform?: (vals) => any;
-};
-
-/**
- * 只针对MyEditTable, renderFormItem有变化
- */
-export type MyEditProColumnType = Omit<MyProColumnType, 'renderFormItem'> & {
-  renderFormItem?: (a, b, form, index, record) => any;
-};
-
-export type MyEditProTableType = Omit<MyProTableType, 'columns'> & {
-  columns: MyEditProColumnType[];
 };

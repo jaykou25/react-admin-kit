@@ -1,7 +1,10 @@
 import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
 import { queryBrand, queryColor } from './query';
 
-export const BusinessSelect = BusinessSelectBuilder({
+// 方便ts提示
+type SelectType = 'color' | 'brand';
+
+export const BusinessSelect = BusinessSelectBuilder<SelectType>({
   apis: [
     {
       api: queryColor,
@@ -16,26 +19,35 @@ export const BusinessSelect = BusinessSelectBuilder({
       pagination: true,
     },
   ],
+  defaultProps: {
+    placeholder: '请选择',
+  },
 });
 
 const Basic = () => {
   return (
-    <SchemaForm
-      grid
-      colProps={{ span: 8 }}
-      onFinish={(values) => console.log({ values })}
-      autoFocusFirstInput={false}
-      columns={[
-        {
-          title: '颜色-不分页',
-          renderFormItem: () => <BusinessSelect type="color" />,
-        },
-        {
-          title: '品牌-分页(带搜索)',
-          renderFormItem: () => <BusinessSelect type="brand" />,
-        },
-      ]}
-    />
+    <div>
+      <BusinessSelect type="color" />
+      <SchemaForm
+        grid
+        colProps={{ span: 8 }}
+        onFinish={(values) => console.log({ values })}
+        autoFocusFirstInput={false}
+        columns={[
+          {
+            title: '颜色-不分页',
+            renderFormItem: (restProps) => {
+              console.log('restProps', restProps);
+              return <BusinessSelect type="color" placeholder="请选择颜色" />;
+            },
+          },
+          {
+            title: '品牌-分页(带搜索)',
+            renderFormItem: () => <BusinessSelect type="brand" placeholder="请选择品牌" />,
+          },
+        ]}
+      />
+    </div>
   );
 };
 

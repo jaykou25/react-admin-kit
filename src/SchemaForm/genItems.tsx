@@ -1,12 +1,13 @@
 import { LabelIconTip, omitUndefined, runFunction } from '@ant-design/pro-utils';
 import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
+import { configConsumerProps } from 'antd/lib/config-provider';
 
 /**
  * 生成formItems
  * 代码来自pro-form
  *
  */
-export const genItems = (items, type = 'form', formInstance, labelCol = {}) => {
+export const genItems = (items, type = 'form', formInstance, labelCol = {}, returnDom = false) => {
   return items
     .filter((originItem) => {
       return !(originItem.hideInForm && type === 'form');
@@ -71,9 +72,14 @@ export const genItems = (items, type = 'form', formInstance, labelCol = {}) => {
         type: 'form',
         originItem,
         formRef: { current: formInstance },
-        genItems,
+        genItems: (items, type, form) => genItems(items, type, form, labelCol, true),
       });
 
+      if (returnDom) {
+        return dom;
+      }
+
+      console.log('originItem', originItem);
       return { dom, item: originItem };
     })
     .filter((field) => {

@@ -1,7 +1,4 @@
-import type { FormSchema } from '@ant-design/pro-form/es/components/SchemaForm/typing';
 import type { ProFormProps } from '@ant-design/pro-form';
-import type { FormInstance } from 'antd';
-import React from 'react';
 
 export type SchemaFormProps = SchemaFormSelfProps & OtherFormProps;
 

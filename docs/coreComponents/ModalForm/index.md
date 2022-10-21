@@ -30,6 +30,12 @@ group:
 
 <code src="./innerRef/index.tsx"></code>
 
+### 表单初始值和表单项显示隐藏
+
+请使用 valueType='dependency'来做显示控制, 原来的 renderFormItem 已经弃用.
+
+<code src="./initValue/index.tsx"></code>
+
 ### ModalForm 自定义的 API
 
 <API hideTitle exports='["Self"]' src="../../../src/ModalForm/index.tsx"></API>

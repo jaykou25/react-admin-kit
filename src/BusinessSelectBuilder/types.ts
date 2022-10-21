@@ -31,6 +31,11 @@ export type ApiType = {
    * @default           false
    */
   pagination?: boolean;
+  /**
+   * @description       默认属性, 优先级更高
+   * @default           '-'
+   */
+  defaultProps?: SelectProps;
 };
 
 export type BusinessSelectBuilderProps = {
@@ -39,15 +44,20 @@ export type BusinessSelectBuilderProps = {
    * @default           '-'
    */
   apis: ApiType[];
+
+  /**
+   * @description       默认属性;
+   * @default           '-'
+   */
+  defaultProps?: SelectProps;
 };
 
-export interface BusinessSelectSelfProps {
+export interface BusinessSelectSelfProps<Type> {
   /**
    * @description       Builder中定义的下拉选择的名字
    * @default           -
    */
-  type: string;
-  newPlaceholder?: string; // 用于覆盖原来的placehoder
+  type: Type;
   /**
    * @description       label的读取字段. 优先级高于builder中的labelKey
    * @default           -
@@ -70,4 +80,5 @@ export interface BusinessSelectSelfProps {
   onChange?: (val, option) => void;
 }
 
-export type BusinessSelectProps = BusinessSelectSelfProps & Omit<SelectProps, 'onChange'>;
+export type BusinessSelectProps<Type> = BusinessSelectSelfProps<Type> &
+  Omit<SelectProps, 'onChange'>;

@@ -37,20 +37,9 @@ const Embed = () => {
     }, 1000);
   };
 
-  const [update, setUpdate] = useState(1);
-  const onValuesChange = () => {
-    setUpdate((val) => val + 1);
-  };
-
   return (
     <div>
-      <ProForm
-        layout="horizontal"
-        onFinish={onFinish}
-        submitter={false}
-        onValuesChange={onValuesChange}
-        formRef={formRef}
-      >
+      <ProForm layout="horizontal" onFinish={onFinish} submitter={false} formRef={formRef}>
         <Card
           style={{ marginBottom: '24px' }}
           size="small"

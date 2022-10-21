@@ -32,20 +32,25 @@ export const getBaseColumns = () => {
       },
     },
     {
-      title: '身份证号',
+      valueType: 'dependency',
+      name: [['business', 'serviceName']],
       colProps: { span: 16 },
-      formItemProps: {
-        // 3 / 16 = 0.1875
-        labelCol: { flex: '0 0 18.75%' },
-      },
-      dataIndex: 'idNumber',
-      renderFormItem: (_, { defaultRender }, form) => {
-        const serviceName = form.getFieldValue(['business', 'serviceName']);
-        if (serviceName == '1') {
-          return false;
+      columns: (values) => {
+        const serviceName = values?.business?.serviceName;
+        if (serviceName == 1) {
+          return [];
+        } else {
+          return [
+            {
+              title: '身份证号',
+              dataIndex: 'idNumber',
+              formItemProps: {
+                // 3 / 16 = 0.1875
+                labelCol: { flex: '0 0 18.75%' },
+              },
+            },
+          ];
         }
-
-        return defaultRender();
       },
     },
   ];

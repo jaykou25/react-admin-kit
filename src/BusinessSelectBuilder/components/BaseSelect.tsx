@@ -6,14 +6,11 @@ import isEqual from 'lodash/isEqual';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';
 
 export interface BaseSelectProps extends SelectProps<any> {
-  dispatch?: any;
-  globalUpdate?: { value: number; type: string };
   type: string;
   loadFunction: (params?: any) => Promise<any>;
   valueKey?: string;
   labelKey?: string;
   renderLabel?: (node: any) => string;
-  newPlaceholder?: any;
   queryParams?: Record<string, any>;
   noCache?: boolean;
 }
@@ -67,7 +64,7 @@ class BaseSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataForCache = () => {
-    const { type, loadFunction, dispatch } = this.props;
+    const { type, loadFunction } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
     if (window[SelectStatusName][type]) {
@@ -146,10 +143,7 @@ class BaseSelect extends Component<BaseSelectProps, any> {
       valueKey,
       renderLabel,
       onChange,
-      newPlaceholder,
       queryParams,
-      globalUpdate,
-      dispatch,
       noCache,
       ...rest
     } = this.props;
@@ -157,7 +151,6 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     return (
       <Select
         {...rest}
-        placeholder={newPlaceholder || '请选择'}
         loading={this.state.loading}
         /**
          * antd的options除了label和value以外不能传入其它的值, 否则会有警告

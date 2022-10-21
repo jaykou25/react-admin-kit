@@ -32,8 +32,8 @@ export type BusinessTreeSelectBuilderProps = {
   apis: ApiType[];
 };
 
-export interface BusinessTreeSelectProps extends TreeSelectProps {
-  type: string;
+export interface BusinessTreeSelectProps<Type> extends TreeSelectProps {
+  type: Type;
   nodeDisabled?: (node: any) => boolean;
   labelKey?: string;
   valueKey?: string;

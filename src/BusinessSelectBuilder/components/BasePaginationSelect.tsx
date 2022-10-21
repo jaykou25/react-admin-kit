@@ -66,7 +66,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataForCache = () => {
-    const { type, loadFunction, dispatch } = this.props;
+    const { type, loadFunction } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
     if (window[SelectStatusName][type]) {
@@ -231,8 +231,6 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
   render() {
     const {
-      globalUpdate,
-      dispatch,
       type,
       loadFunction,
       labelKey,
@@ -247,7 +245,6 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     return (
       <Select
         {...rest}
-        placeholder="请选择"
         loading={this.state.loading}
         onChange={this.handleOnChange}
         options={normalizeSelect(this.state.dataSource, { labelKey, valueKey, renderLabel })}

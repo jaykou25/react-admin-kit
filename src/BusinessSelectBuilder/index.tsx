@@ -14,7 +14,10 @@ export const SelectName = '@@selectData';
 export const SelectStatusName = '@@selectDataIsStart';
 export const SelectTotalName = '@@selectDataTotal';
 
-const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
+function BusinessSelectBuilder<Type extends string>({
+  apis = [],
+  defaultProps = {},
+}: BusinessSelectBuilderProps) {
   /**
    * 初始化window挂载
    */
@@ -22,7 +25,7 @@ const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
   window[SelectStatusName] = {};
   window[SelectTotalName] = {};
 
-  return (props: BusinessSelectProps) => {
+  return (props: BusinessSelectProps<Type>) => {
     const { type, valueKey, labelKey, ...rest } = props;
 
     const target = apis.find((item) => item.type === type);
@@ -33,6 +36,8 @@ const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
       return (
         <BasePaginationSelect
           type={type}
+          {...defaultProps}
+          {...(target.defaultProps || {})}
           loadFunction={target.api}
           noCache={target.noCache}
           valueKey={valueKey || target.valueKey || 'id'}
@@ -45,6 +50,8 @@ const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
     return (
       <BaseSelect
         type={type}
+        {...defaultProps}
+        {...(target.defaultProps || {})}
         loadFunction={target.api}
         noCache={target.noCache}
         valueKey={valueKey || target.valueKey || 'id'}
@@ -53,7 +60,7 @@ const BusinessSelectBuilder = ({ apis = [] }: BusinessSelectBuilderProps) => {
       />
     );
   };
-};
+}
 
 export default BusinessSelectBuilder;
 
@@ -63,6 +70,6 @@ export const Api: React.FC<ApiType> = () => {
 };
 
 // 用于生成api文档
-export const Self: React.FC<BusinessSelectSelfProps> = () => {
+export const Self: React.FC<BusinessSelectSelfProps<string>> = () => {
   return null;
 };

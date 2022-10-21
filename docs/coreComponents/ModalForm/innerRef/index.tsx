@@ -10,18 +10,6 @@ const InnerRefDemo = () => {
     console.log({ values });
   };
 
-  const handleOnOpen = async (formRef) => {
-    return requestData().then(() => {
-      formRef.current?.setFieldsValue({ username: '王先生', phone: 134 });
-    });
-  };
-
-  const requestData = () => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 1000);
-    });
-  };
-
   return (
     <div>
       <div style={{ textAlign: 'start' }}>

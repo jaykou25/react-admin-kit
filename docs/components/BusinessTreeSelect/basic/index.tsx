@@ -1,7 +1,10 @@
 import { BusinessTreeSelectBuilder, SchemaForm } from 'react-admin-kit';
 import { queryOrg } from './query';
 
-export const BusinessTreeSelect = BusinessTreeSelectBuilder({
+// 方便ts提示
+type TreeSelectType = 'org';
+
+export const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>({
   apis: [
     {
       api: queryOrg,

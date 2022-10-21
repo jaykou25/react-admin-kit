@@ -39,8 +39,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         <Row {...rowProps}>
           {genItems($columns, 'form', formInstance, labelCol).map((itemObj) => {
             const { dom, item } = itemObj;
+
             return (
-              <Col key={item.dataIndex} {...colProps} {...item.colProps}>
+              <Col key={item.dataIndex || item.name} {...colProps} {...item.colProps}>
                 {dom}
               </Col>
             );

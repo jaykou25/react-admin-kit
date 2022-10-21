@@ -9,14 +9,16 @@ import { BusinessTreeSelectBuilderProps, BusinessTreeSelectProps } from './types
 export const CacheName = '@@treeSelectData';
 export const CacheStatusName = '@@treeSelectDataIsStart';
 
-const BusinessTreeSelectBuilder = ({ apis = [] }: BusinessTreeSelectBuilderProps) => {
+function BusinessTreeSelectBuilder<Type extends string>({
+  apis = [],
+}: BusinessTreeSelectBuilderProps) {
   /**
    * 初始化window挂载
    */
   window[CacheName] = {};
   window[CacheStatusName] = {};
 
-  return (props: BusinessTreeSelectProps) => {
+  return (props: BusinessTreeSelectProps<Type>) => {
     const { type, style, value, onChange, nodeDisabled, valueKey, labelKey, ...rest } = props;
 
     const target = apis.find((item) => item.type === type);
@@ -101,6 +103,6 @@ const BusinessTreeSelectBuilder = ({ apis = [] }: BusinessTreeSelectBuilderProps
       />
     );
   };
-};
+}
 
 export default BusinessTreeSelectBuilder;

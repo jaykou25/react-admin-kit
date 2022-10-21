@@ -39,3 +39,9 @@
 
 - 修复 LinkButton 告警
 - 修复 BusinessTreeSelect loading 错误
+
+## 0.1.9
+
+- 修改用例 弃用 renderFormItem 来做显示控制
+- 扩展 valueType 定义
+- BusinessSelect 和 BusinessTreeSelect 支持传入 type 泛型
