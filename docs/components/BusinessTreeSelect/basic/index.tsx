@@ -1,14 +1,18 @@
 import { BusinessTreeSelectBuilder, SchemaForm } from 'react-admin-kit';
-import { queryOrg } from './query';
+import { queryCompany, queryDept } from './query';
 
 // 方便ts提示
-type TreeSelectType = 'org';
+type TreeSelectType = 'company' | 'dept';
 
 export const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>({
   apis: [
     {
-      api: queryOrg,
-      type: 'org',
+      api: queryCompany,
+      type: 'company',
+    },
+    {
+      api: (params) => queryDept(params),
+      type: 'dept',
     },
   ],
 });
@@ -22,12 +26,34 @@ const Basic = () => {
       autoFocusFirstInput={false}
       columns={[
         {
-          title: '组织',
-          renderFormItem: () => <BusinessTreeSelect type="org" />,
+          title: '公司',
+          dataIndex: 'company',
+          renderFormItem: () => <BusinessTreeSelect type="company" />,
         },
         {
-          title: '组织2',
-          renderFormItem: () => <BusinessTreeSelect type="org" />,
+          valueType: 'dependency',
+          name: ['company'],
+          columns: ({ company }) => {
+            if (company) {
+              return [
+                {
+                  title: '部门',
+                  dataIndex: 'dept',
+                  renderFormItem: () => (
+                    <BusinessTreeSelect queryParams={{ id: company }} type="dept" />
+                  ),
+                },
+              ];
+            } else {
+              return [
+                {
+                  title: '部门',
+                  dataIndex: 'dept',
+                  fieldProps: { disabled: true, placeholder: '请选择公司' },
+                },
+              ];
+            }
+          },
         },
       ]}
     />

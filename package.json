@@ -2,7 +2,7 @@
   "private": false,
   "name": "react-admin-kit",
   "description": "A react based UI components for admin system",
-  "version": "0.1.10",
+  "version": "0.1.14",
   "license": "MIT",
   "homepage": "https://jaykou25.github.io/react-admin-kit/",
   "bugs": {
@@ -42,6 +42,7 @@
   "dependencies": {
     "@ant-design/pro-form": "^2.2.2",
     "@ant-design/pro-table": "^3.0.11",
+    "@ant-design/pro-utils": "^2.2.10",
     "antd": "^4.23.4",
     "immer": "^9.0.15",
     "xlsx": "^0.18.5"

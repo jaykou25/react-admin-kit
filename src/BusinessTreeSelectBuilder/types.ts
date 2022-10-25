@@ -26,10 +26,24 @@ type ApiType = {
    * @default           false
    */
   noCache?: boolean;
+  /**
+   * @description       默认属性, 优先级更高
+   * @default           '-'
+   */
+  defaultProps?: TreeSelectProps;
 };
 
 export type BusinessTreeSelectBuilderProps = {
+  /**
+   * @description       定义所有的业务下拉;
+   * @default           '-'
+   */
   apis: ApiType[];
+  /**
+   * @description       默认属性;
+   * @default           '-'
+   */
+  defaultProps?: TreeSelectProps;
 };
 
 export interface BusinessTreeSelectProps<Type> extends TreeSelectProps {
@@ -37,4 +51,6 @@ export interface BusinessTreeSelectProps<Type> extends TreeSelectProps {
   nodeDisabled?: (node: any) => boolean;
   labelKey?: string;
   valueKey?: string;
+  queryParams?: Record<string, any>;
+  noCache?: boolean;
 }

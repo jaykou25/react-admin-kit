@@ -31,6 +31,13 @@ export const getBaseColumns = () => {
         男: { text: '男' },
         女: { text: '女' },
       },
+      fieldProps: (form) => {
+        return {
+          onChange: (val) => {
+            console.log('form', val, form);
+          },
+        };
+      },
     },
     {
       valueType: 'dependency',

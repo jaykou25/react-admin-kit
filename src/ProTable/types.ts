@@ -70,7 +70,7 @@ export type MyFieldType = ProColumnsValueType | FormFieldType;
 
 export type MyProColumnType<Type = string> = Omit<
   ProFormColumnsType,
-  'renderFormItem' | 'render' | 'editable'
+  'renderFormItem' | 'render' | 'editable' | 'valueType'
 > & {
   children?: MyProColumnType<Type>[];
   enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
@@ -78,4 +78,5 @@ export type MyProColumnType<Type = string> = Omit<
   render?: (text, record, index, actionRef, innerRef) => any;
   type?: Type | Type[];
   transform?: (vals) => any;
+  valueType?: MyFieldType;
 };

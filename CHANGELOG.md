@@ -49,3 +49,22 @@
 ## 0.1.10
 
 - ProTable 增加 noPadding
+
+## 0.1.11
+
+- 打包中放入 src 文件
+
+## 0.1.12
+
+- 增加依赖@ant-design/pro-utils
+
+## 0.1.13
+
+- 修改 columns 的 valueType
+- 测试 SchemaFormfieldProps 拿不到 form 实例
+- 去掉 src
+
+## 0.1.14
+
+- 修复 LinkButton classnames 问题
+- 重构 BusinessTreeSelect 组件, 增加 queryParams

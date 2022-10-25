@@ -1,4 +1,4 @@
-import { SchemaForm } from 'react-admin-kit';
+import { SchemaForm } from '../../../../src/index';
 import { Button, Card } from 'antd';
 import { ProForm } from '@ant-design/pro-form';
 import { getBaseColumns } from './baseColumns';

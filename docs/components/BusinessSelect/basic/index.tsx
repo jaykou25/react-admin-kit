@@ -27,7 +27,6 @@ export const BusinessSelect = BusinessSelectBuilder<SelectType>({
 const Basic = () => {
   return (
     <div>
-      <BusinessSelect type="color" />
       <SchemaForm
         grid
         colProps={{ span: 8 }}
@@ -36,8 +35,7 @@ const Basic = () => {
         columns={[
           {
             title: '颜色-不分页',
-            renderFormItem: (restProps) => {
-              console.log('restProps', restProps);
+            renderFormItem: () => {
               return <BusinessSelect type="color" placeholder="请选择颜色" />;
             },
           },

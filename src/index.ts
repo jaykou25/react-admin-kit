@@ -6,5 +6,6 @@ export { default as BusinessSelectBuilder } from './BusinessSelectBuilder';
 export { default as BusinessTreeSelectBuilder } from './BusinessTreeSelectBuilder';
 export { default as SettingProvider } from './SettingProvider';
 export { default as Button } from './Button';
+export { ProForm } from '@ant-design/pro-form';
 
 export type { MyProColumnType as ProColumnType, InnerRefType } from './ProTable/types';

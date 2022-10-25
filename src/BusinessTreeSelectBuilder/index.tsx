@@ -1,6 +1,4 @@
-import { TreeSelect } from 'antd';
-import { useEffect, useState } from 'react';
-import { normalizeTreeSelect, withDisabled } from '../utils/tree';
+import BaseTreeSelect from './BaseTreeSelect';
 import { BusinessTreeSelectBuilderProps, BusinessTreeSelectProps } from './types';
 
 /**
@@ -11,6 +9,7 @@ export const CacheStatusName = '@@treeSelectDataIsStart';
 
 function BusinessTreeSelectBuilder<Type extends string>({
   apis = [],
+  defaultProps = {},
 }: BusinessTreeSelectBuilderProps) {
   /**
    * 初始化window挂载
@@ -19,87 +18,22 @@ function BusinessTreeSelectBuilder<Type extends string>({
   window[CacheStatusName] = {};
 
   return (props: BusinessTreeSelectProps<Type>) => {
-    const { type, style, value, onChange, nodeDisabled, valueKey, labelKey, ...rest } = props;
+    const { type, valueKey, labelKey, ...rest } = props;
 
     const target = apis.find((item) => item.type === type);
 
     if (!target) return null;
 
-    const [loading, setLoading] = useState(false);
-
-    const [num, setNum] = useState(1);
-
-    const defalutLabelKey = labelKey || target.labelKey || 'name';
-    const defaultValueKey = valueKey || target.valueKey || 'id';
-
-    useEffect(() => {
-      if (target.noCache) {
-        setLoading(true);
-        target
-          .api()
-          .then((res) => {
-            window[CacheName][type] = normalizeTreeSelect(res.data, {
-              titleKey: defalutLabelKey,
-              valueKey: defaultValueKey,
-            });
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-        return;
-      }
-
-      // 以下为走缓存逻辑
-      const reRender = (e) => {
-        if (e.detail.type === type) {
-          setNum((val) => val + 1);
-          setLoading(false);
-          window[CacheStatusName][type] = false;
-        }
-      };
-      document.addEventListener('treeSelectGlobalUpdate', reRender);
-
-      // 如果同时有多个请求, 后面的请求return掉
-      if (window[CacheStatusName][type]) {
-        setLoading(true);
-        return;
-      }
-
-      if (window[CacheName][type]) {
-        return;
-      }
-
-      window[CacheStatusName][type] = true;
-
-      setLoading(true);
-      target
-        .api()
-        .then((res) => {
-          window[CacheName][type] = normalizeTreeSelect(res.data, {
-            titleKey: defalutLabelKey,
-            valueKey: defaultValueKey,
-          });
-
-          const event = new CustomEvent('treeSelectGlobalUpdate', { detail: { type } });
-          document.dispatchEvent(event);
-        })
-        .finally(() => setLoading(false));
-    }, []);
-
     return (
-      <TreeSelect
-        showSearch
-        treeNodeFilterProp="title"
-        allowClear
-        placeholder="请选择"
+      <BaseTreeSelect
+        type={type}
+        {...defaultProps}
+        {...(target.defaultProps || {})}
+        loadFunction={target.api}
+        noCache={target.noCache}
+        valueKey={valueKey || target.valueKey || 'id'}
+        labelKey={labelKey || target.labelKey || 'name'}
         {...rest}
-        style={{ width: '100%', ...style }}
-        value={value}
-        loading={loading}
-        onChange={(val, label, extra) => {
-          if (onChange) onChange(val, label, extra);
-        }}
-        treeData={withDisabled(window[CacheName][type] || [], nodeDisabled)}
       />
     );
   };

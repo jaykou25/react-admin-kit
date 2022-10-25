@@ -31,4 +31,6 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 ### 基本的使用方法
 
+例子中部门根据公司级联
+
 <code src="./basic/index.tsx"></code>

@@ -1,4 +1,4 @@
-import { normalizeSelect } from './tree';
+import { normalizeSelect } from '../../utils/tree';
 import { Select } from 'antd';
 import { Component } from 'react';
 import { debounce } from 'lodash';
