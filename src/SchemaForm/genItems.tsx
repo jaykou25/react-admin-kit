@@ -1,6 +1,5 @@
 import { LabelIconTip, omitUndefined, runFunction } from '@ant-design/pro-utils';
 import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
-import { configConsumerProps } from 'antd/lib/config-provider';
 
 /**
  * 生成formItems
@@ -79,7 +78,6 @@ export const genItems = (items, type = 'form', formInstance, labelCol = {}, retu
         return dom;
       }
 
-      console.log('originItem', originItem);
       return { dom, item: originItem };
     })
     .filter((field) => {

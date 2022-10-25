@@ -1,11 +1,16 @@
 import type { SelectProps } from 'antd';
 
+type ApiParamsType = {
+  current?: number;
+  searchValue?: string;
+};
+
 export type ApiType = {
   /**
    * @description       获取下拉数据的接口
    * @default           -
    */
-  api: () => Promise<{ data: any }>;
+  api: (ApiParamsType) => Promise<{ data: any }>;
   /**
    * @description       下拉选择的名字
    * @default           -

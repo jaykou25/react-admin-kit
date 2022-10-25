@@ -307,6 +307,7 @@ class ProTable extends Component<MyProTableType, any> {
       sticky = true,
       className,
       optionColSpaceSize,
+      noPadding = false,
       search,
       request,
       modalProps = {},
@@ -339,7 +340,11 @@ class ProTable extends Component<MyProTableType, any> {
     return (
       <>
         <AntProTable
-          className={cs(className, optionColSpaceSize === 'small' && 'myTableSmallOptionCol')}
+          className={cs(
+            className,
+            optionColSpaceSize === 'small' && 'myTableSmallOptionCol',
+            noPadding && 'rak-protable-no-padding',
+          )}
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore

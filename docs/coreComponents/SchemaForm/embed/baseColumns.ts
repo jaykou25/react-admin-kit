@@ -19,8 +19,9 @@ export const getBaseColumns = () => {
       dataIndex: 'phone',
     },
     {
-      title: '昵称',
-      dataIndex: 'nickName',
+      title: '出生日期',
+      dataIndex: 'birthday',
+      valueType: 'dateMonth',
     },
     {
       title: '性别',

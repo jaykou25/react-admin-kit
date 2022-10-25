@@ -45,3 +45,7 @@
 - 修改用例 弃用 renderFormItem 来做显示控制
 - 扩展 valueType 定义
 - BusinessSelect 和 BusinessTreeSelect 支持传入 type 泛型
+
+## 0.1.10
+
+- ProTable 增加 noPadding

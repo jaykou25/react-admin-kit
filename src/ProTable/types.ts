@@ -1,6 +1,6 @@
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import type { ProColumns, ProTableProps, ProColumnsValueType } from '@ant-design/pro-table';
+import type { ProTableProps, ProColumnsValueType } from '@ant-design/pro-table';
 import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaForm/typing';
 import type { ModalProps } from 'antd';
 import { SettingFormProps } from '../SettingProvider/types';
@@ -25,7 +25,7 @@ export type MyProTableType = Omit<
   columns: MyProColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
   formColumns?: MyProColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
-  onFinish?: (values: any, formType: 'new' | 'edit', formData: any) => Promise<any>;
+  onFinish?: (values: any, formType: 'new' | 'edit', formData: any) => Promise<any> | void;
   innerRef?: React.MutableRefObject<InnerRefType | undefined>;
   /**
    * 传入这个函数, 组件就会自动集成多选删除功能.
@@ -49,6 +49,7 @@ export type MyProTableType = Omit<
   editable?: boolean;
   modalProps?: ModalProps;
   formProps?: SettingFormProps;
+  noPadding?: Boolean;
 };
 
 export type OpenModalType = (type?: 'new' | 'edit', record?: any) => void;

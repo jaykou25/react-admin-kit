@@ -13,7 +13,37 @@ group:
 
 ### 一个基本的 CRUD 表格
 
-innerRef 可以用来控制弹窗的打开以及赋初始值
+- 用 innerRef 来控制弹窗的打开以及赋初始值
+- columns 里的`render`方法增加了 innerRef, 用来控制弹窗的打开和赋值
+
+```js
+{
+  valueType: 'option',
+  title: '操作',
+  render: (text, record, index, actionRef, innerRef) => [
+    <Button onClick={() => innerRef.current?.openModal('edit', record)}>编辑</Button>
+  ]
+}
+```
+
+- 传入 delFunction 并且开启 rowSelection 后, 自动支持批量删除功能
+- 传入 delFunction 并且 columns 里开启删除后, 操作列自动支持删除. 默认关闭
+
+```js
+{
+  valueType: 'option',
+  title: '操作',
+  enableDelete: true, // boolean或函数
+  enabledDelete: () => ({
+    disabled: true,
+    visible: true,
+    danger: true
+  }),
+  render: (text, record, index, actionRef, innerRef) => [
+    <Button onClick={() => innerRef.current?.openModal('edit', record)}>编辑</Button>
+  ]
+}
+```
 
 <code src="./basic/index.tsx"></code>
 
@@ -21,11 +51,18 @@ innerRef 可以用来控制弹窗的打开以及赋初始值
 
 <code src="./modalFormLayout/index.tsx"></code>
 
+### 受控表单
+
+也可以不使用 request, 当成普通 table 来使用. 同样集成了新增编辑功能.
+
+<code src="./controlled/index.tsx"></code>
+
 ### ProTable 自定义的 API
 
 列举在 Form 模式下特有的
 
-| 参数     | 说明                                              | 类型                   | 默认值 |
-| -------- | ------------------------------------------------- | ---------------------- | ------ |
-| name     | 用于显示在表格头上及弹窗的 title 上               | string                 | -      |
-| innerRef | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息 | React.MutableRefObject | -      |
+| 参数      | 说明                                              | 类型                   | 默认值  |
+| --------- | ------------------------------------------------- | ---------------------- | ------- |
+| name      | 用于显示在表格头上及弹窗的 title 上               | string                 | -       |
+| innerRef  | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息 | React.MutableRefObject | -       |
+| noPadding | 是否去掉 table 外的的 padding                     | `Boolean`              | `false` |
