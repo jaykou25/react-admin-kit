@@ -68,3 +68,8 @@
 
 - 修复 LinkButton classnames 问题
 - 重构 BusinessTreeSelect 组件, 增加 queryParams
+
+## 0.1.15
+
+- ModalForm onFinish 失败后不关闭弹窗
+- 修复 BusinessSelectBuilder 分页组件没有抛出 queryParams

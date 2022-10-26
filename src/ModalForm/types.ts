@@ -3,6 +3,8 @@ import type { MyProColumnType } from '../ProTable/types';
 import type { SubmitterProps } from '@ant-design/pro-form/es/components/Submitter';
 import { SettingFormProps } from '../SettingProvider/types';
 
+export type FormType = 'new' | 'edit' | 'read';
+
 type InnerRefType = {
   openModal: (initialValues?: any) => void;
 };

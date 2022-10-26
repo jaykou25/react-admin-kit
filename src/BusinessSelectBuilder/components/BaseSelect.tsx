@@ -95,7 +95,7 @@ class BaseSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataWithoutCache = () => {
-    const { loadFunction, queryParams } = this.props;
+    const { loadFunction, queryParams = {} } = this.props;
 
     this.setState({ loading: true });
     loadFunction(queryParams)

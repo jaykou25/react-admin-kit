@@ -5,12 +5,15 @@ import type { FormInstance } from 'antd';
 
 import omit from 'omit.js';
 
-import type { ModalFormProps, ModalFormSelfProps } from './types';
+import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
 
 import zhCN from 'antd/es/locale/zh_CN';
 import { ModalFormContext } from '../SettingProvider/context';
 
-class ModalForm extends Component<ModalFormProps, any> {
+class ModalForm extends Component<
+  ModalFormProps,
+  { formType: FormType; visible: boolean; formData: any; loading: boolean }
+> {
   private formRef;
 
   static contextType = ModalFormContext;
@@ -22,6 +25,8 @@ class ModalForm extends Component<ModalFormProps, any> {
     this.state = {
       visible: false,
       formData: props.formProps?.initialValues || {},
+      formType: 'new',
+      loading: false,
     };
 
     if (props.innerRef) {
@@ -42,13 +47,13 @@ class ModalForm extends Component<ModalFormProps, any> {
     }
   };
 
-  openModal = (initialData) => {
+  openModal = (formType: FormType, initialData) => {
     if (initialData) {
-      this.setState({ visible: true, formData: initialData || {} });
+      this.setState({ visible: true, formType, formData: initialData || {} });
       return;
     }
 
-    this.setState({ visible: true });
+    this.setState({ visible: true, formType });
   };
 
   onOk = () => {
@@ -65,13 +70,12 @@ class ModalForm extends Component<ModalFormProps, any> {
     try {
       await onFinish(values);
       this.setState({ loading: false });
+      this.getOnCancel();
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('onFinishError', e);
       this.setState({ loading: false });
     }
-
-    this.getOnCancel();
   };
 
   handleOnCancel = () => {
@@ -103,6 +107,17 @@ class ModalForm extends Component<ModalFormProps, any> {
     } else {
       this.setState({ visible: false });
     }
+  };
+
+  getColumns = () => {
+    const { formType } = this.state;
+    const $cols = this.props.columns.map((col) => omit(col, ['width']));
+
+    if (formType === 'read') {
+      $cols.forEach((col) => (col.readonly = true));
+    }
+
+    return $cols;
   };
 
   render() {
@@ -142,7 +157,7 @@ class ModalForm extends Component<ModalFormProps, any> {
           <SchemaForm
             scrollToFirstError={true}
             formRef={this.formRef}
-            columns={columns.map((col) => omit(col, ['width']))}
+            columns={this.getColumns()}
             onFinish={this.onFinish}
             autoFocusFirstInput={autoFocusFirstInput}
             isKeyPressSubmit={isKeyPressSubmit}

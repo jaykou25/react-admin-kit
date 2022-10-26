@@ -36,6 +36,10 @@ group:
 
 <code src="./initValue/index.tsx"></code>
 
+### 只读模式
+
+<code src="./readonly/index.tsx"></code>
+
 ### ModalForm 自定义的 API
 
 <API hideTitle exports='["Self"]' src="../../../src/ModalForm/index.tsx"></API>

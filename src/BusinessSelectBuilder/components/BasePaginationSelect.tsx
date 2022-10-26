@@ -97,7 +97,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataWithoutCache = () => {
-    const { loadFunction, queryParams } = this.props;
+    const { loadFunction, queryParams = {} } = this.props;
 
     this.setState({ loading: true });
     loadFunction(queryParams)
@@ -167,8 +167,9 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   // 下一页
   handleUpdateData = () => {
     const { current, searchValue, dataSource } = this.state;
+    const { queryParams = {} } = this.props;
     this.setState({ loading: true });
-    this.props.loadFunction({ current, searchValue }).then((res) => {
+    this.props.loadFunction({ ...queryParams, current, searchValue }).then((res) => {
       this.setState({
         dataSource: dataSource.concat(res.data),
         loading: false,
@@ -186,8 +187,9 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
   handleSearchData = () => {
     const { searchValue } = this.state;
+    const { queryParams = {} } = this.props;
     this.setState({ loading: true });
-    this.props.loadFunction({ current: 1, searchValue }).then((res) => {
+    this.props.loadFunction({ ...queryParams, current: 1, searchValue }).then((res) => {
       this.setState({
         dataSource: res.data,
         loading: false,
