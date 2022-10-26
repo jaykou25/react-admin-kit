@@ -9,3 +9,4 @@ export { default as Button } from './Button';
 export { ProForm } from '@ant-design/pro-form';
 
 export type { MyProColumnType as ProColumnType, InnerRefType } from './ProTable/types';
+export type { ModalFormInnerRefType } from './ModalForm/types';

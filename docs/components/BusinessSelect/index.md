@@ -46,7 +46,7 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 
 ### 请求接口带查询参数 queryParams
 
-当我们定义了一个下拉组件, 在不同的页面有时会需要不同的查询条件.
+有时我们需要给接口传递查询参数, 可以使用 queryParams.
 
 比如有一个人员接口会根据 type 来区分不同的人员类型, 在 A 页面用的是 type=1, 在 B 页面用的是 type=2. 这种情况可以使用`queryParams`属性
 
@@ -59,6 +59,8 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 ```
 
 > 当 queryParams 传入值时, 该下拉将不缓存数据
+
+<code src="./queryParams/index.tsx"></code>
 
 ### 分页下拉及其搜索
 

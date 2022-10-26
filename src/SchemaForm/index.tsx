@@ -4,6 +4,7 @@ import { BetaSchemaForm } from '@ant-design/pro-form';
 import type { SchemaFormProps, SchemaFormSelfProps } from './types';
 import { Col, Row, Form } from 'antd';
 import { genItems } from './genItems';
+import { handleValuesForEdit, handleValuesForSubmit } from '../ProTable/utils/form';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const {
@@ -12,6 +13,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     submitter = false,
     columns = [],
     valueName,
+    initialValues,
+    onFinish,
     ...rest
   } = props;
 
@@ -26,6 +29,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       }
     });
   }
+
+  const handleOnFinish = (values) => {
+    if (onFinish) {
+      return onFinish(handleValuesForSubmit(values));
+    }
+  };
 
   /**
    * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
@@ -53,7 +62,16 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     return genItems($columns, 'form', formInstance, labelCol).map((itemObj) => itemObj.dom);
   }
 
-  return <BetaSchemaForm submitter={submitter} {...rest} columns={$columns} layoutType={'Form'} />;
+  return (
+    <BetaSchemaForm
+      initialValues={handleValuesForEdit(initialValues, $columns)}
+      onFinish={handleOnFinish}
+      submitter={submitter}
+      {...rest}
+      columns={$columns}
+      layoutType={'Form'}
+    />
+  );
 };
 
 export default SchemaForm;

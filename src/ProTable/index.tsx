@@ -1,4 +1,4 @@
-import { Component, useContext } from 'react';
+import { Component, createRef, useContext } from 'react';
 import produce from 'immer';
 import type { MyProColumnType, MyProTableType } from './types';
 
@@ -12,9 +12,10 @@ import { handleRequestParams } from './utils';
 
 import './styles.less';
 import cs from 'classnames';
-import { handleValuesForEdit, handleValuesForSubmit } from './utils/form';
 import { ProTableContext } from '../SettingProvider/context';
 import { ProTableSetting } from '../SettingProvider/types';
+import { ModalFormInnerRefType } from '..';
+import { FormType } from '../ModalForm/types';
 
 /**
  * 表单类型的映射
@@ -27,6 +28,7 @@ export const FORM_TYPE_MAP = {
 
 class ProTable extends Component<MyProTableType, any> {
   private targetId;
+  private modalFormRef;
 
   static contextType: any = ProTableContext;
   context!: React.ContextType<typeof ProTableContext>;
@@ -35,20 +37,20 @@ class ProTable extends Component<MyProTableType, any> {
     super(props);
 
     this.state = {
-      formVisible: false,
       formType: '',
-      formData: {},
 
       delLoading: false,
       selectedRowKeys: [],
     };
 
     this.targetId = '';
+    this.modalFormRef = createRef<ModalFormInnerRefType>();
 
     if (props.innerRef) {
       props.innerRef.current = {};
+      props.innerRef.current.data = {};
       props.innerRef.current.openModal = this.openModal;
-      props.innerRef.current.setInnerRef = this.setInnerRef;
+      props.innerRef.current.setData = this.setData;
     }
   }
 
@@ -68,17 +70,17 @@ class ProTable extends Component<MyProTableType, any> {
     return `${FORM_TYPE_MAP[formType]}${name}` || '';
   };
 
-  setInnerRef = (newValue) => {
-    if (this.props.innerRef) {
-      const values = this.props.innerRef.current;
-      this.props.innerRef.current = { ...values, ...newValue };
+  // 给ref上赋值
+  setData = (newValue) => {
+    if (this.props.innerRef?.current) {
+      const values = this.props.innerRef.current.data;
+      this.props.innerRef.current.data = { ...values, ...newValue };
     }
   };
 
-  openModal = (type = 'new', _initialData?: any) => {
-    const initialData = handleValuesForEdit(_initialData || {}, this.props.columns);
-    this.setInnerRef({ formType: type, formData: initialData || {} });
-    this.setState({ formVisible: true, formType: type, formData: initialData || {} });
+  openModal = (type: FormType = 'new', initialData?: any) => {
+    this.setState({ formType: type });
+    this.modalFormRef.current?.openModal(type, initialData);
   };
 
   patchColumn = ($cols) => {
@@ -92,7 +94,7 @@ class ProTable extends Component<MyProTableType, any> {
           col.renderFormItem = (a, b, c) => renderFormItem(a, b, c, innerRef);
         }
 
-        // 给valueType为optione列的render增加ref参数
+        // 给valueType为option列的render增加ref参数
         if (col.valueType === 'option' && render) {
           col.render = (text, record, index, actionRef) =>
             render(text, record, index, actionRef, innerRef);
@@ -315,9 +317,6 @@ class ProTable extends Component<MyProTableType, any> {
       ...rest
     } = this.props;
 
-    // state
-    const { formVisible, formType, formData } = this.state;
-
     /**
      * 全局默认设置
      */
@@ -362,11 +361,12 @@ class ProTable extends Component<MyProTableType, any> {
                   return new Promise((resolve, reject) => {
                     request(handleRequestParams(params, sort), sort, filter)
                       .then((res) => {
-                        this.setInnerRef({
-                          total: res.total,
-                          data: res.data,
-                          params: handleRequestParams(params, sort),
-                        });
+                        if (this.props.innerRef?.current) {
+                          this.props.innerRef.current.total = res.total;
+                          this.props.innerRef.current.dataSource = res.data;
+                          this.props.innerRef.current.params = handleRequestParams(params, sort);
+                        }
+
                         resolve(res);
                       })
                       .catch((err) => reject(err));
@@ -377,18 +377,16 @@ class ProTable extends Component<MyProTableType, any> {
           {...tableRest}
         />
         <ModalForm
-          open={formVisible}
-          onCancel={() => this.setState({ formVisible: false })}
+          innerRef={this.modalFormRef}
           title={this.getModalTitle()}
           // @ts-ignore
           columns={this.patchColumn(formColumns || columns)}
-          onFinish={(values) =>
-            onFinish && onFinish(handleValuesForSubmit(values), formType, formData)
+          onFinish={(values, formType, formData) =>
+            onFinish && onFinish(values, formType, formData)
           }
           formProps={{
             ...settingFormProps,
             ...formProps,
-            initialValues: formData,
           }}
           {...modalRest}
         />

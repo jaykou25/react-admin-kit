@@ -5,6 +5,9 @@ import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaFor
 import type { ModalProps } from 'antd';
 import { SettingFormProps } from '../SettingProvider/types';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
+import type { ProColumns } from '@ant-design/pro-table';
+import { ModalFormInnerRefType } from '..';
+import { FormType, ModalFormSelfProps } from '../ModalForm/types';
 
 export type ToolbarType = {
   title?: string | false;
@@ -12,11 +15,12 @@ export type ToolbarType = {
 };
 
 export type InnerRefType = {
-  openModal: OpenModalType;
   params?: any; // 查询参数
   total?: number; // 总条数
-  data?: any; // 表格数据
-};
+  dataSource?: any; // 表格数据
+  data?: any; // 其它数据
+  setData?: (vals: Record<string, any>) => void;
+} & ModalFormInnerRefType;
 
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
@@ -25,7 +29,7 @@ export type MyProTableType = Omit<
   columns: MyProColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
   formColumns?: MyProColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
-  onFinish?: (values: any, formType: 'new' | 'edit', formData: any) => Promise<any> | void;
+  onFinish?: (values: any, formType: FormType, formData: any) => Promise<any> | void;
   innerRef?: React.MutableRefObject<InnerRefType | undefined>;
   /**
    * 传入这个函数, 组件就会自动集成多选删除功能.
@@ -47,12 +51,10 @@ export type MyProTableType = Omit<
   // 操作列的space间距
   optionColSpaceSize?: 'small';
   editable?: boolean;
-  modalProps?: ModalProps;
+  modalProps?: ModalProps & ModalFormSelfProps['onOpen'];
   formProps?: SettingFormProps;
   noPadding?: Boolean;
 };
-
-export type OpenModalType = (type?: 'new' | 'edit', record?: any) => void;
 
 export type FetchOptionType = {
   needLoading?: boolean;
@@ -69,7 +71,7 @@ export type selfColumnsValueType = 'export';
 export type MyFieldType = ProColumnsValueType | FormFieldType;
 
 export type MyProColumnType<Type = string> = Omit<
-  ProFormColumnsType,
+  ProColumns,
   'renderFormItem' | 'render' | 'editable' | 'valueType'
 > & {
   children?: MyProColumnType<Type>[];

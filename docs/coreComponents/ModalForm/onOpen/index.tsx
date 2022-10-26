@@ -1,19 +1,23 @@
 import { ModalForm } from 'react-admin-kit';
-import { Button } from 'antd';
+import type { ModalFormInnerRefType } from 'react-admin-kit';
+import { Button, Space } from 'antd';
 import { columns } from './columns';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const OnOpenDemo = () => {
-  const [visible, setVisible] = useState(false);
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any) => {
     console.log({ values });
   };
 
-  const handleOnOpen = async (formRef) => {
-    return requestData().then(() => {
-      formRef.current?.setFieldsValue({ username: '王先生', phone: 134 });
-    });
+  const handleOnOpen = async (formType, formRef) => {
+    console.log({ formType });
+    if (formType === 'edit' || formType === 'read') {
+      return requestData().then(() => {
+        formRef.current?.setFieldsValue({ username: '王先生', phone: 134 });
+      });
+    }
   };
 
   const requestData = () => {
@@ -24,16 +28,23 @@ const OnOpenDemo = () => {
 
   return (
     <div>
-      <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => setVisible(true)}>
-          打开弹窗
+      <Space>
+        <Button type="primary" onClick={() => innerRef.current.openModal('new')}>
+          新增
         </Button>
-      </div>
+
+        <Button type="primary" onClick={() => innerRef.current.openModal('edit')}>
+          编辑
+        </Button>
+
+        <Button type="primary" onClick={() => innerRef.current.openModal('read')}>
+          查看
+        </Button>
+      </Space>
 
       <ModalForm
         title={'基本表单'}
-        open={visible}
-        onCancel={() => setVisible(false)}
+        innerRef={innerRef}
         onFinish={onFinish}
         columns={columns}
         onOpen={handleOnOpen}

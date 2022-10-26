@@ -37,11 +37,19 @@ class ModalForm extends Component<
     this.formRef = createRef<FormInstance>();
   }
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps, prevState) => {
     if (!prevProps.open && this.props.open) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        await this.props.onOpen(this.formRef);
+        await this.props.onOpen(this.state.formType, this.formRef);
+        this.setState({ loading: false });
+      }
+    }
+
+    if (!prevState.visible && this.state.visible) {
+      if (this.props.onOpen) {
+        this.setState({ loading: true });
+        await this.props.onOpen(this.state.formType, this.formRef);
         this.setState({ loading: false });
       }
     }
@@ -66,9 +74,10 @@ class ModalForm extends Component<
 
   onFinish = async (values) => {
     const { onFinish } = this.props;
+    const { formType, formData } = this.state;
     this.setState({ loading: true });
     try {
-      await onFinish(values);
+      await onFinish(values, formType, formData);
       this.setState({ loading: false });
       this.getOnCancel();
     } catch (e) {

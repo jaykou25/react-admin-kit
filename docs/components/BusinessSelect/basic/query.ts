@@ -35,3 +35,30 @@ export const queryBrand = (params) => {
     }, 500);
   });
 };
+
+export const queryUser = (params) => {
+  return new Promise((resolve) => {
+    console.log('queryUser', params);
+    setTimeout(() => {
+      if (params.type == 1) {
+        resolve({
+          data: [{ name: 'A', id: 1 }],
+        });
+      }
+
+      if (params.type == 2) {
+        resolve({
+          data: [{ name: 'B', id: 2 }],
+        });
+      }
+
+      resolve({
+        data: [
+          { name: 'A', id: 1 },
+          { name: 'B', id: 2 },
+          { name: 'C', id: 3 },
+        ],
+      });
+    }, 1000);
+  });
+};

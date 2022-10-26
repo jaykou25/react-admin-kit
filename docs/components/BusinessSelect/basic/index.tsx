@@ -1,5 +1,5 @@
 import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
-import { queryBrand, queryColor } from './query';
+import { queryBrand, queryColor, queryUser } from './query';
 
 // 方便ts提示
 type SelectType = 'color' | 'brand';
@@ -17,6 +17,10 @@ export const BusinessSelect = BusinessSelectBuilder<SelectType>({
       api: queryBrand,
       type: 'brand',
       pagination: true,
+    },
+    {
+      api: queryUser,
+      type: 'user',
     },
   ],
   defaultProps: {
