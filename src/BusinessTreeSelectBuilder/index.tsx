@@ -1,5 +1,10 @@
 import BaseTreeSelect from './BaseTreeSelect';
-import { BusinessTreeSelectBuilderProps, BusinessTreeSelectProps } from './types';
+import {
+  ApiType,
+  BusinessTreeSelectBuilderProps,
+  BusinessTreeSelectProps,
+  BusinessTreeSelectSelfProps,
+} from './types';
 
 /**
  * 数据挂在window上作为缓存, 避免重复请求
@@ -40,3 +45,23 @@ function BusinessTreeSelectBuilder<Type extends string>({
 }
 
 export default BusinessTreeSelectBuilder;
+
+export const clearTreeSelectCache = (type?: string) => {
+  if (type) {
+    delete window[CacheName][type];
+    delete window[CacheStatusName][type];
+  } else {
+    window[CacheName] = {};
+    window[CacheStatusName] = {};
+  }
+};
+
+// 用于生成api文档
+export const Api: React.FC<ApiType> = () => {
+  return null;
+};
+
+// 用于生成api文档
+export const Self: React.FC<BusinessTreeSelectSelfProps<string>> = () => {
+  return null;
+};

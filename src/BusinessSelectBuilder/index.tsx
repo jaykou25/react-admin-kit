@@ -64,6 +64,18 @@ function BusinessSelectBuilder<Type extends string>({
 
 export default BusinessSelectBuilder;
 
+export const clearSelectCache = (type?: string) => {
+  if (type) {
+    delete window[SelectName][type];
+    delete window[SelectStatusName][type];
+    delete window[SelectTotalName][type];
+  } else {
+    window[SelectName] = {};
+    window[SelectStatusName] = {};
+    window[SelectTotalName] = {};
+  }
+};
+
 // 用于生成api文档
 export const Api: React.FC<ApiType> = () => {
   return null;

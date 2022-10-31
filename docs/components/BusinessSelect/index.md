@@ -36,6 +36,8 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 
 ### 基本的使用方法
 
+`BusinessSelect`是 antd Select 的封装, 可以透传 Select 的所有属性.
+
 <code src="./basic/index.tsx"></code>
 
 ### 同一页面中多次引用只会请求一次接口
@@ -74,11 +76,17 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 }
 ```
 
-### BusinessSelectBuilder 自定义的 API
+### 清除缓存
+
+使用`clearSelectCache(type: string)`方法清除缓存. type 不传清除所有类型的缓存
+
+<code src="./clearCache/index.tsx"></code>
+
+### BusinessSelectBuilder 的 API
 
 <API exports='["default"]' hideTitle src="../../../src/BusinessSelectBuilder/index.tsx"></API>
 
-### ApiType 的 API
+### ApiType
 
 <API exports='["Api"]' hideTitle src="../../../src/BusinessSelectBuilder/index.tsx"></API>
 

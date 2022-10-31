@@ -27,7 +27,7 @@ export type ApiType = {
    */
   valueKey?: string;
   /**
-   * @description       设置数据不缓存
+   * @description       不缓存数据
    * @default           false
    */
   noCache?: boolean;
@@ -83,6 +83,11 @@ export interface BusinessSelectSelfProps<Type> {
    */
   renderLabel?: (node: any) => any;
   onChange?: (val, option) => void;
+  /**
+   * @description       不缓存数据(优先级更高)
+   * @default           false
+   */
+  noCache?: boolean;
 }
 
 export type BusinessSelectProps<Type> = BusinessSelectSelfProps<Type> &

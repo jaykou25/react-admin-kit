@@ -44,6 +44,12 @@ export type ModalFormSelfProps = {
    * @description 传递给表单的参数, 请参考SchemaForm组件的api
    */
   formProps?: SettingFormProps;
+
+  /**
+   * @description 关闭弹窗时, 如果表单项发生了改动会弹出确认框
+   * @default true
+   */
+  confirmOnClose?: Boolean;
 };
 
 export type ModalFormProps = ModalProps & ModalFormSelfProps;

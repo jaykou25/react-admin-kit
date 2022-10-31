@@ -90,11 +90,11 @@ class ModalForm extends Component<
   };
 
   handleOnCancel = () => {
-    const { getContainer } = this.props;
+    const { getContainer, confirmOnClose = true } = this.props;
 
     const isTouched = this.formRef.current?.isFieldsTouched();
 
-    if (isTouched) {
+    if (confirmOnClose && isTouched) {
       Modal.confirm({
         title: '确认关闭弹窗吗?',
         content: '关闭弹窗后您所更改的内容将不会保存!',

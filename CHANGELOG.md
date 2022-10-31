@@ -85,3 +85,9 @@
 
 - ModalForm 和 ProTable 的 onOpen 方法增加第三个参数 formData
 - 修正 ProColumnType
+
+## 0.1.18
+
+- ModalForm 增加 confirmOnClose
+- BusinessSelect 增加 clearSelectCache 方法
+- BusinessTreeSelect 增加 clearTreeSelectCache 方法
