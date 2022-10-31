@@ -13,7 +13,8 @@ export const mockRequest = () => {
   });
 };
 
-export const requestExtra = () => {
+export const requestExtra = (id) => {
+  console.log('request detail for id', id);
   return new Promise((resolve) => {
     setTimeout(() => resolve(8888), 500);
   });

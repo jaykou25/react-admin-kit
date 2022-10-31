@@ -34,7 +34,11 @@ export type ModalFormSelfProps = {
   /**
    * @description 打开弹框后的回调, 可以在这里请求数据;
    */
-  onOpen?: (formType: FormType, formRef: { current: FormInstance | undefined | null }) => void;
+  onOpen?: (
+    formType: FormType,
+    formRef: { current: FormInstance | undefined | null },
+    formData: any,
+  ) => Promise<any> | void;
 
   /**
    * @description 传递给表单的参数, 请参考SchemaForm组件的api

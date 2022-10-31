@@ -29,11 +29,10 @@ const OnOpenDemo = () => {
     });
   };
 
-  const onOpen = (formType, formRef) => {
-    console.log({ formType });
+  const onOpen = (formType, formRef, formData) => {
     if (formType === 'edit') {
-      return requestExtra().then((res) => {
-        formRef.current?.setFieldsValue({ extra: res });
+      return requestExtra(formData.id).then((res) => {
+        formRef.current?.setFields([{ name: 'extra', value: res, touched: false }]);
       });
     }
   };

@@ -41,7 +41,7 @@ class ModalForm extends Component<
     if (!prevProps.open && this.props.open) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        await this.props.onOpen(this.state.formType, this.formRef);
+        await this.props.onOpen(this.state.formType, this.formRef, this.state.formData);
         this.setState({ loading: false });
       }
     }
@@ -49,7 +49,7 @@ class ModalForm extends Component<
     if (!prevState.visible && this.state.visible) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        await this.props.onOpen(this.state.formType, this.formRef);
+        await this.props.onOpen(this.state.formType, this.formRef, this.state.formData);
         this.setState({ loading: false });
       }
     }
@@ -76,14 +76,16 @@ class ModalForm extends Component<
     const { onFinish } = this.props;
     const { formType, formData } = this.state;
     this.setState({ loading: true });
-    try {
-      await onFinish(values, formType, formData);
-      this.setState({ loading: false });
-      this.getOnCancel();
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('onFinishError', e);
-      this.setState({ loading: false });
+    if (onFinish) {
+      try {
+        await onFinish(values, formType, formData);
+        this.setState({ loading: false });
+        this.getOnCancel();
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('onFinishError', e);
+        this.setState({ loading: false });
+      }
     }
   };
 
@@ -118,7 +120,7 @@ class ModalForm extends Component<
     }
   };
 
-  getColumns = () => {
+  getColumns = (): any => {
     const { formType } = this.state;
     const $cols = this.props.columns.map((col) => omit(col, ['width']));
 

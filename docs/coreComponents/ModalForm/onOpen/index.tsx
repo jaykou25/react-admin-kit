@@ -12,7 +12,6 @@ const OnOpenDemo = () => {
   };
 
   const handleOnOpen = async (formType, formRef) => {
-    console.log({ formType });
     if (formType === 'edit' || formType === 'read') {
       return requestData().then(() => {
         formRef.current?.setFieldsValue({ username: '王先生', phone: 134 });
@@ -29,15 +28,15 @@ const OnOpenDemo = () => {
   return (
     <div>
       <Space>
-        <Button type="primary" onClick={() => innerRef.current.openModal('new')}>
+        <Button type="primary" onClick={() => innerRef.current?.openModal('new')}>
           新增
         </Button>
 
-        <Button type="primary" onClick={() => innerRef.current.openModal('edit')}>
+        <Button type="primary" onClick={() => innerRef.current?.openModal('edit')}>
           编辑
         </Button>
 
-        <Button type="primary" onClick={() => innerRef.current.openModal('read')}>
+        <Button type="primary" onClick={() => innerRef.current?.openModal('read')}>
           查看
         </Button>
       </Space>

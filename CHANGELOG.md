@@ -80,3 +80,8 @@
 ## 0.1.16
 
 - 修复 BusinessSelectBuilder 缓存引起的 reRender 问题
+
+## 0.1.17
+
+- ModalForm 和 ProTable 的 onOpen 方法增加第三个参数 formData
+- 修正 ProColumnType
