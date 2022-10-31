@@ -73,8 +73,10 @@ group:
 
 列举在 Form 模式下特有的
 
-| 参数      | 说明                                              | 类型                   | 默认值  |
-| --------- | ------------------------------------------------- | ---------------------- | ------- |
-| name      | 用于显示在表格头上及弹窗的 title 上               | string                 | -       |
-| innerRef  | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息 | React.MutableRefObject | -       |
-| noPadding | 是否去掉 table 外的的 padding                     | `Boolean`              | `false` |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| name | 用于显示在表格头上及弹窗的 title 上 | string | - |
+| innerRef | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息 | React.MutableRefObject | - |
+| noPadding | 是否去掉 table 外的的 padding | `Boolean` | `false` |
+| onFinish | 点击弹窗确认按钮后的回调 | (values, formType, formData) => Promise<any> \| void | - |
+| onOpen | 打开弹窗后的回调 | (formType, formRef) => Promise<any> \| void | - |

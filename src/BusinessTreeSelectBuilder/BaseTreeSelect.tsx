@@ -22,7 +22,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
   }
 
   reRender = (e) => {
-    if (e.detail.type === this.props.type) {
+    if (e.detail.type === this.props.type && !this.isNoCache()) {
       this.setState({
         loading: false,
         dataSource: window[CacheName][this.props.type] || [],
@@ -47,11 +47,15 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
     }
   }
 
-  handleLoadData = () => {
-    const { queryParams = {}, noCache } = this.props;
-
+  // 判断是不是不要缓存
+  isNoCache = () => {
     // queryParams为依赖列表, 依赖列表有值则不缓存
-    if (Object.keys(queryParams).length > 0 || noCache) {
+    const { queryParams = {}, noCache } = this.props;
+    return Object.keys(queryParams).length > 0 || noCache;
+  };
+
+  handleLoadData = () => {
+    if (this.isNoCache()) {
       this.loadDataWithoutCache();
     } else {
       this.loadDataForCache();

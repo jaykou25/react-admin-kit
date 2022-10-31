@@ -30,6 +30,7 @@ export type MyProTableType = Omit<
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
   formColumns?: MyProColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
   onFinish?: (values: any, formType: FormType, formData: any) => Promise<any> | void;
+  onOpen?: ModalFormSelfProps['onOpen'];
   innerRef?: React.MutableRefObject<InnerRefType | undefined>;
   /**
    * 传入这个函数, 组件就会自动集成多选删除功能.
@@ -51,7 +52,7 @@ export type MyProTableType = Omit<
   // 操作列的space间距
   optionColSpaceSize?: 'small';
   editable?: boolean;
-  modalProps?: ModalProps & ModalFormSelfProps['onOpen'];
+  modalProps?: ModalProps;
   formProps?: SettingFormProps;
   noPadding?: Boolean;
 };

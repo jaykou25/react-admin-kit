@@ -24,7 +24,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   }
 
   reRender = (e) => {
-    if (e.detail.type === this.props.type) {
+    if (e.detail.type === this.props.type && !this.isNoCache()) {
       this.setState({
         loading: false,
         dataSource: window[SelectName][this.props.type] || [],

@@ -61,9 +61,7 @@ const OnOpenDemo = () => {
           ],
         }}
         search={false}
-        modalProps={{
-          onOpen,
-        }}
+        onOpen={onOpen}
       />
     </div>
   );

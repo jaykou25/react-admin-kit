@@ -312,6 +312,7 @@ class ProTable extends Component<MyProTableType, any> {
       noPadding = false,
       search,
       request,
+      onOpen,
       modalProps = {},
       formProps = {},
       ...rest
@@ -381,9 +382,8 @@ class ProTable extends Component<MyProTableType, any> {
           title={this.getModalTitle()}
           // @ts-ignore
           columns={this.patchColumn(formColumns || columns)}
-          onFinish={(values, formType, formData) =>
-            onFinish && onFinish(values, formType, formData)
-          }
+          onFinish={onFinish}
+          onOpen={onOpen}
           formProps={{
             ...settingFormProps,
             ...formProps,

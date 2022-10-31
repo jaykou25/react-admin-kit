@@ -76,3 +76,7 @@
 - ModalForm 的 innerRef 的 openModal 方法增加 formType 参数;onOpen 和 onFinish 时可获取到; formType 支持 read
 - ProTable 的 innerRef 的 openModal 支持 read
 - 修复 ProTable 的 columnsType
+
+## 0.1.16
+
+- 修复 BusinessSelectBuilder 缓存引起的 reRender 问题

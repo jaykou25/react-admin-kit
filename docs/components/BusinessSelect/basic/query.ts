@@ -39,19 +39,23 @@ export const queryBrand = (params) => {
 export const queryUser = (params) => {
   return new Promise((resolve) => {
     console.log('queryUser', params);
-    setTimeout(() => {
-      if (params.type == 1) {
+    if (params.type == 1) {
+      return setTimeout(() => {
         resolve({
           data: [{ name: 'A', id: 1 }],
         });
-      }
+      }, 500);
+    }
 
-      if (params.type == 2) {
+    if (params.type == 2) {
+      return setTimeout(() => {
         resolve({
           data: [{ name: 'B', id: 2 }],
         });
-      }
+      }, 600);
+    }
 
+    return setTimeout(() => {
       resolve({
         data: [
           { name: 'A', id: 1 },
@@ -59,6 +63,6 @@ export const queryUser = (params) => {
           { name: 'C', id: 3 },
         ],
       });
-    }, 1000);
+    }, 800);
   });
 };

@@ -29,7 +29,7 @@ export type ModalFormSelfProps = {
   /**
    * @description 点击弹窗确定按钮后的回调;
    */
-  onFinish: (values: any, formType: FormType, formData: any) => void;
+  onFinish?: (values: any, formType: FormType, formData: any) => Promise<any> | void;
 
   /**
    * @description 打开弹框后的回调, 可以在这里请求数据;

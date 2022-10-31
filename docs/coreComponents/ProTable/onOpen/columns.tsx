@@ -3,6 +3,11 @@ import type { ProColumnType } from 'react-admin-kit';
 
 export const getColumns = (): ProColumnType[] => [
   {
+    title: '额外信息',
+    dataIndex: 'extra',
+    hideInTable: true,
+  },
+  {
     title: '用户名',
     dataIndex: 'name',
     formItemProps: {
@@ -37,11 +42,7 @@ export const getColumns = (): ProColumnType[] => [
     dataIndex: 'idNumber',
     hideInSearch: true,
   },
-  {
-    title: '额外信息',
-    dataIndex: 'extra',
-    hideInTable: true,
-  },
+
   {
     title: '操作',
     valueType: 'option',
