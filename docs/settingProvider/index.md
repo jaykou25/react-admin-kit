@@ -19,6 +19,18 @@ group:
 
 <code src="./modalForm/index.tsx"></code>
 
+### SchemaForm
+
+比如我们想配置 SchemaForm 的默认验证提示.
+
+<code src="./schemaForm/index.tsx"></code>
+
+### FormUpload
+
+可以给 FormUpload 组件默认带上 token.
+
+<code src="./formUpload/index.tsx"></code>
+
 ### API
 
 <API exports='["default"]' hideTitle src="../../src/SettingProvider/index.tsx"></API>

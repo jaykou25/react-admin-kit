@@ -6,7 +6,6 @@ import ModalForm from '../ModalForm';
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
 import LinkButton from '../LinkButton';
-import { exportAntTableDataToExcel } from './utils/excel';
 import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
@@ -16,6 +15,7 @@ import { ProTableContext } from '../SettingProvider/context';
 import { ProTableSetting } from '../SettingProvider/types';
 import { ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
+import { exportAntTableToExcel } from '../utils/exceljs';
 
 /**
  * 表单类型的映射
@@ -261,10 +261,10 @@ class ProTable extends Component<MyProTableType, any> {
         {!hideExport && (
           <LinkButton
             onClick={() => {
-              exportAntTableDataToExcel(
-                selectedRows,
+              exportAntTableToExcel(
                 filterExportCols(columns),
-                exportName || `${name || '导出'}列表`,
+                selectedRows,
+                exportName || `${name ? name + '列表' : ''}导出`,
               );
               onCleanSelected();
             }}

@@ -22,23 +22,110 @@ order: 0
 $ yarn add react-admin-kit
 ```
 
-#### 以 ProTable 为例
+#### 定义 Schema
+
+```js
+const columns = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+  },
+  {
+    title: '性别',
+    dataIndex: 'sex',
+    valueType: 'select',
+    fieldProps: { options: ['男', '女'] },
+  },
+];
+```
+
+#### 生成表单
+
+```js
+import { SchemaForm } from 'react-admin-kit';
+
+// 具体请参考各组件文档
+const Demo = () => {
+  return <SchemaForm columns={columns} onFinish={onFinish} />;
+};
+```
+
+#### 生成表格
 
 ```js
 import { ProTable } from 'react-admin-kit';
 
+// 具体请参考各组件文档
 const Demo = () => {
-  return (
-    <ProTable
-      name="用户"
-      columns={columns}
-      innerRef={innerRef}
-      actionRef={actionRef}
-      request={mockRequest}
-      onFinish={onFinish}
-    />
-  );
+  return <ProTable columns={columns} />;
 };
+```
 
-// 具体参考各组件文档
+### 核心 Schema
+
+RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表格(Table). 甚至同一个 Schema 即会被用在表单场景也会被用在表格场景(ProTable).
+
+在不同的场景下, Schema 的 api 会稍有不同. 以下列出一些常用的区别.
+
+#### 表单场景(Form)
+
+```js
+{
+  title: '部门',
+  dataIndex: 'dept',
+
+  // 根据不同的valueType生成不同的表单控件
+  valueType: 'select',
+
+  // 传给formItem的属性
+  formItemProps: {
+    rules: [
+      {
+        required: true
+      }
+    ]
+  },
+
+  // 传给表单控件的属性, 默认控件为Input
+  fieldProps: (form) =>  ({
+    style: {width: '100%'},
+    placeholder: '请选择部门'
+    onChange: (val) => {
+      console.log({val})
+    }
+  }),
+
+  // 自定义表单控件
+  renderFormItem: () => {
+    return <Select option=[] />
+  }
+
+  // 👉readonly模式下表单项的显示走的render方法而不是renderFormItem
+  readonly: true;
+  render: (text, {mode}) => {
+    return text
+  }
+}
+```
+
+#### 表格场景(Table)
+
+```js
+{
+  title: '部门',
+  dataIndex: 'dept',
+
+  // 根据不同的type映射不同的值
+  valueType: 'select',
+
+  // 自定表格项上的文字显示; renderText会保留省略号, 图标等
+  renderText: (text, record) => {
+    return text
+  }
+
+  // 完全自定义表格项显示
+  render: (text, record) => {
+    return text
+  }
+}
 ```

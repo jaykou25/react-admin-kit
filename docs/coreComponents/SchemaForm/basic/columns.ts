@@ -6,7 +6,6 @@ export const columns = [
       rules: [
         {
           required: true,
-          message: '用户名为必填项',
         },
       ],
     },
@@ -18,7 +17,6 @@ export const columns = [
       rules: [
         {
           required: true,
-          message: '电话为必填项',
         },
       ],
     },
@@ -29,7 +27,6 @@ export const columns = [
       rules: [
         {
           required: true,
-          message: '昵称为必填项',
         },
       ],
     },
@@ -50,7 +47,6 @@ export const columns = [
       rules: [
         {
           required: true,
-          message: '身份证为必填项',
         },
       ],
     },

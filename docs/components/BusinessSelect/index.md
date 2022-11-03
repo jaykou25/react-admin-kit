@@ -2,6 +2,7 @@
 group:
   title: 衍生组件
   order: 2
+order: 1
 ---
 
 ## BusinessSelect - 业务下拉

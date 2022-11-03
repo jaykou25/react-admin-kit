@@ -83,4 +83,5 @@ export type MyProColumnType<Type = string> = Omit<
     type?: Type | Type[];
     transform?: (vals) => any;
     valueType?: MyFieldType;
+    renderExport?: (text, record) => string;
   };

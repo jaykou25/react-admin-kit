@@ -91,3 +91,10 @@
 - ModalForm 增加 confirmOnClose
 - BusinessSelect 增加 clearSelectCache 方法
 - BusinessTreeSelect 增加 clearTreeSelectCache 方法
+
+## 0.1.19
+
+- SettingProvider 增加 对 SchemaForm 的全局设置
+- 完善 ProTable 前端导出
+- 新增组件 FormUpload
+- SettingProvider 增加 对 FormUpload 的全局设置

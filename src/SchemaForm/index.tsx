@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BetaSchemaForm } from '@ant-design/pro-form';
 
 import type { SchemaFormProps, SchemaFormSelfProps } from './types';
 import { Col, Row, Form } from 'antd';
 import { genItems } from './genItems';
 import { handleValuesForEdit, handleValuesForSubmit } from '../ProTable/utils/form';
+import { SchemaFormContext } from '../SettingProvider/context';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const {
@@ -17,6 +18,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     onFinish,
     ...rest
   } = props;
+
+  /**
+   * 全局默认设置
+   */
+  const setting = useContext(SchemaFormContext) || {};
+  console.log('schemaFormsetting', setting);
 
   const $columns = readonly ? columns.map((col) => ({ ...col, readonly: true })) : columns;
 
@@ -64,6 +71,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   return (
     <BetaSchemaForm
+      {...setting}
       initialValues={handleValuesForEdit(initialValues, $columns)}
       onFinish={handleOnFinish}
       submitter={submitter}

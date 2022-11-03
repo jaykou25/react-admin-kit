@@ -43,6 +43,10 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 ### 只读模式
 
+只读模式下自定义显示走的`render`方法.
+
+空白占位请使用`render: () => ''`
+
 <code src="./readonly/index.tsx"></code>
 
 ### 内嵌模式
@@ -88,11 +92,35 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 <code src="./initValue/index.tsx"></code>
 
+### 分组
+
+分组模式下, FormItem 的布局默认是以[Space](https://ant.design/components/space-cn/#API)组件包裹. 可以在 fieldProps 里传入 Space 的 api
+
+<code src="./group/index.tsx"></code>
+
+### 分组(Grid 模式)
+
+在分组模式下也可以自定义 FormItem 的布局, 即开启 grid 模式.
+
+分组模式下布局分两层, 外层(标题区)和内层(内容区), 所以 grid 的设置也分两层.
+
+<code src="./groupGrid/index.tsx"></code>
+
+### 分组(Grid 模式) 左右布局
+
+<code src="./groupGridHorizontal/index.tsx"></code>
+
+### 数据收集
+
+有的时候后端返回的数据并不能直接用于表单控件, 需要对数据进行处理. 并且在提交的时候也需要对数据进行处理. 最典型的场景就是附件列表上传.
+
+利用 Schema 中的 convertValue 和 tranform 可以应对这个场景. 请参考 FormUpload 组件中的[这个例子](/components/form-upload#数据收集).
+
 ### SchemaForm 自定义的 API
 
 <API exports='["Self"]' hideTitle src="../../../src/SchemaForm/index.tsx"></API>
 
-### Columns 的 API
+### 表单场景的 Schema
 
 列举在 Form 模式下特有的
 

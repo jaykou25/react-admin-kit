@@ -2,18 +2,31 @@ export const columns = [
   {
     title: '联系人',
     dataIndex: 'name',
-    readonly: true,
   },
   {
     title: '电话',
     dataIndex: 'phone',
   },
   {
-    title: '性别',
-    dataIndex: 'sex',
-    valueEnum: {
-      男: { text: '男' },
-      女: { text: '女' },
+    fieldProps: { hidden: true },
+    render: () => '',
+  },
+  {
+    title: '负责人',
+    dataIndex: 'chargeName',
+  },
+  {
+    title: '电话',
+    dataIndex: 'chargePhone',
+  },
+  {
+    title: '自定义',
+    dataIndex: 'mail',
+    render: (text, record) => {
+      if (record.mode === 'read') {
+        return '📧' + record.value;
+      }
+      return text;
     },
   },
 ];
