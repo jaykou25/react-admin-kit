@@ -1,11 +1,4 @@
 import type { ButtonProps } from 'antd';
+import { MyButtonSelfProps } from '../Button/types';
 
-export type MyButtonSelfProps = {
-  /**
-   * @description       控制按钮显示隐藏
-   * @default           false
-   */
-  visible?: Boolean | (() => Boolean);
-};
-
-export type MyButtonProps = MyButtonSelfProps & ButtonProps;
+export type MyLinkButtonProps = MyButtonSelfProps & Omit<ButtonProps, 'type'>;

@@ -98,3 +98,7 @@
 - 完善 ProTable 前端导出
 - 新增组件 FormUpload
 - SettingProvider 增加 对 FormUpload 的全局设置
+
+## 0.1.20
+
+- 修改 LinkButton type

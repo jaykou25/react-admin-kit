@@ -5,7 +5,7 @@ export type MyButtonSelfProps = {
    * @description       控制按钮显示隐藏
    * @default           true
    */
-  visible?: Boolean | (() => Boolean);
+  visible?: boolean | (() => boolean);
 };
 
 export type MyButtonProps = MyButtonSelfProps & ButtonProps;
