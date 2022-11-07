@@ -3,6 +3,7 @@ export const columns = [
     title: '基本信息',
     valueType: 'group',
     fieldProps: {
+      // 👇可以传入Space的属性, 这里间距是small👇
       size: 'small',
     },
     columns: [

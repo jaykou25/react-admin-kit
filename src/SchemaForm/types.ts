@@ -10,10 +10,10 @@ export type SchemaFormSelfProps = {
   embed?: Boolean;
 
   /**
-   * @description      处理套嵌数据结构; 在onFinish收集数据时, 会挂在该字段下. 适用于embed模式
+   * @description      处理套嵌数据结构; 在onFinish收集数据时, 会挂在该字段下. 仅适用于embed模式
    * @default           false
    */
-  valueName?: String;
+  valueBaseName?: String;
 
   /**
    * @description       是否为只读模式

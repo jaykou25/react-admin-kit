@@ -9,18 +9,18 @@ const DataSubmit = () => {
   };
 
   useEffect(() => {
-    // 模拟请求
+    // 模拟后端返回
     formRef.current?.setFieldsValue({
       fileList: [
         {
           id: 1,
           fileName: '照片1',
-          path: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          filePath: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
         {
           id: 2,
           fileName: '照片2',
-          path: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          filePath: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
       ],
     });
@@ -36,7 +36,7 @@ const DataSubmit = () => {
             dataIndex: 'fileList',
             convertValue: (vals) => {
               if (vals) {
-                return vals.map((val) => ({ ...val, name: val.fileName, url: val.path }));
+                return vals.map((val) => ({ ...val, name: val.fileName, url: val.filePath }));
               }
 
               return vals;

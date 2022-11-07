@@ -15,12 +15,12 @@ const ChangeKey = () => {
         {
           id: 1,
           fileName: '照片1',
-          path: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          filePath: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
         {
           id: 2,
           fileName: '照片2',
-          path: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          filePath: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
       ],
     });
@@ -30,7 +30,7 @@ const ChangeKey = () => {
     <SettingProvider
       formUploadSetting={{
         nameKey: 'fileName',
-        urlKey: 'path',
+        urlKey: 'filePath',
       }}
     >
       <SchemaForm

@@ -1,12 +1,14 @@
 import { LabelIconTip, omitUndefined, runFunction } from '@ant-design/pro-utils';
 import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
+import { Col } from 'antd';
 
 /**
  * 生成formItems
  * 代码来自pro-form
  *
  */
-export const genItems = (items, type = 'form', formInstance, labelCol = {}, returnDom = false) => {
+export const genItems = (items, type = 'form', formInstance, options: any = {}) => {
+  const { returnDom = false, labelCol = {}, valueBaseName, grid, colProps = {} } = options;
   return items
     .filter((originItem) => {
       return !(originItem.hideInForm && type === 'form');
@@ -28,6 +30,20 @@ export const genItems = (items, type = 'form', formInstance, labelCol = {}, retu
         />,
       );
 
+      const genDataIndex = (key, base) => {
+        if (base) {
+          if (typeof key === 'string') {
+            return [base, key];
+          }
+
+          if (Array.isArray(key)) {
+            return [base].concat(key);
+          }
+        }
+
+        return key;
+      };
+
       const item = omitUndefined({
         title,
         label: title,
@@ -36,7 +52,7 @@ export const genItems = (items, type = 'form', formInstance, labelCol = {}, retu
         key: originItem.key,
         columns: originItem.columns,
         valueEnum: originItem.valueEnum,
-        dataIndex: originItem.key || originItem.dataIndex,
+        dataIndex: genDataIndex(originItem.key || originItem.dataIndex, valueBaseName),
         initialValue: originItem.initialValue,
         width: originItem.width,
         index: originItem.index,
@@ -64,21 +80,27 @@ export const genItems = (items, type = 'form', formInstance, labelCol = {}, retu
         convertValue: originItem.convertValue,
       });
 
-      item.key = item.key || item.dataIndex?.toString() || index;
+      const key = item.key || item.dataIndex?.toString() || index;
+      item.key = key;
 
       const dom = renderValueType(item, {
         action: null,
         type: 'form',
         originItem,
         formRef: { current: formInstance },
-        genItems: (items, type, form) => genItems(items, type, form, labelCol, true),
+        genItems: (items, type, form) =>
+          genItems(items, type, form, { labelCol, valueBaseName, grid, colProps }),
       });
 
-      if (returnDom) {
-        return dom;
+      if (grid && dom && item.valueType !== 'dependency') {
+        return (
+          <Col key={key} {...colProps} {...item.colProps}>
+            {dom}
+          </Col>
+        );
       }
 
-      return { dom, item: originItem };
+      return dom;
     })
     .filter((field) => {
       return Boolean(field);

@@ -26,23 +26,14 @@ export const getBaseColumns = () => {
     {
       title: '性别',
       dataIndex: 'sex',
-      formItemProps: {},
-      valueEnum: {
-        男: { text: '男' },
-        女: { text: '女' },
-      },
-      fieldProps: (form) => {
-        return {
-          onChange: (val) => {
-            console.log('form', val, form);
-          },
-        };
+      fieldProps: {
+        options: ['男', '女'],
       },
     },
     {
       valueType: 'dependency',
+      // 👇这里是一个套嵌数组, 因为valueBaseName是business👇
       name: [['business', 'serviceName']],
-      colProps: { span: 16 },
       columns: (values) => {
         const serviceName = values?.business?.serviceName;
         if (serviceName == 1) {
@@ -52,6 +43,7 @@ export const getBaseColumns = () => {
             {
               title: '身份证号',
               dataIndex: 'idNumber',
+              colProps: { span: 16 },
               formItemProps: {
                 // 3 / 16 = 0.1875
                 labelCol: { flex: '0 0 18.75%' },

@@ -23,11 +23,19 @@ Antd Upload 组件的属性可以透传给 FormUpload, 另外还可认在 Settin
 
 <code src="./show/index.tsx"></code>
 
-### 数据收集
+### 数据处理和收集-ConverValue-Transform
 
-假设表单提交时后台接的是 fileIds, 然后详情接口返回的是 fileList
+```js
+// 假设后端返回的数据是:
+[
+  { id: 1, fileName: '文件A', filePath: 'www.xx.com/xx' },
+  { id: 2, fileName: '文件B', filePath: 'www.xx.com/xx' },
+];
 
-利用 convertValue, transform, responseToFileList 就可以处理这种情况.
+// 提交给后端的数据是fileIds: '1,2'
+```
+
+使用 `convertValue`, `transform`, `responseToFileList` 可以处理这种情况.
 
 <code src="./dataSubmit/index.tsx"></code>
 

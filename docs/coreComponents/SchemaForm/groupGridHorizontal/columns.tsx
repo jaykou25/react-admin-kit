@@ -4,6 +4,8 @@ export const columns = [
   {
     title: '基本信息',
     valueType: 'group',
+
+    // 👇这是设置给外层的👇
     colProps: { span: 11 },
     columns: [
       {
@@ -41,11 +43,15 @@ export const columns = [
       </div>
     ),
     fieldProps: { style: { width: '100%' } },
+
+    // 👇这是设置给外层的👇
     colProps: { span: 2, style: { alignSelf: 'center' } },
   },
   {
     title: '额外信息',
     valueType: 'group',
+
+    // 👇这是设置给外层的👇
     colProps: { span: 11 },
     columns: [
       {

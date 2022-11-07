@@ -1,7 +1,7 @@
 import { SchemaForm } from 'react-admin-kit';
 import { Button } from 'antd';
 import { getColumns } from './columns';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import type { FormInstance } from 'antd';
 
@@ -25,7 +25,7 @@ const InitValueDemo = () => {
       <div style={{ textAlign: 'end' }}>
         <Button
           style={{ marginRight: '10px' }}
-          onClick={() => formRef.current?.setFieldsValue({ showPhone: 1 })}
+          onClick={() => formRef.current?.setFieldsValue({ showPhone: 1, phone: 15800012345 })}
         >
           赋值
         </Button>

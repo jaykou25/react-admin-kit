@@ -13,7 +13,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     readonly = false,
     submitter = false,
     columns = [],
-    valueName,
+    valueBaseName,
     initialValues,
     onFinish,
     ...rest
@@ -23,19 +23,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    * 全局默认设置
    */
   const setting = useContext(SchemaFormContext) || {};
-  console.log('schemaFormsetting', setting);
 
   const $columns = readonly ? columns.map((col) => ({ ...col, readonly: true })) : columns;
-
-  // 处理套嵌数据结构
-  if (valueName) {
-    $columns.forEach((col) => {
-      const { dataIndex } = col;
-      if (typeof dataIndex === 'string') {
-        col.dataIndex = [valueName, dataIndex];
-      }
-    });
-  }
 
   const handleOnFinish = (values) => {
     if (onFinish) {
@@ -53,20 +42,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     if (grid) {
       return (
         <Row {...rowProps}>
-          {genItems($columns, 'form', formInstance, labelCol).map((itemObj) => {
-            const { dom, item } = itemObj;
-
-            return (
-              <Col key={item.dataIndex || item.name} {...colProps} {...item.colProps}>
-                {dom}
-              </Col>
-            );
-          })}
+          {genItems($columns, 'form', formInstance, { labelCol, valueBaseName, colProps, grid })}
         </Row>
       );
     }
 
-    return genItems($columns, 'form', formInstance, labelCol).map((itemObj) => itemObj.dom);
+    return genItems($columns, 'form', formInstance, { labelCol, valueBaseName });
   }
 
   return (

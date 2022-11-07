@@ -6,6 +6,8 @@ export const columns = [
       {
         title: '用户名',
         dataIndex: 'username',
+
+        // 👇这是设置给里层的👇
         colProps: { span: 24 },
         formItemProps: {
           rules: [
@@ -19,6 +21,8 @@ export const columns = [
       {
         title: '电话',
         dataIndex: 'phone',
+
+        // 👇这是设置给里层的👇
         colProps: { span: 24 },
         formItemProps: {
           rules: [
@@ -53,6 +57,8 @@ export const columns = [
       {
         title: '性别',
         dataIndex: 'sex',
+
+        // 👇这是设置给里层的👇
         colProps: { span: 12 },
         valueEnum: {
           男: { text: '男' },
@@ -62,6 +68,8 @@ export const columns = [
       {
         title: '身份证号',
         dataIndex: 'idNumber',
+
+        // 👇这是设置给里层的👇
         colProps: { span: 12 },
         formItemProps: {
           rules: [

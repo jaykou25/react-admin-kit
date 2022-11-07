@@ -1,6 +1,5 @@
-import { SchemaForm } from '../../../../src/index';
+import { ProForm, SchemaForm } from 'react-admin-kit';
 import { Button, Card } from 'antd';
-import { ProForm } from '@ant-design/pro-form';
 import { getBaseColumns } from './baseColumns';
 import getBusinessColumns from './businessColumns';
 import { useRef, useState } from 'react';
@@ -53,7 +52,7 @@ const Embed = () => {
             colProps={{ span: 8 }}
             labelCol={{ span: 9 }}
             columns={getBaseColumns()}
-            valueName="base"
+            valueBaseName="base"
             readonly={readonly}
           />
         </Card>
@@ -63,7 +62,7 @@ const Embed = () => {
             embed
             columns={getBusinessColumns()}
             labelCol={{ span: 3 }}
-            valueName="business"
+            valueBaseName="business"
             readonly={readonly}
           />
         </Card>
