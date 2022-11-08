@@ -130,13 +130,15 @@ grid 模式可以任意控制每个 FormItem 所占的空间
   { id: 2, fileName: '文件B', filePath: 'www.xx.com/xx' },
 ];
 
-// 提交给后端的数据是fileIds: '1,2'
+// 提交给后端的数据需要是fileIds: '1,2'
 
 ```
 
-Schema 中的 convertValue 和 tranform 字段就可以应对这个场景.
+Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 请参考 FormUpload 组件中的[这个例子](/components/form-upload#数据收集).
+
+<code src="../../components/FormUpload/dataSubmit/index"></code>
 
 ### SchemaForm 自定义的 API
 

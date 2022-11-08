@@ -12,7 +12,7 @@ order: 0
 
 然而, ProComponent 还是存在着一些问题, 或者说它总是达不到像 Antd 一样的使用体验. 究其原因, 对我而言, 是在文档的阅读和组件的选择上需要较多的时间成本...
 
-我们只想把视角聚焦在两个点上, 表格(Table)和表单(Form), 也是 admin 系统使用最多的页面结构, 以 schema 为核心把 Table 和 Form 串联起来. 并以此衍生出一些其它的组件.
+我们只想把视角聚焦在两个点上, 表格(Table)和表单(Form), 也是 admin 系统中使用最多的页面结构, 以 schema 为核心把 Table 和 Form 串联起来. 并以此衍生出一些其它的组件.
 
 如果你是 ProComponent 用户, 那大部分的 api 都可以透传给 RAK. 如果你之前未使用过 ProComponent, 那也完全可以直接通过 RAK 的用例和文档来开始使用, 渐近式的使用其它的 api.
 
@@ -61,7 +61,7 @@ const Demo = () => {
 };
 ```
 
-### 核心 Schema
+### 核心 Schema 介绍
 
 RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表格(Table). 甚至同一个 Schema 即会被用在表单场景也会被用在表格场景(ProTable).
 
@@ -74,19 +74,20 @@ RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表
   title: '部门',
   dataIndex: 'dept',
 
-  // 根据不同的valueType生成不同的表单控件
+  // 根据不同的valueType生成不同的表单控件.
   valueType: 'select',
 
-  // 传给formItem的属性
-  formItemProps: {
-    rules: [
-      {
-        required: true
-      }
-    ]
-  },
+  // valueType更多可选的值可参见(https://procomponents.ant.design/components/schema/#api)
 
-  // 传给表单控件的属性, 默认控件为Input
+  // 如果valueType为select, checkbox, radio等类型, 选项可以通过fieldProps传进去
+  fieldProps: {
+    options: [
+      {label: '选项A', value: 'A'},
+      {label: '选项B', value: 'B'},
+    ]
+  }
+
+  // fieldProps还可以给表单控件传入其它属性
   fieldProps: (form) =>  ({
     style: {width: '100%'},
     placeholder: '请选择部门'
@@ -94,6 +95,15 @@ RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表
       console.log({val})
     }
   }),
+
+  // formItemProps是传给formItem的属性, 比如是否必选
+  formItemProps: {
+    rules: [
+      {
+        required: true
+      }
+    ]
+  },
 
   // 自定义表单控件
   renderFormItem: () => {
@@ -115,17 +125,25 @@ RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表
   title: '部门',
   dataIndex: 'dept',
 
-  // 根据不同的type映射不同的值
+  // valueType跟表单场景的一致
   valueType: 'select',
 
-  // 自定表格项上的文字显示; renderText会保留省略号, 图标等
+  // renderText用于自定义表格上的文字显示; renderText会保留省略号, 图标等
   renderText: (text, record) => {
     return text
   }
 
-  // 完全自定义表格项显示
-  render: (text, record) => {
-    return text
+  // render可以完全自定义表格上的显示; 它的第一个参数是一个ReactNode, 它里面包含了省略号, 复制图标等内容.
+  render: (dom, record) => {
+    return dom
   }
 }
 ```
+
+所以核心组件的描述就很简单:
+
+- `SchemaForm`: 用 Schema 生成 Form
+- `ModalForm`: Modal + SchemaForm
+- `ProTable`: Antd ProTable + ModalForm
+
+所以在`ModalForm`中可以透传`SchemaForm`的属性. 在`ProTable`中可以透传`Modal`和`SchemaForm`的属性.

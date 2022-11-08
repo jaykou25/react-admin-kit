@@ -13,8 +13,10 @@ group:
 
 <code src="./basic/index.tsx"></code>
 
-- 用 innerRef 来控制弹窗的打开以及赋初始值
-- columns 里的`render`方法增加了 innerRef, 用来控制弹窗的打开和赋值
+ProTable 中新增了 innerRef 属性
+
+- 用 innerRef 可以控制弹窗的打开以及赋初始值
+- columns 里的`render`方法同时增加了 innerRef, 用来控制弹窗的打开和赋值
 
 ```js
 {
@@ -26,8 +28,10 @@ group:
 }
 ```
 
+ProTable 同时集成了删除功能
+
 - 传入 delFunction 并且开启 rowSelection 后, 自动支持批量删除功能
-- 传入 delFunction 并且 columns 里开启删除后, 操作列自动支持删除. 默认关闭
+- 传入 delFunction 并且 columns 里开启删除后, 操作列自动支持删除. 该功能默认关闭
 
 ```js
 {
@@ -45,11 +49,25 @@ group:
 }
 ```
 
+### renderText 与 render
+
+在 ProTable 里`render`跟`renderText`很容易混淆.
+
+`renderText`更接近于 Antd Table 的 render, 但是必需返回 string. 最终在表格上显示的时候会把省略号, 复制图标等内容拼接上去.
+
+`render`可以完全自定义内容的显示. 但是它的第一个参数是`dom`而不是`text`, 这个需要注意. 这个 dom 里包含了省略号和复制图标等内容.
+
+<code src="./renderText/index.tsx"></code>
+
 ### 更改弹窗表单的布局
+
+`formProps`属性里传入的值即是`SchemaForm`中的属性.
 
 <code src="./modalFormLayout/index.tsx"></code>
 
-### 只读模式
+### 弹窗只读模式
+
+`innerRef.current?.openModal('read', initialData)`
 
 <code src="./readonly/index.tsx"></code>
 
@@ -87,6 +105,8 @@ group:
 | onFinish | 点击弹窗确认按钮后的回调 | (values, formType, formData) => Promise\<any\> \| void | - |
 | onOpen | 打开弹窗后的回调 | (formType, formRef, formData) => Promise \| void | - |
 | tableAlertOption | tableAlertOption 区域的选项, 这里面集成了删除, 导出等功能 | [TableAlertOption](/core-components/pro-table#tablealertoption) | `{ hideDelete: false, hideExport: true }` |
+| modalProps | 传给 Modal 的属性 | [ModalProps](https://ant.design/components/modal-cn/#API) | - |
+| formProps | 传给 SchemaForm 的属性 | [SchemaFormProps](/core-components/schema-form#schemaform-自定义的-api) | - |
 
 #### TableAlertOption
 
@@ -97,9 +117,9 @@ group:
 | exportName | 导出文件的名字       | string           | 默认以 ProTable 的 name 属性为导出文件名 |
 | actions    | 定义该区域额外的按钮 | Array[ReactNode] | -                                        |
 
-### 表格场景的 Schema
+### 表格场景的 Schema 定义. 更多请查看[文档](https://procomponents.ant.design/components/table#columns-%E5%88%97%E5%AE%9A%E4%B9%89)
 
-列举在 Table 模式下特有的. Form 模式的请参考[SchemaForm](/core-components/schema-form#表单场景的-schema)
+只列举在 Table 模式下特有的. Form 模式的请参考[SchemaForm](/core-components/schema-form#表单场景的-schema)
 
 | 参数         | 说明               | 类型                     | 默认值 |
 | ------------ | ------------------ | ------------------------ | ------ |

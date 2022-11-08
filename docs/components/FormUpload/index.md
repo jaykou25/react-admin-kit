@@ -25,6 +25,8 @@ Antd Upload 组件的属性可以透传给 FormUpload, 另外还可认在 Settin
 
 ### 数据处理和收集-ConverValue-Transform
 
+有时后端返回的数据并不符合组件显示的要求
+
 ```js
 // 假设后端返回的数据是:
 [
@@ -32,16 +34,16 @@ Antd Upload 组件的属性可以透传给 FormUpload, 另外还可认在 Settin
   { id: 2, fileName: '文件B', filePath: 'www.xx.com/xx' },
 ];
 
-// 提交给后端的数据是fileIds: '1,2'
+// 提交给后端的数据需要是fileIds: '1,2'
 ```
 
-使用 `convertValue`, `transform`, `responseToFileList` 可以处理这种情况.
+可以使用 `convertValue`, `transform`, `responseToFileList` 来处理这种情况.
 
 <code src="./dataSubmit/index.tsx"></code>
 
 ### 更改取值字段
 
-如果每个 FormUpload 都使用 convertValue 还是会稍显麻烦. 好在我们可以在全局设置取值字段
+如果每个 FormUpload 都使用 `convertValue` 还是会稍显麻烦. 好在我们可以在全局更改取值字段
 
 <code src="./changeKey/index.tsx"></code>
 
