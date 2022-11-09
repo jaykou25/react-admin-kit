@@ -151,6 +151,15 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       return;
     }
 
+    /**
+     * 0.1.21
+     * 2022-11-9
+     * 改进: 搜索后如果用户进行了选择, 搜索值要清空
+     */
+    if (val && this.state.searchValue) {
+      this.reset();
+    }
+
     if (onChange) {
       onChange(
         val,
@@ -235,8 +244,8 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     const {
       type,
       loadFunction,
-      labelKey,
-      valueKey,
+      labelKey = 'name',
+      valueKey = 'id',
       renderLabel,
       onChange,
       queryParams,

@@ -23,7 +23,7 @@ function BusinessTreeSelectBuilder<Type extends string>({
   window[CacheStatusName] = {};
 
   return (props: BusinessTreeSelectProps<Type>) => {
-    const { type, valueKey, labelKey, ...rest } = props;
+    const { type, ...rest } = props;
 
     const target = apis.find((item) => item.type === type);
 
@@ -35,9 +35,6 @@ function BusinessTreeSelectBuilder<Type extends string>({
         {...defaultProps}
         {...(target.defaultProps || {})}
         loadFunction={target.api}
-        noCache={target.noCache}
-        valueKey={valueKey || target.valueKey || 'id'}
-        labelKey={labelKey || target.labelKey || 'name'}
         {...rest}
       />
     );

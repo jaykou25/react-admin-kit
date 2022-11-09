@@ -11,7 +11,7 @@ export const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>({
       type: 'company',
     },
     {
-      api: (params) => queryDept(params),
+      api: queryDept,
       type: 'dept',
     },
   ],

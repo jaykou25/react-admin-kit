@@ -17,22 +17,7 @@ export type ApiType = {
    */
   type: string;
   /**
-   * @description       select label的默认读取字段
-   * @default           'name'
-   */
-  labelKey?: string;
-  /**
-   * @description       select value的默认读取字段
-   * @default           'id'
-   */
-  valueKey?: string;
-  /**
-   * @description       不缓存数据
-   * @default           false
-   */
-  noCache?: boolean;
-  /**
-   * @description       是否分页; 如果分页api接口会抛出查询参数
+   * @description      是否分页
    * @default           false
    */
   pagination?: boolean;
@@ -40,7 +25,7 @@ export type ApiType = {
    * @description       默认属性, 优先级更高
    * @default           '-'
    */
-  defaultProps?: SelectProps;
+  defaultProps?: Omit<BusinessSelectProps<string>, 'type'>;
 };
 
 export type BusinessSelectBuilderProps = {
@@ -54,7 +39,7 @@ export type BusinessSelectBuilderProps = {
    * @description       默认属性;
    * @default           '-'
    */
-  defaultProps?: SelectProps;
+  defaultProps?: Omit<BusinessSelectProps<string>, 'type'>;
 };
 
 export interface BusinessSelectSelfProps<Type> {
@@ -65,12 +50,12 @@ export interface BusinessSelectSelfProps<Type> {
   type: Type;
   /**
    * @description       label的读取字段. 优先级高于builder中的labelKey
-   * @default           -
+   * @default           name
    */
   labelKey?: string;
   /**
    * @description       value的读取字段. 优先级高于builder中的valueKey
-   * @default           -
+   * @default           id
    */
   valueKey?: string;
   /**

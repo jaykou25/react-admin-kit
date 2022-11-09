@@ -143,8 +143,8 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     const {
       type,
       loadFunction,
-      labelKey,
-      valueKey,
+      labelKey = 'name',
+      valueKey = 'id',
       renderLabel,
       onChange,
       queryParams,

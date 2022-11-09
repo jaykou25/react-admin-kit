@@ -15,13 +15,13 @@ export const queryColor = () => {
 export const queryBrand = (params) => {
   console.log('qeryBrand', { params });
   const data: any = [];
-  const brands = ['apple', 'google', 'ant', 'mi'];
+  const brands = ['苹果', '谷歌', '华为', '小米', '蚂蚁'];
 
   if (params.searchValue) {
-    data.push({ name: params.searchValue, id: -1 });
+    data.push({ name: params.searchValue, id: -Math.random() });
   } else {
     for (let i = 0; i < 10; i++) {
-      const index = i % 4;
+      const index = i % 5;
       data.push({ name: brands[index], id: Math.random() });
     }
   }

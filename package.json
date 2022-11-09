@@ -2,7 +2,7 @@
   "private": false,
   "name": "react-admin-kit",
   "description": "A react based UI components for admin system",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "license": "MIT",
   "homepage": "https://jaykou25.github.io/react-admin-kit/",
   "bugs": {

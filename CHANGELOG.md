@@ -102,3 +102,8 @@
 ## 0.1.20
 
 - 修改 LinkButton type
+
+## 0.1.21
+
+- 调整 BusinessSelectBuilder 的 api
+- 调整 BusinessTreeSelectBuilder 的 api
