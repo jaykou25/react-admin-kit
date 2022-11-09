@@ -11,26 +11,12 @@ export type ApiType = {
    * @default           '-'
    */
   type: string;
-  /**
-   * @description        label的默认读取字段
-   * @default           'name'
-   */
-  labelKey?: string;
-  /**
-   * @description        value的默认读取字段
-   * @default           'id'
-   */
-  valueKey?: string;
-  /**
-   * @description       不缓存数据
-   * @default           false
-   */
-  noCache?: boolean;
+
   /**
    * @description       默认属性, 优先级更高
    * @default           '-'
    */
-  defaultProps?: TreeSelectProps;
+  defaultProps?: Omit<BusinessTreeSelectProps<string>, 'type'>;
 };
 
 export type BusinessTreeSelectBuilderProps = {
@@ -43,7 +29,7 @@ export type BusinessTreeSelectBuilderProps = {
    * @description       默认属性;
    * @default
    */
-  defaultProps?: TreeSelectProps;
+  defaultProps?: Omit<BusinessTreeSelectProps<string>, 'type'>;
 };
 
 export interface BusinessTreeSelectSelfProps<Type> {

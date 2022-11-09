@@ -63,7 +63,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
   };
 
   loadDataForCache = () => {
-    const { type, loadFunction, valueKey, labelKey } = this.props;
+    const { type, loadFunction, valueKey = 'id', labelKey = 'name' } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
     if (window[CacheStatusName][type]) {
@@ -93,7 +93,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
   };
 
   loadDataWithoutCache = () => {
-    const { loadFunction, queryParams, valueKey, labelKey } = this.props;
+    const { loadFunction, queryParams, valueKey = 'id', labelKey = 'name' } = this.props;
 
     this.setState({ loading: true });
     loadFunction(queryParams)
@@ -112,8 +112,8 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
       type,
       loadFunction,
       nodeDisabled,
-      labelKey,
-      valueKey,
+      labelKey = 'name',
+      valueKey = 'id',
       style = {},
       value,
       onChange,

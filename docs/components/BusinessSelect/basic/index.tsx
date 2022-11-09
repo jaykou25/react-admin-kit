@@ -10,8 +10,6 @@ export const BusinessSelect = BusinessSelectBuilder<SelectType>({
       api: queryColor,
       type: 'color',
       pagination: false,
-      labelKey: 'name',
-      valueKey: 'id',
     },
     {
       api: queryBrand,
@@ -36,16 +34,21 @@ const Basic = () => {
         colProps={{ span: 8 }}
         onFinish={(values) => console.log({ values })}
         autoFocusFirstInput={false}
+        submitter={{}}
         columns={[
           {
             title: '颜色-不分页',
+            dataIndex: 'color',
             renderFormItem: () => {
               return <BusinessSelect type="color" placeholder="请选择颜色" />;
             },
           },
           {
             title: '品牌-分页(带搜索)',
-            renderFormItem: () => <BusinessSelect type="brand" placeholder="请选择品牌" />,
+            dataIndex: 'brand',
+            renderFormItem: () => (
+              <BusinessSelect labelInValue type="brand" placeholder="请选择品牌" />
+            ),
           },
         ]}
       />

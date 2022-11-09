@@ -103,6 +103,11 @@
 
 - 修改 LinkButton type
 
+## 0.1.21
+
+- 调整 BusinessSelectBuilder 的 api
+- 调整 BusinessTreeSelectBuilder 的 api
+
 ## 0.2.0 (api 名有修改)
 
 - 更改 SchemaForm 组件的 valueName 为 valueBaseName

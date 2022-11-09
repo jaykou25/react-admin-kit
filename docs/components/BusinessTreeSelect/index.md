@@ -32,13 +32,13 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 ### 基本的使用方法
 
-例子中部门会根据公司级联
+- 该例子中部门会根据公司级联
 
-和`BusinessSelect`一样, 同样支持`queryParams`, 可以传入请求参数.
+- 和`BusinessSelect`一样, 同样支持`queryParams`, 可以传入请求参数.
 
-数据同样会默认缓存.
+- 数据同样会默认缓存.
 
-`BusinessTreeSelect`可以透传 Antd TreeSelect 的所有属性.
+- `BusinessTreeSelect`可以透传 Antd TreeSelect 的所有属性.
 
 <code src="./basic/index.tsx"></code>
 
