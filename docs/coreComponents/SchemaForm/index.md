@@ -59,7 +59,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 <code src="./initValue/index.tsx"></code>
 
-### 内嵌模式 ⭐
+### ⭐ 内嵌模式
 
 对于复杂表单, 内嵌模式可以让每个区块单独设置布局, 同时通过设置`valueBaseName`, 数据也可以收集在各自的对象里.
 
@@ -140,6 +140,51 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 <code src="../../components/FormUpload/dataSubmit/index"></code>
 
+### ⭐ 数据处理和收集-约定式
+
+有一类组件我们除了要获取其 value 外还要获取它的显示文件(label), 像 Select, TreeSelect 等, 可以通过开启`labelInValue`解决, 此时组件需要接收一个对象 `{ label: string, value: string}`
+
+但是后台一般会把值分开给前端, 比如`{userId: 1, userName: 'jack'}`, 前端会把值拼成对象`{value: 1, label: 'jack'}`用于回显, 在表单提交时再把对象拆成字符串.
+
+这一类场景在实际应用中还是比较常见的, RAK 想通过对`dataIndex`的约定来简化这一流程.
+
+- 👉 如果`dataIndex`中包含`,`逗号, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会自动将其拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
+
+```js
+// 比如有一个表单项开启了labelInValue
+{
+  title: '用户',
+  dataIndex: 'userId,userName',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// RAK检测到dataIndex中含有逗号, 所以在表单提交时, values的值会自动转化成:
+{
+  userId: 1,
+  userName: 'jack'
+}
+
+// 不需要处理即可直接提交给后端.
+
+// 同时在表单回显时无需对后端数据进行处理, 直接使用initialValues或setFieldsValue即能回显数据.
+initialValues={{userId: 1, userName: 'jack'}}
+
+formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
+```
+
+- 如果组件接受对象的键值不是 value 和 label, 可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段时样用逗号隔开. 这种情况输入如果是`{userId: 1, userName: 'jack'}`会转换成`{id: 1, name: 'jack'}`
+
+<code src="./convention/index.tsx"></code>
+
+<code src="./conventionValueBaseName/index.tsx"></code>
+
 ### SchemaForm 自定义的 API
 
 <API exports='["Self"]' hideTitle src="../../../src/SchemaForm/index.tsx"></API>
@@ -148,9 +193,10 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 列举在 Form 模式下特有的
 
-| 参数     | 说明                                      | 类型   | 默认值 |
-| -------- | ----------------------------------------- | ------ | ------ |
-| colProps | 在 grid 模式下列所占的空间, 如 {span: 24} | object | -      |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| colProps | 在 grid 模式下列所占的空间, 如 {span: 24} | object | - |
+| dataIndex | 可使用约定模式自动处理值: userId,userName 或 userId,userName_id,name | string |  |
 
 ### 透传给 ProForm 的 API
 

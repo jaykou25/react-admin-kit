@@ -8,8 +8,9 @@ export { default as BusinessTreeSelectBuilder } from './BusinessTreeSelectBuilde
 export { clearTreeSelectCache } from './BusinessTreeSelectBuilder';
 export { default as SettingProvider } from './SettingProvider';
 export { default as Button } from './Button';
-export { ProForm } from '@ant-design/pro-form';
+export { default as ProForm } from './ProForm';
 export { default as FormUpload } from './FormUpload';
 
 export type { MyProColumnType as ProColumnType, InnerRefType } from './ProTable/types';
 export type { ModalFormInnerRefType } from './ModalForm/types';
+export type { ProFormInstance } from '@ant-design/pro-form';

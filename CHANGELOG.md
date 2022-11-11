@@ -111,4 +111,5 @@
 ## 0.2.0 (api 名有修改)
 
 - 更改 SchemaForm 组件的 valueName 为 valueBaseName
-- 修复 valueBaseName 有值时, valueType 为 dependency 时 columns 函数里 dataIndex 要处理 valueBaseName 值
+- 修复 当 valueBaseName 有值时, valueType 为 dependency 时 columns 函数里 dataIndex 要处理 valueBaseName 值
+- 增加表单的约定式处理, 大大简化数据处理流程
