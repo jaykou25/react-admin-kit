@@ -23,7 +23,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    * 全局默认设置
    */
   const setting = useContext(SchemaFormContext) || {};
-  console.log('schemaFormsetting', setting);
 
   const $columns = readonly ? columns.map((col) => ({ ...col, readonly: true })) : columns;
 

@@ -107,3 +107,7 @@
 
 - 调整 BusinessSelectBuilder 的 api
 - 调整 BusinessTreeSelectBuilder 的 api
+
+## 0.1.22
+
+- 移除掉多余的 console.log

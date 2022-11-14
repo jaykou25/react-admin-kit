@@ -31,8 +31,6 @@ function FormUpload(props: FormUploadProps) {
     ? value.map((val) => ({ ...val, name: val[$nameKey], url: val[$urlKey] }))
     : value;
 
-  console.log({ $value });
-
   const handleOnChange = (info) => {
     const fileList = [...info.fileList];
 
