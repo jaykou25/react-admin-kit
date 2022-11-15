@@ -23,14 +23,6 @@ export const columns = [
       {
         title: '电话',
         dataIndex: 'phone',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '电话为必填项',
-            },
-          ],
-        },
       },
     ],
   },
@@ -64,14 +56,6 @@ export const columns = [
       },
       {
         title: '身份证号',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '身份证为必填项',
-            },
-          ],
-        },
         dataIndex: 'idNumber',
       },
     ],

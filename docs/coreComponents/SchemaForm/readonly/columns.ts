@@ -9,7 +9,7 @@ export const columns = [
   },
   {
     fieldProps: { hidden: true },
-    render: () => '',
+    render: () => null,
   },
   {
     title: '负责人',
@@ -22,11 +22,11 @@ export const columns = [
   {
     title: '自定义',
     dataIndex: 'mail',
-    render: (text, record) => {
+    render: (dom, record) => {
       if (record.mode === 'read') {
         return '📧' + record.value;
       }
-      return text;
+      return dom;
     },
   },
 ];

@@ -15,22 +15,6 @@ export const getBaseColumns = () => {
       },
     },
     {
-      title: '电话',
-      dataIndex: 'phone',
-    },
-    {
-      title: '出生日期',
-      dataIndex: 'birthday',
-      valueType: 'dateMonth',
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex',
-      fieldProps: {
-        options: ['男', '女'],
-      },
-    },
-    {
       valueType: 'dependency',
       // 👇这里是一个套嵌数组, 因为valueBaseName是business👇
       name: [['business', 'serviceName']],
@@ -49,8 +33,25 @@ export const getBaseColumns = () => {
                 labelCol: { flex: '0 0 18.75%' },
               },
             },
+            { fieldProps: { hidden: true } },
           ];
         }
+      },
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '出生日期',
+      dataIndex: 'birthday',
+      valueType: 'dateMonth',
+    },
+    {
+      title: '性别',
+      dataIndex: 'sex',
+      fieldProps: {
+        options: ['男', '女'],
       },
     },
   ];

@@ -18,7 +18,6 @@ const GroupGridHorizontal = () => {
         // 👇这是设置给外层的👇
         grid
         rowProps={{ align: 'top' }}
-        colProps={{ span: 12 }}
         // 👆这是设置给外层的👆
         onFinish={onFinish}
         formRef={formRef}

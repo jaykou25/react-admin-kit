@@ -59,6 +59,17 @@ const getBusinessColumns = () => [
         ]}
       />
     ),
+    render: (text) => {
+      if (text === '1') {
+        return '不需要身份证业务';
+      }
+
+      if (text === '2') {
+        return '需要身份证业务';
+      }
+
+      return '-';
+    },
   },
 ];
 

@@ -38,7 +38,13 @@ const Embed = () => {
 
   return (
     <div>
-      <ProForm layout="horizontal" onFinish={onFinish} submitter={false} formRef={formRef}>
+      <ProForm
+        layout="horizontal"
+        onFinish={onFinish}
+        submitter={false}
+        formRef={formRef}
+        readonly={readonly} // 也可以单独设在某个SchemaForm上
+      >
         <Card
           style={{ marginBottom: '24px' }}
           size="small"
@@ -53,7 +59,6 @@ const Embed = () => {
             labelCol={{ span: 9 }}
             columns={getBaseColumns()}
             valueBaseName="base"
-            readonly={readonly}
           />
         </Card>
 
@@ -63,7 +68,6 @@ const Embed = () => {
             columns={getBusinessColumns()}
             labelCol={{ span: 3 }}
             valueBaseName="business"
-            readonly={readonly}
           />
         </Card>
       </ProForm>

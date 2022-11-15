@@ -92,8 +92,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    */
   const setting = useContext(SchemaFormContext) || {};
 
-  const $columns = readonly ? columns.map((col) => ({ ...col, readonly: true })) : columns;
-
   const handleOnFinish = (values) => {
     if (onFinish) {
       return onFinish(splitValues(values));
@@ -110,12 +108,18 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     if (grid) {
       return (
         <Row {...rowProps}>
-          {genItems($columns, 'form', formInstance, { labelCol, valueBaseName, colProps, grid })}
+          {genItems(columns, 'form', formInstance, {
+            labelCol,
+            valueBaseName,
+            colProps,
+            grid,
+            readonly,
+          })}
         </Row>
       );
     }
 
-    return genItems($columns, 'form', formInstance, { labelCol, valueBaseName });
+    return genItems(columns, 'form', formInstance, { labelCol, valueBaseName, readonly });
   }
 
   return (
@@ -124,8 +128,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       onFinish={handleOnFinish}
       submitter={submitter}
       formRef={formRef}
+      readonly={readonly}
       {...rest}
-      columns={$columns}
+      columns={columns}
       layoutType={'Form'}
     />
   );

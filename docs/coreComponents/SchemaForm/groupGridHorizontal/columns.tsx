@@ -1,4 +1,4 @@
-import { Divider, Space } from 'antd';
+import { Divider } from 'antd';
 
 export const columns = [
   {

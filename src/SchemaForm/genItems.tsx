@@ -8,7 +8,14 @@ import { Col } from 'antd';
  *
  */
 export const genItems = (items, type = 'form', formInstance, options: any = {}) => {
-  const { returnDom = false, labelCol = {}, valueBaseName, grid, colProps = {} } = options;
+  const {
+    returnDom = false,
+    labelCol = {},
+    valueBaseName,
+    grid,
+    colProps = {},
+    readonly = false,
+  } = options;
   return items
     .filter((originItem) => {
       return !(originItem.hideInForm && type === 'form');
@@ -56,7 +63,7 @@ export const genItems = (items, type = 'form', formInstance, options: any = {}) 
         initialValue: originItem.initialValue,
         width: originItem.width,
         index: originItem.index,
-        readonly: originItem.readonly,
+        readonly: originItem.readonly || readonly,
         colSize: originItem.colSize,
         colProps: originItem.colProps,
         rowProps: originItem.rowProps,
@@ -89,7 +96,7 @@ export const genItems = (items, type = 'form', formInstance, options: any = {}) 
         originItem,
         formRef: { current: formInstance },
         genItems: (items, type, form) =>
-          genItems(items, type, form, { labelCol, valueBaseName, grid, colProps }),
+          genItems(items, type, form, { labelCol, valueBaseName, grid, colProps, readonly }),
       });
 
       if (grid && dom && item.valueType !== 'dependency') {

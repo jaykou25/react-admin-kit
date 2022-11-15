@@ -1,12 +1,14 @@
 import { SchemaForm } from 'react-admin-kit';
 import { Button } from 'antd';
 import { getColumns } from './columns';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import type { FormInstance } from 'antd';
 
 const InitValueDemo = () => {
   const formRef = useRef<FormInstance>();
+
+  const [readonly, setReadonly] = useState(false);
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -20,9 +22,13 @@ const InitValueDemo = () => {
         columns={getColumns()}
         autoFocusFirstInput={false}
         initialValues={{ showPhone: 0 }}
+        readonly={readonly}
       />
 
       <div style={{ textAlign: 'end' }}>
+        <Button style={{ marginRight: '10px' }} onClick={() => setReadonly(!readonly)}>
+          切换只读
+        </Button>
         <Button
           style={{ marginRight: '10px' }}
           onClick={() => formRef.current?.setFieldsValue({ showPhone: 1, phone: 15800012345 })}

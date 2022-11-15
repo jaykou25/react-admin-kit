@@ -1,5 +1,4 @@
-import { SchemaForm, ProForm } from 'react-admin-kit';
-import { Button } from 'antd';
+import { SchemaForm, ProForm, Button } from 'react-admin-kit';
 import { columns } from './columns';
 import { useRef } from 'react';
 

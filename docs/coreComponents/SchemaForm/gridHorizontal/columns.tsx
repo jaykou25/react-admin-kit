@@ -17,6 +17,8 @@ export const getColumns = () => [
     title: '电话',
     dataIndex: 'phone',
     formItemProps: {
+      // labelCol可以在SchemaForm上整体设定
+      labelCol: { span: 9 },
       rules: [
         {
           required: true,
@@ -28,6 +30,7 @@ export const getColumns = () => [
   {
     title: '昵称',
     formItemProps: {
+      // labelCol已在SchemaForm上整体设定
       rules: [
         {
           required: true,
@@ -40,7 +43,9 @@ export const getColumns = () => [
   {
     title: '性别',
     dataIndex: 'sex',
-    formItemProps: {},
+    formItemProps: {
+      // labelCol已在SchemaForm上整体设定
+    },
     valueEnum: {
       男: { text: '男' },
       女: { text: '女' },

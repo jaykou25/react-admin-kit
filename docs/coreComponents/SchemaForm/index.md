@@ -31,13 +31,25 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 ### grid 模式(水平方向)
 
-该例子中保持 label 的固定宽度比较困难, 第一行占 24, 第二行每个表单项占 8, 第三行占 16. 可以在 columns 的 formItemProps 里单独指定每个表单项的 labelCol.
+设成水平方向时, 如果需要保持 label 的固定宽度会比较麻烦.
 
-有的时候 span 计算出来可能不是整数, 以这个例子为例, 第三行如果要保持跟第一第二行一样的 label 宽度, span 计算出来是 4.5, 这种情况可以改传 flex 来达到效果.
+以这个例子为例, 第一行表单项独占 24, 第二行每个表单项占 8, 第三行表单项占 16. 要实现 label 宽度固定就需要对每个表单项单独指定 `labelCol`.
+
+`labelCol`可以在 SchemaForm 上指定, 也可以在 schema 的 formItemProps 里指定, 后者的优先级更高.
+
+`labelCol`的值是以所在表单项的宽度为 24 分来算出的比例值. 所以如果表单项的宽度不同, `labelCol`的值需要经过一定的计算. 一般先以最窄的表单项为基准, 设定好它的`labelCol`, 再计算其它表单项的`labelCol`, 来使他们的 label 宽保持相等.
+
+以这个例子为例, 先设定第二行的`labelCol`为`{span: 9}`, 可算出 label 的宽度为 9/24 \* 8 = 3. 代表在整行中占 3 份.
+
+所以第一行的`labelCol`可以设成`{span: 3}`
+
+第三行因为表单项占 16 份, 所以`labelCol`应该设成`{span: 4.5}`. 4.5/24 \* 16 = 3. 但是 span 值只能是整数. 可以改传 flex, `flex: 0 0 18.75%`. 3/16 = 0.1875. [参考 grid 组件](https://ant.design/components/grid-cn/#components-grid-demo-flex-stretch)
 
 <code src="./gridHorizontal/index.tsx"></code>
 
 ### 空白占位
+
+需要强制换行时可用空白占位.
 
 <code src="./placeholder/index.tsx"></code>
 
@@ -45,7 +57,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 只读模式下自定义显示走的`render`方法.
 
-空白占位请使用`render: () => ''`
+空白占位请使用`render: () => null`
 
 <code src="./readonly/index.tsx"></code>
 
@@ -90,7 +102,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 当 valueType 为 group 时即开启分组模式. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
 
-默认情况下这些表单项是以[Space](https://ant.design/components/space-cn/#API)组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 api
+默认情况下这些表单项是以[Space](https://ant.design/components/space-cn/#API)组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#API)
 
 <code src="./group/index.tsx"></code>
 
@@ -142,11 +154,11 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 ### ⭐ 数据处理和收集-约定式
 
-有一类组件我们除了要获取其 value 外还要获取它的显示文件(label), 像 Select, TreeSelect 等, 可以通过开启`labelInValue`解决, 此时组件需要接收一个对象 `{ label: string, value: string}`
+还有一类组件我们除了要获取其 value 外还要获取它的显示文本(label), 像 Select, TreeSelect 等, 可以通过开启`labelInValue`解决, 此时组件需要接收一个对象 `{ label: string, value: string}`
 
 但是后台一般会把值分开给前端, 比如`{userId: 1, userName: 'jack'}`, 前端会把值拼成对象`{value: 1, label: 'jack'}`用于回显, 在表单提交时再把对象拆成字符串.
 
-这一类场景在实际应用中还是比较常见的, RAK 想通过对`dataIndex`的约定来简化这一流程.
+这一类场景在实际应用中还是比较常见的. RAK 想通过对`dataIndex`的约定来简化这一流程.
 
 - 👉 如果`dataIndex`中包含`,`逗号, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会自动将其拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
 
@@ -179,7 +191,7 @@ initialValues={{userId: 1, userName: 'jack'}}
 formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 ```
 
-- 如果组件接受对象的键值不是 value 和 label, 可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段时样用逗号隔开. 这种情况输入如果是`{userId: 1, userName: 'jack'}`会转换成`{id: 1, name: 'jack'}`
+- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段时样用逗号隔开. 这种情况的输入如果是`{userId: 1, userName: 'jack'}`则会转换成`{id: 1, name: 'jack'}`
 
 <code src="./convention/index.tsx"></code>
 
@@ -195,8 +207,12 @@ formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| colProps | 在 grid 模式下列所占的空间, 如 {span: 24} | object | - |
-| dataIndex | 可使用约定模式自动处理值: userId,userName 或 userId,userName_id,name | string |  |
+| colProps | 在 grid 模式下列所占的空间, 如 `{span: 24}` | `object` | - |
+| dataIndex | 可使用约定模式自动处理值: userId,userName 或 userId,userName_id,name; 可参考[约定式例子](/core-components/schema-form#-数据处理和收集-约定式) | `string` |  |
+| fieldProps | 传递给表单控件的属性 | `object \| (form) => object` | - |
+| formItemProps | 传递给 formItem 的属性 | `object` | - |
+| renderFormItem | 自定义表单控件 | `(schema, config, form) => dom` | - |
+| render | readonly 模式下自定义显示内容 | `(text, record, index) => dom` | - |
 
 ### 透传给 ProForm 的 API
 

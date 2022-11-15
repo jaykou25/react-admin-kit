@@ -12,6 +12,7 @@ export const getColumns = () => [
         ]}
       />
     ),
+    render: (text) => (text ? '是' : '否'),
   },
   {
     valueType: 'dependency',
