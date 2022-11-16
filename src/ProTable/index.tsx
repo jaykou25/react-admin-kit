@@ -1,4 +1,4 @@
-import { Component, createRef, useContext } from 'react';
+import { Component, createRef } from 'react';
 import produce from 'immer';
 import type { MyProColumnType, MyProTableType } from './types';
 
@@ -12,7 +12,6 @@ import { handleRequestParams } from './utils';
 import './styles.less';
 import cs from 'classnames';
 import { ProTableContext } from '../SettingProvider/context';
-import { ProTableSetting } from '../SettingProvider/types';
 import { ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
 import { exportAntTableToExcel } from '../utils/exceljs';
@@ -87,7 +86,12 @@ class ProTable extends Component<MyProTableType, any> {
     const { innerRef } = this.props;
     return produce($cols, (cols) => {
       cols.forEach((col: MyProColumnType) => {
-        const { renderFormItem, render } = col;
+        const { renderFormItem, render, fieldProps } = col;
+
+        // 给fieldProps增加ref参数
+        if (fieldProps && typeof fieldProps === 'function') {
+          col.fieldProps = (form) => fieldProps(form, innerRef);
+        }
 
         // 给renderFormItem增加ref参数
         if (renderFormItem) {

@@ -118,3 +118,7 @@
 - 增加表单的约定式处理, 大大简化数据处理流程
 - 修复 当 valueBaseName 有值时, valueType 为 dependency 时 columns 函数里 dataIndex 要处理 valueBaseName 值
 - 修复 readonly 模式下 dependency 的 columns 未处理
+
+### 0.2.1
+
+- 修复 SchemaForm 在设置 initialValues 时引起的 fields touched

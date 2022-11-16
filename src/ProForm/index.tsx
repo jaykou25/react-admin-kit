@@ -44,11 +44,12 @@ const ProForm = (props: ProFormProps) => {
    */
   useEffect(() => {
     if (initialValues && formRef.current) {
-      const { getFieldsValue, setFieldsValue, getInternalHooks } = formRef.current;
+      const { getFieldsValue, setFieldsValue, resetFields, getInternalHooks } = formRef.current;
       const { setInitialValues } = getInternalHooks('RC_FORM_INTERNAL_HOOKS');
       setConvertedFieldsValue(initialValues, {
         getFieldsValue,
         setFieldsValue,
+        resetFields,
         isInit: true,
         setInitialValues,
       });

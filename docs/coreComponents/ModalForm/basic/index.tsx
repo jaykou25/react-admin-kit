@@ -1,10 +1,9 @@
-import { ModalForm } from 'react-admin-kit';
-import { Button, Modal } from 'antd';
+import { ModalForm, Button } from 'react-admin-kit';
 import { columns } from './columns';
 import { useState } from 'react';
 
 const Basic = () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -13,15 +12,15 @@ const Basic = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => setVisible(true)}>
+        <Button type="primary" onClick={() => setOpen(true)}>
           打开弹窗
         </Button>
       </div>
 
       <ModalForm
         title={'基本表单'}
-        open={visible}
-        onCancel={() => setVisible(false)}
+        open={open}
+        onCancel={() => setOpen(false)}
         onFinish={onFinish}
         columns={columns}
       />

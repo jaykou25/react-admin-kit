@@ -12,18 +12,21 @@ import { convertValues, splitValues } from './utils';
 // 转换成约定式格式后重新赋值
 export const setConvertedFieldsValue = (
   values,
-  { isInit = false, getFieldsValue, setFieldsValue, setInitialValues }: any,
+  { isInit = false, getFieldsValue, setFieldsValue, setInitialValues, resetFields }: any,
 ) => {
   const setConverted = (final = false) => {
-    // 利用getFieldsValue来拿到所有的fields
+    // 利用getFieldsValue来拿到表单所有的fields
+    // 会调用两次, final为true时是第二次
     const originVals = getFieldsValue(true, () => {
       return true;
     });
     const convertedVals = convertValues(values, originVals);
 
-    // 存起来在resetFileds里用
     if (isInit && final && setInitialValues) {
       setInitialValues(convertedVals);
+      // 这里用resetFields而不是setFieldsValue(convertedVals)是因为后者引起touched
+      resetFields();
+      return;
     }
     setFieldsValue(convertedVals);
   };
@@ -76,11 +79,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    */
   useEffect(() => {
     if (initialValues && formRef.current) {
-      const { getFieldsValue, setFieldsValue, getInternalHooks } = formRef.current;
+      const { getFieldsValue, setFieldsValue, resetFields, getInternalHooks } = formRef.current;
       const { setInitialValues } = getInternalHooks('RC_FORM_INTERNAL_HOOKS');
       setConvertedFieldsValue(initialValues, {
         getFieldsValue,
         setFieldsValue,
+        resetFields,
         setInitialValues,
         isInit: true,
       });

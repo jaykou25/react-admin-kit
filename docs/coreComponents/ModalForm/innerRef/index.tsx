@@ -1,10 +1,11 @@
-import { ModalForm } from 'react-admin-kit';
-import { Button } from 'antd';
+import { ModalForm, Button } from 'react-admin-kit';
 import { columns } from './columns';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+
+import type { ModalFormInnerRefType } from 'react-admin-kit';
 
 const InnerRefDemo = () => {
-  const ref = useRef();
+  const ref = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any, formType, formData) => {
     console.log({ formType, values, formData });

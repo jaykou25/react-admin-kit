@@ -6,7 +6,9 @@ group:
 
 ## ModalForm - 弹窗表单
 
-通过 columns 生成一个弹窗表单.
+通过 schema 生成一个弹窗表单.
+
+这是 Modal 和 SchemaForm 的结合, 因此可以透传 Modal 和 SchemaForm 的 api.
 
 ### 一个基本的弹窗表单
 
@@ -14,9 +16,11 @@ group:
 
 ### 多列排布
 
+通过`formProps`传入 SchemaForm 的 api.
+
 <code src="./multipleCol/index.tsx"></code>
 
-### 长表单的滚动到所在项
+### 长表单校验时滚动到所在项
 
 <code src="./longForm/index.tsx"></code>
 
@@ -27,6 +31,8 @@ group:
 <code src="./innerRef/index.tsx"></code>
 
 ### 打开弹窗后请求数据后回显
+
+利用 formType 只在编辑和查看时才请求
 
 <code src="./onOpen/index.tsx"></code>
 
@@ -39,6 +45,18 @@ group:
 ### 只读模式
 
 <code src="./readonly/index.tsx"></code>
+
+### onFinish
+
+onFinish 回调有三个参数, 第一个参数是表单里收集到的值, 第二个参数是表单类型, 第三个参数是打开弹窗时赋给表单的初始值(这里可以携带一些额外数据比如 id 等).
+
+<code src="./onFinish/index.tsx"></code>
+
+### ⭐ 数据处理和收集-约定式
+
+与[SchemaForm 一样](/core-components/schema-form#-数据处理和收集-约定式), ModalForm 同样支持约定式数据处理.
+
+<code src="./convention/index.tsx"></code>
 
 ### ModalForm 自定义的 API
 

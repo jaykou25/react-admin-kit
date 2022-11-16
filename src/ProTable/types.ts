@@ -4,7 +4,7 @@ import type { ProTableProps, ProColumnsValueType } from '@ant-design/pro-table';
 import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaForm/typing';
 import type { ModalProps } from 'antd';
 import { SettingFormProps } from '../SettingProvider/types';
-import type { ProFormColumnsType } from '@ant-design/pro-form';
+import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ModalFormInnerRefType } from '..';
 import { FormType, ModalFormSelfProps } from '../ModalForm/types';
@@ -22,6 +22,10 @@ export type InnerRefType = {
   setData?: (vals: Record<string, any>) => void;
 } & ModalFormInnerRefType;
 
+type InnerRef =
+  | React.MutableRefObject<InnerRefType | undefined>
+  | React.RefObject<InnerRefType | undefined>;
+
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
   'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'editable'
@@ -31,7 +35,7 @@ export type MyProTableType = Omit<
   formColumns?: MyProColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
   onFinish?: (values: any, formType: FormType, formData: any) => Promise<any> | void;
   onOpen?: ModalFormSelfProps['onOpen'];
-  innerRef?: React.MutableRefObject<InnerRefType | undefined>;
+  innerRef?: InnerRef;
   /**
    * 传入这个函数, 组件就会自动集成多选删除功能.
    * 如果点击的是行上的删除, record是该行的数据, selectedIds是该行的id; 如果是多选后的删除, record是空对象
@@ -73,15 +77,16 @@ export type MyFieldType = ProColumnsValueType | FormFieldType;
 
 export type MyProColumnType<Type = string> = Omit<
   ProColumns,
-  'renderFormItem' | 'render' | 'editable' | 'valueType'
+  'renderFormItem' | 'render' | 'editable' | 'valueType' | 'fieldProps'
 > &
   ProFormColumnsType & {
     children?: MyProColumnType<Type>[];
     enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
-    renderFormItem?: (item, config, form, innerRef) => any;
-    render?: (text, record, index, actionRef, innerRef) => any;
+    renderFormItem?: (item, config, form, innerRef: InnerRef | undefined) => any;
+    render?: (text, record, index, actionRef, innerRef: InnerRef | undefined) => any;
     type?: Type | Type[];
     transform?: (vals) => any;
     valueType?: MyFieldType;
     renderExport?: (text, record) => string;
+    fieldProps?: (form: ProFormInstance, innerRef: InnerRef | undefined) => any;
   };

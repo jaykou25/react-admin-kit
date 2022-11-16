@@ -14,7 +14,20 @@ const OnOpenDemo = () => {
   const handleOnOpen = async (formType, formRef) => {
     if (formType === 'edit' || formType === 'read') {
       return requestData().then(() => {
-        formRef.current?.setFieldsValue({ username: '王先生', phone: 134 });
+        // 这里没有使用setFieldsValue()是不想引起field touched.
+        // ModalForm的属性confirmOnClose默认是true
+        formRef.current?.setFields([
+          {
+            name: 'username',
+            value: '王先生',
+            touched: false,
+          },
+          {
+            name: 'phone',
+            value: '15800018888',
+            touched: false,
+          },
+        ]);
       });
     }
   };

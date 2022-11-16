@@ -1,5 +1,5 @@
 import SchemaForm from '../SchemaForm';
-import { ConfigProvider, Modal } from 'antd';
+import { Modal } from 'antd';
 import { Component, createRef } from 'react';
 import type { FormInstance } from 'antd';
 
@@ -7,7 +7,6 @@ import omit from 'omit.js';
 
 import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
 
-import zhCN from 'antd/es/locale/zh_CN';
 import { ModalFormContext } from '../SettingProvider/context';
 
 class ModalForm extends Component<
@@ -57,11 +56,15 @@ class ModalForm extends Component<
 
   openModal = (formType: FormType, initialData) => {
     if (initialData) {
-      this.setState({ visible: true, formType, formData: initialData || {} });
+      this.setState({ visible: true, formType, formData: initialData });
       return;
     }
 
-    this.setState({ visible: true, formType });
+    this.setState({
+      visible: true,
+      formType,
+      formData: this.props.formProps?.initialValues || {},
+    });
   };
 
   onOk = () => {
@@ -151,32 +154,30 @@ class ModalForm extends Component<
     const modalRest = { ...settingModalProps, ...rest };
 
     return (
-      <ConfigProvider locale={zhCN}>
-        <Modal
-          destroyOnClose
-          bodyStyle={{
-            ...bodyStyle,
-            maxHeight: 'calc(100vh - 108px - 100px - 25px)',
-            overflow: 'auto',
-          }}
-          open={open ? open : this.state.visible}
-          {...modalRest}
-          onCancel={this.handleOnCancel}
-          onOk={this.onOk}
-          okButtonProps={{ loading: this.state.loading }}
-        >
-          <SchemaForm
-            scrollToFirstError={true}
-            formRef={this.formRef}
-            columns={this.getColumns()}
-            onFinish={this.onFinish}
-            autoFocusFirstInput={autoFocusFirstInput}
-            isKeyPressSubmit={isKeyPressSubmit}
-            initialValues={open ? initialValues : this.state.formData}
-            {...formRest}
-          />
-        </Modal>
-      </ConfigProvider>
+      <Modal
+        destroyOnClose
+        bodyStyle={{
+          ...bodyStyle,
+          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+          overflow: 'auto',
+        }}
+        open={open ? open : this.state.visible}
+        {...modalRest}
+        onCancel={this.handleOnCancel}
+        onOk={this.onOk}
+        okButtonProps={{ loading: this.state.loading }}
+      >
+        <SchemaForm
+          scrollToFirstError={true}
+          formRef={this.formRef}
+          columns={this.getColumns()}
+          onFinish={this.onFinish}
+          autoFocusFirstInput={autoFocusFirstInput}
+          isKeyPressSubmit={isKeyPressSubmit}
+          initialValues={open ? initialValues : { ...this.state.formData }}
+          {...formRest}
+        />
+      </Modal>
     );
   }
 }

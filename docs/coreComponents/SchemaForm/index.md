@@ -197,6 +197,8 @@ formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 
 <code src="./conventionValueBaseName/index.tsx"></code>
 
+<code src="./touch/index.tsx"></code>
+
 ### SchemaForm 自定义的 API
 
 <API exports='["Self"]' hideTitle src="../../../src/SchemaForm/index.tsx"></API>

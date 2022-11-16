@@ -1,10 +1,9 @@
-import { ModalForm } from 'react-admin-kit';
-import { Button, Modal } from 'antd';
+import { ModalForm, Button } from 'react-admin-kit';
 import { columns } from './columns';
 import { useState } from 'react';
 
 const MultipleCol = () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -13,7 +12,7 @@ const MultipleCol = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => setVisible(true)}>
+        <Button type="primary" onClick={() => setOpen(true)}>
           打开弹窗
         </Button>
       </div>
@@ -21,8 +20,8 @@ const MultipleCol = () => {
       <ModalForm
         width={600}
         title={'多列排布'}
-        open={visible}
-        onCancel={() => setVisible(false)}
+        open={open}
+        onCancel={() => setOpen(false)}
         onFinish={onFinish}
         columns={columns}
         formProps={{
