@@ -122,3 +122,11 @@
 ### 0.2.1
 
 - 修复 SchemaForm 在设置 initialValues 时引起的 fields touched
+
+## 0.1.23
+
+- 修复 FormUpload 在受控状态下 fileList 状态不同步问题
+
+### 0.2.2
+
+- 修复同 0.1.23
