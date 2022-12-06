@@ -1,6 +1,7 @@
 import { Upload } from 'antd';
 import { FormUploadProps, FormUploadSelfProps } from './types';
 import { useContext } from 'react';
+import { flushSync } from 'react-dom';
 import { FormUploadContext } from '../SettingProvider/context';
 
 function FormUpload(props: FormUploadProps) {
@@ -54,7 +55,7 @@ function FormUpload(props: FormUploadProps) {
     }
 
     //  beforeUpload为false的文件也会进到onChange里
-    if (onChange) onChange($fileList, info.file);
+    if (onChange) flushSync(() => onChange($fileList, info.file));
 
     if (onFinish && $fileList.every((file) => file.status !== 'uploading')) onFinish($fileList);
   };

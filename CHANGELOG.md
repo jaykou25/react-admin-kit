@@ -111,3 +111,7 @@
 ## 0.1.22
 
 - 移除掉多余的 console.log
+
+## 0.1.23
+
+- 修复 FormUpload 在受控状态下 fileList 状态不同步问题
