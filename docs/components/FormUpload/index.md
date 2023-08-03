@@ -9,7 +9,7 @@ order: 5
 
 适用于表单中上传文件. 遵循 value, onChange 受控模式.
 
-Antd Upload 组件的属性可以透传给 FormUpload, 另外还可认在 SettingProvider 里全局设置默认属性, 比如设置 headers`{ Authorization: token}` 等
+Antd Upload 组件的属性可以透传给 FormUpload, 另外还可以在 SettingProvider 里全局设置默认属性, 比如设置 headers`{ Authorization: token}` 等
 
 ### 基本的使用方法
 

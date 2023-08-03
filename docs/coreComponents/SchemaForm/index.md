@@ -39,7 +39,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 `labelCol`的值是以所在表单项的宽度为 24 分来算出的比例值. 所以如果表单项的宽度不同, `labelCol`的值需要经过一定的计算. 一般先以最窄的表单项为基准, 设定好它的`labelCol`, 再计算其它表单项的`labelCol`, 来使他们的 label 宽保持相等.
 
-以这个例子为例, 先设定第二行的`labelCol`为`{span: 9}`, 可算出 label 的宽度为 9/24 \* 8 = 3. 代表在整行中占 3 份.
+以这个例子为例, 先设定第二行的`labelCol`为`{span: 9}`, 可算出 label 的宽度为 9/24 \* 8 = 3. 代表在整行 24 份中占 3 份.
 
 所以第一行的`labelCol`可以设成`{span: 3}`
 
@@ -191,13 +191,11 @@ initialValues={{userId: 1, userName: 'jack'}}
 formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 ```
 
-- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段时样用逗号隔开. 这种情况的输入如果是`{userId: 1, userName: 'jack'}`则会转换成`{id: 1, name: 'jack'}`
+- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段同样用逗号隔开. 这种情况的输入如果是`{userId: 1, userName: 'jack'}`则会转换成`{id: 1, name: 'jack'}`
 
 <code src="./convention/index.tsx"></code>
 
 <code src="./conventionValueBaseName/index.tsx"></code>
-
-<code src="./touch/index.tsx"></code>
 
 ### SchemaForm 自定义的 API
 

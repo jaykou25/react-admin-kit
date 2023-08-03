@@ -9,6 +9,8 @@
 
 [组件库文档](https://jaykou25.github.io/react-admin-kit/)
 
+组件基于 [AntD 4.0](https://4x.ant.design/index-cn)
+
 ## 简介
 
 ### 为什么要有这套组件库
@@ -147,10 +149,12 @@ RAK 的核心是 Schema, 用 Schema 可以生成表单(Form), 也可以生成表
 }
 ```
 
-所以核心组件的描述就很简单:
+### 核心组件介绍
 
-- `SchemaForm`: 用 Schema 生成 Form
-- `ModalForm`: Modal + SchemaForm
-- `ProTable`: Antd ProTable + ModalForm
+RAK 包含了 3 个核心组件, 他们的描述非常简单:
 
-所以在`ModalForm`中可以透传`SchemaForm`的属性. 在`ProTable`中可以透传`Modal`和`SchemaForm`的属性.
+- `SchemaForm - JSON表单`: 用 Schema 生成 Form
+- `ModalForm - 弹窗表单`: Modal + SchemaForm
+- `ProTable - 高级表格`: Antd ProTable + ModalForm
+
+明白了这层关系， 很多的属性就都可以透传. 比如在`ModalForm`组件中就可以透传`SchemaForm`的属性. 在`ProTable`组件中可以透传`Modal`和`SchemaForm`的属性. 具体可以参见各组件的文档说明.

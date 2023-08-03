@@ -12,14 +12,17 @@ const OneQuery = () => {
         columns={[
           {
             title: '颜色',
+            dataIndex: 'color',
             renderFormItem: () => <BusinessSelect type="color" />,
           },
           {
             title: '颜色2',
+            dataIndex: 'color2',
             renderFormItem: () => <BusinessSelect type="color" />,
           },
           {
             title: '颜色3',
+            dataIndex: 'color3',
             renderFormItem: () => <BusinessSelect type="color" />,
           },
         ]}
