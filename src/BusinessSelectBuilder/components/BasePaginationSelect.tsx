@@ -1,10 +1,10 @@
-import { normalizeSelect } from '../../utils/tree';
 import { Select } from 'antd';
+import { debounce, isEqual } from 'lodash-es';
 import { Component } from 'react';
-import { debounce } from 'lodash';
-import isEqual from 'lodash/isEqual';
-import type { BaseSelectProps } from './BaseSelect';
+import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';
+import { normalizeSelect } from '../../utils/tree';
+import type { BaseSelectProps } from './BaseSelect';
 
 /**
  * 分页选择组件
@@ -15,8 +15,8 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     super(props);
 
     this.state = {
-      dataSource: window[SelectName][props.type] || [],
-      total: window[SelectTotalName][props.type] || 0,
+      dataSource: getGlobal(SelectName, props.type) || [],
+      total: getGlobal(SelectTotalName, props.type) || 0,
       loading: false,
       searchValue: '',
       current: 1,
@@ -27,10 +27,10 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     if (e.detail.type === this.props.type && !this.isNoCache()) {
       this.setState({
         loading: false,
-        dataSource: window[SelectName][this.props.type] || [],
-        total: window[SelectTotalName][this.props.type] || 0,
+        dataSource: getGlobal(SelectName, this.props.type) || [],
+        total: getGlobal(SelectTotalName, this.props.type) || 0,
       });
-      window[SelectStatusName][this.props.type] = false;
+      setGlobal(SelectStatusName, { [this.props.type]: false });
     }
   };
 
@@ -69,26 +69,28 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     const { type, loadFunction } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
-    if (window[SelectStatusName][type]) {
+    if (getGlobal(SelectStatusName, type)) {
       this.setState({ loading: true });
       return;
     }
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
-    if (window[SelectName][type]) {
+    if (getGlobal(SelectName, type)) {
       return;
     }
 
-    window[SelectStatusName][type] = true;
+    setGlobal(SelectStatusName, { [type]: true });
 
     this.setState({ loading: true });
     loadFunction({})
       .then((res) => {
-        window[SelectName][type] = res.data;
-        window[SelectTotalName][type] = res.total;
+        setGlobal(SelectName, { [type]: res.data });
+        setGlobal(SelectTotalName, { [type]: res.total });
 
-        const event = new CustomEvent('selectGlobalUpdate', { detail: { type } });
+        const event = new CustomEvent('selectGlobalUpdate', {
+          detail: { type },
+        });
         document.dispatchEvent(event);
       })
       .finally(() => {
@@ -117,7 +119,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       return this.state.total;
     }
 
-    return window[SelectTotalName][this.props.type];
+    return getGlobal(SelectTotalName, this.props.type);
   };
 
   // 恢复初始状态
@@ -126,8 +128,8 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
     this.setState({
       searchValue: undefined,
-      dataSource: window[SelectName][type] || [],
-      total: window[SelectTotalName][type],
+      dataSource: getGlobal(SelectName, type) || [],
+      total: getGlobal(SelectTotalName, type),
       current: 1,
     });
 
@@ -178,33 +180,39 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     const { current, searchValue, dataSource } = this.state;
     const { queryParams = {} } = this.props;
     this.setState({ loading: true });
-    this.props.loadFunction({ ...queryParams, current, searchValue }).then((res) => {
-      this.setState({
-        dataSource: dataSource.concat(res.data),
-        loading: false,
-        total: res.total,
-      });
+    this.props
+      .loadFunction({ ...queryParams, current, searchValue })
+      .then((res) => {
+        this.setState({
+          dataSource: dataSource.concat(res.data),
+          loading: false,
+          total: res.total,
+        });
 
-      /**
-       * 非search的时候把返回的数据存到缓存
-       */
-      if (!searchValue) {
-        window[SelectName][this.props.type] = dataSource.concat(res.data);
-      }
-    });
+        /**
+         * 非search的时候把返回的数据存到缓存
+         */
+        if (!searchValue) {
+          setGlobal(SelectName, {
+            [this.props.type]: dataSource.concat(res.data),
+          });
+        }
+      });
   };
 
   handleSearchData = () => {
     const { searchValue } = this.state;
     const { queryParams = {} } = this.props;
     this.setState({ loading: true });
-    this.props.loadFunction({ ...queryParams, current: 1, searchValue }).then((res) => {
-      this.setState({
-        dataSource: res.data,
-        loading: false,
-        total: res.total,
+    this.props
+      .loadFunction({ ...queryParams, current: 1, searchValue })
+      .then((res) => {
+        this.setState({
+          dataSource: res.data,
+          loading: false,
+          total: res.total,
+        });
       });
-    });
   };
 
   handlePopupScroll = (e) => {
@@ -223,7 +231,9 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
   toBottomNeedLoad = (target) => {
     const { dataSource, loading } = this.state;
-    return !loading && this.toBottom(target) && dataSource.length < this.getTotal();
+    return (
+      !loading && this.toBottom(target) && dataSource.length < this.getTotal()
+    );
   };
 
   toBottom = (target) => {
@@ -232,7 +242,9 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
 
   handleSearch = (value) => {
     if (value) {
-      this.setState({ searchValue: value, current: 1 }, () => this.handleSearchData());
+      this.setState({ searchValue: value, current: 1 }, () =>
+        this.handleSearchData(),
+      );
       return;
     }
 
@@ -258,7 +270,11 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
         {...rest}
         loading={this.state.loading}
         onChange={this.handleOnChange}
-        options={normalizeSelect(this.state.dataSource, { labelKey, valueKey, renderLabel })}
+        options={normalizeSelect(this.state.dataSource, {
+          labelKey,
+          valueKey,
+          renderLabel,
+        })}
         // 搜索部分
         showSearch
         allowClear

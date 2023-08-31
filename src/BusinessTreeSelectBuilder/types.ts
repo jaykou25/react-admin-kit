@@ -5,7 +5,7 @@ export type ApiType = {
    * @description       获取下拉数据的接口
    * @default           '-'
    */
-  api: () => Promise<any>;
+  api: (params: { [key: string]: any }) => Promise<any>;
   /**
    * @description       下拉选择的名字
    * @default           '-'
@@ -62,4 +62,5 @@ export interface BusinessTreeSelectSelfProps<Type> {
   noCache?: boolean;
 }
 
-export type BusinessTreeSelectProps<Type> = BusinessTreeSelectSelfProps<Type> & TreeSelectProps;
+export type BusinessTreeSelectProps<Type> = BusinessTreeSelectSelfProps<Type> &
+  TreeSelectProps;

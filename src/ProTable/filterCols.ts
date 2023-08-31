@@ -1,9 +1,11 @@
+import { TableColumnType } from './types';
+
 /**
  * 过滤出导出的columns
  */
-export const filterExportCols = (columns) => {
+export const filterExportCols = (columns: TableColumnType[]) => {
   return columns
-    .filter((col) => !col.hideInTable || col.valueType === 'export')
+    .filter((col) => !col.hideInTable)
     .filter((col) => {
       const valueType = typeof col.valueType === 'string' ? col.valueType : '';
       return !['option', 'index'].includes(valueType);
@@ -21,6 +23,7 @@ export const filterSearchCols = (columns) => {
       return !['option', 'index'].includes(valueType);
     })
     .map((col) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { hideInForm, formItemProps, ...restCol } = col;
       return restCol;
     });

@@ -1,3 +1,4 @@
+import { delGlobal } from 'react-admin-kit/utils';
 import BaseTreeSelect from './BaseTreeSelect';
 import {
   ApiType,
@@ -16,12 +17,6 @@ function BusinessTreeSelectBuilder<Type extends string>({
   apis = [],
   defaultProps = {},
 }: BusinessTreeSelectBuilderProps) {
-  /**
-   * 初始化window挂载
-   */
-  window[CacheName] = {};
-  window[CacheStatusName] = {};
-
   return (props: BusinessTreeSelectProps<Type>) => {
     const { type, ...rest } = props;
 
@@ -45,11 +40,11 @@ export default BusinessTreeSelectBuilder;
 
 export const clearTreeSelectCache = (type?: string) => {
   if (type) {
-    delete window[CacheName][type];
-    delete window[CacheStatusName][type];
+    delGlobal(CacheName, type);
+    delGlobal(CacheStatusName, type);
   } else {
-    window[CacheName] = {};
-    window[CacheStatusName] = {};
+    delGlobal(CacheName);
+    delGlobal(CacheStatusName);
   }
 };
 

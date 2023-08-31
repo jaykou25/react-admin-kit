@@ -1,15 +1,23 @@
-import { LabelIconTip, omitUndefined, runFunction } from '@ant-design/pro-utils';
 import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
+import {
+  LabelIconTip,
+  omitUndefined,
+  runFunction,
+} from '@ant-design/pro-utils';
 import { Col } from 'antd';
 
 /**
- * 生成formItems
- * 代码来自pro-form
+ * 生成 formItems
+ * 代码摘自 @ant-design/pro-form
  *
  */
-export const genItems = (items, type = 'form', formInstance, options: any = {}) => {
+export const genItems = (
+  items,
+  type = 'form',
+  formInstance,
+  options: any = {},
+) => {
   const {
-    returnDom = false,
     labelCol = {},
     valueBaseName,
     grid,
@@ -52,51 +60,47 @@ export const genItems = (items, type = 'form', formInstance, options: any = {}) 
       };
 
       const item = omitUndefined({
+        ...originItem,
         title,
         label: title,
-        name: originItem.name,
         valueType: runFunction(originItem.valueType, {}),
-        key: originItem.key,
-        columns: originItem.columns,
-        valueEnum: originItem.valueEnum,
-        dataIndex: genDataIndex(originItem.key || originItem.dataIndex, valueBaseName),
-        initialValue: originItem.initialValue,
-        width: originItem.width,
-        index: originItem.index,
+        dataIndex: genDataIndex(
+          originItem.key || originItem.dataIndex,
+          valueBaseName,
+        ),
         readonly: originItem.readonly || readonly,
-        colSize: originItem.colSize,
-        colProps: originItem.colProps,
-        rowProps: originItem.rowProps,
-        className: originItem.className,
         tooltip: originItem.tooltip || originItem.tip,
-        dependencies: originItem.dependencies,
-        proFieldProps: originItem.proFieldProps,
-        ignoreFormItem: originItem.ignoreFormItem,
         getFieldProps: originItem.fieldProps
           ? () => runFunction(originItem.fieldProps, formInstance, originItem)
           : undefined,
         getFormItemProps: originItem.formItemProps
-          ? () => runFunction({ labelCol, ...originItem.formItemProps }, formInstance, originItem)
+          ? () =>
+              runFunction(
+                { labelCol, ...originItem.formItemProps },
+                formInstance,
+                originItem,
+              )
           : () => ({ labelCol }),
-        render: originItem.render,
-        renderFormItem: originItem.renderFormItem,
-        renderText: originItem.renderText,
-        request: originItem.request,
-        params: originItem.params,
-        transform: originItem.transform,
-        convertValue: originItem.convertValue,
       });
 
       const key = item.key || item.dataIndex?.toString() || index;
       item.key = key;
 
+      item.name = item.name || item.dataIndex;
+
       const dom = renderValueType(item, {
-        action: null,
+        action: undefined,
         type: 'form',
         originItem,
         formRef: { current: formInstance },
-        genItems: (items, type, form) =>
-          genItems(items, type, form, { labelCol, valueBaseName, grid, colProps, readonly }),
+        genItems: (items) =>
+          genItems(items, type, formInstance, {
+            labelCol,
+            valueBaseName,
+            grid,
+            colProps,
+            readonly,
+          }),
       });
 
       if (grid && dom && item.valueType !== 'dependency') {

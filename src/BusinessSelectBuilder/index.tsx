@@ -1,3 +1,4 @@
+import { delGlobal } from 'react-admin-kit/utils';
 import BasePaginationSelect from './components/BasePaginationSelect';
 import BaseSelect from './components/BaseSelect';
 import {
@@ -18,13 +19,6 @@ function BusinessSelectBuilder<Type extends string>({
   apis = [],
   defaultProps = {},
 }: BusinessSelectBuilderProps) {
-  /**
-   * 初始化window挂载
-   */
-  window[SelectName] = {};
-  window[SelectStatusName] = {};
-  window[SelectTotalName] = {};
-
   return (props: BusinessSelectProps<Type>) => {
     const { type, ...rest } = props;
 
@@ -60,13 +54,13 @@ export default BusinessSelectBuilder;
 
 export const clearSelectCache = (type?: string) => {
   if (type) {
-    delete window[SelectName][type];
-    delete window[SelectStatusName][type];
-    delete window[SelectTotalName][type];
+    delGlobal(SelectName, type);
+    delGlobal(SelectStatusName, type);
+    delGlobal(SelectTotalName, type);
   } else {
-    window[SelectName] = {};
-    window[SelectStatusName] = {};
-    window[SelectTotalName] = {};
+    delGlobal(SelectName);
+    delGlobal(SelectStatusName);
+    delGlobal(SelectTotalName);
   }
 };
 

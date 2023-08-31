@@ -1,9 +1,10 @@
-import { normalizeSelect } from '../../utils/tree';
-import { Select } from 'antd';
 import type { SelectProps } from 'antd';
+import { Select } from 'antd';
+import { isEqual } from 'lodash-es';
 import { Component } from 'react';
-import isEqual from 'lodash/isEqual';
+import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';
+import { normalizeSelect } from '../../utils/tree';
 
 export interface BaseSelectProps extends SelectProps<any> {
   type: string;
@@ -21,7 +22,7 @@ class BaseSelect extends Component<BaseSelectProps, any> {
 
     this.state = {
       loading: false,
-      dataSource: window[SelectName][props.type] || [],
+      dataSource: getGlobal(SelectName, props.type) || [],
     };
   }
 
@@ -29,10 +30,10 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     if (e.detail.type === this.props.type && !this.isNoCache()) {
       this.setState({
         loading: false,
-        dataSource: window[SelectName][this.props.type] || [],
-        total: window[SelectTotalName][this.props.type] || 0,
+        dataSource: getGlobal(SelectName, this.props.type) || [],
+        total: getGlobal(SelectTotalName, this.props.type) || 0,
       });
-      window[SelectStatusName][this.props.type] = false;
+      setGlobal(SelectStatusName, { [this.props.type]: false });
     }
   };
 
@@ -71,26 +72,28 @@ class BaseSelect extends Component<BaseSelectProps, any> {
     const { type, loadFunction } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
-    if (window[SelectStatusName][type]) {
+    if (getGlobal(SelectStatusName, type)) {
       this.setState({ loading: true });
       return;
     }
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
-    if (window[SelectName][type]) {
+    if (getGlobal(SelectName, type)) {
       return;
     }
 
-    window[SelectStatusName][type] = true;
+    setGlobal(SelectStatusName, { [type]: true });
 
     this.setState({ loading: true });
     loadFunction({})
       .then((res) => {
-        window[SelectName][type] = res.data;
-        window[SelectTotalName][type] = res.total;
+        setGlobal(SelectName, { [type]: res.data });
+        setGlobal(SelectTotalName, { [type]: res.total });
 
-        const event = new CustomEvent('selectGlobalUpdate', { detail: { type } });
+        const event = new CustomEvent('selectGlobalUpdate', {
+          detail: { type },
+        });
         document.dispatchEvent(event);
       })
       .finally(() => {
@@ -161,7 +164,11 @@ class BaseSelect extends Component<BaseSelectProps, any> {
          * 通过覆写onChange, 把数据源中的整行信息都赋给option. onChange(val, option)
          */
         onChange={this.handleOnChange}
-        options={normalizeSelect(this.state.dataSource, { labelKey, valueKey, renderLabel })}
+        options={normalizeSelect(this.state.dataSource, {
+          labelKey,
+          valueKey,
+          renderLabel,
+        })}
         // 搜索部分
         showSearch
         optionFilterProp="label"

@@ -1,8 +1,9 @@
-import { withDisabled, normalizeTreeSelect } from '../utils/tree';
-import { TreeSelect } from 'antd';
 import type { TreeSelectProps } from 'antd';
+import { TreeSelect } from 'antd';
+import { isEqual } from 'lodash-es';
 import { Component } from 'react';
-import isEqual from 'lodash/isEqual';
+import { getGlobal, setGlobal } from 'react-admin-kit/utils';
+import { normalizeTreeSelect, withDisabled } from '../utils/tree';
 import { CacheName, CacheStatusName } from './index';
 import { BusinessTreeSelectProps } from './types';
 
@@ -17,7 +18,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
 
     this.state = {
       loading: false,
-      dataSource: window[CacheName][props.type] || [],
+      dataSource: getGlobal(CacheName, props.type) || [],
     };
   }
 
@@ -25,9 +26,9 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
     if (e.detail.type === this.props.type && !this.isNoCache()) {
       this.setState({
         loading: false,
-        dataSource: window[CacheName][this.props.type] || [],
+        dataSource: getGlobal(CacheName, this.props.type) || [],
       });
-      window[CacheStatusName][this.props.type] = false;
+      setGlobal(CacheStatusName, { [this.props.type]: false });
     }
   };
 
@@ -63,28 +64,40 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
   };
 
   loadDataForCache = () => {
-    const { type, loadFunction, valueKey = 'id', labelKey = 'name' } = this.props;
+    const {
+      type,
+      loadFunction,
+      valueKey = 'id',
+      labelKey = 'name',
+    } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
-    if (window[CacheStatusName][type]) {
+    if (getGlobal(CacheStatusName, type)) {
       this.setState({ loading: true });
       return;
     }
 
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
-    if (window[CacheName][type]) {
+    if (getGlobal(CacheName, type)) {
       return;
     }
 
-    window[CacheStatusName][type] = true;
+    setGlobal(CacheStatusName, { [type]: true });
 
     this.setState({ loading: true });
     loadFunction({})
       .then((res) => {
-        window[CacheName][type] = normalizeTreeSelect(res, { titleKey: labelKey, valueKey });
+        setGlobal(CacheName, {
+          [type]: normalizeTreeSelect(res, {
+            titleKey: labelKey,
+            valueKey,
+          }),
+        });
 
-        const event = new CustomEvent('treeSelectGlobalUpdate', { detail: { type } });
+        const event = new CustomEvent('treeSelectGlobalUpdate', {
+          detail: { type },
+        });
         document.dispatchEvent(event);
       })
       .finally(() => {
@@ -93,13 +106,21 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
   };
 
   loadDataWithoutCache = () => {
-    const { loadFunction, queryParams, valueKey = 'id', labelKey = 'name' } = this.props;
+    const {
+      loadFunction,
+      queryParams,
+      valueKey = 'id',
+      labelKey = 'name',
+    } = this.props;
 
     this.setState({ loading: true });
     loadFunction(queryParams)
       .then((res) => {
         this.setState({
-          dataSource: normalizeTreeSelect(res, { titleKey: labelKey, valueKey }),
+          dataSource: normalizeTreeSelect(res, {
+            titleKey: labelKey,
+            valueKey,
+          }),
         });
       })
       .finally(() => {
@@ -109,11 +130,11 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
 
   render() {
     const {
+      labelKey,
+      valueKey,
       type,
       loadFunction,
       nodeDisabled,
-      labelKey = 'name',
-      valueKey = 'id',
       style = {},
       value,
       onChange,

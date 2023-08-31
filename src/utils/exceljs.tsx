@@ -1,86 +1,47 @@
-import * as ExcelJs from 'exceljs';
 import type { Workbook } from 'exceljs';
+import * as ExcelJs from 'exceljs';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
+import type { TableColumnType } from '../index';
 
 // 默认的列宽
 export const DEFAULT_COLUMN_WIDTH = 20;
 
-export function saveWorkbook(workbook: Workbook, fileName: string) {
-  // 导出文件
-  workbook.xlsx.writeBuffer().then((data) => {
-    const blob = new Blob([data], { type: '' });
-    saveAs(blob, fileName);
-  });
+function formatDateTypeData(text, format) {
+  if (!text) return '';
+
+  if (typeof text === 'string') {
+    return text;
+  } else {
+    return moment(text).format(format);
+  }
 }
 
-export const exportAntTableToExcel = (cols, dataSource, fileName = '默认导出') => {
-  // 创建工作簿
-  const workbook = new ExcelJs.Workbook();
-  // 添加sheet
-  const worksheet = workbook.addWorksheet('sheet1');
-  // 设置 sheet 的默认行高
-  worksheet.properties.defaultRowHeight = 20;
+function getTextByOptions(text, col: TableColumnType) {
+  if (col.valueEnum) {
+    return col.valueEnum[text]?.text;
+  }
 
-  // 过滤掉不显示的列
-  const columns = filterExportCols(cols);
-
-  // 设置列
-  worksheet.columns = columns.map((col) => ({
-    header: col.title,
-    key: col.dataIndex,
-    width: col.width / 5 || DEFAULT_COLUMN_WIDTH,
-  }));
-
-  // 设置垂直的对齐方式
-  worksheet.columns.forEach((col) => {
-    col.alignment = { vertical: 'middle' };
-  });
-
-  // 处理行
-  const rowsData = (dataSource || []).map((record) => {
-    return columns.map((col) => {
-      return getExportValue(record, col);
-    });
-  });
-
-  // 添加行
-  worksheet.addRows(rowsData);
-
-  // 处理合并问题
-  (dataSource || []).forEach((record, recordIndex) => {
-    columns.forEach((col, colIdx) => {
-      const { rowSpan } = col.onCell ? col.onCell(record) || {} : {};
-
-      if (rowSpan > 1) {
-        // 向下合并
-        const rowIndex = recordIndex + 2;
-        const colIndex = colIdx + 1;
-        worksheet.mergeCells(rowIndex, colIndex, rowIndex + rowSpan - 1, colIndex);
-      }
-    });
-  });
-
-  // 导出excel
-  saveWorkbook(workbook, fileName + '.xlsx');
-};
-
-/**
- * 过滤出columns
- */
-export const filterExportCols = (columns) => {
-  return columns
-    .filter((col) => !col.hideInTable)
-    .filter((col) => {
-      const valueType = typeof col.valueType === 'string' ? col.valueType : '';
-      return !['option', 'index'].includes(valueType);
-    });
-};
+  if (col.fieldProps) {
+    if (typeof col.fieldProps === 'function') {
+      const options = col.fieldProps({}, { current: {} })?.options || [];
+      // eslint-disable-next-line eqeqeq
+      return options.find((option: any) => option.value == text)?.label;
+    } else {
+      const options = col.fieldProps.options || [];
+      // eslint-disable-next-line eqeqeq
+      return options.find((option: any) => option.value == text)?.label;
+    }
+  }
+}
 
 /**
  * 获取导出的值
  */
-export function getExportValue(record, col) {
+export function getExportValue(
+  record: Record<string, any>,
+  col: TableColumnType,
+) {
   const text = record[col.dataIndex];
 
   if (col.renderExport) {
@@ -140,28 +101,69 @@ export function getExportValue(record, col) {
   return text;
 }
 
-function getTextByOptions(text, col) {
-  if (col.valueEnum) {
-    return col.valueEnum[text]?.text;
-  }
-
-  if (col.fieldProps) {
-    if (typeof col.fieldProps === 'function') {
-      const options = col.fieldProps()?.options || [];
-      return options.find((option) => option.value == text)?.label;
-    } else {
-      const options = col.fieldProps.options || [];
-      return options.find((option) => option.value == text)?.label;
-    }
-  }
+export function saveWorkbook(workbook: Workbook, fileName: string) {
+  // 导出文件
+  workbook.xlsx.writeBuffer().then((data) => {
+    const blob = new Blob([data], { type: '' });
+    saveAs(blob, fileName);
+  });
 }
 
-function formatDateTypeData(text, format) {
-  if (!text) return '';
+export const exportAntTableToExcel = (
+  columns: TableColumnType[],
+  dataSource: any,
+  fileName = '默认导出',
+) => {
+  // 创建工作簿
+  const workbook = new ExcelJs.Workbook();
+  // 添加sheet
+  const worksheet = workbook.addWorksheet('sheet1');
+  // 设置 sheet 的默认行高
+  worksheet.properties.defaultRowHeight = 20;
 
-  if (typeof text === 'string') {
-    return text;
-  } else {
-    return moment(text).format(format);
-  }
-}
+  // 设置列
+  worksheet.columns = columns.map((col) => ({
+    header: typeof col.title === 'function' ? '' : col.title,
+    key: col.dataIndex,
+    width: col.width ? col.width / 5 : DEFAULT_COLUMN_WIDTH,
+  }));
+
+  // 设置垂直的对齐方式
+  worksheet.columns.forEach((col) => {
+    col.alignment = { vertical: 'middle' };
+  });
+
+  console.log('导出', dataSource);
+
+  // 处理行
+  const rowsData = (dataSource || []).map((record) => {
+    return columns.map((col) => {
+      return getExportValue(record, col);
+    });
+  });
+
+  // 添加行
+  worksheet.addRows(rowsData);
+
+  // 处理合并问题
+  (dataSource || []).forEach((record, recordIndex) => {
+    columns.forEach((col, colIdx) => {
+      const { rowSpan } = col.onCell ? col.onCell(record) || {} : {};
+
+      if (rowSpan > 1) {
+        // 向下合并
+        const rowIndex = recordIndex + 2;
+        const colIndex = colIdx + 1;
+        worksheet.mergeCells(
+          rowIndex,
+          colIndex,
+          rowIndex + rowSpan - 1,
+          colIndex,
+        );
+      }
+    });
+  });
+
+  // 导出excel
+  saveWorkbook(workbook, fileName + '.xlsx');
+};

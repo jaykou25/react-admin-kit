@@ -5,7 +5,9 @@ test('splitValues-无约定时', () => {
 });
 
 test('splitValues-有约定时', () => {
-  expect(splitValues({ 'user,userName': { value: '1', label: 'jack' } })).toStrictEqual({
+  expect(
+    splitValues({ 'user,userName': { value: '1', label: 'jack' } }),
+  ).toStrictEqual({
     userName: 'jack',
     user: '1',
   });
@@ -20,7 +22,10 @@ test('splitValues-有约定时不是对象', () => {
 
 test('splitValues-两者都有时', () => {
   expect(
-    splitValues({ 'user,userName': { value: '1', label: 'jack' }, name: 'wang' }),
+    splitValues({
+      'user,userName': { value: '1', label: 'jack' },
+      name: 'wang',
+    }),
   ).toStrictEqual({
     userName: 'jack',
     user: '1',
@@ -29,7 +34,9 @@ test('splitValues-两者都有时', () => {
 });
 
 test('splitValues-有约定时自定义取值', () => {
-  expect(splitValues({ 'user,userName_id,name': { id: '1', name: 'jack' } })).toStrictEqual({
+  expect(
+    splitValues({ 'user,userName_id,name': { id: '1', name: 'jack' } }),
+  ).toStrictEqual({
     userName: 'jack',
     user: '1',
   });
@@ -50,7 +57,11 @@ test('splitValues-有约定时-两层套嵌', () => {
     },
   };
   const after = {
-    info: { user: '1', userName: 'jack', innerInfo: { companyId: '2', companyName: 'dji' } },
+    info: {
+      user: '1',
+      userName: 'jack',
+      innerInfo: { companyId: '2', companyName: 'dji' },
+    },
   };
   expect(splitValues(before)).toStrictEqual(after);
 });
@@ -62,7 +73,10 @@ test('splitValues-有约定时-两层套嵌-都有', () => {
     info: {
       sex: 'man',
       'user,userName': { value: '1', label: 'jack' },
-      innerInfo: { 'companyId,companyName': { value: '2', label: 'dji' }, phone: 10 },
+      innerInfo: {
+        'companyId,companyName': { value: '2', label: 'dji' },
+        phone: 10,
+      },
     },
   };
   const after = {

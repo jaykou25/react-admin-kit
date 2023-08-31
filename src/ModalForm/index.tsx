@@ -1,7 +1,9 @@
-import SchemaForm from '../SchemaForm';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { FormInstance } from 'antd';
 import { Modal } from 'antd';
 import { Component, createRef } from 'react';
-import type { FormInstance } from 'antd';
+import SchemaForm from '../SchemaForm';
+import type { InnerRef } from '../SchemaForm/types';
 
 import omit from 'omit.js';
 
@@ -29,7 +31,9 @@ class ModalForm extends Component<
     };
 
     if (props.innerRef) {
-      props.innerRef.current = {};
+      if (!props.innerRef.current) {
+        props.innerRef.current = {};
+      }
       props.innerRef.current.openModal = this.openModal;
     }
 
@@ -40,7 +44,11 @@ class ModalForm extends Component<
     if (!prevProps.open && this.props.open) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        await this.props.onOpen(this.state.formType, this.formRef, this.state.formData);
+        await this.props.onOpen(
+          this.state.formType,
+          this.formRef,
+          this.state.formData,
+        );
         this.setState({ loading: false });
       }
     }
@@ -48,13 +56,17 @@ class ModalForm extends Component<
     if (!prevState.visible && this.state.visible) {
       if (this.props.onOpen) {
         this.setState({ loading: true });
-        await this.props.onOpen(this.state.formType, this.formRef, this.state.formData);
+        await this.props.onOpen(
+          this.state.formType,
+          this.formRef,
+          this.state.formData,
+        );
         this.setState({ loading: false });
       }
     }
   };
 
-  openModal = (formType: FormType, initialData) => {
+  openModal = (formType: FormType = 'new', initialData: object) => {
     if (initialData) {
       this.setState({ visible: true, formType, formData: initialData });
       return;
@@ -135,7 +147,17 @@ class ModalForm extends Component<
   };
 
   render() {
-    const { columns, onFinish, onCancel, formProps, bodyStyle = {}, open, ...rest } = this.props;
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      columns,
+      onFinish,
+      onCancel,
+      formProps,
+      bodyStyle = {},
+      innerRef,
+      open,
+      ...rest
+    } = this.props;
 
     const {
       isKeyPressSubmit = true,
@@ -148,9 +170,17 @@ class ModalForm extends Component<
      * 全局默认设置
      */
     const setting = this.context || {};
-    const { modalProps: settingModalProps = {}, formProps: settingFormProps = {} } = setting;
+    const {
+      modalProps: settingModalProps = {},
+      formProps: settingFormProps = {},
+    } = setting;
 
-    const formRest = { ...settingFormProps, ...restFormProps };
+    const $innerRef: InnerRef | undefined = innerRef; // 只是为了类型定义, 传入SchemaForm的innerRef与ModalForm的innerRef定义不同
+    const formRest = {
+      ...settingFormProps,
+      innerRef: $innerRef,
+      ...restFormProps,
+    };
     const modalRest = { ...settingModalProps, ...rest };
 
     return (
@@ -184,4 +214,7 @@ class ModalForm extends Component<
 
 export default ModalForm;
 
-export const Self: React.FC<ModalFormSelfProps> = () => null;
+/**
+ * 仅用于输出文档
+ */
+export const ModalFormType: React.FC<ModalFormSelfProps> = () => null;
