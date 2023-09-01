@@ -31,10 +31,13 @@ const Home = () => {
         </h1>
         <p className="description">快速构建表单表格的 React 组件库</p>
         <p className="actions">
-          <a className="get-started" href="/components/schema-form">
+          <a
+            className="get-started"
+            href="/react-admin-kit/components/schema-form"
+          >
             开始使用
           </a>
-          <a className="intro" href="/intro">
+          <a className="intro" href="/react-admin-kit/intro">
             介绍
           </a>
         </p>
