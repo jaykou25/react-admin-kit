@@ -21,9 +21,9 @@ const doc = parser
 
 export default defineConfig({
   outputPath: 'docs-dist',
-  favicons: ['/rak-r15.png'],
+  favicons: [isProd ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png'],
   themeConfig: {
-    logo: '/rak-r15.png',
+    logo: isProd ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png',
     name: 'React Admin Kit',
     prefersColor: {
       switch: false,
