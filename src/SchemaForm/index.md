@@ -23,6 +23,8 @@ description: 通过一个配置式的 schema 来生成表单 (Form), 简单高�
 
 valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType 就能映射出不同的表单项. 常用的 valueType 有 `money` `digit` `textarea` `date` `dateRange` `select` `radio` 等, 完整的列表见[这里](https://procomponents.ant.design/components/schema#valuetype-%E5%88%97%E8%A1%A8). 当 valueType 没有指定时, 默认渲染的表单项是 Input 组件.
 
+<code src="./demos/valueType/index.tsx"></code>
+
 一个 schema 实际上就是对应一个 Form.Item, Form.Item 里包裹的组件统称为 Field. 如果要给 Field 传递属性, 可以用 `fieldProps`.
 
 ```js
@@ -69,8 +71,6 @@ valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType �
   };
 }
 ```
-
-<code src="./demos/valueType/index.tsx"></code>
 
 ### 水平模式 horizontal
 

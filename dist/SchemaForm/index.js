@@ -291,7 +291,7 @@ var SchemaForm = function SchemaForm(props) {
   }, rest), {}, {
     columns: patchColumn(columns),
     layoutType: 'Form'
-  }));
+  }), initialValuesInner ? 2 : 1);
 };
 export default SchemaForm;
 

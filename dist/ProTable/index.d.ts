@@ -33,7 +33,7 @@ declare class ProTable extends Component<MyProTableType, any> {
         preserveSelectedRowKeys?: boolean | undefined;
         type?: import("antd/lib/table/interface").RowSelectionType | undefined;
         defaultSelectedRowKeys?: import("react").Key[] | undefined;
-        getCheckboxProps?: ((record: any) => Partial<Omit<import("antd").CheckboxProps, "checked" | "defaultChecked">>) | undefined;
+        getCheckboxProps?: ((record: any) => Partial<Omit<import("antd").CheckboxProps, "defaultChecked" | "checked">>) | undefined;
         onSelect?: import("antd/lib/table/interface").SelectionSelectFn<any> | undefined;
         onSelectMultiple?: ((selected: boolean, selectedRows: any[], changeRows: any[]) => void) | undefined;
         onSelectAll?: ((selected: boolean, selectedRows: any[], changeRows: any[]) => void) | undefined;

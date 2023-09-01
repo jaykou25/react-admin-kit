@@ -122,12 +122,13 @@ var ProForm = function ProForm(props) {
   return /*#__PURE__*/_jsx(InnerRefContext.Provider, {
     value: innerRef,
     children: /*#__PURE__*/_jsx(AntProForm, _objectSpread(_objectSpread({
+      // initialValues 只在 form 初始化时生效
       onFinish: handleOnFinish,
       formRef: formRef,
       initialValues: initialValuesInner
     }, rest), {}, {
       children: children
-    }))
+    }), initialValuesInner ? 2 : 1)
   });
 };
 export default ProForm;

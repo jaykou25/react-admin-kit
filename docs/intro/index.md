@@ -27,46 +27,27 @@ React Admin Kit (简称 RAK) 是一个基于 React 和 Ant Design 的组件库, 
 
 ## 如何使用
 
+RAK 依赖 Antd, 所以在使用前需要先安装 Antd.
+
 ```bash
-$ yarn add react-admin-kit
+yarn add antd
 ```
 
-### 引入 Ant Design 样式
+如果使用的是 antd v4 版本, 还需要引入样式.
 
 ```js
 import 'antd/dist/antd.min.css';
 ```
 
-### 定义 Schema
+安装 RAK
 
-```js
-const columns = [
-  {
-    title: '客户名称',
-    dataIndex: 'name',
-  },
-  {
-    title: '合同日期',
-    dataIndex: 'contractDate',
-    valueType: 'date',
-  },
-  {
-    title: '支付方式',
-    dataIndex: 'payType',
-    valueType: 'select',
-    fieldProps: {
-      options: [
-        { label: '支付宝', value: '1' },
-        { label: '微信', value: '2' },
-      ],
-    },
-  },
-];
+```bash
+$ yarn add react-admin-kit
 ```
 
 ### 生成表单
 
-常规的表单生成是通过 Form.Item
+常规的表单是由 Form.Item 组成.
 
 ```js
 import { Form, Input, DatePicker, Select } from 'antd';
@@ -92,10 +73,33 @@ import { Form, Input, DatePicker, Select } from 'antd';
 </Form>;
 ```
 
-使用了 RAK 之后 一个 Form.Item 就是对应一个 schema, 传入 schemas 就能生成表单.
+RAK 通过 schemas 生成表单, 一个 schema 对应一个 Form.Item.
 
 ```js
 import { SchemaForm } from 'react-admin-kit';
+
+const columns = [
+  {
+    title: '客户名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '合同日期',
+    dataIndex: 'contractDate',
+    valueType: 'date',
+  },
+  {
+    title: '支付方式',
+    dataIndex: 'payType',
+    valueType: 'select',
+    fieldProps: {
+      options: [
+        { label: '支付宝', value: '1' },
+        { label: '微信', value: '2' },
+      ],
+    },
+  },
+];
 
 // 具体请参考各组件文档
 const Demo = () => {
@@ -116,23 +120,29 @@ const Demo = () => {
 
 ## 核心组件介绍
 
-RAK 包含了 3 个核心组件, 他们的描述非常简单:
+RAK 只有 3 个核心组件, 并且它们是组合的关系:
 
-- `SchemaForm - JSON表单`: 用 Schema 生成 Form
-- `ModalForm - 弹窗表单`: Modal + SchemaForm
-- `ProTable - 高级表格`: Antd ProTable + ModalForm
+- `SchemaForm - JSON表单`: `SchemaForm`
+- `ModalForm - 弹窗表单`: `Modal` + `SchemaForm`
+- `ProTable - 高级表格`: `ProTable` + `ModalForm`
 
-明白了这层关系， 很多的属性就都可以透传. 比如在`ModalForm`组件中就可以透传`SchemaForm`的属性. 在`ProTable`组件中可以透传`Modal`和`SchemaForm`的属性. 具体可以参见各组件的文档说明.
+所以组件间的属性是可以透传的. 比如在`ModalForm`组件中就可以透传`SchemaForm`的属性. 在`ProTable`组件中可以透传`Modal`和`SchemaForm`的属性. 具体可以参见各组件的文档说明.
 
 ## 项目依赖
 
 ```js
 {
-  "antd": "^4.23.4",
   "@ant-design/pro-form": "^2.2.2",
   "@ant-design/pro-table": "^3.0.11",
   "@ant-design/pro-utils": "^2.2.10",
 }
+
+// peerDependency
+{
+  "antd": ">=4.23.4",
+}
 ```
 
-目前所有的用例使用的是 antd v4. antd v5 理论也能支持.
+文档中的用例使用的是 antd v4 版本.
+
+antd v5 理论也能支持.
