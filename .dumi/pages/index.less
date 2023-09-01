@@ -1,0 +1,182 @@
+@textLight2: rgba(0, 0, 0, 0.7);
+// @textLight2: rgba(60, 60, 60, 0.7);
+@textLight1: #213547;
+
+.home {
+  section {
+    padding: 42px 32px;
+  }
+
+  .first-letter {
+    color: #1677ff;
+  }
+
+  #hero {
+    text-align: center;
+    padding: 96px 32px;
+  }
+
+  .tagline-inner {
+    background: linear-gradient(315deg, #42d392 25%, #647eff);
+    padding: 0 20px 5px;
+  }
+
+  .tagline {
+    font-size: 72px;
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .description {
+    max-width: 960px;
+    line-height: 1.5;
+    color: @textLight2;
+    transition: color 0.5s;
+    font-size: 20px;
+    margin: 48px auto;
+  }
+
+  .actions a {
+    text-decoration: none;
+    outline: none;
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    background-image: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    user-select: none;
+    touch-action: manipulation;
+    line-height: 1.57;
+    color: rgba(0, 0, 0, 88%);
+    font-size: 16px;
+    height: 40px;
+    padding: 6.429px 15px;
+    border-radius: 8px;
+  }
+
+  .actions .get-started {
+    color: #fff;
+    background-color: #1677ff;
+    box-shadow: 0 2px 0 rgba(5, 145, 255, 10%);
+    margin-right: 18px;
+  }
+
+  .actions .intro {
+    background-color: #fff;
+    border-color: #d9d9d9;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 2%);
+  }
+
+  .actions .get-started:hover {
+    color: #fff;
+    background-color: #4096ff;
+  }
+
+  .actions .intro:hover {
+    color: #4096ff;
+    border-color: #4096ff;
+  }
+
+  #highlights {
+    max-width: 960px;
+    margin: 0 auto;
+    color: @textLight2;
+  }
+
+  .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .box-container .box {
+    transition: color 0.5s, background-color 0.5s;
+    padding: 28px 36px;
+    border-radius: 8px;
+    flex: 0 32%;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  #highlights h2 {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.4px;
+    color: @textLight1;
+    transition: color 0.5s;
+    margin-bottom: 0.75em;
+  }
+
+  #highlights p {
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+  @media (max-width: 960px) {
+    .tagline {
+      font-size: 64px;
+      letter-spacing: -0.5px;
+    }
+
+    .description {
+      font-size: 18px;
+      margin-bottom: 48px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tagline {
+      font-size: 48px;
+      letter-spacing: -0.5px;
+    }
+
+    .box-container .box {
+      flex: 0 100%;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    #hero {
+      padding: 56px 32px;
+    }
+
+    .tagline-inner {
+      font-size: 28px;
+      padding: 0 10px;
+    }
+
+    .description {
+      font-size: 16px;
+      margin: 18px 0 30px;
+    }
+
+    #highlights h3 {
+      margin-bottom: 0.6em;
+    }
+
+    #highlights .box {
+      padding: 20px 36px;
+    }
+
+    .actions a {
+      margin: 18px 0;
+    }
+  }
+
+  @media (max-width: 370px) {
+    .tagline {
+      font-size: 36px;
+    }
+  }
+}

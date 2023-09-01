@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "types": ["jest"],
     "strict": true,
-    "skipLibCheck": true,
     "declaration": true,
-    "noImplicitAny": false
-  }
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "react-admin-kit": ["src"],
+      "react-admin-kit/*": ["src/*", "*"]
+    }
+  },
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
 }

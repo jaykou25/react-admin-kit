@@ -1,13 +1,16 @@
+import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaForm/typing';
+import type {
+  ActionType,
+  ProColumns,
+  ProColumnsValueType,
+  ProTableProps,
+} from '@ant-design/pro-table';
+import type { ModalProps } from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import type { ProTableProps, ProColumnsValueType } from '@ant-design/pro-table';
-import type { FormFieldType } from '@ant-design/pro-form/es/components/SchemaForm/typing';
-import type { ModalProps } from 'antd';
-import { SettingFormProps } from '../SettingProvider/types';
-import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
-import type { ProColumns } from '@ant-design/pro-table';
-import { ModalFormInnerRefType } from '..';
+import type { FormColumnType, ModalFormInnerRefType } from '..';
 import { FormType, ModalFormSelfProps } from '../ModalForm/types';
+import { SettingFormProps } from '../SettingProvider/types';
 
 export type ToolbarType = {
   title?: string | false;
@@ -30,10 +33,14 @@ export type MyProTableType = Omit<
   ProTableProps<any, any>,
   'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'editable'
 > & {
-  columns: MyProColumnType[];
+  columns: TableColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
-  formColumns?: MyProColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
-  onFinish?: (values: any, formType: FormType, formData: any) => Promise<any> | void;
+  formColumns?: FormColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
+  onFinish?: (
+    values: any,
+    formType: FormType,
+    formData: any,
+  ) => Promise<any> | void;
   onOpen?: ModalFormSelfProps['onOpen'];
   innerRef?: InnerRef;
   /**
@@ -41,15 +48,19 @@ export type MyProTableType = Omit<
    * 如果点击的是行上的删除, record是该行的数据, selectedIds是该行的id; 如果是多选后的删除, record是空对象
    * 同时在columns中, 对于valueType为option的那一列, 如果声明了enableDelete, 操作列就会自动加入删除按钮
    */
-  delFunction?: (selectedIds, record, callback?) => Promise<any>;
-  delPermission?: () => Boolean; // 是否有删除权限
+  delFunction?: (
+    selectedIds: string[] | number[],
+    record,
+    callback?,
+  ) => Promise<any>;
+  delPermission?: () => boolean; // 是否有删除权限
   /**
    * 移除了原来ProTable中的tableAlertOptionRender接口而用tableAlertOptions来替代.
    * 是因为在tableAlert中封装了多选删除的功能
    */
   tableAlertOption?: {
     hideDelete?: boolean; // 默认是false
-    hideExport?: boolean; // 默认是true
+    enableExport?: boolean; // 默认是false
     actions?: ReactNode[];
     exportName?: string;
   };
@@ -58,7 +69,7 @@ export type MyProTableType = Omit<
   editable?: boolean;
   modalProps?: ModalProps;
   formProps?: SettingFormProps;
-  noPadding?: Boolean;
+  noPadding?: boolean;
 };
 
 export type FetchOptionType = {
@@ -75,18 +86,46 @@ export type selfColumnsValueType = 'export';
 
 export type MyFieldType = ProColumnsValueType | FormFieldType;
 
-export type MyProColumnType<Type = string> = Omit<
-  ProColumns,
-  'renderFormItem' | 'render' | 'editable' | 'valueType' | 'fieldProps'
-> &
-  ProFormColumnsType & {
-    children?: MyProColumnType<Type>[];
-    enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
-    renderFormItem?: (item, config, form, innerRef: InnerRef | undefined) => any;
-    render?: (text, record, index, actionRef, innerRef: InnerRef | undefined) => any;
-    type?: Type | Type[];
-    transform?: (vals) => any;
-    valueType?: MyFieldType;
-    renderExport?: (text, record) => string;
-    fieldProps?: (form: ProFormInstance, innerRef: InnerRef | undefined) => any;
+/**
+ * Table 类型的 column 定义
+ * 在 @ant-design/pro-table 的 type { ProColumns } 上修改某些属性
+ */
+type TableColumnTypeBase<Record, ValueType> = Omit<
+  ProColumns<Record, ValueType>,
+  'renderFormItem' | 'render' | 'fieldProps' | 'editable' | 'valueType'
+> & {
+  /**
+   * @description 是否开启操作列上的删除
+   */
+  enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
+  /**
+   * 定义导出
+   */
+  renderExport?: (text: string | number, record: Record) => string | number;
+
+  /**
+   * 给 render 方法注入 innerRef
+   */
+  render?: (
+    text: string | number,
+    record: Record,
+    index: number,
+    actionRef: React.RefObject<ActionType | undefined>,
+    innerRef: InnerRef,
+  ) => any;
+};
+
+/**
+ * Table 的 column 定义
+ * 它是 Form column 和 Table column 的合并, 因为在 ProTable 组件中 Tablet 和 Form 都存在
+ */
+export type TableColumnType<
+  Record = any,
+  ValueType = 'text',
+  Type = string,
+> = Omit<FormColumnType<Record, ValueType>, 'render'> &
+  TableColumnTypeBase<Record, ValueType> & {
+    type?: Type;
+    children?: TableColumnType<Record, ValueType, Type>[];
+    valueType?: MyFieldType | ValueType;
   };

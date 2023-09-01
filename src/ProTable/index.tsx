@@ -1,20 +1,20 @@
-import { Component, createRef } from 'react';
 import produce from 'immer';
-import type { MyProColumnType, MyProTableType } from './types';
+import { Component, createRef } from 'react';
+import type { InnerRefType, MyProColumnType, MyProTableType } from './types';
 
-import ModalForm from '../ModalForm';
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
 import LinkButton from '../LinkButton';
+import ModalForm from '../ModalForm';
 import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
-import './styles.less';
 import cs from 'classnames';
-import { ProTableContext } from '../SettingProvider/context';
 import { ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
+import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
+import './styles.css';
 
 /**
  * 表单类型的映射
@@ -28,6 +28,7 @@ export const FORM_TYPE_MAP = {
 class ProTable extends Component<MyProTableType, any> {
   private targetId;
   private modalFormRef;
+  private selfInnerRef;
 
   static contextType: any = ProTableContext;
   context!: React.ContextType<typeof ProTableContext>;
@@ -40,10 +41,13 @@ class ProTable extends Component<MyProTableType, any> {
 
       delLoading: false,
       selectedRowKeys: [],
+      selectedRows: [],
     };
 
     this.targetId = '';
     this.modalFormRef = createRef<ModalFormInnerRefType>();
+
+    this.selfInnerRef = createRef<InnerRefType>();
 
     if (props.innerRef) {
       props.innerRef.current = {};
@@ -59,7 +63,11 @@ class ProTable extends Component<MyProTableType, any> {
     const { name, toolbar = {} } = this.props;
     const { title } = toolbar;
 
-    return title || `${name}列表` || '';
+    if (title) return title;
+
+    if (name) return `${name}列表`;
+
+    return false;
   };
 
   getModalTitle = () => {
@@ -83,7 +91,8 @@ class ProTable extends Component<MyProTableType, any> {
   };
 
   patchColumn = ($cols) => {
-    const { innerRef } = this.props;
+    const { innerRef = this.selfInnerRef } = this.props;
+
     return produce($cols, (cols) => {
       cols.forEach((col: MyProColumnType) => {
         const { renderFormItem, render, fieldProps } = col;
@@ -132,7 +141,9 @@ class ProTable extends Component<MyProTableType, any> {
           col.render = (text, record, index, actionRef, innerRef) => {
             const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
             const $enableDelete =
-              typeof enableDelete === 'function' ? enableDelete(record, index) : {};
+              typeof enableDelete === 'function'
+                ? enableDelete(record, index)
+                : {};
             // enabledDelete为true时的默认值
             const { disabled = false, visible = true, danger } = $enableDelete;
 
@@ -181,7 +192,8 @@ class ProTable extends Component<MyProTableType, any> {
       return {
         ...rowSelection,
         selectedRowKeys,
-        onChange: (keys) => this.setState({ selectedRowKeys: keys }),
+        onChange: (keys, selectedRows) =>
+          this.setState({ selectedRowKeys: keys, selectedRows }),
       };
     }
 
@@ -210,7 +222,9 @@ class ProTable extends Component<MyProTableType, any> {
 
           // bugfix: 如果在多选选中后, 点的行上的删除, 不是点的批量删除, 删除后要去除掉selectedKeys
           if (record[key]) {
-            const ids = (selectedIds || []).filter((_key) => _key !== record[key]);
+            const ids = (selectedIds || []).filter(
+              (_key) => _key !== record[key],
+            );
             if (rowSelection.selectedRowKeys) {
               if (rowSelection.onChange) rowSelection.onChange(ids);
             } else {
@@ -223,8 +237,11 @@ class ProTable extends Component<MyProTableType, any> {
             // bugfix: 假如数据一共有两页, 并且第二页只有一条数据, 删除该数据后应该自动切到上一页
             const { current, total, pageSize } = action.pageInfo;
             // 判断当前是否为空
-            const deleteRecordLength = record.id ? 1 : (selectedIds || []).length;
-            const isCurrentEmpty = total - deleteRecordLength === (current - 1) * pageSize;
+            const deleteRecordLength = record.id
+              ? 1
+              : (selectedIds || []).length;
+            const isCurrentEmpty =
+              total - deleteRecordLength === (current - 1) * pageSize;
             if (current > 1 && isCurrentEmpty) {
               action.setPageInfo({ current: current - 1 });
               return;
@@ -242,17 +259,22 @@ class ProTable extends Component<MyProTableType, any> {
   tableAlertOptionRender = ({
     selectedRowKeys: _selectedRowKeys,
     onCleanSelected,
-    selectedRows,
   }) => {
     // state
-    const { delLoading } = this.state;
+    const { delLoading, selectedRows } = this.state;
 
     // props
-    const { tableAlertOption = {}, columns, name, delFunction, delPermission } = this.props;
+    const {
+      tableAlertOption = {},
+      columns,
+      name,
+      delFunction,
+      delPermission,
+    } = this.props;
     // tableAlertOption
     const {
       hideDelete = false,
-      hideExport = true,
+      enableExport = false,
       actions: alertActions = [],
       exportName,
     } = tableAlertOption;
@@ -262,7 +284,7 @@ class ProTable extends Component<MyProTableType, any> {
     return (
       <Space size={'middle'}>
         {/* 前端导出 */}
-        {!hideExport && (
+        {enableExport && (
           <LinkButton
             onClick={() => {
               exportAntTableToExcel(
@@ -271,6 +293,7 @@ class ProTable extends Component<MyProTableType, any> {
                 exportName || `${name ? name + '列表' : ''}导出`,
               );
               onCleanSelected();
+              console.log('exportclick', selectedRows);
             }}
           >
             导出所选
@@ -301,6 +324,7 @@ class ProTable extends Component<MyProTableType, any> {
   render() {
     const {
       rowKey = 'id',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       name,
       columns,
       options = false,
@@ -308,7 +332,9 @@ class ProTable extends Component<MyProTableType, any> {
       formColumns,
       scroll = { x: '100%' },
       onFinish,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       tableAlertOption,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rowSelection,
       sticky = true,
       className,
@@ -359,7 +385,9 @@ class ProTable extends Component<MyProTableType, any> {
           tableAlertOptionRender={this.tableAlertOptionRender}
           rowSelection={this.getRowSelection()}
           sticky={sticky}
-          search={search === false ? false : { ...defaultSearchConfig, ...search }}
+          search={
+            search === false ? false : { ...defaultSearchConfig, ...search }
+          }
           request={
             request
               ? (params, sort, filter) => {
@@ -369,7 +397,8 @@ class ProTable extends Component<MyProTableType, any> {
                         if (this.props.innerRef?.current) {
                           this.props.innerRef.current.total = res.total;
                           this.props.innerRef.current.dataSource = res.data;
-                          this.props.innerRef.current.params = handleRequestParams(params, sort);
+                          this.props.innerRef.current.params =
+                            handleRequestParams(params, sort);
                         }
 
                         resolve(res);

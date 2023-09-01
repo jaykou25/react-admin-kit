@@ -1,9 +1,19 @@
-import { FormUploadContext, ModalFormContext, ProTableContext, SchemaFormContext } from './context';
+import {
+  FormUploadContext,
+  ModalFormContext,
+  ProTableContext,
+  SchemaFormContext,
+} from './context';
 import { SettingProviderProps } from './types';
 
 const SettingProvider = (props: SettingProviderProps) => {
-  const { proTableSetting, modalFormSetting, schemaFormSetting, formUploadSetting, children } =
-    props;
+  const {
+    proTableSetting,
+    modalFormSetting,
+    schemaFormSetting,
+    formUploadSetting,
+    children,
+  } = props;
 
   return (
     <ProTableContext.Provider value={proTableSetting}>

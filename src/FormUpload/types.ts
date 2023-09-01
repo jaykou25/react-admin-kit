@@ -1,4 +1,4 @@
-import type { UploadProps, UploadFile } from 'antd';
+import type { UploadFile, UploadProps } from 'antd';
 
 export type FormUploadSelfProps = {
   /**
@@ -10,9 +10,9 @@ export type FormUploadSelfProps = {
    */
   value?: UploadProps['fileList'];
   /**
-   * @description 文件变动后的回调
+   * @description 文件变动后的回调; 该属性在 v0.3 版本后发生了变更, 改成与 onFinish 属性一致, 只有当文件全部上传完毕后才触发.
    */
-  onChange?: (files: UploadFile[], file: UploadFile) => void;
+  onChange?: (files: UploadFile[]) => void;
   /**
    * @description 文件全部上传完成后的回调(所有文件的状态都是非uploading)
    */
@@ -28,7 +28,7 @@ export type FormUploadSelfProps = {
    */
   urlKey?: string;
   /**
-   * @description       处理上传接口返回值, 将其合并进fileList
+   * @description       可以将后台返回的数据合并进 fileList
    */
   responseToFileList?: (res) => Record<string, any>;
 

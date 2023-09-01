@@ -1,0 +1,58 @@
+.dumi-default-header-left {
+  width: 268px !important;
+}
+
+.dumi-default-header-left .dumi-default-logo {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.dumi-default-navbar a {
+  font-size: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+  .dumi-default-content.home {
+    padding-left: 184px;
+  }
+}
+
+.red {
+  color: #f51d2c;
+
+  /* text-decoration: underline; */
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  font-size: 22px;
+}
+
+.banner img {
+  margin-right: 6px;
+}
+
+.word {
+  margin-right: 2px;
+}
+
+.slogon {
+  font-size: 14px;
+  border-bottom: 2px solid #f51d2c;
+
+  /* font-style: italic; */
+
+  /* text-decoration: ; */
+}
+
+.dumi-default-doc-layout .dumi-default-sidebar {
+  width: 220px;
+  padding-inline-end: 16px;
+}
+
+.dumi-default-doc-layout .dumi-default-sidebar > dl > dd > a {
+  font-size: 14px;
+}

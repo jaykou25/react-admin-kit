@@ -19,11 +19,16 @@ export const handleRequestParams = (params, sort) => {
 /**
  * ProTable Columns中的排序属性
  */
-export const withSorter = (dataIndex: string, defaultSorter: 'desc' | 'asc' = 'asc'): any => {
+export const withSorter = (
+  dataIndex: string,
+  defaultSorter: 'desc' | 'asc' = 'asc',
+): any => {
   const orderMap = { asc: 'ascend', desc: 'descend' };
 
   const directions =
-    defaultSorter === 'asc' ? ['ascend', 'descend', 'ascend'] : ['descend', 'ascend', 'descend'];
+    defaultSorter === 'asc'
+      ? ['ascend', 'descend', 'ascend']
+      : ['descend', 'ascend', 'descend'];
 
   return {
     defaultSortOrder: orderMap[defaultSorter],
