@@ -103,6 +103,7 @@ const ProForm = (props: ProFormType) => {
   return (
     <InnerRefContext.Provider value={innerRef}>
       <AntProForm
+        key={initialValuesInner ? 2 : 1} // initialValues 只在 form 初始化时生效
         onFinish={handleOnFinish}
         formRef={formRef}
         initialValues={initialValuesInner}

@@ -264,6 +264,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   return (
     <BetaSchemaForm
+      key={initialValuesInner ? 2 : 1} // initialValues 只在 form 初始化时生效
       {...setting}
       onFinish={handleOnFinish}
       submitter={patchSubmitter()}
