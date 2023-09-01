@@ -11,6 +11,11 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.1
+
+- 修复 SchemaForm 当 initialValues 有值时 formRef 无效的问题。
+- 修复 ProForm 当 initialValues 有值时 formRef 无效的问题。
+
 ## 0.3.0
 
 - 文档升级成 dumi2.0
