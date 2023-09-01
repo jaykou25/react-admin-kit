@@ -80,26 +80,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const selfInnerRef = createRef<SchemaFormInnerRefType>();
   selfInnerRef.current = { data: {}, setData: () => {} };
 
-  // 包装setFieldsValue方法, 用于约定式赋值
-  const formRef = useRef<ProFormInstance>();
-  useImperativeHandle(
-    propsFormRef,
-    () => {
-      if (!formRef.current) {
-        return formRef.current;
-      }
-
-      const { getFieldsValue, setFieldsValue } = formRef.current;
-
-      return {
-        ...formRef.current,
-        setFieldsValue: (values) =>
-          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
-      };
-    },
-    [!initialValues],
-  );
-
   const setData = (newValue: Record<string, any>) => {
     if (innerRef?.current) {
       const values = innerRef.current.data;
@@ -139,11 +119,32 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (initialValuesInner) {
-      formRef.current?.resetFields();
-    }
-  }, [initialValuesInner]);
+  // 包装setFieldsValue方法, 用于约定式赋值
+  const formRef = useRef<ProFormInstance>();
+  const formRefWithInitial = useRef<ProFormInstance>();
+  useImperativeHandle(
+    propsFormRef,
+    () => {
+      // 没有初始值的情况
+      if (!initialValuesInner) {
+        return formRef.current;
+      }
+
+      // 有初始值的情况
+      if (!formRefWithInitial.current) {
+        return formRefWithInitial.current;
+      }
+
+      const { getFieldsValue, setFieldsValue } = formRefWithInitial.current;
+
+      return {
+        ...formRefWithInitial.current,
+        setFieldsValue: (values) =>
+          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+      };
+    },
+    [!initialValuesInner],
+  );
 
   /**
    * 全局默认设置
@@ -262,13 +263,17 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     return submitter;
   };
 
+  /**
+   *  用 key 来区分不同的form组件
+   */
+  const key = initialValuesInner ? 'hasInitial' : 'noInitial';
   return (
     <BetaSchemaForm
-      key={initialValuesInner ? 2 : 1} // initialValues 只在 form 初始化时生效
+      key={key}
       {...setting}
       onFinish={handleOnFinish}
       submitter={patchSubmitter()}
-      formRef={formRef}
+      formRef={key === 'hasInitial' ? formRefWithInitial : formRef}
       readonly={readonly}
       initialValues={initialValuesInner}
       {...rest}

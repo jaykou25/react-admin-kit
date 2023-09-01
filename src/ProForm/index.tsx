@@ -29,26 +29,6 @@ const ProForm = (props: ProFormType) => {
     ...rest
   } = props;
 
-  // 包装setFieldsValue方法, 用于约定式赋值
-  const formRef = useRef<ProFormInstance>();
-  useImperativeHandle(
-    propsFormRef,
-    () => {
-      if (!formRef.current) {
-        return formRef.current;
-      }
-
-      const { getFieldsValue, setFieldsValue } = formRef.current;
-
-      return {
-        ...formRef.current,
-        setFieldsValue: (values) =>
-          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
-      };
-    },
-    [!initialValues],
-  );
-
   const setData = (newValue: Record<string, any>) => {
     if (innerRef?.current) {
       const values = innerRef.current.data;
@@ -94,18 +74,41 @@ const ProForm = (props: ProFormType) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (initialValuesInner) {
-      formRef.current?.resetFields();
-    }
-  }, [initialValuesInner]);
+  // 包装setFieldsValue方法, 用于约定式赋值
+  const formRef = useRef<ProFormInstance>();
+  const formRef2 = useRef<ProFormInstance>();
+  useImperativeHandle(
+    propsFormRef,
+    () => {
+      // 没有初始值的情况
+      if (!initialValuesInner) {
+        return formRef.current;
+      }
+
+      // 有初始值的情况
+      if (!formRef2.current) {
+        return formRef2.current;
+      }
+
+      const { getFieldsValue, setFieldsValue } = formRef2.current;
+
+      return {
+        ...formRef2.current,
+        setFieldsValue: (values) =>
+          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+      };
+    },
+    [!initialValuesInner],
+  );
+
+  const key = initialValuesInner ? 'hasInitial' : 'noInitial';
 
   return (
     <InnerRefContext.Provider value={innerRef}>
       <AntProForm
-        key={initialValuesInner ? 2 : 1} // initialValues 只在 form 初始化时生效
+        key={key} // initialValues 只在 form 初始化时生效
         onFinish={handleOnFinish}
-        formRef={formRef}
+        formRef={key === 'hasInitial' ? formRef2 : formRef}
         initialValues={initialValuesInner}
         {...rest}
       >
