@@ -14,7 +14,7 @@ import { ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
-import './styles.less';
+import './styles.css';
 
 /**
  * 表单类型的映射
