@@ -1,5 +1,5 @@
 node_modules
-/dist
+# /dist
 .dumi/tmp
 .dumi/tmp-test
 .dumi/tmp-production
@@ -12,3 +12,4 @@ node_modules
 # ide
 /.vscode
 /.idea
+

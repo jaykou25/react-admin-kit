@@ -12,8 +12,8 @@
     "url": "https://github.com/jaykou25/react-admin-kit"
   },
   "license": "MIT",
-  "module": "dist/esm/index.js",
-  "typings": "dist/esm/index.d.ts",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
