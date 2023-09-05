@@ -29,12 +29,9 @@ const Home = () => {
             </span>
           </span>
         </h1>
-        <p className="description">快速构建表单表格的 React 组件库</p>
+        <p className="description">构建表单、表格的 React 组件库</p>
         <p className="actions">
-          <Link
-            className="get-started"
-            to="/components/schema-form"
-          >
+          <Link className="get-started" to="/components/schema-form">
             开始使用
           </Link>
           <Link className="intro" to="/intro">
