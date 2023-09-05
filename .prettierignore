@@ -1,3 +1,4 @@
 /dist
+/docs-dist
 *.yaml
 /src/index.ts
