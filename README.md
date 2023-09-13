@@ -5,7 +5,9 @@
   <p style="font-size: 22px">快速构建表单表格的 React 组件库</p>
 </p>
 
-[文档](https://jaykou25.github.io/react-admin-kit/)
+[文档 (github pages)](https://jaykou25.github.io/react-admin-kit/)
+  
+[文档 (gitee pages)](https://jaykou.gitee.io/react-admin-kit)
 
 ## 简介
 
