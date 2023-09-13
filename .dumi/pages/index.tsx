@@ -1,4 +1,4 @@
-import { Helmet } from 'dumi';
+import { Helmet, Link } from 'dumi';
 import './index.less';
 
 const title = 'React Admin Kit | 快速构建表单表格';
@@ -29,17 +29,14 @@ const Home = () => {
             </span>
           </span>
         </h1>
-        <p className="description">快速构建表单表格的 React 组件库</p>
+        <p className="description">构建表单、表格的 React 组件库</p>
         <p className="actions">
-          <a
-            className="get-started"
-            href="/react-admin-kit/components/schema-form"
-          >
+          <Link className="get-started" to="/components/schema-form">
             开始使用
-          </a>
-          <a className="intro" href="/react-admin-kit/intro">
+          </Link>
+          <Link className="intro" to="/intro">
             介绍
-          </a>
+          </Link>
         </p>
       </section>
 
