@@ -12,7 +12,6 @@ export const columns: FormColumnType[] = [
       {
         title: '用户名',
         dataIndex: 'username',
-        colProps: { span: 24 },
         formItemProps: {
           rules: [
             {

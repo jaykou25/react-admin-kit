@@ -73,7 +73,9 @@ export type FormColumnType<T = any, ValueType = 'text'> = Omit<
   /**
    * 给 fieldProps 方法注入 innerRef
    */
-  fieldProps?: object | ((form: ProFormInstance, innerRef: InnerRef) => object);
+  fieldProps?:
+    | object
+    | ((form: ProFormInstance, innerRef: InnerRef, config: any) => object);
 
   /**
    * 给 renderFormItem 方法注入 innerRef

@@ -6,7 +6,8 @@ const DependencyDemo = () => {
     {
       title: '是否显示电话',
       dataIndex: 'showPhone',
-      valueType: 'select',
+      valueType: 'radio',
+      initialValue: 0,
       fieldProps: {
         options: [
           { label: '是', value: 1 },
