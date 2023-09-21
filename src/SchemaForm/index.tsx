@@ -175,8 +175,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
         // 给fieldProps增加ref参数
         if (fieldProps && typeof fieldProps === 'function') {
-          col.fieldProps = (form: ProFormInstance) =>
-            fieldProps(form, $innerRef);
+          col.fieldProps = (form: ProFormInstance, config) =>
+            fieldProps(form, $innerRef, config);
         }
 
         // 给renderFormItem增加ref参数
