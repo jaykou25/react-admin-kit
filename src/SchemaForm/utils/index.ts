@@ -16,7 +16,7 @@ export function splitValues(values = {}) {
     let value = values[key];
 
     // 处理套嵌
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && !Array.isArray(value)) {
       value = splitValues(value);
     }
 
