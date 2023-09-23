@@ -186,6 +186,7 @@ submitter 属性默认为 false, 开启后可自动生成提交按钮.
 <code src="./demos/groupGridHorizontal/index.tsx"></code>
 
 ### 表单数组 FormList
+
 当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用.
 
 比如下面的例子能够添加多个店铺.
@@ -193,11 +194,13 @@ submitter 属性默认为 false, 开启后可自动生成提交按钮.
 <code src="./demos/formList/index.tsx" ></code>
 
 ### 表单数组 Grid 排列
+
 要让表单数组内的表单项 grid 排列, 除了开启 `grid` 属性以外, 表单项还需要用 `valueType='group'` 包裹.
 
 <code src="./demos/formListGrid/index.tsx" ></code>
 
 ### 表单数组样式和操作按钮自定义
+
 还可以通过 `itemRender` 属性自定义样式和操作按钮.
 
 itemRender 的参数是 `({ listDom, action }, options)`, 其中 listDom 是表单项合集, action 是操作按钮合集, options 是对象 `{name, field, index, record, fields, operations, meta}`

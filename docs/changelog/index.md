@@ -11,6 +11,10 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.2
+
+- 修复 SchemaForm 在 onFinish 时对数组类型的值转换错误的问题。
+
 ## 0.3.1
 
 - 修复 SchemaForm 当 initialValues 有值时 formRef 无效的问题。
