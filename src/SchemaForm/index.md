@@ -72,6 +72,12 @@ valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType �
 }
 ```
 
+### required
+
+由于表单中设置必选的频率比较高，schema 中新增了 `required` 字段，作为 `formItemProps: { rules: [{ required: true }]}` 的简写. 当然 formItemProps 的优先级更高.
+
+<code src="./demos/required/index.tsx"></code>
+
 ### 水平模式 horizontal
 
 <code src="./demos/horizontal/index.tsx"></code>

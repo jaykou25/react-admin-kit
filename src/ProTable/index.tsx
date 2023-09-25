@@ -378,7 +378,11 @@ class ProTable extends Component<MyProTableType, any> {
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore
-          columns={this.enableDelete(this.patchColumn(columns))}
+          columns={this.enableDelete(this.patchColumn(columns)).filter(
+            (col) => {
+              return col.type !== 'form';
+            },
+          )}
           options={options}
           pagination={pagination}
           scroll={scroll}
@@ -414,7 +418,9 @@ class ProTable extends Component<MyProTableType, any> {
           innerRef={this.modalFormRef}
           title={this.getModalTitle()}
           // @ts-ignore
-          columns={this.patchColumn(formColumns || columns)}
+          columns={this.patchColumn(formColumns || columns).filter((col) => {
+            return col.type !== 'table';
+          })}
           onFinish={onFinish}
           onOpen={onOpen}
           formProps={{

@@ -11,6 +11,12 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.3
+
+- ModalForm 组件的 innerRef 增加 formType 字段, 用于表示当前表单类型, `new | edit | read`
+- SchemaForm 组件的 schema 新增 required 字段, 它是 formItemProps: { rules: [{ required: true }]} 的简写。
+- ProTable 组件的 schema 新增 type 字段, `form | table`, 用于指定该 schema 是被用于表格还是表单, type 为空时既会用于表单也会用于表格.
+
 ## 0.3.2
 
 - 修复 SchemaForm 在 onFinish 时对数组类型的值转换错误的问题。

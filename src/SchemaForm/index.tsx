@@ -159,6 +159,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   /**
    * 给 fieldProps 和 renderFormItem 注入 innerRef
+   * 给一些约定的字段加上属性：required: true => formItemProps
    */
   const parentInnerRef = useContext(InnerRefContext);
   const patchColumn = ($cols: FormColumnType[]): any[] => {
@@ -171,7 +172,18 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
     return produce($cols, (cols) => {
       cols.forEach((col) => {
-        const { renderFormItem, fieldProps, valueType, columns } = col;
+        const {
+          renderFormItem,
+          fieldProps,
+          valueType,
+          columns,
+          formItemProps = {},
+          required,
+        } = col;
+        // 如果
+        if (required && !formItemProps.rules) {
+          col.formItemProps = { ...formItemProps, rules: [{ required: true }] };
+        }
 
         // 给fieldProps增加ref参数
         if (fieldProps && typeof fieldProps === 'function') {

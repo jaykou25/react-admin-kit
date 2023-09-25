@@ -88,6 +88,16 @@ export type FormColumnType<T = any, ValueType = 'text'> = Omit<
   columns?:
     | FormColumnType<T, ValueType>[]
     | ((values: any) => FormColumnType<T, ValueType>[]);
+
+  /**
+   * formItemProps: {rules: [{required: true}]} 的简写
+   */
+  required?: boolean;
+
+  /**
+   * 可以自定义任意的字段
+   */
+  [key: string]: any;
 };
 
 /**

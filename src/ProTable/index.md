@@ -235,6 +235,12 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 
 <code src="./demos/valueType/index.tsx"></code>
 
+### type 用于区分表单与表格
+
+由于在 ProTable 组件中同一份 columns 既会被用于生成 Table, 也有可能被用于生成 Form, 但有的时候某一个 schema 只想显示在 Table 里, 又或者只想显示在 Form 里, 这样的场景可以用 type 来区分. `form | table`.
+
+<code src="./demos/columnType/index.tsx"></code>
+
 ### renderText 与 render 的区别
 
 在 ProTable 的 column 里`render`跟`renderText`很容易混淆.
@@ -348,3 +354,4 @@ column 里增加了 `renderExport` 自定义导出的内容
 | hideInTable  | 在 Table 中隐藏                                                                                 | `boolean`                                                                                    |
 | hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                    |
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean }` |
+| type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                          |

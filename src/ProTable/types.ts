@@ -119,13 +119,12 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
  * Table 的 column 定义
  * 它是 Form column 和 Table column 的合并, 因为在 ProTable 组件中 Tablet 和 Form 都存在
  */
-export type TableColumnType<
-  Record = any,
-  ValueType = 'text',
-  Type = string,
-> = Omit<FormColumnType<Record, ValueType>, 'render'> &
+export type TableColumnType<Record = any, ValueType = 'text'> = Omit<
+  FormColumnType<Record, ValueType>,
+  'render'
+> &
   TableColumnTypeBase<Record, ValueType> & {
-    type?: Type;
-    children?: TableColumnType<Record, ValueType, Type>[];
+    type?: 'form' | 'table';
+    children?: TableColumnType<Record, ValueType>[];
     valueType?: MyFieldType | ValueType;
   };
