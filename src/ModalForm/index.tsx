@@ -67,6 +67,13 @@ class ModalForm extends Component<
   };
 
   openModal = (formType: FormType = 'new', initialData: object) => {
+    /**
+     * 将 formType 挂在 innerRef 上
+     */
+    if (this.props.innerRef && this.props.innerRef.current) {
+      this.props.innerRef.current.formType = formType;
+    }
+
     if (initialData) {
       this.setState({ visible: true, formType, formData: initialData });
       return;
