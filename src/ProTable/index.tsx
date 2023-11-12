@@ -14,6 +14,7 @@ import { ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
+import ModalConfirm from './components/ModalConfirm';
 import './styles.css';
 
 /**
@@ -117,8 +118,23 @@ class ProTable extends Component<MyProTableType, any> {
   };
 
   enableDelete = ($cols) => {
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { confirmModalType: defaultType, confirmModalProps: defaultProps } =
+      setting;
+
     // props
-    const { rowKey = 'id', delPermission, delFunction } = this.props;
+    const {
+      rowKey = 'id',
+      delPermission,
+      delFunction,
+      confirmModelType = defaultType || 'popconfirm',
+      confirmModalProps = {},
+    } = this.props;
+
+    const mergeProps = { ...defaultProps, ...confirmModalProps };
 
     const hasDelPermission = delPermission ? delPermission() : true;
 
@@ -145,32 +161,63 @@ class ProTable extends Component<MyProTableType, any> {
                 ? enableDelete(record, index)
                 : {};
             // enabledDelete为true时的默认值
-            const { disabled = false, visible = true, danger } = $enableDelete;
+            const {
+              disabled = false,
+              visible = true,
+              danger,
+              btnText = '删除',
+            } = $enableDelete;
 
             const renderDom = render(text, record, index, actionRef, innerRef);
 
             if (Array.isArray(renderDom) && visible) {
-              const deleteDom = (
-                <Popconfirm
-                  key={renderDom.length + 1}
-                  title="确定删除吗?"
-                  onConfirm={(e) => {
-                    e?.stopPropagation();
-                    this.handleDelete([record[key]], record);
-                  }}
-                  onCancel={(e) => e?.stopPropagation()}
-                >
-                  <LinkButton
-                    disabled={disabled}
-                    onClick={(e) => e.stopPropagation()}
-                    loading={delLoading && record[key] === this.targetId}
-                    danger={danger}
-                  >
-                    删除
-                  </LinkButton>
-                </Popconfirm>
-              );
+              let deleteDom;
 
+              // 弹框的默认属性
+              const { title = '确定删除吗?', ...rest } = mergeProps;
+
+              if (confirmModelType === 'modal') {
+                deleteDom = (
+                  <ModalConfirm
+                    title={title}
+                    {...rest}
+                    onOk={() => {
+                      this.handleDelete([record[key]], record);
+                    }}
+                  >
+                    <LinkButton
+                      disabled={disabled}
+                      onClick={(e) => e.stopPropagation()}
+                      loading={delLoading && record[key] === this.targetId}
+                      danger={danger}
+                    >
+                      {btnText}
+                    </LinkButton>
+                  </ModalConfirm>
+                );
+              } else {
+                deleteDom = (
+                  <Popconfirm
+                    key={renderDom.length + 1}
+                    title={title}
+                    {...rest}
+                    onConfirm={(e) => {
+                      e?.stopPropagation();
+                      this.handleDelete([record[key]], record);
+                    }}
+                    onCancel={(e) => e?.stopPropagation()}
+                  >
+                    <LinkButton
+                      disabled={disabled}
+                      onClick={(e) => e.stopPropagation()}
+                      loading={delLoading && record[key] === this.targetId}
+                      danger={danger}
+                    >
+                      {btnText}
+                    </LinkButton>
+                  </Popconfirm>
+                );
+              }
               renderDom.push(deleteDom);
             }
             return renderDom;
@@ -263,6 +310,12 @@ class ProTable extends Component<MyProTableType, any> {
     // state
     const { delLoading, selectedRows } = this.state;
 
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { tableAlertOption: defaultOption } = setting;
+
     // props
     const {
       tableAlertOption = {},
@@ -270,16 +323,59 @@ class ProTable extends Component<MyProTableType, any> {
       name,
       delFunction,
       delPermission,
+      confirmModelType,
     } = this.props;
+
     // tableAlertOption
     const {
       hideDelete = false,
       enableExport = false,
       actions: alertActions = [],
       exportName,
+      deleteProps,
     } = tableAlertOption;
 
+    const { btnText = '批量删除', title, ...rest } = deleteProps || {};
+
     const hasDelPermission = delPermission ? delPermission() : true;
+
+    /* 多选删除 */
+    const getDelDom = () => {
+      if (!hideDelete && delFunction && hasDelPermission) {
+        const defaultTitle = title
+          ? title(_selectedRowKeys.length)
+          : `确定删除${_selectedRowKeys.length}条数据吗?`;
+
+        if (confirmModelType === 'modal') {
+          return (
+            <ModalConfirm
+              title={defaultTitle}
+              {...rest}
+              onOk={() => {
+                this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
+              }}
+              okButtonProps={{ loading: delLoading }}
+            >
+              <LinkButton loading={delLoading}>{btnText}</LinkButton>
+            </ModalConfirm>
+          );
+        } else {
+          return (
+            <Popconfirm
+              overlayStyle={{ width: '180px' }}
+              title={defaultTitle}
+              {...rest}
+              onConfirm={() => {
+                this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
+              }}
+              okButtonProps={{ loading: delLoading }}
+            >
+              <LinkButton loading={delLoading}>{btnText}</LinkButton>
+            </Popconfirm>
+          );
+        }
+      }
+    };
 
     return (
       <Space size={'middle'}>
@@ -301,18 +397,7 @@ class ProTable extends Component<MyProTableType, any> {
         )}
 
         {/* 多选删除 */}
-        {!hideDelete && delFunction && hasDelPermission && (
-          <Popconfirm
-            overlayStyle={{ width: '180px' }}
-            title={`确定删除${_selectedRowKeys.length}条数据吗?`}
-            onConfirm={() => {
-              this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
-            }}
-            okButtonProps={{ loading: delLoading }}
-          >
-            <LinkButton loading={delLoading}>批量删除</LinkButton>
-          </Popconfirm>
-        )}
+        {getDelDom()}
 
         {alertActions}
 
@@ -345,6 +430,9 @@ class ProTable extends Component<MyProTableType, any> {
       onOpen,
       modalProps = {},
       formProps = {},
+      // 仅仅是移除掉它们, 不让它们传给 AntProTable
+      confirmModalProps,
+      confirmModelType,
       ...rest
     } = this.props;
 
@@ -356,6 +444,10 @@ class ProTable extends Component<MyProTableType, any> {
       modalProps: settingModalProps = {},
       formProps: settingFormProps = {},
       searchConfig = {},
+      // 仅仅是移除掉它们, 不让它们传给 AntProTable
+      confirmModalType: a,
+      confirmModalProps: b,
+      tableAlertOption: c,
       ...restSetting
     } = setting;
 

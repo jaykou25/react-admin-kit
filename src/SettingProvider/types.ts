@@ -1,6 +1,7 @@
 import { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
 import type { ModalProps } from 'antd';
 import { FormUploadProps } from '../FormUpload/types';
+import { TableAlertOptionType } from '../ProTable/types';
 import { SchemaFormProps } from '../SchemaForm/types';
 
 export type SettingFormProps = Omit<SchemaFormProps, 'onFinish' | 'columns'>;
@@ -11,6 +12,9 @@ export type ProTableSetting =
       searchConfig?: SearchConfig;
       modalProps?: ModalProps;
       formProps?: SettingFormProps;
+      confirmModalType?: 'popconfirm' | 'modal';
+      confirmModalProps?: any;
+      tableAlertOption?: TableAlertOptionType;
     }
   | undefined;
 

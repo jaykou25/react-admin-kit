@@ -5,6 +5,7 @@ import type {
   ProColumnsValueType,
   ProTableProps,
 } from '@ant-design/pro-table';
+import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
 import type { ModalProps } from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
@@ -29,9 +30,22 @@ type InnerRef =
   | React.MutableRefObject<InnerRefType | undefined>
   | React.RefObject<InnerRefType | undefined>;
 
+export type TableAlertOptionType = {
+  hideDelete?: boolean; // 默认是false
+  deleteProps?: { btnText?: string; title?: (num) => string } | any; // 可以传入popconfirm 或 modal.confirm的属性
+  enableExport?: boolean; // 默认是false
+  actions?: ReactNode[];
+  exportName?: string;
+};
+
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
-  'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'editable'
+  | 'columns'
+  | 'name'
+  | 'onFinish'
+  | 'tableAlertOptionRender'
+  | 'editable'
+  | 'search'
 > & {
   columns: TableColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
@@ -58,18 +72,16 @@ export type MyProTableType = Omit<
    * 移除了原来ProTable中的tableAlertOptionRender接口而用tableAlertOptions来替代.
    * 是因为在tableAlert中封装了多选删除的功能
    */
-  tableAlertOption?: {
-    hideDelete?: boolean; // 默认是false
-    enableExport?: boolean; // 默认是false
-    actions?: ReactNode[];
-    exportName?: string;
-  };
+  tableAlertOption?: TableAlertOptionType;
   // 操作列的space间距
   optionColSpaceSize?: 'small';
   editable?: boolean;
   modalProps?: ModalProps;
   formProps?: SettingFormProps;
   noPadding?: boolean;
+  confirmModelType?: 'popconfirm' | 'modal';
+  confirmModalProps?: any;
+  search?: false | (SearchConfig & { labelWrap: boolean });
 };
 
 export type FetchOptionType = {
@@ -80,6 +92,7 @@ type EnableDeleteType = {
   disabled?: boolean;
   visible?: boolean;
   danger?: boolean;
+  btnText?: string;
 };
 
 export type selfColumnsValueType = 'export';

@@ -14,6 +14,13 @@ const Basic = () => {
           rowProps: { gutter: [24, 0] },
           colProps: { span: 12 },
         },
+        confirmModalType: 'modal',
+        confirmModalProps: { title: '定制的title' },
+        tableAlertOption: {
+          deleteProps: {
+            title: (n) => `选择了${n}`,
+          },
+        },
       }}
     >
       <Example />

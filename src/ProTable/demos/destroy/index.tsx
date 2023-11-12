@@ -12,6 +12,8 @@ const Destroy = () => {
 
   return (
     <ProTable
+      confirmModelType="modal"
+      confirmModalProps={{ title: '确定关闭吗?' }}
       columns={getColumns()}
       request={mockRequest}
       pagination={{ pageSize: 5 }}
@@ -42,6 +44,12 @@ const Destroy = () => {
       }}
       delFunction={mockDetroy}
       rowSelection={{}}
+      tableAlertOption={{
+        deleteProps: {
+          btnText: '批量关闭',
+          title: (n) => `确定关闭${n}条数据吗?`,
+        },
+      }}
     />
   );
 };

@@ -11,6 +11,16 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+
+## 0.3.4
+- ProTable `search` 属性增加 labelWrap 的 ts 类型.
+- ProTable 组件新增 `confirmModalType` 和 `confirmModalProps` 属性, 用于控制删除弹框的类型. 
+- ProTable 组件 schema 中 enableDelete 属性返回的对象中新增 btnText 属性, 用于更改删除按钮的文字.
+- ProTable `tableAlertOption` 属性中新增 deleteProps 属性, 用于控制批量删按钮.
+
+全局设置
+- SettingProvider 全局设置新
+
 ## 0.3.3
 
 - ModalForm 组件的 innerRef 增加 formType 字段, 用于表示当前表单类型, `new | edit | read`

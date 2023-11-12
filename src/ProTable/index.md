@@ -194,7 +194,7 @@ onFinish 的第一个参数 values 是表单收集的值, 里面并没有 id. �
 
 另外要支持多选删除还需要开启行选择功能.
 
-```js
+```js {4}
 <ProTable
   ...
   delFunction={mockDetroy}
@@ -250,6 +250,11 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 `render`可以完全自定义内容的显示. 但是它的第一个参数是`dom`而不是`text`, 这个需要注意. 这个 dom 里包含了省略号和复制图标等内容.
 
 <code src="./demos/renderText/index.tsx"></code>
+
+### 调整搜索表单的配置
+比如当表单水平布局时 label 过长可以设置 `labelWrap: true`.  或者设置默认展开等.
+
+<code src="./demos/searchConfig/index.tsx"></code>
 
 ### 更改弹窗表单的布局
 
@@ -312,6 +317,9 @@ column 里增加了 `renderExport` 自定义导出的内容
 | tableAlertOption | tableAlertOption 区域的选项, 这里面集成了删除, 导出等功能                                                                  | [TableAlertOption](/components/pro-table#tablealertoption)                          | `{ hideDelete: false, enableExport: false }` |
 | modalProps       | 传给 Modal 的属性                                                                                                          | [ModalProps](https://4x.ant.design/components/modal-cn/#API)                        | `--`                                         |
 | formProps        | 传给 SchemaForm 的属性                                                                                                     | [SchemaFormProps](/components/schema-form#api)                                      | `--`                                         |
+| search | 是否显示搜索表单，传入对象时为搜索表单的配置 | `false` \| [SearchConfig](https://procomponents.ant.design/components/table#search-%E6%90%9C%E7%B4%A2%E8%A1%A8%E5%8D%95) | - |
+|confirmModelType | 删除弹框的类型, 是用 Popconfirm 或者 Modal.confirm | `popconfirm \| modal` | `popconfirm` |
+| confirmModalProps | 传给删除弹框的属性 | Popconfirm 或 Modal.Confirm 属性| `--` |
 
 ### InnerRef
 
@@ -329,6 +337,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | 名称         | 说明                 | 类型               | 默认                                     |
 | ------------ | -------------------- | ------------------ | ---------------------------------------- |
 | hideDelete   | 是否隐藏勾选删除功能 | `boolean`          | `false`                                  |
+| deleteProps   | 勾选删除的属性 | `{btnText: string;}` \| Popconfirm 或 Modal.confirm 的属性          | `--`                                  |
 | enableExport | 是否开启导出功能     | `boolean`          | `false`                                  |
 | exportName   | 导出文件的名字       | `string`           | 默认以 ProTable 的 name 属性为导出文件名 |
 | actions      | 定义该区域额外的按钮 | `Array[ReactNode]` | -                                        |
@@ -353,5 +362,5 @@ column 里增加了 `renderExport` 自定义导出的内容
 | hideInForm   | 在 Form 中隐藏                                                                                  | `boolean`                                                                                    |
 | hideInTable  | 在 Table 中隐藏                                                                                 | `boolean`                                                                                    |
 | hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                    |
-| enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean }` |
+| enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
 | type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                          |
