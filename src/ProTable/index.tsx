@@ -15,6 +15,8 @@ import { FormType } from '../ModalForm/types';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
+
+import { mergeOptions } from '../utils/index';
 import './styles.css';
 
 /**
@@ -122,7 +124,7 @@ class ProTable extends Component<MyProTableType, any> {
      * 全局默认设置
      */
     const setting = this.context || {};
-    const { confirmModalType: defaultType, confirmModalProps: defaultProps } =
+    const { confirmModalType: globalType, confirmModalProps: globalProps } =
       setting;
 
     // props
@@ -130,11 +132,11 @@ class ProTable extends Component<MyProTableType, any> {
       rowKey = 'id',
       delPermission,
       delFunction,
-      confirmModelType = defaultType || 'popconfirm',
+      confirmModelType = globalType || 'popconfirm',
       confirmModalProps = {},
     } = this.props;
 
-    const mergeProps = { ...defaultProps, ...confirmModalProps };
+    const mergedProps = mergeOptions(globalProps, confirmModalProps);
 
     const hasDelPermission = delPermission ? delPermission() : true;
 
@@ -174,11 +176,12 @@ class ProTable extends Component<MyProTableType, any> {
               let deleteDom;
 
               // 弹框的默认属性
-              const { title = '确定删除吗?', ...rest } = mergeProps;
+              const { title = '确定删除吗?', ...rest } = mergedProps;
 
               if (confirmModelType === 'modal') {
                 deleteDom = (
                   <ModalConfirm
+                    key={renderDom.length + 1}
                     title={title}
                     {...rest}
                     onOk={() => {
@@ -314,7 +317,7 @@ class ProTable extends Component<MyProTableType, any> {
      * 全局默认设置
      */
     const setting = this.context || {};
-    const { tableAlertOption: defaultOption } = setting;
+    const { tableAlertOption: globalOption } = setting;
 
     // props
     const {
@@ -326,6 +329,9 @@ class ProTable extends Component<MyProTableType, any> {
       confirmModelType,
     } = this.props;
 
+    // 合并全局设置和组件传入的属性, 后者传入的优先级高
+    const mergedOption = mergeOptions(globalOption, tableAlertOption);
+
     // tableAlertOption
     const {
       hideDelete = false,
@@ -333,7 +339,7 @@ class ProTable extends Component<MyProTableType, any> {
       actions: alertActions = [],
       exportName,
       deleteProps,
-    } = tableAlertOption;
+    } = mergedOption;
 
     const { btnText = '批量删除', title, ...rest } = deleteProps || {};
 

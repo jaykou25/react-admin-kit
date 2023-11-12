@@ -52,13 +52,14 @@ ProTable 是 [Antd ProTable](https://procomponents.ant.design/components/table) 
 
 用户可以与后台约定好这些请求参数和返回格式, 也可以自已在全局包装一下后传给后台.
 
-column 里的 `hideInSearch` 字段控制是否在搜索表单里隐藏.
+column 里的 `hideInSearch` 字段控制是否在搜索表单里隐藏. 也可以用 `search: false`. 两者等效.
 
-```js {4}
+```js {4,5}
 {
   title: '昵称',
   dataIndex: 'nickName',
   hideInSearch: true, // 在搜索表单里隐藏
+  search: false, // 在搜索表单里隐藏
 }
 ```
 
@@ -222,7 +223,8 @@ onFinish 的第一个参数 values 是表单收集的值, 里面并没有 id. �
   enableDelete: () => ({
     disabled: true,
     visible: true,
-    danger: true
+    danger: true,
+    btnText: '关闭'
   }),
 },
 ```
@@ -252,7 +254,8 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 <code src="./demos/renderText/index.tsx"></code>
 
 ### 调整搜索表单的配置
-比如当表单水平布局时 label 过长可以设置 `labelWrap: true`.  或者设置默认展开等.
+
+比如当表单水平布局时 label 过长可以设置 `labelWrap: true`. 或者设置默认展开等.
 
 <code src="./demos/searchConfig/index.tsx"></code>
 
@@ -304,22 +307,22 @@ column 里增加了 `renderExport` 自定义导出的内容
 
 ### ProTable
 
-| 参数             | 说明                                                                                                                       | 类型                                                                                | 默认值                                       |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------- |
-| request          | 获取 `dataSource` 的方法                                                                                                   | `(params?: { pageSize,current }, sort, filter) => Promise<{ data, success, total}>` | `--`                                         |
-| actionRef        | 用于手动触发 table 的 reload 等操作                                                                                        | `MutableRefObject<ActionType>`                                                      | `--`                                         |
-| innerRef         | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息                                                                          | `MutableRefObject<InnerRefType>`                                                    | `--`                                         |
-| delFunction      | 用于多选删除和行上删除的方法                                                                                               | `(ids) => Promise<void>`                                                            | `--`                                         |
-| name             | name 被用于显示在表格标题上, 弹窗的标题上, 以及导出的文件名上. 也可不传. 若要关闭表格标题的显示, 可以用 headerTitle: false | `string`                                                                            | `--`                                         |
-| noPadding        | 是否去掉 table 外的的 padding, 一般用于纯表格场景时                                                                        | `boolean`                                                                           | `false`                                      |
-| onFinish         | 点击弹窗确认按钮后的回调                                                                                                   | `(values, formType, formData) => Promise<any> \| void`                              | `--`                                         |
-| onOpen           | 打开弹窗后的回调                                                                                                           | `(formType, formRef, formData) => Promise \| void`                                  | `--`                                         |
-| tableAlertOption | tableAlertOption 区域的选项, 这里面集成了删除, 导出等功能                                                                  | [TableAlertOption](/components/pro-table#tablealertoption)                          | `{ hideDelete: false, enableExport: false }` |
-| modalProps       | 传给 Modal 的属性                                                                                                          | [ModalProps](https://4x.ant.design/components/modal-cn/#API)                        | `--`                                         |
-| formProps        | 传给 SchemaForm 的属性                                                                                                     | [SchemaFormProps](/components/schema-form#api)                                      | `--`                                         |
-| search | 是否显示搜索表单，传入对象时为搜索表单的配置 | `false` \| [SearchConfig](https://procomponents.ant.design/components/table#search-%E6%90%9C%E7%B4%A2%E8%A1%A8%E5%8D%95) | - |
-|confirmModelType | 删除弹框的类型, 是用 Popconfirm 或者 Modal.confirm | `popconfirm \| modal` | `popconfirm` |
-| confirmModalProps | 传给删除弹框的属性 | Popconfirm 或 Modal.Confirm 属性| `--` |
+| 参数              | 说明                                                                                                                       | 类型                                                                                                                     | 默认值                                       |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| request           | 获取 `dataSource` 的方法                                                                                                   | `(params?: { pageSize,current }, sort, filter) => Promise<{ data, success, total}>`                                      | `--`                                         |
+| actionRef         | 用于手动触发 table 的 reload 等操作                                                                                        | `MutableRefObject<ActionType>`                                                                                           | `--`                                         |
+| innerRef          | 用于控制弹窗的打开; 获取 dataSource, 总页数等信息                                                                          | `MutableRefObject<InnerRefType>`                                                                                         | `--`                                         |
+| delFunction       | 用于多选删除和行上删除的方法                                                                                               | `(ids) => Promise<void>`                                                                                                 | `--`                                         |
+| name              | name 被用于显示在表格标题上, 弹窗的标题上, 以及导出的文件名上. 也可不传. 若要关闭表格标题的显示, 可以用 headerTitle: false | `string`                                                                                                                 | `--`                                         |
+| noPadding         | 是否去掉 table 外的的 padding, 一般用于纯表格场景时                                                                        | `boolean`                                                                                                                | `false`                                      |
+| onFinish          | 点击弹窗确认按钮后的回调                                                                                                   | `(values, formType, formData) => Promise<any> \| void`                                                                   | `--`                                         |
+| onOpen            | 打开弹窗后的回调                                                                                                           | `(formType, formRef, formData) => Promise \| void`                                                                       | `--`                                         |
+| tableAlertOption  | tableAlertOption 区域的选项, 这里面集成了删除, 导出等功能                                                                  | [TableAlertOption](/components/pro-table#tablealertoption)                                                               | `{ hideDelete: false, enableExport: false }` |
+| modalProps        | 传给 Modal 的属性                                                                                                          | [ModalProps](https://4x.ant.design/components/modal-cn/#API)                                                             | `--`                                         |
+| formProps         | 传给 SchemaForm 的属性                                                                                                     | [SchemaFormProps](/components/schema-form#api)                                                                           | `--`                                         |
+| search            | 是否显示搜索表单，传入对象时为搜索表单的配置                                                                               | `false` \| [SearchConfig](https://procomponents.ant.design/components/table#search-%E6%90%9C%E7%B4%A2%E8%A1%A8%E5%8D%95) | -                                            |
+| confirmModelType  | 删除弹框的类型, 是用 Popconfirm 或者 Modal.confirm                                                                         | `popconfirm \| modal`                                                                                                    | `popconfirm`                                 |
+| confirmModalProps | 传给删除弹框的属性                                                                                                         | Popconfirm 或 Modal.Confirm 属性                                                                                         | `--`                                         |
 
 ### InnerRef
 
@@ -334,13 +337,13 @@ column 里增加了 `renderExport` 自定义导出的内容
 
 ### TableAlertOption
 
-| 名称         | 说明                 | 类型               | 默认                                     |
-| ------------ | -------------------- | ------------------ | ---------------------------------------- |
-| hideDelete   | 是否隐藏勾选删除功能 | `boolean`          | `false`                                  |
-| deleteProps   | 勾选删除的属性 | `{btnText: string;}` \| Popconfirm 或 Modal.confirm 的属性          | `--`                                  |
-| enableExport | 是否开启导出功能     | `boolean`          | `false`                                  |
-| exportName   | 导出文件的名字       | `string`           | 默认以 ProTable 的 name 属性为导出文件名 |
-| actions      | 定义该区域额外的按钮 | `Array[ReactNode]` | -                                        |
+| 名称         | 说明                 | 类型                                                       | 默认                                     |
+| ------------ | -------------------- | ---------------------------------------------------------- | ---------------------------------------- |
+| hideDelete   | 是否隐藏勾选删除功能 | `boolean`                                                  | `false`                                  |
+| deleteProps  | 勾选删除的属性       | `{btnText: string;}` \| Popconfirm 或 Modal.confirm 的属性 | `--`                                     |
+| enableExport | 是否开启导出功能     | `boolean`                                                  | `false`                                  |
+| exportName   | 导出文件的名字       | `string`                                                   | 默认以 ProTable 的 name 属性为导出文件名 |
+| actions      | 定义该区域额外的按钮 | `Array[ReactNode]`                                         | -                                        |
 
 ### Schema
 
@@ -348,19 +351,19 @@ column 里增加了 `renderExport` 自定义导出的内容
 
 只列举在 Table 模式下特有的. Form 模式的请参考[SchemaForm](/core-components/schema-form#表单场景的-schema)
 
-| 参数         | 说明                                                                                            | 类型                                                                                         |
-| ------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| dataIndex    | 表格内的取值字段                                                                                | `string`                                                                                     |
-| valueType    | 数据的渲渲染方式，比如指定 date 就会自动时间处理                                                | `ProFieldValueType`                                                                          |
-| title        | 标题的内容                                                                                      | `ReactNode` \| `(props,type,dom)=> ReactNode`                                                |
-| ellipsis     | 是否自动缩略                                                                                    | `boolean`                                                                                    |
-| copyable     | 是否支持复制                                                                                    | `boolean`                                                                                    |
-| valueEnum    | 支持 object 和 Map，Map 是支持其他基础类型作为 key                                              | `(Entity)=> ValueEnum` \| `ValueEnum`                                                        |
-| renderExport | 定义前端导出的内容                                                                              | `(text, record, index) => string`                                                            |
-| renderText   | 用于自定义表格上的文字显示; renderText 会保留省略号, 图标等                                     | `(text, record) => string`                                                                   |
-| render       | 用于完全自定义表格上的显示; 它的第一个参数是一个 ReactNode, 它里面包含了省略号, 复制图标等内容. | `(dom, record, index) => any`                                                                |
-| hideInForm   | 在 Form 中隐藏                                                                                  | `boolean`                                                                                    |
-| hideInTable  | 在 Table 中隐藏                                                                                 | `boolean`                                                                                    |
-| hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                    |
+| 参数         | 说明                                                                                            | 类型                                                                                                           |
+| ------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| dataIndex    | 表格内的取值字段                                                                                | `string`                                                                                                       |
+| valueType    | 数据的渲渲染方式，比如指定 date 就会自动时间处理                                                | `ProFieldValueType`                                                                                            |
+| title        | 标题的内容                                                                                      | `ReactNode` \| `(props,type,dom)=> ReactNode`                                                                  |
+| ellipsis     | 是否自动缩略                                                                                    | `boolean`                                                                                                      |
+| copyable     | 是否支持复制                                                                                    | `boolean`                                                                                                      |
+| valueEnum    | 支持 object 和 Map，Map 是支持其他基础类型作为 key                                              | `(Entity)=> ValueEnum` \| `ValueEnum`                                                                          |
+| renderExport | 定义前端导出的内容                                                                              | `(text, record, index) => string`                                                                              |
+| renderText   | 用于自定义表格上的文字显示; renderText 会保留省略号, 图标等                                     | `(text, record) => string`                                                                                     |
+| render       | 用于完全自定义表格上的显示; 它的第一个参数是一个 ReactNode, 它里面包含了省略号, 复制图标等内容. | `(dom, record, index) => any`                                                                                  |
+| hideInForm   | 在 Form 中隐藏                                                                                  | `boolean`                                                                                                      |
+| hideInTable  | 在 Table 中隐藏                                                                                 | `boolean`                                                                                                      |
+| hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                                      |
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
-| type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                          |
+| type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                                            |

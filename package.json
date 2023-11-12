@@ -61,6 +61,7 @@
     "file-saver": "^2.0.5",
     "immer": "^9.0.15",
     "lodash-es": "^4.17.21",
+    "merge-options": "^3.0.4",
     "moment": "^2.29.4",
     "react-docgen-typescript": "^2.2.2"
   },

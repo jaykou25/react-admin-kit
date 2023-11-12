@@ -15,10 +15,11 @@ const Basic = () => {
           colProps: { span: 12 },
         },
         confirmModalType: 'modal',
-        confirmModalProps: { title: '定制的title' },
+        confirmModalProps: { title: '全局定制的title' },
         tableAlertOption: {
           deleteProps: {
-            title: (n) => `选择了${n}`,
+            btnText: '批量关闭',
+            title: (n) => `确认关闭${n}条吗?`,
           },
         },
       }}

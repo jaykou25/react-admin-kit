@@ -1,3 +1,5 @@
+import _mergeOptions from 'merge-options';
+
 /**
  * 在全局设置变量
  * @param name
@@ -66,3 +68,5 @@ export function delGlobal(...names: string[]) {
     obj = obj[name];
   }
 }
+
+export const mergeOptions = _mergeOptions.bind({ ignoreUndefined: true });

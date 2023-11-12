@@ -14,7 +14,7 @@ description: 为组件提供统一的默认设置, 只需在应用外围包裹�
 
 ### ProTable
 
-比如我们想配置 ProTable 的默认大小, search 区域的配置以及弹窗表单的布局.
+比如我们想配置 ProTable 的默认大小为 middle; search 区域的表单默认展开; 弹窗表单的布局默认一行两列; 删除弹框默认为 Modal.confirm, 删除文字默认为关闭.
 
 <code src="./demos/table/index.tsx"></code>
 
