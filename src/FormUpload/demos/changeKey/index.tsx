@@ -54,7 +54,7 @@ const ChangeKey = () => {
             ),
           },
         ]}
-        submitter={{}}
+        submitter
         onFinish={console.log}
       />
     </SettingProvider>

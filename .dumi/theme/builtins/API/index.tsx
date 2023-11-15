@@ -4,10 +4,8 @@ import Table from '../Table';
 const API = (props) => {
   const siteData = useSiteData();
   const docs = siteData.themeConfig.apiDoc || [];
-  const { name, filePath } = props;
-  const data = docs.find(
-    (doc) => doc.displayName === name && doc.filePath === filePath,
-  );
+  const { name } = props;
+  const data = docs.find((doc) => doc.displayName === name);
 
   const texts = {
     name: '属性名',

@@ -65,11 +65,13 @@ export const clearSelectCache = (type?: string) => {
 };
 
 // 用于生成api文档
-export const Api: React.FC<ApiType> = () => {
+export const BizApi: React.FC<ApiType> = () => {
   return null;
 };
 
 // 用于生成api文档
-export const Self: React.FC<BusinessSelectSelfProps<string>> = () => {
+export const BusinessSelectSelf: React.FC<
+  BusinessSelectSelfProps<string>
+> = () => {
   return null;
 };

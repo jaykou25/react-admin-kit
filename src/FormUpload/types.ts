@@ -36,7 +36,13 @@ export type FormUploadSelfProps = {
    * @description       上传失败后的处理函数
    */
   errorHandle?: (res) => void;
-  children?: any;
+
+  /**
+   * @description children
+   * @type ({ loading: boolean }) => Element | Element
+   */
+  children?: any | [(childrenProp: { loading: boolean }) => any];
 };
 
-export type FormUploadProps = UploadProps & FormUploadSelfProps;
+export type FormUploadProps = Omit<UploadProps, 'children'> &
+  FormUploadSelfProps;

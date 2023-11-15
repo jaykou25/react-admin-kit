@@ -59,7 +59,7 @@ const DataSubmit = () => {
           ),
         },
       ]}
-      submitter={{}}
+      submitter
       onFinish={onFinish}
     />
   );

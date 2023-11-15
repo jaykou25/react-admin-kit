@@ -11,6 +11,18 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.5
+
+Button 组件
+
+- 增加类型定义
+
+FormUpload 组件
+
+- 组件在上传过程中会给 children 组件注入 loading 属性.
+- 组件的 children 也可以是一个函数, 会给 children 函数传入 loading.
+- `文档` 增加文件导入的用例
+
 ## 0.3.4
 
 ProTable 组件

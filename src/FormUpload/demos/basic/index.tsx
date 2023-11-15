@@ -24,12 +24,14 @@ const Basic = () => {
             dataIndex: 'files',
             renderFormItem: () => (
               <FormUpload>
-                <LinkButton>上传附件</LinkButton>
+                {({ loading }) => (
+                  <LinkButton>{loading ? '上传中' : '上传附件'}</LinkButton>
+                )}
               </FormUpload>
             ),
           },
         ]}
-        submitter={{}}
+        submitter
         onFinish={console.log}
       />
     </SettingProvider>

@@ -47,7 +47,7 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 
 ### 基本的使用方法
 
-`BusinessSelect`是 antd Select 的封装, 可以透传 Select 的所有属性.
+`BusinessSelect`是 antd [Select](https://ant-design.antgroup.com/components/select-cn) 的封装, 可以透传 Select 的所有属性.
 
 <code src="./demos/basic/index.tsx"></code>
 
@@ -125,8 +125,8 @@ BusinessSelectBuilder({
 
 ### ApiType
 
-<API filePath='src/BusinessSelectBuilder/index.tsx' name='Api'></API>
+<API name='BizApi'></API>
 
 ### BusinessSelect
 
-<API filePath='src/BusinessSelectBuilder/index.tsx' name='Self'></API>
+<API name='BusinessSelectSelf'></API>

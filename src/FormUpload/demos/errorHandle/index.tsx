@@ -33,7 +33,7 @@ const ErrorHandle = () => {
             ),
           },
         ]}
-        submitter={{}}
+        submitter
         onFinish={console.log}
       />
     </SettingProvider>

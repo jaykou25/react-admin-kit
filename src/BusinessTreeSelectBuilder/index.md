@@ -60,8 +60,8 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 ### ApiType
 
-<API filePath='src/BusinessTreeSelectBuilder/index.tsx' name='Api' ></API>
+<API name='BizTreeApi' ></API>
 
 ### BusinessTreeSelect
 
-<API  filePath='src/BusinessTreeSelectBuilder/index.tsx' name='Self'></API>
+<API name='BusinessTreeSelectSelf'></API>

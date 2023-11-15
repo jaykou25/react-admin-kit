@@ -20,4 +20,4 @@ description: Button - 按钮组件是 Antd Button 的封装, 增加了 `visible`
 
 ### Button
 
-<API filePath='src/Button/index.tsx' name='Self' ></API>
+<API name='ButtonSelf' ></API>

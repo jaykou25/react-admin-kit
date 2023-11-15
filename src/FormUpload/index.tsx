@@ -1,5 +1,5 @@
 import { Upload } from 'antd';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { cloneElement, useContext, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { FormUploadContext } from '../SettingProvider/context';
 import { FormUploadProps, FormUploadSelfProps } from './types';
@@ -58,9 +58,13 @@ function FormUpload(props: FormUploadProps) {
   const firstTimeRef = useRef(true);
   const [innerFileList, setInnerFileList] = useState(withDefaultStatus($value));
 
-  /**
-   * 监听 value 变动, 当 value 不是由内部通过 props.onChnage 引起的
-   * 触发 setInnerFileList
+  const [uploading, setUploading] = useState(false);
+
+  /**x
+   * FormUpload 组件的设计是内部维护自己的文件列表, 然后监听外部 value 属性的变化, 来达到近似受控组件的效果.
+   * 为什么说近似, 是因为有一个例外, 当上传的文件列表中有上传错误的文件时, 通过 props.onChnage 传给外面的文件与内部的文件不一致.
+   * 传给外面的文件都是上传成功的, 但是里面的错误文件最好也要放在那里.
+   * 就是这个例外需要两边不同步, 通过一个 emitChangeRef 来标记并阻止他们同步.
    */
   useEffect(() => {
     // 忽略第一次
@@ -70,16 +74,17 @@ function FormUpload(props: FormUploadProps) {
     }
 
     /**
-     * 不是由内部引起的 value 变动
+     * 监听 value, 外部和内部同步. (emitChange 阻止的除外)
      */
     if (!emitChangeRef.current) {
       setInnerFileList(withDefaultStatus($value));
     }
 
     emitChangeRef.current = false;
-  }, [JSON.stringify($value)]);
+  }, [value]);
 
   const handleOnChange = (info) => {
+    setUploading(true);
     const fileList = [...info.fileList];
 
     const $fileList = fileList.map((file) => {
@@ -117,7 +122,19 @@ function FormUpload(props: FormUploadProps) {
       }
 
       if (onFinish) onFinish(successFiles);
+
+      setUploading(false);
     }
+  };
+
+  const renderChildren = () => {
+    if (children) {
+      return typeof children === 'function'
+        ? children({ loading: uploading })
+        : cloneElement(children, { loading: uploading });
+    }
+
+    return children;
   };
 
   return (
@@ -128,7 +145,7 @@ function FormUpload(props: FormUploadProps) {
       onChange={handleOnChange}
       {...rest}
     >
-      {children}
+      {renderChildren()}
     </Upload>
   );
 }

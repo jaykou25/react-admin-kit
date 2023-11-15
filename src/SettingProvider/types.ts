@@ -48,6 +48,6 @@ export type SettingProviderProps = {
    * @description       FormUpload组件的设置项
    * @default           false
    */
-  formUploadSetting?: FormUploadProps;
+  formUploadSetting?: Omit<FormUploadProps, 'children'>;
   children: any;
 };
