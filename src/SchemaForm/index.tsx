@@ -126,8 +126,13 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     propsFormRef,
     () => {
       // 没有初始值的情况
-      if (!initialValuesInner) {
-        return formRef.current;
+      if (!initialValuesInner && formRef.current) {
+        const { getFieldsValue, setFieldsValue } = formRef.current;
+        return {
+          ...formRef.current,
+          setFieldsValue: (values) =>
+            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+        };
       }
 
       // 有初始值的情况

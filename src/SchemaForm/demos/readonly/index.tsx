@@ -28,6 +28,8 @@ const Readonly = () => {
           phone: 1202228888,
           sex: '男',
           mail: 'mail.com',
+          chargePerson: '1',
+          chargePersonName: '负责人1',
         }}
       />
     </div>

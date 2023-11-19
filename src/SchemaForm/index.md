@@ -133,6 +133,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 ### 初始值和表单项赋值
 
 <code src="./demos/initValue/index.tsx"></code>
+<code src="./demos/initValue2/index.tsx"></code>
 
 ### 提交按钮 submitter
 

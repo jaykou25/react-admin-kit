@@ -10,7 +10,7 @@ import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
 import cs from 'classnames';
-import { ModalFormInnerRefType } from '..';
+import { ActionRefType, ModalFormInnerRefType } from '..';
 import { FormType } from '../ModalForm/types';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
@@ -32,6 +32,7 @@ class ProTable extends Component<MyProTableType, any> {
   private targetId;
   private modalFormRef;
   private selfInnerRef;
+  private selfActionRef;
 
   static contextType: any = ProTableContext;
   context!: React.ContextType<typeof ProTableContext>;
@@ -51,6 +52,7 @@ class ProTable extends Component<MyProTableType, any> {
     this.modalFormRef = createRef<ModalFormInnerRefType>();
 
     this.selfInnerRef = createRef<InnerRefType>();
+    this.selfActionRef = createRef<ActionRefType>();
 
     if (props.innerRef) {
       props.innerRef.current = {};
@@ -255,7 +257,12 @@ class ProTable extends Component<MyProTableType, any> {
     record: Record<string, any>,
     callback?: any,
   ) => {
-    const { rowKey = 'id', delFunction, rowSelection = {} } = this.props;
+    const {
+      rowKey = 'id',
+      delFunction,
+      rowSelection = {},
+      actionRef = this.selfActionRef,
+    } = this.props;
     const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
 
     this.setState({ delLoading: true });
@@ -282,7 +289,7 @@ class ProTable extends Component<MyProTableType, any> {
             }
           }
 
-          const action = this.props.actionRef?.current;
+          const action = actionRef.current;
           if (action) {
             // bugfix: 假如数据一共有两页, 并且第二页只有一条数据, 删除该数据后应该自动切到上一页
             const { current, total, pageSize } = action.pageInfo;
@@ -439,6 +446,7 @@ class ProTable extends Component<MyProTableType, any> {
       // 仅仅是移除掉它们, 不让它们传给 AntProTable
       confirmModalProps,
       confirmModelType,
+      actionRef,
       ...rest
     } = this.props;
 
@@ -510,6 +518,7 @@ class ProTable extends Component<MyProTableType, any> {
                 }
               : undefined
           }
+          actionRef={actionRef || this.selfActionRef}
           {...tableRest}
         />
         <ModalForm

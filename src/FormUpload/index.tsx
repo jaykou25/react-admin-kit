@@ -11,7 +11,8 @@ import { FormUploadProps, FormUploadSelfProps } from './types';
  * @param files
  */
 function withDefaultStatus(files: any[] = []) {
-  return files.map((file: any) => {
+  const $files = files || [];
+  return $files.map((file: any) => {
     if (!file.status) {
       file.status = 'done';
     }

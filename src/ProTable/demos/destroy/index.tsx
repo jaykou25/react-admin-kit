@@ -12,6 +12,7 @@ const Destroy = () => {
 
   return (
     <ProTable
+      actionRef={actionRef}
       confirmModelType="modal"
       confirmModalProps={{ title: '确定关闭吗?' }}
       columns={getColumns()}
