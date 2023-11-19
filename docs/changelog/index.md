@@ -10,6 +10,11 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.3.6
+2023-11-19
+
+SchemaForm 组件
+- 修复 setFieldsValue 对约定式数据赋值无效的问题.
 
 ## 0.3.5
 
