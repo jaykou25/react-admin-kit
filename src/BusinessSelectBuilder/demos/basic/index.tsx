@@ -34,7 +34,7 @@ const Basic = () => {
       colProps={{ span: 8 }}
       onFinish={(values) => console.log({ values })}
       autoFocusFirstInput={false}
-      submitter={{}}
+      submitter
       columns={[
         {
           title: '颜色-不分页',

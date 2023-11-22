@@ -1,4 +1,5 @@
-import _mergeOptions from 'merge-options';
+// import _mergeOptions from 'merge-options';
+const _mergeOptions = require('merge-options')
 
 /**
  * 在全局设置变量

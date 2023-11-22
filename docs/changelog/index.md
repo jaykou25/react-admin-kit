@@ -11,6 +11,12 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.7
+2023-11-22
+
+BusinessSelect 组件
+- 修复 allowClear, showSearch 属性被内部默认属性覆盖的问题.
+
 ## 0.3.6
 
 2023-11-19

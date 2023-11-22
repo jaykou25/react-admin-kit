@@ -152,8 +152,16 @@ class BaseSelect extends Component<BaseSelectProps, any> {
       onChange,
       queryParams,
       noCache,
+      showSearch,
+      optionFilterProp,
+      allowClear,
       ...rest
     } = this.props;
+
+    // 默认值
+    const _showSearch = showSearch !== undefined ? showSearch : true;
+    const _optionFilterProp = optionFilterProp !== undefined ? optionFilterProp: 'label'
+    const _allowClear = allowClear !== undefined ? allowClear : true;
 
     return (
       <Select
@@ -170,9 +178,9 @@ class BaseSelect extends Component<BaseSelectProps, any> {
           renderLabel,
         })}
         // 搜索部分
-        showSearch
-        optionFilterProp="label"
-        allowClear
+        showSearch={_showSearch}
+        optionFilterProp={_optionFilterProp}
+        allowClear={_allowClear}
       />
     );
   }

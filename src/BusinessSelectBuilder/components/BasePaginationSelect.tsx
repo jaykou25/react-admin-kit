@@ -262,8 +262,15 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       onChange,
       queryParams,
       noCache,
+      showSearch,
+      optionFilterProp,
+      allowClear,
       ...rest
     } = this.props;
+
+    // 默认值
+    const _showSearch = showSearch !== undefined ? showSearch : true;
+    const _allowClear = allowClear !== undefined ? allowClear : true;
 
     return (
       <Select
@@ -276,8 +283,8 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
           renderLabel,
         })}
         // 搜索部分
-        showSearch
-        allowClear
+        showSearch={_showSearch}
+        allowClear={_allowClear}
         filterOption={false}
         onPopupScroll={this.handlePopupScroll}
         onSearch={debounce(this.handleSearch, 500)}
