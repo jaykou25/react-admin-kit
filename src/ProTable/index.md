@@ -323,6 +323,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | search            | 是否显示搜索表单，传入对象时为搜索表单的配置                                                                               | `false` \| [SearchConfig](https://procomponents.ant.design/components/table#search-%E6%90%9C%E7%B4%A2%E8%A1%A8%E5%8D%95) | -                                            |
 | confirmModelType  | 删除弹框的类型, 是用 Popconfirm 或者 Modal.confirm                                                                         | `popconfirm \| modal`                                                                                                    | `popconfirm`                                 |
 | confirmModalProps | 传给删除弹框的属性                                                                                                         | Popconfirm 或 Modal.Confirm 属性                                                                                         | `--`                                         |
+| optionColumnSpaceProps | 传递 Antd Space 组件的属性 | [Space](https://ant-design.antgroup.com/components/space-cn#api) | `{size: 'samll'}` |
 
 ### InnerRef
 

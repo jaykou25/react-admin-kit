@@ -22,6 +22,9 @@ const Basic = () => {
             title: (n) => `确认关闭${n}条吗?`,
           },
         },
+        optionColumnSpaceProps: {
+          size: 'small',
+        },
       }}
     >
       <Example />

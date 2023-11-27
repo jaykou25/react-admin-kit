@@ -6,7 +6,7 @@ import type {
   ProTableProps,
 } from '@ant-design/pro-table';
 import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
-import type { ModalProps } from 'antd';
+import type { ModalProps, SpaceProps } from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import type { FormColumnType, ModalFormInnerRefType } from '..';
@@ -82,6 +82,7 @@ export type MyProTableType = Omit<
   confirmModelType?: 'popconfirm' | 'modal';
   confirmModalProps?: any;
   search?: false | (SearchConfig & { labelWrap: boolean });
+  optionColumnSpaceProps?: SpaceProps
 };
 
 export type FetchOptionType = {

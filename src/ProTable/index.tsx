@@ -126,8 +126,11 @@ class ProTable extends Component<MyProTableType, any> {
      * 全局默认设置
      */
     const setting = this.context || {};
-    const { confirmModalType: globalType, confirmModalProps: globalProps } =
-      setting;
+    const {
+      confirmModalType: globalType,
+      confirmModalProps: globalProps,
+      optionColumnSpaceProps: globalSpaceProps,
+    } = setting;
 
     // props
     const {
@@ -136,9 +139,16 @@ class ProTable extends Component<MyProTableType, any> {
       delFunction,
       confirmModelType = globalType || 'popconfirm',
       confirmModalProps = {},
+      optionColumnSpaceProps = {},
     } = this.props;
 
     const mergedProps = mergeOptions(globalProps, confirmModalProps);
+
+    const mergedSpaceProps = mergeOptions(
+      { size: 'small' },
+      globalSpaceProps,
+      optionColumnSpaceProps,
+    );
 
     const hasDelPermission = delPermission ? delPermission() : true;
 
@@ -225,7 +235,13 @@ class ProTable extends Component<MyProTableType, any> {
               }
               renderDom.push(deleteDom);
             }
-            return renderDom;
+
+            //数组的话外面包一个 Space 组件
+            return Array.isArray(renderDom) ? (
+              <Space {...mergedSpaceProps}>{renderDom}</Space>
+            ) : (
+              renderDom
+            );
           };
         }
       });
@@ -446,6 +462,7 @@ class ProTable extends Component<MyProTableType, any> {
       // 仅仅是移除掉它们, 不让它们传给 AntProTable
       confirmModalProps,
       confirmModelType,
+      optionColumnSpaceProps,
       actionRef,
       ...rest
     } = this.props;

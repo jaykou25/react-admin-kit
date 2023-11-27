@@ -11,6 +11,18 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.8
+2023-11-27
+
+ProTable 组件
+- 增加 optionColumnSpaceProps 属性, 用于控制表格操作列中的按钮排列.
+
+SettingProvider 全局设置
+- 增加 optionColumnSpaceProps 属性, 用于全局控制表格操作列中的按钮排列.
+
+
+
+
 ## 0.3.7
 2023-11-22
 
