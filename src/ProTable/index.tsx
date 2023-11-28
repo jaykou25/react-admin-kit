@@ -16,7 +16,7 @@ import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
 
-import { mergeOptions } from '../utils/index';
+import { mergeOptions, myMergeOptions } from '../utils/index';
 import './styles.css';
 
 /**
@@ -95,8 +95,30 @@ class ProTable extends Component<MyProTableType, any> {
     this.modalFormRef.current?.openModal(type, initialData);
   };
 
+  /**
+   * 增强列功能
+   * 1. 给 fieldProps 增加 innerRef
+   * 2. 给 renderFormItem 增加 innerRef
+   * 3. 给 option 列增加 innerRef
+   * 4. option 列的 renderDom 包裹 Space 组件
+   * @param cols
+   * @returns cols
+   */
   patchColumn = ($cols) => {
-    const { innerRef = this.selfInnerRef } = this.props;
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { optionColumnSpaceProps: globalSpaceProps } = setting;
+
+    const { innerRef = this.selfInnerRef, optionColumnSpaceProps = {} } =
+      this.props;
+
+    const mergedSpaceProps = mergeOptions(
+      { size: 'small' },
+      globalSpaceProps,
+      optionColumnSpaceProps,
+    );
 
     return produce($cols, (cols) => {
       cols.forEach((col: MyProColumnType) => {
@@ -114,8 +136,16 @@ class ProTable extends Component<MyProTableType, any> {
 
         // 给valueType为option列的render增加ref参数
         if (col.valueType === 'option' && render) {
-          col.render = (text, record, index, actionRef) =>
-            render(text, record, index, actionRef, innerRef);
+          col.render = (text, record, index, actionRef) => {
+            const renderDom = render(text, record, index, actionRef, innerRef);
+
+            //数组的话外面包一个 Space 组件
+            return Array.isArray(renderDom) ? (
+              <Space {...mergedSpaceProps}>{renderDom}</Space>
+            ) : (
+              renderDom
+            );
+          };
         }
       });
     });
@@ -126,11 +156,8 @@ class ProTable extends Component<MyProTableType, any> {
      * 全局默认设置
      */
     const setting = this.context || {};
-    const {
-      confirmModalType: globalType,
-      confirmModalProps: globalProps,
-      optionColumnSpaceProps: globalSpaceProps,
-    } = setting;
+    const { confirmModalType: globalType, confirmModalProps: globalProps } =
+      setting;
 
     // props
     const {
@@ -139,16 +166,9 @@ class ProTable extends Component<MyProTableType, any> {
       delFunction,
       confirmModelType = globalType || 'popconfirm',
       confirmModalProps = {},
-      optionColumnSpaceProps = {},
     } = this.props;
 
     const mergedProps = mergeOptions(globalProps, confirmModalProps);
-
-    const mergedSpaceProps = mergeOptions(
-      { size: 'small' },
-      globalSpaceProps,
-      optionColumnSpaceProps,
-    );
 
     const hasDelPermission = delPermission ? delPermission() : true;
 
@@ -169,11 +189,15 @@ class ProTable extends Component<MyProTableType, any> {
           render
         ) {
           col.render = (text, record, index, actionRef, innerRef) => {
+            // 增强 rowKey 为函数
             const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
+
+            // 增强 enableDelete 为函数
             const $enableDelete =
               typeof enableDelete === 'function'
                 ? enableDelete(record, index)
                 : {};
+
             // enabledDelete为true时的默认值
             const {
               disabled = false,
@@ -236,12 +260,7 @@ class ProTable extends Component<MyProTableType, any> {
               renderDom.push(deleteDom);
             }
 
-            //数组的话外面包一个 Space 组件
-            return Array.isArray(renderDom) ? (
-              <Space {...mergedSpaceProps}>{renderDom}</Space>
-            ) : (
-              renderDom
-            );
+            return renderDom;
           };
         }
       });
@@ -441,7 +460,7 @@ class ProTable extends Component<MyProTableType, any> {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       name,
       columns,
-      options = false,
+      options,
       pagination = {},
       formColumns,
       scroll = { x: '100%' },
@@ -475,6 +494,7 @@ class ProTable extends Component<MyProTableType, any> {
       modalProps: settingModalProps = {},
       formProps: settingFormProps = {},
       searchConfig = {},
+      options: globalOptions,
       // 仅仅是移除掉它们, 不让它们传给 AntProTable
       confirmModalType: a,
       confirmModalProps: b,
@@ -490,6 +510,14 @@ class ProTable extends Component<MyProTableType, any> {
       className: 'searchFormStyleFix',
     };
 
+    /**
+     * 处理 options 属性的合并
+     * 1. 组件属性为 false, 优先级高
+     * 2. 组件属性为 undefined, 走全局
+     *
+     */
+    const mergedOptions = myMergeOptions(globalOptions, options, false);
+
     return (
       <>
         <AntProTable
@@ -501,12 +529,12 @@ class ProTable extends Component<MyProTableType, any> {
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore
-          columns={this.enableDelete(this.patchColumn(columns)).filter(
+          columns={this.patchColumn(this.enableDelete(columns)).filter(
             (col) => {
               return col.type !== 'form';
             },
           )}
-          options={options}
+          options={mergedOptions}
           pagination={pagination}
           scroll={scroll}
           tableAlertOptionRender={this.tableAlertOptionRender}

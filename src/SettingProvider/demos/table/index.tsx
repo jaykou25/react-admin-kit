@@ -25,6 +25,7 @@ const Basic = () => {
         optionColumnSpaceProps: {
           size: 'small',
         },
+        options: { density: false, reload: true, fullScreen: true },
       }}
     >
       <Example />

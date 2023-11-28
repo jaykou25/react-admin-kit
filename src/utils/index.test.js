@@ -1,4 +1,10 @@
-import { delGlobal, getGlobal, setGlobal } from './';
+import {
+  delGlobal,
+  getGlobal,
+  mergeOptions,
+  myMergeOptions,
+  setGlobal,
+} from './';
 
 test('setGlobal', () => {
   setGlobal('my', { num: 1 });
@@ -42,4 +48,52 @@ test('delGlobal - 多字段', () => {
   delGlobal('my', 'num');
   expect(getGlobal('my')).toEqual({});
   expect(getGlobal('my', 'num')).toBe(undefined);
+});
+
+/**
+ * 测试mergeOption 方法
+ */
+test('mergeOption - undefined 会忽略', () => {
+  expect(mergeOptions(undefined, { full: true })).toEqual({ full: true });
+});
+
+test('mergeOption - undefined 和 undefined', () => {
+  console.log('jay unde', mergeOptions(undefined, undefined));
+  expect(mergeOptions(undefined, undefined)).toEqual({});
+});
+
+/**
+ * 测试 myMergeOption 方法
+ * 用于合并全局属性和组件属性
+ */
+test('myMergeOption - 内部是 false, 外部是对象', () => {
+  expect(myMergeOptions({ full: true }, false)).toBe(false);
+});
+
+test('myMergeOption - 内部是 undefined, 外部是对象', () => {
+  expect(myMergeOptions({ full: true }, undefined)).toEqual({ full: true });
+});
+
+test('myMergeOption - 内部是对象, 外部是false', () => {
+  expect(myMergeOptions(false, { full: true })).toEqual({ full: true });
+});
+
+test('myMergeOption - 内部是对象, 外部是undefined', () => {
+  expect(myMergeOptions(undefined, { full: true })).toEqual({ full: true });
+});
+
+test('myMergeOption - 内部是对象, 外部是对象', () => {
+  expect(
+    myMergeOptions({ full: 1, name: 2 }, { full: true, title: 3 }),
+  ).toEqual({ full: true, name: 2, title: 3 });
+});
+
+test('myMergeOption - 内外部都没给，走默认', () => {
+  expect(myMergeOptions(undefined, undefined, false)).toBe(false);
+});
+
+test('myMergeOption - 内外部都没给，走默认2', () => {
+  expect(myMergeOptions(undefined, undefined, { full: true })).toEqual({
+    full: true,
+  });
 });
