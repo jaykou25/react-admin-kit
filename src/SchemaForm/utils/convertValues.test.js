@@ -36,6 +36,28 @@ test('convertValues - 正常情况自定义', () => {
   expect(convertValues(before, originVals)).toStrictEqual(after);
 });
 
+test('convertValues - 正常情况 - 空对象时输出对象应为 undefined', () => {
+  const before = {};
+  const originVals = { 'userId,userName': undefined };
+  const after = {
+    'userId,userName': undefined,
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
+
+test('convertValues - 正常情况 - 无值时输出对象应为 undefined', () => {
+  const before = { userId: undefined, userName: undefined };
+  const originVals = { 'userId,userName': undefined };
+  const after = {
+    userId: undefined,
+    userName: undefined,
+    'userId,userName': undefined,
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
+
 test('convertValues - 1层套嵌', () => {
   const before = { info: { userId: 1, userName: 'jack' } };
   const originVals = { info: { 'userId,userName': undefined } };
@@ -44,6 +66,32 @@ test('convertValues - 1层套嵌', () => {
       userId: 1,
       userName: 'jack',
       'userId,userName': { value: 1, label: 'jack' },
+    },
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
+
+test('convertValues - 1层套嵌 - 空对象', () => {
+  const before = { info: {} };
+  const originVals = { info: { 'userId,userName': undefined } };
+  const after = {
+    info: {
+      'userId,userName': undefined,
+    },
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
+
+test('convertValues - 1层套嵌 - 对象里是 undefined', () => {
+  const before = { info: { userId: undefined, userName: undefined } };
+  const originVals = { info: { 'userId,userName': undefined } };
+  const after = {
+    info: {
+      userId: undefined,
+      userName: undefined,
+      'userId,userName': undefined,
     },
   };
 

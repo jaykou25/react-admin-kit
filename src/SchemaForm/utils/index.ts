@@ -59,6 +59,10 @@ function getConventionValue(values = {}, dataIndex) {
       ? after.split(',')
       : [];
 
+    if (values[valueName] === undefined && values[labelName] === undefined) {
+      return undefined;
+    }
+
     return {
       [toValueName]: values[valueName],
       [toLabelName]: values[labelName],
