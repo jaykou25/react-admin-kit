@@ -29,6 +29,10 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
         dataSource: getGlobal(CacheName, this.props.type) || [],
       });
       setGlobal(CacheStatusName, { [this.props.type]: false });
+
+      if (this.props.onLoad) {
+        this.props.onLoad(getGlobal(CacheName, this.props.type) || []);
+      }
     }
   };
 
@@ -69,6 +73,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
       loadFunction,
       valueKey = 'id',
       labelKey = 'name',
+      onLoad,
     } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
@@ -80,6 +85,9 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
     if (getGlobal(CacheName, type)) {
+      if (onLoad) {
+        onLoad(getGlobal(CacheName, type));
+      }
       return;
     }
 
@@ -94,6 +102,15 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
             valueKey,
           }),
         });
+
+        if (onLoad) {
+          onLoad(
+            normalizeTreeSelect(res, {
+              titleKey: labelKey,
+              valueKey,
+            }),
+          );
+        }
 
         const event = new CustomEvent('treeSelectGlobalUpdate', {
           detail: { type },
@@ -111,6 +128,7 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
       queryParams,
       valueKey = 'id',
       labelKey = 'name',
+      onLoad,
     } = this.props;
 
     this.setState({ loading: true });
@@ -122,6 +140,15 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
             valueKey,
           }),
         });
+
+        if (onLoad) {
+          onLoad(
+            normalizeTreeSelect(res, {
+              titleKey: labelKey,
+              valueKey,
+            }),
+          );
+        }
       })
       .finally(() => {
         this.setState({ loading: false });

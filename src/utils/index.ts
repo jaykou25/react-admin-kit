@@ -28,7 +28,7 @@ export function setGlobal(name: string, data: object) {
  * @param names
  * @returns
  */
-export function getGlobal(...names: string[]) {
+export function getGlobal(...names: string[]): any {
   let obj = typeof window !== 'undefined' ? window : global;
 
   for (let i = 0; i < names.length; i++) {

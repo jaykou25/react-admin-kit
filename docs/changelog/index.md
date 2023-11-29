@@ -10,16 +10,24 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.3.10
+2023-11-28
+
+BusinessSelect 组件
+- 🆕增加 onLoad 事件，会在下拉数据加载完成后触发.
+
+BusinessTreeSelect 组件
+- 🆕同上, 增加 onLoad 事件.
 
 ## 0.3.9
 2023-11-27
 
 ProTable 组件
-- 增加 optionColumnSpaceProps 属性, 用于控制表格操作列中的按钮排列.
-- 修复当全局设置 options 属性时, 组件内的 options 属性设 false 被覆盖的问题.
+- 🆕增加 optionColumnSpaceProps 属性, 用于控制表格操作列中的按钮排列.
+- 🐛修复当全局设置 options 属性时, 组件内的 options 属性设 false 被覆盖的问题.
 
 SettingProvider 全局设置
-- 增加 optionColumnSpaceProps 属性, 用于全局控制表格操作列中的按钮排列.
+- 🆕增加 optionColumnSpaceProps 属性, 用于全局控制表格操作列中的按钮排列.
 
 
 
