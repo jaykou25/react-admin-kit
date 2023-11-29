@@ -63,7 +63,7 @@ export type MyProTableType = Omit<
    * 同时在columns中, 对于valueType为option的那一列, 如果声明了enableDelete, 操作列就会自动加入删除按钮
    */
   delFunction?: (
-    selectedIds: string[] | number[],
+    selectedIds: (string | number)[],
     record,
     callback?,
   ) => Promise<any>;

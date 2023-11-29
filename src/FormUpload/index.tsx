@@ -10,7 +10,7 @@ import { FormUploadProps, FormUploadSelfProps } from './types';
  * beforeUpload 为 false 的 file 对象也会进到 fileList, 它的 status 为空, 所以表单不收集
  * @param files
  */
-function withDefaultStatus(files: any[] = []) {
+function withDefaultStatus(files: any = []) {
   const $files = files || [];
   return $files.map((file: any) => {
     if (!file.status) {

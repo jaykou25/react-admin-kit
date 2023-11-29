@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { Component, createRef } from 'react';
-import type { InnerRefType, MyProColumnType, MyProTableType } from './types';
+import type { FormColumnType } from '../SchemaForm/types';
+import type { InnerRefType, MyProTableType } from './types';
 
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
@@ -121,12 +122,12 @@ class ProTable extends Component<MyProTableType, any> {
     );
 
     return produce($cols, (cols) => {
-      cols.forEach((col: MyProColumnType) => {
+      cols.forEach((col: FormColumnType) => {
         const { renderFormItem, render, fieldProps } = col;
 
         // 给fieldProps增加ref参数
         if (fieldProps && typeof fieldProps === 'function') {
-          col.fieldProps = (form) => fieldProps(form, innerRef);
+          col.fieldProps = (form) => fieldProps(form, innerRef, col);
         }
 
         // 给renderFormItem增加ref参数
@@ -177,7 +178,7 @@ class ProTable extends Component<MyProTableType, any> {
 
     // 使用produce是为了改变columns的引用, 从而可以重渲染
     return produce($cols, (cols) => {
-      cols.forEach((col: MyProColumnType) => {
+      cols.forEach((col: FormColumnType) => {
         const { render, enableDelete = false } = col;
 
         // 如果列上开启了删除enableDelete, 复写render
@@ -190,7 +191,9 @@ class ProTable extends Component<MyProTableType, any> {
         ) {
           col.render = (text, record, index, actionRef, innerRef) => {
             // 增强 rowKey 为函数
-            const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
+            // @ts-ignore
+            const key: string =
+              typeof rowKey === 'function' ? rowKey(record) : rowKey;
 
             // 增强 enableDelete 为函数
             const $enableDelete =
@@ -298,7 +301,9 @@ class ProTable extends Component<MyProTableType, any> {
       rowSelection = {},
       actionRef = this.selfActionRef,
     } = this.props;
-    const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
+
+    //@ts-ignore
+    const key: string = typeof rowKey === 'function' ? rowKey(record) : rowKey;
 
     this.setState({ delLoading: true });
     if (record[key]) {
@@ -313,11 +318,13 @@ class ProTable extends Component<MyProTableType, any> {
           if (callback) callback();
 
           // bugfix: 如果在多选选中后, 点的行上的删除, 不是点的批量删除, 删除后要去除掉selectedKeys
-          if (record[key]) {
+          if (record[key] && rowSelection) {
             const ids = (selectedIds || []).filter(
               (_key) => _key !== record[key],
             );
+
             if (rowSelection.selectedRowKeys) {
+              // @ts-ignore onChange 应有三个参数
               if (rowSelection.onChange) rowSelection.onChange(ids);
             } else {
               this.setState({ selectedRowKeys: ids });
@@ -520,6 +527,7 @@ class ProTable extends Component<MyProTableType, any> {
 
     return (
       <>
+        {/* @ts-ignore */}
         <AntProTable
           className={cs(
             className,

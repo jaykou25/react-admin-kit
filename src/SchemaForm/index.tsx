@@ -78,6 +78,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
   const selfInnerRef = createRef<SchemaFormInnerRefType>();
+  // @ts-ignore
   selfInnerRef.current = { data: {}, setData: () => {} };
 
   const setData = (newValue: Record<string, any>) => {
@@ -185,7 +186,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           formItemProps = {},
           required,
         } = col;
-        // 如果
+
+        // 增加 required: true 简写
+        // @ts-ignore
         if (required && !formItemProps.rules) {
           col.formItemProps = { ...formItemProps, rules: [{ required: true }] };
         }
@@ -289,6 +292,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       key={key}
       {...setting}
       onFinish={handleOnFinish}
+      //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
       submitter={patchSubmitter()}
       formRef={key === 'hasInitial' ? formRefWithInitial : formRef}
       readonly={readonly}

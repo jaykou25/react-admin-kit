@@ -41,22 +41,27 @@ function getTextByOptions(text, col: TableColumnType) {
 export function getExportValue(
   record: Record<string, any>,
   col: TableColumnType,
+  index: number = 0,
 ) {
-  const text = record[col.dataIndex];
+  const text = typeof col.dataIndex === 'string' ? record[col.dataIndex] : ''; // dataIndex 如果是 react node 就不导出
 
   if (col.renderExport) {
     return col.renderExport(text, record);
   }
 
   if (col.render) {
-    return col.render(text, record);
+    // @ts-ignore
+    return col.render(text, record, index, undefined, undefined);
   }
 
   if (col.renderText) {
-    return col.renderText(text, record);
+    // @ts-ignore
+    return col.renderText(text, record, index);
   }
 
-  if (['select', 'radio', 'radioButton', 'checkbox'].includes(col.valueType)) {
+  if (
+    ['select', 'radio', 'radioButton', 'checkbox'].includes(col.valueType || '')
+  ) {
     return getTextByOptions(text, col);
   }
 
@@ -123,9 +128,10 @@ export const exportAntTableToExcel = (
 
   // 设置列
   worksheet.columns = columns.map((col) => ({
-    header: typeof col.title === 'function' ? '' : col.title,
-    key: col.dataIndex,
-    width: col.width ? col.width / 5 : DEFAULT_COLUMN_WIDTH,
+    header: typeof col.title === 'string' ? col.title : '',
+    key:
+      typeof col.dataIndex === 'string' ? col.dataIndex : Date.now().toString(),
+    width: col.width ? Number(col.width) / 5 : DEFAULT_COLUMN_WIDTH,
   }));
 
   // 设置垂直的对齐方式
@@ -136,9 +142,9 @@ export const exportAntTableToExcel = (
   console.log('导出', dataSource);
 
   // 处理行
-  const rowsData = (dataSource || []).map((record) => {
+  const rowsData = (dataSource || []).map((record, index) => {
     return columns.map((col) => {
-      return getExportValue(record, col);
+      return getExportValue(record, col, index);
     });
   });
 
@@ -148,6 +154,7 @@ export const exportAntTableToExcel = (
   // 处理合并问题
   (dataSource || []).forEach((record, recordIndex) => {
     columns.forEach((col, colIdx) => {
+      //@ts-ignore
       const { rowSpan } = col.onCell ? col.onCell(record) || {} : {};
 
       if (rowSpan > 1) {

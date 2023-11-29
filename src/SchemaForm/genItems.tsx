@@ -88,6 +88,7 @@ export const genItems = (
 
       item.name = item.name || item.dataIndex;
 
+      // @ts-ignore
       const dom = renderValueType(item, {
         action: undefined,
         type: 'form',
