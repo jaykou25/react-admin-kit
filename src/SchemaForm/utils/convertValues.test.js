@@ -127,3 +127,55 @@ test('convertValues - 1层套嵌自定义', () => {
 
   expect(convertValues(before, originVals)).toStrictEqual(after);
 });
+
+test('convertValues - bugfix - 赋值其它值为空 1', () => {
+  const before = { user: 1 };
+  const allVals = { user: undefined, title: undefined };
+  const after = {
+    user: 1,
+  };
+
+  expect(convertValues(before, allVals)).toStrictEqual(after);
+});
+
+test('convertValues - bugfix - 赋值其它值为空 2', () => {
+  const before = { userId: 1, userName: 'jack' };
+  const allVals = { 'userId,userName': undefined, title: undefined };
+  const after = {
+    userId: 1,
+    userName: 'jack',
+    'userId,userName': { value: 1, label: 'jack' },
+  };
+
+  expect(convertValues(before, allVals)).toStrictEqual(after);
+});
+
+test('convertValues - bugfix - 赋值其它值为空 3', () => {
+  const before = { info: { userId: 1, userName: 'jack' } };
+  const originVals = {
+    info: { 'userId,userName': { value: '2', label: '3' }, title: undefined },
+  };
+  const after = {
+    info: {
+      userId: 1,
+      userName: 'jack',
+      'userId,userName': { value: 1, label: 'jack' },
+    },
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
+
+test('convertValues - bugfix - 赋值其它值为空 4', () => {
+  const before = { info: { userId: 1, userName: 'jack' } };
+  const originVals = { info: { 'userId,userName_id,name': undefined, title: undefined } };
+  const after = {
+    info: {
+      userId: 1,
+      userName: 'jack',
+      'userId,userName_id,name': { id: 1, name: 'jack' },
+    },
+  };
+
+  expect(convertValues(before, originVals)).toStrictEqual(after);
+});
