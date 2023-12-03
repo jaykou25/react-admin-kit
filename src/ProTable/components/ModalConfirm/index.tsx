@@ -13,7 +13,8 @@ const { confirm } = Modal;
 const ModalConfirm = (props: IProps) => {
   const { children, title, content, onOk, ...rest } = props;
 
-  const showConfirm = () => {
+  const showConfirm = (e) => {
+    e.stopPropagation();
     confirm({
       title,
       content,
