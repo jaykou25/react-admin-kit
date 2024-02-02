@@ -63,7 +63,20 @@ class ProTable extends Component<MyProTableType, any> {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    /** 注册一个事件用于 reload 表格; 这对于一些已缓存的页面比较有用, 在其它页面可以控制刷新表格 */
+    document.addEventListener('reload', this.tableReload);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('reload', this.tableReload);
+  }
+
+  tableReload = () => {
+    const currentActionRef = this.props.actionRef || this.selfActionRef;
+
+    currentActionRef.current?.reload();
+  };
 
   getTitle = () => {
     const { name, toolbar = {} } = this.props;

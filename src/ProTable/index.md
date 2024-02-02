@@ -368,3 +368,8 @@ column 里增加了 `renderExport` 自定义导出的内容
 | hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                                      |
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
 | type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                                            |
+
+### 全局事件
+| 事件名 | 描述| 说明 |
+| ---| ---| ---|
+| reload | 组件注册了一个 reload 事件, 可以通过 `document.dispatchEvent(new Event('reload'))` 方法来触发表格刷新. 新增这个 reload 事件是希望能在其它的`兄弟页面`来触发`表格页面`的刷新, 比如在一些缓存场景, `新增页面`提交成功后能够通过这个事件来触发`表格页面`的刷新. | `v0.3.14` |
