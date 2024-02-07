@@ -30,7 +30,7 @@ const Create = () => {
       onFinish={async (values, formType) => {
         if (formType === 'new') {
           await mockAdd(values);
-          message.success('新建成功!');
+          message.success('新建成功');
           actionRef.current?.reload();
         }
       }}

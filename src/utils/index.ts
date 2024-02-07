@@ -1,4 +1,5 @@
 const _mergeOptions = require('merge-options');
+import { isBoolean } from 'lodash-es';
 
 /**
  * 在全局设置变量
@@ -113,5 +114,23 @@ export const myMergeOptions = (globalOption, option, defaultValue) => {
   // 全局属性是对象的时候合并全局属性
   if (isPlainObject(option) && isPlainObject(_globalOption)) {
     return mergeOptions(_globalOption, option);
+  }
+};
+
+/**
+ * 合并 boolean 类型的全局属性和组件属性
+ * 组件属性的优先级更高
+ */
+export const myMergeBoolean = (
+  global: boolean | undefined,
+  local: boolean | undefined,
+  defaultValue?: boolean,
+) => {
+  if (isBoolean(local)) {
+    return local;
+  } else if (isBoolean(global)) {
+    return global;
+  } else {
+    return defaultValue;
   }
 };

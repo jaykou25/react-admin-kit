@@ -17,6 +17,7 @@ export type ProTableSetting =
       tableAlertOption?: TableAlertOptionType;
       optionColumnSpaceProps?: SpaceProps;
       options?: MyProTableType['options'];
+      defaultHideInSearch?: boolean;
     }
   | undefined;
 

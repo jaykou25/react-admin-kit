@@ -2,6 +2,7 @@ import {
   delGlobal,
   getGlobal,
   mergeOptions,
+  myMergeBoolean,
   myMergeOptions,
   setGlobal,
 } from './';
@@ -58,7 +59,6 @@ test('mergeOption - undefined 会忽略', () => {
 });
 
 test('mergeOption - undefined 和 undefined', () => {
-  console.log('jay unde', mergeOptions(undefined, undefined));
   expect(mergeOptions(undefined, undefined)).toEqual({});
 });
 
@@ -96,4 +96,31 @@ test('myMergeOption - 内外部都没给，走默认2', () => {
   expect(myMergeOptions(undefined, undefined, { full: true })).toEqual({
     full: true,
   });
+});
+
+/**
+ * 测试 myMergeBoolean
+ */
+test('myMergeBoolean - 内false, 外true => false', () => {
+  expect(myMergeBoolean(true, false)).toBe(false);
+});
+
+test('myMergeBoolean - 内true, 外false => true', () => {
+  expect(myMergeBoolean(false, true)).toBe(true);
+});
+
+test('myMergeBoolean - 内无, 外false => false', () => {
+  expect(myMergeBoolean(false, undefined)).toBe(false);
+});
+
+test('myMergeBoolean - 内无, 外true => true', () => {
+  expect(myMergeBoolean(true, undefined)).toBe(true);
+});
+
+test('myMergeBoolean - 内无, 外无, 默认false => false ', () => {
+  expect(myMergeBoolean(undefined, undefined, false)).toBe(false);
+});
+
+test('myMergeBoolean - 内无, 外无, 默认true => true ', () => {
+  expect(myMergeBoolean(undefined, undefined, true)).toBe(true);
 });

@@ -82,7 +82,8 @@ export type MyProTableType = Omit<
   confirmModelType?: 'popconfirm' | 'modal';
   confirmModalProps?: any;
   search?: false | (SearchConfig & { labelWrap: boolean });
-  optionColumnSpaceProps?: SpaceProps
+  optionColumnSpaceProps?: SpaceProps;
+  defaultHideInSearch?: boolean;
 };
 
 export type FetchOptionType = {
@@ -138,7 +139,7 @@ export type TableColumnType<Record = any, ValueType = 'text'> = Omit<
   'render'
 > &
   TableColumnTypeBase<Record, ValueType> & {
-    type?: 'form' | 'table';
+    type?: 'form' | 'table' | 'search';
     children?: TableColumnType<Record, ValueType>[];
     valueType?: MyFieldType | ValueType;
   };

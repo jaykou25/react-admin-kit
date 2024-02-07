@@ -22,7 +22,7 @@ ProTable 是 [Antd ProTable](https://procomponents.ant.design/components/table) 
 
 ### 查询
 
-先来认识一下 `request` 属性, 通过传入一个请求函数, ProTable 就帮我们做好了数据请求, 分页请求, 查询请求, 重置请求等功能. 请求函数必须返回一个 promise (一般是一个 axios 实例), 并且 promise 中返回的数据需要满足下面的要求:
+先来认识一下 `request` 属性, 通过传入一个请求函数, ProTable 就帮我们做好了数据请求, 分页, 查询, 重置等功能. 请求函数必须返回一个 promise (一般是一个 axios 实例), 并且 promise 中返回的数据需要满足下面的要求:
 
 ```js
 // Promise回返的数据格式
@@ -239,7 +239,11 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 
 ### type 用于区分表单与表格
 
-由于在 ProTable 组件中同一份 columns 既会被用于生成 Table, 也有可能被用于生成 Form, 但有的时候某一个 schema 只想显示在 Table 里, 又或者只想显示在 Form 里, 这样的场景可以用 type 来区分. `form | table`.
+由于在 ProTable 组件中同一份 columns 既会被用于生成 Table, 也有可能被用于生成 Form 又或者 Search. 原来我们用 `hideInSearch`, `hideInTable`, `hideInForm` 来控制 column 在各区域的显示与隐藏, 但是当 column 变多之后这种反向控制的逻辑就不太好理解, 所以我们新增了 type 字段`form | table | search` 来正向控制 column 显示在哪个区域, 比如 type: search 代表该 column 只会显示在搜索区域. 
+
+> type: search 的优先级最高, 会覆盖 hideInSearch: true 和 search: false
+
+同时 ProTable 新增了 `defaultHideInSearch` 属性来全局控制 column 是否默认显示在搜索区域.
 
 <code src="./demos/columnType/index.tsx"></code>
 
@@ -367,7 +371,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | hideInTable  | 在 Table 中隐藏                                                                                 | `boolean`                                                                                                      |
 | hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                                      |
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
-| type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form'`                                                                                            |
+| type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form' \| 'search'`                                                                                            |
 
 ### 全局事件
 | 事件名 | 描述| 说明 |

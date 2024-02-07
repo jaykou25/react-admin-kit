@@ -1,24 +1,43 @@
-import type { TableColumnType } from 'react-admin-kit';
-import { LinkButton } from 'react-admin-kit';
+import { LinkButton, type TableColumnType } from 'react-admin-kit';
 
 export const getColumns = (): TableColumnType[] => [
+  /* 搜索区域 */
   {
-    type: 'form',
-    title: '父菜单id',
-    dataIndex: 'parentId',
+    type: 'search',
+    title: '时间范围',
+    dataIndex: 'search1',
+    valueType: 'dateRange',
+    transform: (val) => ({ range: val.join(',') }),
   },
   {
-    title: '按钮名称',
-    dataIndex: 'name',
+    type: 'search',
+    title: '搜索二',
+    dataIndex: 'search2',
+  },
+  {
+    type: 'search',
+    title: '搜索三',
+    dataIndex: 'search3',
+    search: false, // 极端例子, 该属性会被覆盖
+    hideInSearch: true, // 极端例子, 该属性会被覆盖
+  },
+  /* 搜索区域↑ */
+
+  /* 表单区域 */
+  {
+    title: '用户名',
+    dataIndex: 'username',
+  },
+  {
+    /* 只在表单中显示 */
+    type: 'form',
+    title: '密码',
+    dataIndex: 'password',
     required: true,
   },
   {
-    title: '权限标识',
-    dataIndex: 'code',
-  },
-  {
+    /* 只在表格中显示 */
     type: 'table',
-    hideInSearch: true,
     title: '创建日期',
     dataIndex: 'createTime',
     valueType: 'date',

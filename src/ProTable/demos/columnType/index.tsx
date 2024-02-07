@@ -1,7 +1,7 @@
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import { useRef } from 'react';
 import type { ActionRefType, InnerRefType } from 'react-admin-kit';
-import { ProTable } from 'react-admin-kit';
+import { Button, ProTable } from 'react-admin-kit';
 import { delelteRecord } from '../basic/apis';
 
 import { getColumns } from './columns';
@@ -19,19 +19,21 @@ const Demo = () => {
   return (
     <ProTable
       name="用户"
+      defaultHideInSearch={true}
       columns={getColumns()}
-      request={() =>
-        Promise.resolve({
+      request={(params) => {
+        console.log('请求参数', params);
+        return Promise.resolve({
           data: [
             {
-              name: '菜单新增',
-              code: 'menu:add',
+              id: 1,
+              username: '用户1',
+              passwor: '123456',
               createTime: 1695655397070,
-              parentId: 10,
             },
           ],
-        })
-      }
+        });
+      }}
       bordered
       innerRef={innerRef}
       actionRef={actionRef}

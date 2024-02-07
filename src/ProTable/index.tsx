@@ -17,7 +17,8 @@ import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
 
-import { mergeOptions, myMergeOptions } from '../utils/index';
+import { normalizeTree } from 'react-admin-kit/utils/treeUtil';
+import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
 import './styles.css';
 
 /**
@@ -118,7 +119,7 @@ class ProTable extends Component<MyProTableType, any> {
    * @param cols
    * @returns cols
    */
-  patchColumn = ($cols) => {
+  patchColumn = ($cols): any => {
     /**
      * 全局默认设置
      */
@@ -165,7 +166,7 @@ class ProTable extends Component<MyProTableType, any> {
     });
   };
 
-  enableDelete = ($cols) => {
+  enableDelete = ($cols): any => {
     /**
      * 全局默认设置
      */
@@ -457,7 +458,6 @@ class ProTable extends Component<MyProTableType, any> {
                 exportName || `${name ? name + '列表' : ''}导出`,
               );
               onCleanSelected();
-              console.log('exportclick', selectedRows);
             }}
           >
             导出所选
@@ -498,6 +498,7 @@ class ProTable extends Component<MyProTableType, any> {
       onOpen,
       modalProps = {},
       formProps = {},
+      defaultHideInSearch,
       // 仅仅是移除掉它们, 不让它们传给 AntProTable
       confirmModalProps,
       confirmModelType,
@@ -515,6 +516,7 @@ class ProTable extends Component<MyProTableType, any> {
       formProps: settingFormProps = {},
       searchConfig = {},
       options: globalOptions,
+      defaultHideInSearch: globalDefaultHideInSearch,
       // 仅仅是移除掉它们, 不让它们传给 AntProTable
       confirmModalType: a,
       confirmModalProps: b,
@@ -538,6 +540,12 @@ class ProTable extends Component<MyProTableType, any> {
      */
     const mergedOptions = myMergeOptions(globalOptions, options, false);
 
+    const mergedDefaultHideInSearch = myMergeBoolean(
+      globalDefaultHideInSearch,
+      defaultHideInSearch,
+      false,
+    );
+
     return (
       <>
         {/* @ts-ignore */}
@@ -550,11 +558,27 @@ class ProTable extends Component<MyProTableType, any> {
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore
-          columns={this.patchColumn(this.enableDelete(columns)).filter(
-            (col) => {
-              return col.type !== 'form';
-            },
-          )}
+          columns={this.patchColumn(
+            this.enableDelete(
+              normalizeTree(columns, (_item) => {
+                const item = { ..._item };
+                if (item.hideInSearch === undefined) {
+                  item.hideInSearch = mergedDefaultHideInSearch;
+                }
+
+                if (item.type === 'search') {
+                  item.search = true
+                  item.hideInSearch = false;
+                  item.hideInTable = true;
+                  item.hideInForm = true;
+                }
+
+                return item;
+              }),
+            ),
+          ).filter((col) => {
+            return col.type !== 'form';
+          })}
           options={mergedOptions}
           pagination={pagination}
           scroll={scroll}
@@ -592,7 +616,7 @@ class ProTable extends Component<MyProTableType, any> {
           title={this.getModalTitle()}
           // @ts-ignore
           columns={this.patchColumn(formColumns || columns).filter((col) => {
-            return col.type !== 'table';
+            return !col.type || col.type === 'form';
           })}
           onFinish={onFinish}
           onOpen={onOpen}

@@ -30,13 +30,13 @@ const Update = () => {
       onFinish={async (values, formType, formData) => {
         if (formType === 'new') {
           await mockAdd(values);
-          message.success('新建成功!');
+          message.success('新建成功');
           actionRef.current?.reload();
         }
 
         if (formType === 'edit') {
           await mockUpdate({ ...values, id: formData.id });
-          message.success('更新成功!');
+          message.success('更新成功');
           actionRef.current?.reload();
         }
       }}

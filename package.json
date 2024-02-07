@@ -1,6 +1,6 @@
 {
   "name": "react-admin-kit",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "private": false,
   "description": "A react based UI components for admin system",
   "homepage": "https://jaykou25.github.io/react-admin-kit/",
@@ -83,6 +83,7 @@
     "gh-pages": "^6.0.0",
     "husky": "^8.0.1",
     "jest": "^29.6.2",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
