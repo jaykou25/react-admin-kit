@@ -25,4 +25,31 @@ export const columns: FormColumnType[] = [
       ],
     },
   },
+  {
+    title: '是否会员',
+    dataIndex: 'isMember',
+    valueType: 'radio',
+    fieldProps: {
+      options: [
+        { label: '是', value: '1' },
+        { label: '否', value: '0' },
+      ],
+    },
+  },
+  {
+    valueType: 'dependency',
+    name: ['isMember'],
+    columns: ({ isMember }) => {
+      if (isMember === '1') {
+        return [
+          {
+            title: '会员等级',
+            dataIndex: 'grade',
+          },
+        ];
+      }
+
+      return [];
+    },
+  },
 ];

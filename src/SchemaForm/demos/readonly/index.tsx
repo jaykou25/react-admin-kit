@@ -30,6 +30,7 @@ const Readonly = () => {
           mail: 'mail.com',
           chargePerson: '1',
           chargePersonName: '负责人1',
+          chargePhone: '123456789',
         }}
       />
     </div>

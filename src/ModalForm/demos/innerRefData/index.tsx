@@ -8,8 +8,7 @@ const InnerRefDataDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>(null);
 
   const onFinish = async (values: any) => {
-    const { otherId } = innerRef.current?.data;
-    console.log({ values, otherId });
+    console.log({ values, data: innerRef.current?.data });
   };
 
   return (

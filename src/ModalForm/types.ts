@@ -6,7 +6,7 @@ export type FormType = 'new' | 'edit' | 'read';
 
 export type ModalFormInnerRefType = {
   openModal: (formType?: FormType, initialValues?: any) => void;
-  formType: FormType;
+  formType?: FormType;
 } & SchemaFormInnerRefType;
 
 export type ModalFormSelfProps = {

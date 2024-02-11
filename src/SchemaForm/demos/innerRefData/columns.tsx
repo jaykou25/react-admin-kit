@@ -12,63 +12,42 @@ export const getColumns = (): FormColumnType[] => [
           label: '员工1',
           value: 'user1',
           userCode: 'c01',
+          deptName: '部门A',
+          deptId: '1',
         },
         {
           label: '员工2',
           value: 'user2',
           userCode: 'c02',
+          deptName: '部门B',
+          deptId: '2',
         },
       ],
       onChange: (val, option) => {
-        innerRef.current?.setData({ userCode: option.userCode });
+        if (val) {
+          innerRef.current?.setData({ deptId: option.deptId });
+          form.setFieldsValue({ deptName: option.deptName });
+        } else {
+          innerRef.current?.setData({ deptId: undefined });
+          form.setFieldsValue({ deptName: undefined });
+        }
       },
     }),
   },
   {
-    title: '是否展示部门',
-    dataIndex: 'showDept',
-    valueType: 'radio',
-    fieldProps: {
-      options: [
-        {
-          label: '是',
-          value: 1,
-        },
-        {
-          label: '否',
-          value: 0,
-        },
-      ],
-    },
-  },
-  {
-    name: ['showDept'],
+    name: ['userId'],
     valueType: 'dependency',
-    columns: ({ showDept }) => {
-      if (showDept) {
+    columns: ({ userId }) => {
+      if (userId) {
         return [
           {
             title: '部门',
-            dataIndex: 'deptId,deptName',
-            valueType: 'select',
-            fieldProps: (form, innerRef): SelectProps<any, any> => ({
-              labelInValue: true,
-              options: [
-                {
-                  label: '销售部',
-                  value: '1',
-                  deptCode: 'A',
-                },
-                {
-                  label: '技术部',
-                  value: '2',
-                  deptCode: 'B',
-                },
-              ],
-              onChange: (val, option) => {
-                innerRef.current?.setData({ deptCode: option.deptCode });
-              },
-            }),
+            dataIndex: 'deptName',
+            fieldProps: (form, innerRef): SelectProps<any, any> => {
+              return {
+                disabled: innerRef.current?.data.deptId === '1',
+              };
+            },
           },
         ];
       }

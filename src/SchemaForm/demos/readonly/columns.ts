@@ -18,7 +18,6 @@ export const columns: FormColumnType[] = [
     dataIndex: 'chargePerson',
     valueType: 'select',
     fieldProps: {
-      labelInValue: true,
       options: [
         { label: '负责人1', value: '1' },
         { label: '负责人2', value: '2' },
@@ -26,8 +25,18 @@ export const columns: FormColumnType[] = [
     },
   },
   {
-    title: '电话',
-    dataIndex: 'chargePhone',
+    valueType: 'dependency',
+    name: ['chargePerson'],
+    columns: ({ chargePerson }) => {
+      return chargePerson
+        ? [
+            {
+              title: '负责人电话',
+              dataIndex: 'chargePhone',
+            },
+          ]
+        : [];
+    },
   },
   {
     title: '自定义',

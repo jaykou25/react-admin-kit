@@ -27,12 +27,14 @@ const getBusinessColumns = (): FormColumnType[] => [
         ]}
       />
     ),
-    fieldProps: (form): SelectProps<any, any> => ({
+    fieldProps: (form, innerRef): SelectProps<any, any> => ({
       onChange: (val, option) => {
         if (val) {
           form.setFieldsValue({ business: { address: option.address } });
+          innerRef.current?.setData({ other: option.otherKey });
         } else {
           form.setFieldsValue({ business: { address: undefined } });
+          innerRef.current?.setData({ other: undefined });
         }
       },
     }),

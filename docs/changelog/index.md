@@ -11,6 +11,15 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.16
+2024-2-11
+
+ModalForm 组件
+- 🐛修复 openModal('read') 只读方法对 dependency 里的子项无效的问题.
+
+ProTable 组件
+- 🐛修复 innerRef 与 fieldProps 中的 innerRef 不是同对象的问题.
+
 ## 0.3.15
 2024-2-7
 

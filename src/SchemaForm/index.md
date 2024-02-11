@@ -303,9 +303,13 @@ formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 
 比如对于表单来说有这样一个场景:
 
-有的时侯后台需要前端提交一些不在表单内的额外的信息, 比如表单里有一个人员的下拉框组件, 除了 userId 外还需要提交 userCode 给后台. 一般这种情况我们会定义一个变量, 然后在下拉框组件的 onChange 事件里把额外信息赋给这个变量.
+表单里有一个人员的下拉框组件, 下拉数据里除了人员信息外还携带了部门数据 deptName 和 deptId. 当选中某个人员时部门名称会被自动带出, 同时当 deptId 为 '1' 时, 部门输入框需要置灰. 可参看例子.
 
-innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息. setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
+通常这样的需求我们会把 deptId 存在一个额外的变量里, 然后在部门输入框的 fieldProps 里做判断.
+
+innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息, 然后在其它的表单项里消费 innerRef.
+
+> innerRef 中的 setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
 
 <code src="./demos/innerRefData/index.tsx"></code>
 

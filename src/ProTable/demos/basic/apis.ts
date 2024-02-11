@@ -4,8 +4,8 @@ export const mockRequest = (): any => {
       () =>
         resolve({
           data: [
-            { id: 1, name: 'Jack', phone: 133 },
-            { id: 2, name: 'Tom', phone: 155 },
+            { id: 1, name: 'Jack', phone: 133, isMember: '1', grade: '一级' },
+            { id: 2, name: 'Tom', phone: 155, isMember: '0' },
           ],
           success: true,
           total: 2,

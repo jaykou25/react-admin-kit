@@ -1,8 +1,26 @@
 import type { SelectProps } from 'antd';
-import type { FormColumnType } from 'react-admin-kit';
+import { LinkButton, type TableColumnType } from 'react-admin-kit';
 
-export const getColumns = (): FormColumnType[] => [
+export const getColumns = (): TableColumnType[] => [
+  /** 表格部分 */
   {
+    title: '序号',
+    valueType: 'index',
+  },
+  {
+    type: 'table',
+    title: '员工',
+    dataIndex: 'userName',
+  },
+  {
+    type: 'table',
+    title: '部门',
+    dataIndex: 'deptName',
+  },
+
+  /** 表单部分 */
+  {
+    type: 'form',
     title: '员工',
     dataIndex: 'userId',
     valueType: 'select',
@@ -35,6 +53,7 @@ export const getColumns = (): FormColumnType[] => [
     }),
   },
   {
+    type: 'form',
     name: ['userId'],
     valueType: 'dependency',
     columns: ({ userId }) => {
@@ -54,5 +73,28 @@ export const getColumns = (): FormColumnType[] => [
 
       return [];
     },
+  },
+  {
+    title: '操作',
+    valueType: 'option',
+    render: (text, record, i, a, innerRef) => [
+      <LinkButton
+        key={1}
+        onClick={() => {
+          innerRef.current?.setData({ deptId: record.deptId });
+          innerRef.current?.openModal('edit', record);
+        }}
+      >
+        编辑
+      </LinkButton>,
+      <LinkButton
+        key={2}
+        onClick={() => {
+          innerRef.current?.openModal('read', record);
+        }}
+      >
+        查看
+      </LinkButton>,
+    ],
   },
 ];

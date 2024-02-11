@@ -16,7 +16,7 @@ const InnerRefDataDemo = () => {
       columns={getColumns()}
       innerRef={innerRef}
       onFinish={onFinish}
-      submitter={{}}
+      submitter
       autoFocusFirstInput={false}
     />
   );

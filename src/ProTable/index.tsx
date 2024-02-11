@@ -1,7 +1,7 @@
 import produce from 'immer';
-import { Component, createRef } from 'react';
+import { Component, createRef, MutableRefObject } from 'react';
 import type { FormColumnType } from '../SchemaForm/types';
-import type { InnerRefType, MyProTableType } from './types';
+import type { InnerRefType, MyProTableType, TableColumnType } from './types';
 
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
@@ -11,14 +11,14 @@ import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
 import cs from 'classnames';
-import { ActionRefType, ModalFormInnerRefType } from '..';
-import { FormType } from '../ModalForm/types';
+import { ActionRefType } from '..';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
 
-import { normalizeTree } from 'react-admin-kit/utils/treeUtil';
+import { BaseInnerClass } from '../context';
 import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
+import { normalizeTree } from '../utils/treeUtil';
 import './styles.css';
 
 /**
@@ -32,9 +32,9 @@ export const FORM_TYPE_MAP = {
 
 class ProTable extends Component<MyProTableType, any> {
   private targetId;
-  private modalFormRef;
   private selfInnerRef;
   private selfActionRef;
+  private baseInnerObj;
 
   static contextType: any = ProTableContext;
   context!: React.ContextType<typeof ProTableContext>;
@@ -51,17 +51,16 @@ class ProTable extends Component<MyProTableType, any> {
     };
 
     this.targetId = '';
-    this.modalFormRef = createRef<ModalFormInnerRefType>();
 
     this.selfInnerRef = createRef<InnerRefType>();
     this.selfActionRef = createRef<ActionRefType>();
 
-    if (props.innerRef) {
-      props.innerRef.current = {};
-      props.innerRef.current.data = {};
-      props.innerRef.current.openModal = this.openModal;
-      props.innerRef.current.setData = this.setData;
-    }
+    this.baseInnerObj = new BaseInnerClass();
+
+    // @ts-ignore
+    this.getInnerRef().current = {};
+    this.getInnerRef().current.data = this.baseInnerObj.data;
+    this.getInnerRef().current.setData = this.baseInnerObj.setData;
   }
 
   componentDidMount() {
@@ -77,6 +76,10 @@ class ProTable extends Component<MyProTableType, any> {
     const currentActionRef = this.props.actionRef || this.selfActionRef;
 
     currentActionRef.current?.reload();
+  };
+
+  getInnerRef = (): MutableRefObject<InnerRefType> => {
+    return this.props.innerRef || this.selfInnerRef;
   };
 
   getTitle = () => {
@@ -97,25 +100,10 @@ class ProTable extends Component<MyProTableType, any> {
     return `${FORM_TYPE_MAP[formType]}${name}` || '';
   };
 
-  // 给ref上赋值
-  setData = (newValue) => {
-    if (this.props.innerRef?.current) {
-      const values = this.props.innerRef.current.data;
-      this.props.innerRef.current.data = { ...values, ...newValue };
-    }
-  };
-
-  openModal = (type: FormType = 'new', initialData?: any) => {
-    this.setState({ formType: type });
-    this.modalFormRef.current?.openModal(type, initialData);
-  };
-
   /**
    * 增强列功能
-   * 1. 给 fieldProps 增加 innerRef
-   * 2. 给 renderFormItem 增加 innerRef
-   * 3. 给 option 列增加 innerRef
-   * 4. option 列的 renderDom 包裹 Space 组件
+   * 1. 给 option 列增加 innerRef
+   * 2. option 列的 renderDom 包裹 Space 组件
    * @param cols
    * @returns cols
    */
@@ -126,8 +114,9 @@ class ProTable extends Component<MyProTableType, any> {
     const setting = this.context || {};
     const { optionColumnSpaceProps: globalSpaceProps } = setting;
 
-    const { innerRef = this.selfInnerRef, optionColumnSpaceProps = {} } =
-      this.props;
+    const { optionColumnSpaceProps = {} } = this.props;
+
+    const innerRef = this.getInnerRef();
 
     const mergedSpaceProps = mergeOptions(
       { size: 'small' },
@@ -136,33 +125,31 @@ class ProTable extends Component<MyProTableType, any> {
     );
 
     return produce($cols, (cols) => {
-      cols.forEach((col: FormColumnType) => {
-        const { renderFormItem, render, fieldProps } = col;
+      cols.forEach(
+        (col: Omit<FormColumnType, 'render'> & TableColumnType['render']) => {
+          const { render } = col;
 
-        // 给fieldProps增加ref参数
-        if (fieldProps && typeof fieldProps === 'function') {
-          col.fieldProps = (form) => fieldProps(form, innerRef, col);
-        }
+          // 给valueType为option列的render增加ref参数
+          if (col.valueType === 'option' && render) {
+            col.render = (text, record, index, actionRef) => {
+              const renderDom = render(
+                text,
+                record,
+                index,
+                actionRef,
+                innerRef,
+              );
 
-        // 给renderFormItem增加ref参数
-        if (renderFormItem) {
-          col.renderFormItem = (a, b, c) => renderFormItem(a, b, c, innerRef);
-        }
-
-        // 给valueType为option列的render增加ref参数
-        if (col.valueType === 'option' && render) {
-          col.render = (text, record, index, actionRef) => {
-            const renderDom = render(text, record, index, actionRef, innerRef);
-
-            //数组的话外面包一个 Space 组件
-            return Array.isArray(renderDom) ? (
-              <Space {...mergedSpaceProps}>{renderDom}</Space>
-            ) : (
-              renderDom
-            );
-          };
-        }
-      });
+              //数组的话外面包一个 Space 组件
+              return Array.isArray(renderDom) ? (
+                <Space {...mergedSpaceProps}>{renderDom}</Space>
+              ) : (
+                renderDom
+              );
+            };
+          }
+        },
+      );
     });
   };
 
@@ -474,6 +461,14 @@ class ProTable extends Component<MyProTableType, any> {
     );
   };
 
+  selfOnOpen = (formType, formRef, formData) => {
+    this.setState({ formType });
+
+    if (this.props.onOpen) {
+      this.props.onOpen(formType, formRef, formData);
+    }
+  };
+
   render() {
     const {
       rowKey = 'id',
@@ -567,7 +562,7 @@ class ProTable extends Component<MyProTableType, any> {
                 }
 
                 if (item.type === 'search') {
-                  item.search = true
+                  item.search = true;
                   item.hideInSearch = false;
                   item.hideInTable = true;
                   item.hideInForm = true;
@@ -577,7 +572,11 @@ class ProTable extends Component<MyProTableType, any> {
               }),
             ),
           ).filter((col) => {
-            return col.type !== 'form';
+            if (col.valueType === 'dependency') return false;
+
+            if (col.type === 'form') return false;
+
+            return true;
           })}
           options={mergedOptions}
           pagination={pagination}
@@ -594,11 +593,14 @@ class ProTable extends Component<MyProTableType, any> {
                   return new Promise((resolve, reject) => {
                     request(handleRequestParams(params, sort), sort, filter)
                       .then((res) => {
-                        if (this.props.innerRef?.current) {
-                          this.props.innerRef.current.total = res.total;
-                          this.props.innerRef.current.dataSource = res.data;
-                          this.props.innerRef.current.params =
-                            handleRequestParams(params, sort);
+                        const innerRef = this.getInnerRef();
+                        if (innerRef) {
+                          innerRef.current.total = res.total;
+                          innerRef.current.dataSource = res.data;
+                          innerRef.current.params = handleRequestParams(
+                            params,
+                            sort,
+                          );
                         }
 
                         resolve(res);
@@ -612,14 +614,18 @@ class ProTable extends Component<MyProTableType, any> {
           {...tableRest}
         />
         <ModalForm
-          innerRef={this.modalFormRef}
+          innerRef={this.getInnerRef()}
           title={this.getModalTitle()}
           // @ts-ignore
-          columns={this.patchColumn(formColumns || columns).filter((col) => {
-            return !col.type || col.type === 'form';
+          columns={(formColumns || columns).filter((col) => {
+            if (col.type === 'form') return true;
+
+            if (!col.type) return true;
+
+            return false;
           })}
           onFinish={onFinish}
-          onOpen={onOpen}
+          onOpen={this.selfOnOpen}
           formProps={{
             ...settingFormProps,
             ...formProps,

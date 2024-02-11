@@ -307,6 +307,12 @@ column 里增加了 `renderExport` 自定义导出的内容
 
 <code src="./demos/convention/index.tsx"></code>
 
+### 利用 innerRef 存储额外信息
+
+与[SchemaForm](/components/schema-form#利用-innerref-存储额外信息)一样, ProTable 也能利用 innerRef 存储额外数据.
+
+<code src="./demos/innerRefData/index.tsx"></code>
+
 ### API
 
 ### ProTable
@@ -334,6 +340,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | 参数       | 说明                                                                                                                        | 类型                                                           | 默认值 |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------ |
 | openModal  | 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型; `innerRef.current?.openModal('edit', {name: 'jack', age: 18})` | `(formType: 'new' \| 'edit' \| 'read', initialValues) => void` | `--`   |
+| formType | 当前的弹窗表单类型 | `'new' \| 'edit' \| 'read'` | `--` |
 | setData    | 用于存储额外信息.                                                                                                           | `(vals: Record<string, any>) => void`                          | `--`   |
 | data       | 获取存储的额外信息.                                                                                                         | `Record<string, any>`                                          | `--`   |
 | dataSource | 获取 request 请求到的 dataSource                                                                                            | `any[]`                                                        | `--`   |

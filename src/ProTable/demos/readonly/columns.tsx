@@ -24,18 +24,32 @@ export const getColumns = (): TableColumnType[] => [
     hideInSearch: true,
   },
   {
-    title: '性别',
-    dataIndex: 'sex',
-    formItemProps: {},
-    valueEnum: {
-      男: { text: '男' },
-      女: { text: '女' },
+    title: '是否会员',
+    dataIndex: 'isMember',
+    valueType: 'radio',
+    fieldProps: {
+      options: [
+        { label: '是', value: '1' },
+        { label: '否', value: '0' },
+      ],
     },
   },
   {
-    title: '身份证号',
-    dataIndex: 'idNumber',
-    hideInSearch: true,
+    valueType: 'dependency',
+    type: 'form',
+    name: ['isMember'],
+    columns: ({ isMember }) => {
+      if (isMember === '1') {
+        return [
+          {
+            title: '会员等级',
+            dataIndex: 'grade',
+          },
+        ];
+      }
+
+      return [];
+    },
   },
   {
     title: '操作',

@@ -26,9 +26,7 @@ export type InnerRefType = {
   setData?: (vals: Record<string, any>) => void;
 } & ModalFormInnerRefType;
 
-type InnerRef =
-  | React.MutableRefObject<InnerRefType | undefined>
-  | React.RefObject<InnerRefType | undefined>;
+type InnerRef = React.MutableRefObject<InnerRefType | undefined>;
 
 export type TableAlertOptionType = {
   hideDelete?: boolean; // 默认是false
