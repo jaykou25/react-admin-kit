@@ -24,11 +24,13 @@ function getTextByOptions(text, col: TableColumnType) {
 
   if (col.fieldProps) {
     if (typeof col.fieldProps === 'function') {
-      const options = col.fieldProps({}, { current: {} })?.options || [];
+      // @ts-ignore
+      const options = col.fieldProps({}, { current: {} }, col)?.options || [];
       // eslint-disable-next-line eqeqeq
       return options.find((option: any) => option.value == text)?.label;
     } else {
-      const options = col.fieldProps.options || [];
+      // @ts-ignore
+      const options = col.fieldProps?.options || [];
       // eslint-disable-next-line eqeqeq
       return options.find((option: any) => option.value == text)?.label;
     }
