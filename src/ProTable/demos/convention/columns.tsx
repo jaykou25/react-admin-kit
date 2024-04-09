@@ -43,12 +43,12 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: '会员等级',
     dataIndex: 'gradeName',
-    hideInForm: true,
+    type: 'table',
   },
 
   // 仅在form中显示
   {
-    hideInTable: true,
+    type: 'form',
     valueType: 'dependency',
     name: ['isMember'],
     columns: ({ isMember }) => {

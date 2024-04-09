@@ -6,6 +6,7 @@ export const columns: FormColumnType[] = [
   {
     dataIndex: 'shopList',
     valueType: 'formList',
+    initialValue: [{}],
     fieldProps: {
       alwaysShowItemLabel: true,
       creatorButtonProps: {
@@ -47,11 +48,9 @@ export const columns: FormColumnType[] = [
           {
             title: '店铺',
             dataIndex: 'shop',
+            required: true,
             renderFormItem(item, config, form) {
               return <ShopSelect form={form} />;
-            },
-            formItemProps: {
-              rules: [{ required: true }],
             },
             colProps: { span: 16 },
           },

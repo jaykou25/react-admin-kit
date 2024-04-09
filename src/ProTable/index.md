@@ -189,11 +189,11 @@ onFinish 的第一个参数 values 是表单收集的值, 里面并没有 id. �
 
 ### 删除
 
-删除功能与上文中的 `request` 属性非常相似, ProTable 提供了一个 `delFunction` 属性, 只需要传入一个删除函数, ProTable 就帮我们做好了多选删除和行上删除的功能,
+删除功能与上文中的 `request` 属性非常相似, ProTable 提供了一个 `delFunction` 属性, 只需要传入一个删除函数, ProTable 就帮我们做好了批量删除和行上删除的功能,
 
 删除函数同样返回一个 promise, 参数是所选行的 id 数组.
 
-另外要支持多选删除还需要开启行选择功能.
+另外要支持批量删除还需要开启行选择功能.
 
 ```js {4}
 <ProTable
@@ -275,7 +275,7 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 
 <code src="./demos/readonly/index.tsx"></code>
 
-### 打开弹窗后请求数据回显
+### onOpen 请求数据后回显
 
 可以用 formType 判断只有当编辑时才请求
 
@@ -283,7 +283,7 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 
 ### onFinish
 
-onFinish 回调有三个参数, 第一个参数是表单里收集到的值, 第二个参数是表单类型, 第三个参数是打开弹窗时赋给表单的初始值(这里可以携带一些额外数据比如 id 等).
+onFinish 回调有三个参数, 第一个参数是表单里收集到的值 values, 第二个参数是表单类型 formType, 第三个参数是打开弹窗时赋给表单的初始值 formData (这里可以携带一些额外数据比如 id 等).
 
 <code src="./demos/onFinish/index.tsx"></code>
 
@@ -303,13 +303,13 @@ column 里增加了 `renderExport` 自定义导出的内容
 
 ### ⭐ 数据处理和收集 - 约定式
 
-与[SchemaForm 一样](/components/schema-form#-数据处理和收集---约定式), ProTable 同样支持约定式数据处理.
+与 [SchemaForm](/components/schema-form#-数据处理和收集---约定式) 一样, ProTable 同样支持约定式数据处理.
 
 <code src="./demos/convention/index.tsx"></code>
 
 ### 利用 innerRef 存储额外信息
 
-与[SchemaForm](/components/schema-form#利用-innerref-存储额外信息)一样, ProTable 也能利用 innerRef 存储额外数据.
+与 [SchemaForm](/components/schema-form#利用-innerref-存储额外信息) 一样, ProTable 也能利用 innerRef 存储额外数据.
 
 <code src="./demos/innerRefData/index.tsx"></code>
 
@@ -379,6 +379,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | hideInSearch | 在 Search 中隐藏                                                                                | `boolean`                                                                                                      |
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
 | type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form' \| 'search'`                                                                                            |
+| required | 在 form 里是否必选 | `boolean` |
 
 ### 全局事件
 | 事件名 | 描述| 说明 |

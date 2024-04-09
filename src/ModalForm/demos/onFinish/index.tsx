@@ -9,6 +9,16 @@ const OnFinishDemo = () => {
 
   const onFinish = (values: any, formType, formData) => {
     console.log({ values, formType, formData });
+
+    if (formType === 'new') {
+      // 新增用户
+      // createUser(values).then() ...
+    }
+
+    if (formType === 'edit') {
+      // 编辑用户
+      // editUser({...values, id: formData.id}).then() ...
+    }
   };
 
   return (

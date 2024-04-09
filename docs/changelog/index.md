@@ -11,6 +11,17 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.17
+2024-4-9
+
+文档用例更新成 antd v5.
+
+ModalForm 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 ModalFormInnerRefType 的类型定义, 修复后 useRef() 默认值可以为空.
+
+ProTable 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 TableColumnType 的类型定义, 修复后提示更加准确.
+
 ## 0.3.16
 2024-2-11
 

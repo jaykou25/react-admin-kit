@@ -12,28 +12,14 @@ export const columns: FormColumnType[] = [
       {
         title: '用户名',
         dataIndex: 'username',
+        required: true,
         colProps: { span: 24 },
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '用户名为必填项',
-            },
-          ],
-        },
       },
       {
         title: '电话',
         dataIndex: 'phone',
+        required: true,
         colProps: { span: 24 },
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '电话为必填项',
-            },
-          ],
-        },
       },
     ],
   },
@@ -58,16 +44,9 @@ export const columns: FormColumnType[] = [
     columns: [
       {
         title: '昵称',
-        colProps: { span: 24 },
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '昵称为必填项',
-            },
-          ],
-        },
         dataIndex: 'nickName',
+        required: true,
+        colProps: { span: 24 },
       },
       {
         title: '性别',
@@ -81,15 +60,8 @@ export const columns: FormColumnType[] = [
       {
         title: '身份证号',
         dataIndex: 'idNumber',
+        required: true,
         colProps: { span: 24 },
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '身份证为必填项',
-            },
-          ],
-        },
       },
     ],
   },

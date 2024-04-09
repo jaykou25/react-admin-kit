@@ -9,8 +9,12 @@ import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/Form
 import type { ModalProps, SpaceProps } from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import type { FormColumnType, ModalFormInnerRefType } from '..';
-import { FormType, ModalFormSelfProps } from '../ModalForm/types';
+import {
+  FormType,
+  ModalFormInnerRefType,
+  ModalFormSelfProps,
+} from '../ModalForm/types';
+import type { FormColumnType } from '../SchemaForm/types';
 import { SettingFormProps } from '../SettingProvider/types';
 
 export type ToolbarType = {
@@ -129,10 +133,18 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
 };
 
 /**
+ * 被继承的基础接口类型中如果含有 [key: string]: any, 在用 Omit 时会有问题
+ * https://blog.csdn.net/riddle1981/article/details/131501414
+ */
+type OmitIndex<T, K extends keyof T> = {
+  [P in keyof T as Exclude<P, K>]: T[P];
+};
+
+/**
  * Table 的 column 定义
  * 它是 Form column 和 Table column 的合并, 因为在 ProTable 组件中 Tablet 和 Form 都存在
  */
-export type TableColumnType<Record = any, ValueType = 'text'> = Omit<
+export type TableColumnType<Record = any, ValueType = 'text'> = OmitIndex<
   FormColumnType<Record, ValueType>,
   'render'
 > &

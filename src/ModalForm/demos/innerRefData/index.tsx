@@ -5,7 +5,7 @@ import { Button, ModalForm } from 'react-admin-kit';
 import { getColumns } from './columns';
 
 const InnerRefDataDemo = () => {
-  const innerRef = useRef<ModalFormInnerRefType>(null);
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = async (values: any) => {
     console.log({ values, data: innerRef.current?.data });

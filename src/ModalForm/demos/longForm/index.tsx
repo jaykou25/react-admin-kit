@@ -4,7 +4,7 @@ import { Button, ModalForm } from 'react-admin-kit';
 import { columns } from './columns';
 
 const LongForm = () => {
-  const innerRef = useRef<ModalFormInnerRefType>(null);
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any) => {
     console.log({ values });

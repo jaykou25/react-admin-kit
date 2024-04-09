@@ -10,31 +10,35 @@ const DataSubmit = () => {
 
   useEffect(() => {
     // 模拟后端返回
-    formRef.current?.setFieldsValue({
-      fileList: [
-        {
-          id: 1,
-          fileName: '照片1',
-          filePath:
-            'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          id: 2,
-          fileName: '照片2',
-          filePath:
-            'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-      ],
-    });
+    setTimeout(() => {
+      formRef.current?.setFieldsValue({
+        fileList: [
+          {
+            id: 1,
+            fileName: '照片1',
+            filePath:
+              'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+          {
+            id: 2,
+            fileName: '照片2',
+            filePath:
+              'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ],
+      });
+    }, 200);
   }, []);
 
   return (
     <SchemaForm
+      formRef={formRef}
       columns={[
         {
           title: '附件',
           dataIndex: 'fileList',
           convertValue: (vals) => {
+            // 数据转化
             if (vals) {
               return vals.map((val) => ({
                 ...val,
@@ -46,6 +50,7 @@ const DataSubmit = () => {
             return vals;
           },
           transform: (files) => ({
+            // 提交给后端的转化
             fileIds: files.map((file) => file.id).join(','),
           }),
           renderFormItem: () => (
@@ -53,6 +58,7 @@ const DataSubmit = () => {
               action="https://mock.apifox.cn/m1/1864670-0-default/mockUpload"
               // 仅用于示范, 一般在全局设置. 可将服务端返回值合并进文件列表
               responseToFileList={(res) => res.data}
+              listType="picture-card"
             >
               <LinkButton>上传附件</LinkButton>
             </FormUpload>
