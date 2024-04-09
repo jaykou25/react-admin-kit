@@ -11,7 +11,12 @@ export const getColumns = (): FormColumnType[] => [
         { label: '否', value: 0 },
       ],
     },
-    render: (text) => (text ? '是' : '否'),
+    render: (text) => {
+      console.log('text', text, typeof text);
+      if (text === undefined || text === '') return '-';
+
+      return text ? '是' : '否';
+    },
   },
   {
     valueType: 'dependency',

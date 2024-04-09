@@ -5,6 +5,9 @@ export const columns: FormColumnType[] = [
   {
     dataIndex: 'shopList',
     valueType: 'formList',
+    initialValue: [{}],
+
+    // FormList 组件的 api: https://procomponents.ant.design/components/group#proformlist-api
     fieldProps: {
       alwaysShowItemLabel: true,
       creatorButtonProps: {
@@ -15,11 +18,9 @@ export const columns: FormColumnType[] = [
       {
         title: '店铺',
         dataIndex: 'shop',
+        required: true,
         renderFormItem(item, config, form) {
           return <ShopSelect form={form} />;
-        },
-        formItemProps: {
-          rules: [{ required: true }],
         },
       },
       {

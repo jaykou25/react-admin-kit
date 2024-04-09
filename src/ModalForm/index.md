@@ -20,7 +20,7 @@ description: 通过 schema 生成一个弹窗表单. 这是 Modal 和 SchemaForm
 
 ### 非受控模式 (推荐)
 
-利用 RAK 提供的 innerRef, 无需额外定义 open 变量就能控制弹窗, 使用更加简洁. 后面的用例默认使用该方式.
+利用 RAK 提供的 [innerRef](/components/modal-form#innerref), 无需额外定义 open 变量就能控制弹窗, 使用更加简洁. 后面的用例默认使用该方式.
 
 <code src="./demos/innerRef/index.tsx"></code>
 
@@ -44,9 +44,9 @@ innerRef 上的 `openModal` 方法接受两个参数, 第一个是 formType, 第
 
 <code src="./demos/readonly/index.tsx"></code>
 
-### 打开弹窗后请求数据回显
+### onOpen 请求数据后回显
 
-利用 formType 只在编辑和查看时才请求
+可利用 formType 只在编辑和查看时才请求
 
 <code src="./demos/onOpen/index.tsx"></code>
 
@@ -58,19 +58,19 @@ innerRef 上的 `openModal` 方法接受两个参数, 第一个是 formType, 第
 
 ### onFinish
 
-onFinish 回调有三个参数, 第一个参数是表单里收集到的值, 第二个参数是表单类型, 第三个参数是打开弹窗时赋给表单的初始值(这里可以携带一些额外数据比如 id 等).
+onFinish 回调有三个参数, 第一个参数是表单里收集到的值 values, 第二个参数是表单类型 formType, 第三个参数是打开弹窗时赋给表单的初始值 formData (这里可以携带一些额外数据比如 id 等).
 
 <code src="./demos/onFinish/index.tsx"></code>
 
 ### ⭐ 数据处理和收集 - 约定式
 
-与[SchemaForm 一样](/components/schema-form#-数据处理和收集---约定式), ModalForm 同样支持约定式数据处理.
+与 [SchemaForm](/components/schema-form#-数据处理和收集---约定式) 一样, ModalForm 同样支持约定式数据处理.
 
 <code src="./demos/convention/index.tsx"></code>
 
 ### 利用 innerRef 存储额外信息
 
-与[SchemaForm](/components/schema-form#利用-innerref-存储额外信息)一样, ModalForm 也能利用 innerRef 存储额外数据.
+与 [SchemaForm](/components/schema-form#利用-innerref-存储额外信息) 一样, ModalForm 也能利用 innerRef 存储额外数据.
 
 <code src="./demos/innerRefData/index.tsx"></code>
 

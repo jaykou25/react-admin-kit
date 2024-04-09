@@ -34,7 +34,7 @@ export const getBaseColumns = (): FormColumnType[] => {
                 labelCol: { flex: '0 0 18.75%' },
               },
             },
-            { fieldProps: { hidden: true } },
+            { fieldProps: { style: { display: 'none' } } },
           ];
         } else {
           return [];

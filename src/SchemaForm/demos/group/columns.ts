@@ -12,14 +12,7 @@ export const columns: FormColumnType[] = [
       {
         title: '用户名',
         dataIndex: 'username',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '用户名为必填项',
-            },
-          ],
-        },
+        required: true,
       },
       {
         title: '电话',
@@ -36,23 +29,24 @@ export const columns: FormColumnType[] = [
     columns: [
       {
         title: '昵称',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '昵称为必填项',
-            },
-          ],
-        },
         dataIndex: 'nickName',
+        required: true,
       },
       {
         title: '性别',
         dataIndex: 'sex',
-        formItemProps: {},
-        valueEnum: {
-          男: { text: '男' },
-          女: { text: '女' },
+        valueType: 'select',
+        fieldProps: {
+          options: [
+            {
+              label: '男',
+              value: '男',
+            },
+            {
+              label: '女',
+              value: '女',
+            },
+          ],
         },
       },
       {

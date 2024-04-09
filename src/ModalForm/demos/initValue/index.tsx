@@ -1,10 +1,10 @@
 import { Button } from 'antd';
 import { useRef } from 'react';
-import { ModalForm } from 'react-admin-kit';
+import { ModalForm, ModalFormInnerRefType } from 'react-admin-kit';
 import { getColumns } from './columns';
 
 const InitValueDemo = () => {
-  const innerRef = useRef<any>();
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -13,7 +13,7 @@ const InitValueDemo = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => innerRef.current.openModal()}>
+        <Button type="primary" onClick={() => innerRef.current?.openModal()}>
           打开弹窗
         </Button>
       </div>

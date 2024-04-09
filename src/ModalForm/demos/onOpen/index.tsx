@@ -1,5 +1,5 @@
 import { Button, Space } from 'antd';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
 import { columns } from './columns';
@@ -7,8 +7,7 @@ import { columns } from './columns';
 const TitleMap = { new: '新增', edit: '编辑', read: '查看' };
 
 const OnOpenDemo = () => {
-  const innerRef = useRef<ModalFormInnerRefType>(null);
-  const [formType, setFormType] = useState('new');
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -27,7 +26,6 @@ const OnOpenDemo = () => {
           type="primary"
           onClick={() => {
             innerRef.current?.openModal('new');
-            setFormType('new');
           }}
         >
           新增
@@ -37,7 +35,6 @@ const OnOpenDemo = () => {
           type="primary"
           onClick={() => {
             innerRef.current?.openModal('edit');
-            setFormType('edit');
           }}
         >
           编辑
@@ -47,7 +44,6 @@ const OnOpenDemo = () => {
           type="primary"
           onClick={() => {
             innerRef.current?.openModal('read');
-            setFormType('read');
           }}
         >
           查看
@@ -55,7 +51,7 @@ const OnOpenDemo = () => {
       </Space>
 
       <ModalForm
-        title={TitleMap[formType]}
+        title={TitleMap[innerRef.current?.formType || 'new']}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={columns}

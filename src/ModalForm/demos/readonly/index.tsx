@@ -37,6 +37,10 @@ const ReadonlyDemo = () => {
         title={'基本表单非受控'}
         onFinish={onFinish}
         columns={columns}
+        formProps={{
+          layout: 'horizontal',
+          labelCol: { span: 4 },
+        }}
       />
     </div>
   );
