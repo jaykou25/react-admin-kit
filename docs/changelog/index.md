@@ -11,6 +11,13 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.18
+2024-4-9
+
+ProTable 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 ProTable 中 search 属性的类型定义.
+
+
 ## 0.3.17
 2024-4-9
 

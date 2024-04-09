@@ -83,7 +83,7 @@ export type MyProTableType = Omit<
   noPadding?: boolean;
   confirmModelType?: 'popconfirm' | 'modal';
   confirmModalProps?: any;
-  search?: false | (SearchConfig & { labelWrap: boolean });
+  search?: false | (SearchConfig & { labelWrap?: boolean });
   optionColumnSpaceProps?: SpaceProps;
   defaultHideInSearch?: boolean;
 };
