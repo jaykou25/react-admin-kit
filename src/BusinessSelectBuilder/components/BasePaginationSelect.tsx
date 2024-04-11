@@ -30,6 +30,14 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
         dataSource: getGlobal(SelectName, this.props.type) || [],
         total: getGlobal(SelectTotalName, this.props.type) || 0,
       });
+
+      if (this.props.onLoad) {
+        this.props.onLoad(
+          getGlobal(SelectName, this.props.type) || [],
+          getGlobal(SelectTotalName, this.props.type) || 0,
+        );
+      }
+
       setGlobal(SelectStatusName, { [this.props.type]: false });
     }
   };
@@ -66,7 +74,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataForCache = () => {
-    const { type, loadFunction } = this.props;
+    const { type, loadFunction, onLoad } = this.props;
 
     // 如果同时有多个请求, 后面的请求return掉
     if (getGlobal(SelectStatusName, type)) {
@@ -77,6 +85,13 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     // 如果window.selectData中有数据则不请求后台
     // 同时对于依赖参数变化的请求不缓存
     if (getGlobal(SelectName, type)) {
+      if (onLoad) {
+        onLoad(
+          getGlobal(SelectName, type) || [],
+          getGlobal(SelectTotalName, type),
+        );
+      }
+
       return;
     }
 
@@ -87,6 +102,10 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       .then((res) => {
         setGlobal(SelectName, { [type]: res.data });
         setGlobal(SelectTotalName, { [type]: res.total });
+
+        if (onLoad) {
+          onLoad(res.data, res.total);
+        }
 
         const event = new CustomEvent('selectGlobalUpdate', {
           detail: { type },
@@ -99,7 +118,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
   };
 
   loadDataWithoutCache = () => {
-    const { loadFunction, queryParams = {} } = this.props;
+    const { loadFunction, queryParams = {}, onLoad } = this.props;
 
     this.setState({ loading: true });
     loadFunction(queryParams)
@@ -108,6 +127,10 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
           dataSource: res.data,
           total: res.total,
         });
+
+        if (onLoad) {
+          onLoad(res.data, res.total);
+        }
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -262,8 +285,15 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       onChange,
       queryParams,
       noCache,
+      showSearch,
+      optionFilterProp,
+      allowClear,
       ...rest
     } = this.props;
+
+    // 默认值
+    const _showSearch = showSearch !== undefined ? showSearch : true;
+    const _allowClear = allowClear !== undefined ? allowClear : true;
 
     return (
       <Select
@@ -276,8 +306,8 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
           renderLabel,
         })}
         // 搜索部分
-        showSearch
-        allowClear
+        showSearch={_showSearch}
+        allowClear={_allowClear}
         filterOption={false}
         onPopupScroll={this.handlePopupScroll}
         onSearch={debounce(this.handleSearch, 500)}

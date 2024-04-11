@@ -5,11 +5,16 @@ import type {
   ProColumnsValueType,
   ProTableProps,
 } from '@ant-design/pro-table';
-import type { ModalProps } from 'antd';
+import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
+import type { ModalProps, SpaceProps } from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import type { FormColumnType, ModalFormInnerRefType } from '..';
-import { FormType, ModalFormSelfProps } from '../ModalForm/types';
+import {
+  FormType,
+  ModalFormInnerRefType,
+  ModalFormSelfProps,
+} from '../ModalForm/types';
+import type { FormColumnType } from '../SchemaForm/types';
 import { SettingFormProps } from '../SettingProvider/types';
 
 export type ToolbarType = {
@@ -25,13 +30,24 @@ export type InnerRefType = {
   setData?: (vals: Record<string, any>) => void;
 } & ModalFormInnerRefType;
 
-type InnerRef =
-  | React.MutableRefObject<InnerRefType | undefined>
-  | React.RefObject<InnerRefType | undefined>;
+type InnerRef = React.MutableRefObject<InnerRefType | undefined>;
+
+export type TableAlertOptionType = {
+  hideDelete?: boolean; // 默认是false
+  deleteProps?: { btnText?: string; title?: (num) => string } | any; // 可以传入popconfirm 或 modal.confirm的属性
+  enableExport?: boolean; // 默认是false
+  actions?: ReactNode[];
+  exportName?: string;
+};
 
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
-  'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'editable'
+  | 'columns'
+  | 'name'
+  | 'onFinish'
+  | 'tableAlertOptionRender'
+  | 'editable'
+  | 'search'
 > & {
   columns: TableColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
@@ -49,7 +65,7 @@ export type MyProTableType = Omit<
    * 同时在columns中, 对于valueType为option的那一列, 如果声明了enableDelete, 操作列就会自动加入删除按钮
    */
   delFunction?: (
-    selectedIds: string[] | number[],
+    selectedIds: (string | number)[],
     record,
     callback?,
   ) => Promise<any>;
@@ -58,18 +74,18 @@ export type MyProTableType = Omit<
    * 移除了原来ProTable中的tableAlertOptionRender接口而用tableAlertOptions来替代.
    * 是因为在tableAlert中封装了多选删除的功能
    */
-  tableAlertOption?: {
-    hideDelete?: boolean; // 默认是false
-    enableExport?: boolean; // 默认是false
-    actions?: ReactNode[];
-    exportName?: string;
-  };
+  tableAlertOption?: TableAlertOptionType;
   // 操作列的space间距
   optionColSpaceSize?: 'small';
   editable?: boolean;
   modalProps?: ModalProps;
   formProps?: SettingFormProps;
   noPadding?: boolean;
+  confirmModelType?: 'popconfirm' | 'modal';
+  confirmModalProps?: any;
+  search?: false | (SearchConfig & { labelWrap?: boolean });
+  optionColumnSpaceProps?: SpaceProps;
+  defaultHideInSearch?: boolean;
 };
 
 export type FetchOptionType = {
@@ -80,6 +96,7 @@ type EnableDeleteType = {
   disabled?: boolean;
   visible?: boolean;
   danger?: boolean;
+  btnText?: string;
 };
 
 export type selfColumnsValueType = 'export';
@@ -116,16 +133,23 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
 };
 
 /**
+ * 被继承的基础接口类型中如果含有 [key: string]: any, 在用 Omit 时会有问题
+ * https://blog.csdn.net/riddle1981/article/details/131501414
+ */
+type OmitIndex<T, K extends keyof T> = {
+  [P in keyof T as Exclude<P, K>]: T[P];
+};
+
+/**
  * Table 的 column 定义
  * 它是 Form column 和 Table column 的合并, 因为在 ProTable 组件中 Tablet 和 Form 都存在
  */
-export type TableColumnType<
-  Record = any,
-  ValueType = 'text',
-  Type = string,
-> = Omit<FormColumnType<Record, ValueType>, 'render'> &
+export type TableColumnType<Record = any, ValueType = 'text'> = OmitIndex<
+  FormColumnType<Record, ValueType>,
+  'render'
+> &
   TableColumnTypeBase<Record, ValueType> & {
-    type?: Type;
-    children?: TableColumnType<Record, ValueType, Type>[];
+    type?: 'form' | 'table' | 'search';
+    children?: TableColumnType<Record, ValueType>[];
     valueType?: MyFieldType | ValueType;
   };

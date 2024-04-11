@@ -1,3 +1,6 @@
+const _mergeOptions = require('merge-options');
+import { isBoolean } from 'lodash-es';
+
 /**
  * 在全局设置变量
  * @param name
@@ -26,7 +29,7 @@ export function setGlobal(name: string, data: object) {
  * @param names
  * @returns
  */
-export function getGlobal(...names: string[]) {
+export function getGlobal(...names: string[]): any {
   let obj = typeof window !== 'undefined' ? window : global;
 
   for (let i = 0; i < names.length; i++) {
@@ -66,3 +69,68 @@ export function delGlobal(...names: string[]) {
     obj = obj[name];
   }
 }
+
+export const mergeOptions = _mergeOptions.bind({ ignoreUndefined: true });
+
+function isPlainObject(value) {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const prototype = Object.getPrototypeOf(value);
+  return (
+    (prototype === null ||
+      prototype === Object.prototype ||
+      Object.getPrototypeOf(prototype) === null) &&
+    !(Symbol.toStringTag in value) &&
+    !(Symbol.iterator in value)
+  );
+}
+
+/**
+ * 合并全局属性和组件属性
+ * 组件属性的优先级更高
+ * 1. 组件属性为 false 时即为 false
+ * 2. 组件属性为 undefined 时走全局属性
+ * 3. 组件属性为对象时，全局属性不是对象时， 不用管全局属性
+ * 4. 组件属性为对象时，与全局属性合并
+ */
+export const myMergeOptions = (globalOption, option, defaultValue) => {
+  const _globalOption = globalOption || defaultValue;
+
+  if (option === false) {
+    return false;
+  }
+
+  if (option === undefined) {
+    return globalOption || defaultValue;
+  }
+
+  // 全局属性是非对象的时候不管全局属性
+  if (isPlainObject(option) && !isPlainObject(_globalOption)) {
+    return option;
+  }
+
+  // 全局属性是对象的时候合并全局属性
+  if (isPlainObject(option) && isPlainObject(_globalOption)) {
+    return mergeOptions(_globalOption, option);
+  }
+};
+
+/**
+ * 合并 boolean 类型的全局属性和组件属性
+ * 组件属性的优先级更高
+ */
+export const myMergeBoolean = (
+  global: boolean | undefined,
+  local: boolean | undefined,
+  defaultValue?: boolean,
+) => {
+  if (isBoolean(local)) {
+    return local;
+  } else if (isBoolean(global)) {
+    return global;
+  } else {
+    return defaultValue;
+  }
+};

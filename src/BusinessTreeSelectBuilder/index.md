@@ -52,6 +52,11 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 <code src="./demos/clearCache/index.tsx"></code>
 
+### onLoad 事件
+当下拉数据加载完成后会触发 onLoad 事件. 这个事件对于某些场景非常有用, 例如可以用它实现默认选中第一条数据.
+
+<code src="./demos/onLoad/index.tsx"></code>
+
 ### API
 
 ### BusinessTreeSelectBuilder
@@ -60,8 +65,8 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 ### ApiType
 
-<API filePath='src/BusinessTreeSelectBuilder/index.tsx' name='Api' ></API>
+<API name='BizTreeApi' ></API>
 
 ### BusinessTreeSelect
 
-<API  filePath='src/BusinessTreeSelectBuilder/index.tsx' name='Self'></API>
+<API name='BusinessTreeSelectSelf'></API>

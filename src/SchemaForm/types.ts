@@ -48,7 +48,7 @@ export type SchemaFormSelfProps = {
    * @description RAK特有的ref, 用于存放一些工具类函数和数据.
    * @type RefObject<SchemaFormInnerRefType>
    */
-  innerRef?: InnerRef;
+  innerRef?: BaseInnerRef;
 
   /**
    * @description 提交按钮相关配置.
@@ -75,12 +75,12 @@ export type FormColumnType<T = any, ValueType = 'text'> = Omit<
    */
   fieldProps?:
     | object
-    | ((form: ProFormInstance, innerRef: InnerRef, config: any) => object);
+    | ((form: ProFormInstance, innerRef: BaseInnerRef, config: any) => object);
 
   /**
    * 给 renderFormItem 方法注入 innerRef
    */
-  renderFormItem?: (item, config, form, innerRef: InnerRef) => any;
+  renderFormItem?: (item, config, form, innerRef: BaseInnerRef) => any;
 
   /**
    * 重新定义 columns 类型
@@ -88,6 +88,16 @@ export type FormColumnType<T = any, ValueType = 'text'> = Omit<
   columns?:
     | FormColumnType<T, ValueType>[]
     | ((values: any) => FormColumnType<T, ValueType>[]);
+
+  /**
+   * formItemProps: {rules: [{required: true}]} 的简写
+   */
+  required?: boolean;
+
+  /**
+   * 可以自定义任意的字段
+   */
+  [key: string]: any;
 };
 
 /**
@@ -98,4 +108,6 @@ export type SchemaFormInnerRefType = {
   setData: (values: Record<string, any>) => void; // 存入数据
 };
 
-export type InnerRef = React.MutableRefObject<SchemaFormInnerRefType | null>;
+export type BaseInnerRef = React.MutableRefObject<
+  SchemaFormInnerRefType | undefined
+>;

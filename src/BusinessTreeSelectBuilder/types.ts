@@ -60,6 +60,12 @@ export interface BusinessTreeSelectSelfProps<Type> {
    * @default           false
    */
   noCache?: boolean;
+
+  /**
+   * @description 下拉数据加载完成后的回调;
+   * @default -
+   */
+  onLoad?: (options) => void;
 }
 
 export type BusinessTreeSelectProps<Type> = BusinessTreeSelectSelfProps<Type> &

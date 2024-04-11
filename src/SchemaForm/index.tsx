@@ -1,7 +1,6 @@
 import { BetaSchemaForm } from '@ant-design/pro-form';
 import { produce } from 'immer';
 import React, {
-  createRef,
   useContext,
   useEffect,
   useImperativeHandle,
@@ -13,6 +12,7 @@ import { Form, Row } from 'antd';
 import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
+  BaseInnerRef,
   FormColumnType,
   SchemaFormInnerRefType,
   SchemaFormProps,
@@ -20,6 +20,7 @@ import type {
 } from './types';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
+import { BaseInnerClass } from 'react-admin-kit/context';
 import { InnerRefContext } from '../ProForm';
 import { convertValues, splitValues } from './utils';
 
@@ -77,29 +78,28 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   } = props;
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
-  const selfInnerRef = createRef<SchemaFormInnerRefType>();
-  selfInnerRef.current = { data: {}, setData: () => {} };
+  const selfInnerRef = useRef<SchemaFormInnerRefType>();
+  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(new BaseInnerClass());
 
-  const setData = (newValue: Record<string, any>) => {
-    if (innerRef?.current) {
-      const values = innerRef.current.data;
-      innerRef.current.data = { ...values, ...newValue };
-    }
+  const parentInnerRef = useContext(InnerRefContext);
+
+  const getInnerRef = (): BaseInnerRef => {
+    return parentInnerRef || innerRef || selfInnerRef;
   };
 
   /**
    * 给 innerRef 增加方法
    */
   useEffect(() => {
-    if (innerRef) {
-      if (!innerRef.current) innerRef.current = { data: {}, setData: setData };
-
-      /**
-       * 给 ModalForm 组件的 innerRef 赋值
-       */
-      innerRef.current.data = {};
-      innerRef.current.setData = setData;
+    const $innerRef = getInnerRef();
+    if (!$innerRef.current) {
+      $innerRef.current = baseInnerObjRef.current;
     }
+
+    if (!$innerRef.current.data)
+      $innerRef.current.data = baseInnerObjRef.current.data;
+    if (!$innerRef.current.setData)
+      $innerRef.current.setData = baseInnerObjRef.current.setData;
   }, []);
 
   /**
@@ -126,8 +126,13 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     propsFormRef,
     () => {
       // 没有初始值的情况
-      if (!initialValuesInner) {
-        return formRef.current;
+      if (!initialValuesInner && formRef.current) {
+        const { getFieldsValue, setFieldsValue } = formRef.current;
+        return {
+          ...formRef.current,
+          setFieldsValue: (values) =>
+            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+        };
       }
 
       // 有初始值的情况
@@ -159,19 +164,27 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   /**
    * 给 fieldProps 和 renderFormItem 注入 innerRef
+   * 给一些约定的字段加上属性：required: true => formItemProps
    */
-  const parentInnerRef = useContext(InnerRefContext);
   const patchColumn = ($cols: FormColumnType[]): any[] => {
-    const { innerRef = selfInnerRef } = props;
-
-    /**
-     * 父组件 ProForm 中传入的 innerRef 优先级最高
-     */
-    const $innerRef = parentInnerRef || innerRef;
+    const $innerRef = getInnerRef();
 
     return produce($cols, (cols) => {
       cols.forEach((col) => {
-        const { renderFormItem, fieldProps, valueType, columns } = col;
+        const {
+          renderFormItem,
+          fieldProps,
+          valueType,
+          columns,
+          formItemProps = {},
+          required,
+        } = col;
+
+        // 增加 required: true 简写
+        // @ts-ignore
+        if (required && !formItemProps.rules) {
+          col.formItemProps = { ...formItemProps, rules: [{ required: true }] };
+        }
 
         // 给fieldProps增加ref参数
         if (fieldProps && typeof fieldProps === 'function') {
@@ -272,6 +285,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       key={key}
       {...setting}
       onFinish={handleOnFinish}
+      //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
       submitter={patchSubmitter()}
       formRef={key === 'hasInitial' ? formRefWithInitial : formRef}
       readonly={readonly}

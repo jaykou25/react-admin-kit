@@ -1,7 +1,7 @@
 import { Button as AntButton } from 'antd';
-import { MyButtonSelfProps } from './types';
+import { MyButtonProps, MyButtonSelfProps } from './types';
 
-const Button = (props) => {
+const Button = (props: MyButtonProps) => {
   const { visible = true, ...restProps } = props;
 
   if (typeof visible === 'function') {
@@ -18,6 +18,6 @@ const Button = (props) => {
 export default Button;
 
 // 用于生成api文档
-export const Self: React.FC<MyButtonSelfProps> = () => {
+export const ButtonSelf: React.FC<MyButtonSelfProps> = () => {
   return null;
 };

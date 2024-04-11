@@ -20,4 +20,4 @@ description: LinkButton - 链接按钮组件是 Antd Button 的封装, 与 Antd 
 
 ### LinkButton
 
-<API filePath='src/Button/index.tsx' name='Self' ></API>
+<API name='ButtonSelf' ></API>

@@ -9,14 +9,7 @@ export const columns: FormColumnType[] = [
   {
     title: '用户名',
     dataIndex: 'username',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '用户名为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '电话',
@@ -48,14 +41,7 @@ export const columns: FormColumnType[] = [
   },
   {
     title: '身份证号',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '身份证为必填项',
-        },
-      ],
-    },
+    required: true,
     dataIndex: 'idNumber',
   },
 ];

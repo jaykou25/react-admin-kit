@@ -3,30 +3,56 @@ import type { FormColumnType } from 'react-admin-kit';
 
 export const getColumns = (): FormColumnType[] => [
   {
-    title: '用户名',
-    dataIndex: 'name',
-  },
-  {
-    title: '部门 (包含额外信息)',
-    dataIndex: 'deptId,deptName',
+    title: '员工',
+    dataIndex: 'userId',
     valueType: 'select',
     fieldProps: (form, innerRef): SelectProps<any, any> => ({
-      labelInValue: true,
       options: [
         {
-          label: '销售部',
-          value: '1',
-          otherId: 'A',
+          label: '员工1',
+          value: 'user1',
+          userCode: 'c01',
+          deptName: '部门A',
+          deptId: '1',
         },
         {
-          label: '技术部',
-          value: '2',
-          otherId: 'B',
+          label: '员工2',
+          value: 'user2',
+          userCode: 'c02',
+          deptName: '部门B',
+          deptId: '2',
         },
       ],
       onChange: (val, option) => {
-        innerRef.current?.setData({ otherId: option.otherId });
+        if (val) {
+          innerRef.current?.setData({ deptId: option.deptId });
+          form.setFieldsValue({ deptName: option.deptName });
+        } else {
+          innerRef.current?.setData({ deptId: undefined });
+          form.setFieldsValue({ deptName: undefined });
+        }
       },
     }),
+  },
+  {
+    name: ['userId'],
+    valueType: 'dependency',
+    columns: ({ userId }) => {
+      if (userId) {
+        return [
+          {
+            title: '部门',
+            dataIndex: 'deptName',
+            fieldProps: (form, innerRef): SelectProps<any, any> => {
+              return {
+                disabled: innerRef.current?.data.deptId === '1',
+              };
+            },
+          },
+        ];
+      }
+
+      return [];
+    },
   },
 ];

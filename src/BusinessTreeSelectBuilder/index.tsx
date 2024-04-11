@@ -49,11 +49,13 @@ export const clearTreeSelectCache = (type?: string) => {
 };
 
 // 用于生成api文档
-export const Api: React.FC<ApiType> = () => {
+export const BizTreeApi: React.FC<ApiType> = () => {
   return null;
 };
 
 // 用于生成api文档
-export const Self: React.FC<BusinessTreeSelectSelfProps<string>> = () => {
+export const BusinessTreeSelectSelf: React.FC<
+  BusinessTreeSelectSelfProps<string>
+> = () => {
   return null;
 };

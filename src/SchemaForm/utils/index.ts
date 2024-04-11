@@ -59,6 +59,10 @@ function getConventionValue(values = {}, dataIndex) {
       ? after.split(',')
       : [];
 
+    if (values[valueName] === undefined && values[labelName] === undefined) {
+      return undefined;
+    }
+
     return {
       [toValueName]: values[valueName],
       [toLabelName]: values[labelName],
@@ -95,13 +99,24 @@ export function convertValues(values, allVals: Record<string, any> = {}) {
   Object.keys(allVals).forEach((dataIndex) => {
     const val = allVals[dataIndex];
 
-    // 处理套嵌数据
+    // 如果是对象处理套嵌数据
     if (typeof val === 'object') {
       convertValues(values[dataIndex], val);
     }
+
+    // bugfix: 如果 dataIndex 不是约定格式则不处理. 否则在 setFieldsValues 时会误赋值
+    if (!matchConvention(dataIndex)) return;
 
     values[dataIndex] = getConventionValue(values, dataIndex);
   });
 
   return values;
+}
+
+/**
+ * 判断 dataIndex 格式是否满足约定式
+ * @param dataIndex
+ */
+export function matchConvention(dataIndex: string) {
+  return dataIndex && typeof dataIndex === 'string' && dataIndex.includes(',');
 }

@@ -8,10 +8,20 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@@/*": [".dumi/tmp/*"],
-      "react-admin-kit": ["src"],
-      "react-admin-kit/*": ["src/*", "*"]
+      "@@/*": [
+        ".dumi/tmp/*"
+      ],
+      "react-admin-kit": [
+        "src"
+      ],
+      "react-admin-kit/*": [
+        "src/*",
+        "*"
+      ]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [
+    ".dumirc.ts",
+    "src/**/*"
+  ]
 }

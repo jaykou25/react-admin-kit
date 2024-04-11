@@ -7,8 +7,8 @@ import { message } from 'antd';
 import { getColumns } from './columns';
 
 const Create = () => {
-  const innerRef = useRef<InnerRefType>(null);
-  const actionRef = useRef<ActionRefType>(null);
+  const innerRef = useRef<InnerRefType>();
+  const actionRef = useRef<ActionRefType>();
 
   return (
     <ProTable
@@ -30,7 +30,7 @@ const Create = () => {
       onFinish={async (values, formType) => {
         if (formType === 'new') {
           await mockAdd(values);
-          message.success('新建成功!');
+          message.success('新建成功');
           actionRef.current?.reload();
         }
       }}

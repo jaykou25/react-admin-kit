@@ -16,12 +16,12 @@ const InitValueDemo = () => {
 
   return (
     <div>
+      <h4>无初始值</h4>
       <SchemaForm
         onFinish={onFinish}
         formRef={formRef}
         columns={getColumns()}
         autoFocusFirstInput={false}
-        initialValues={{ showPhone: 0 }}
         readonly={readonly}
       />
 
@@ -36,8 +36,9 @@ const InitValueDemo = () => {
           style={{ marginRight: '10px' }}
           onClick={() =>
             formRef.current?.setFieldsValue({
-              showPhone: 1,
-              phone: 15800012345,
+              showUser: 1,
+              user: '2',
+              userName: '用户2',
             })
           }
         >

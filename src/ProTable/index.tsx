@@ -1,6 +1,7 @@
 import produce from 'immer';
-import { Component, createRef } from 'react';
-import type { InnerRefType, MyProColumnType, MyProTableType } from './types';
+import { Component, createRef, MutableRefObject } from 'react';
+import type { FormColumnType } from '../SchemaForm/types';
+import type { InnerRefType, MyProTableType, TableColumnType } from './types';
 
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
@@ -10,10 +11,14 @@ import { filterExportCols } from './filterCols';
 import { handleRequestParams } from './utils';
 
 import cs from 'classnames';
-import { ModalFormInnerRefType } from '..';
-import { FormType } from '../ModalForm/types';
+import { ActionRefType } from '..';
 import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
+import ModalConfirm from './components/ModalConfirm';
+
+import { BaseInnerClass } from '../context';
+import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
+import { normalizeTree } from '../utils/treeUtil';
 import './styles.css';
 
 /**
@@ -27,8 +32,9 @@ export const FORM_TYPE_MAP = {
 
 class ProTable extends Component<MyProTableType, any> {
   private targetId;
-  private modalFormRef;
   private selfInnerRef;
+  private selfActionRef;
+  private baseInnerObj;
 
   static contextType: any = ProTableContext;
   context!: React.ContextType<typeof ProTableContext>;
@@ -45,19 +51,36 @@ class ProTable extends Component<MyProTableType, any> {
     };
 
     this.targetId = '';
-    this.modalFormRef = createRef<ModalFormInnerRefType>();
 
     this.selfInnerRef = createRef<InnerRefType>();
+    this.selfActionRef = createRef<ActionRefType>();
 
-    if (props.innerRef) {
-      props.innerRef.current = {};
-      props.innerRef.current.data = {};
-      props.innerRef.current.openModal = this.openModal;
-      props.innerRef.current.setData = this.setData;
-    }
+    this.baseInnerObj = new BaseInnerClass();
+
+    // @ts-ignore
+    this.getInnerRef().current = {};
+    this.getInnerRef().current.data = this.baseInnerObj.data;
+    this.getInnerRef().current.setData = this.baseInnerObj.setData;
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    /** 注册一个事件用于 reload 表格; 这对于一些已缓存的页面比较有用, 在其它页面可以控制刷新表格 */
+    document.addEventListener('reload', this.tableReload);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('reload', this.tableReload);
+  }
+
+  tableReload = () => {
+    const currentActionRef = this.props.actionRef || this.selfActionRef;
+
+    currentActionRef.current?.reload();
+  };
+
+  getInnerRef = (): MutableRefObject<InnerRefType> => {
+    return this.props.innerRef || this.selfInnerRef;
+  };
 
   getTitle = () => {
     const { name, toolbar = {} } = this.props;
@@ -77,48 +100,77 @@ class ProTable extends Component<MyProTableType, any> {
     return `${FORM_TYPE_MAP[formType]}${name}` || '';
   };
 
-  // 给ref上赋值
-  setData = (newValue) => {
-    if (this.props.innerRef?.current) {
-      const values = this.props.innerRef.current.data;
-      this.props.innerRef.current.data = { ...values, ...newValue };
-    }
-  };
+  /**
+   * 增强列功能
+   * 1. 给 option 列增加 innerRef
+   * 2. option 列的 renderDom 包裹 Space 组件
+   * @param cols
+   * @returns cols
+   */
+  patchColumn = ($cols): any => {
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { optionColumnSpaceProps: globalSpaceProps } = setting;
 
-  openModal = (type: FormType = 'new', initialData?: any) => {
-    this.setState({ formType: type });
-    this.modalFormRef.current?.openModal(type, initialData);
-  };
+    const { optionColumnSpaceProps = {} } = this.props;
 
-  patchColumn = ($cols) => {
-    const { innerRef = this.selfInnerRef } = this.props;
+    const innerRef = this.getInnerRef();
+
+    const mergedSpaceProps = mergeOptions(
+      { size: 'small' },
+      globalSpaceProps,
+      optionColumnSpaceProps,
+    );
 
     return produce($cols, (cols) => {
-      cols.forEach((col: MyProColumnType) => {
-        const { renderFormItem, render, fieldProps } = col;
+      cols.forEach(
+        (col: Omit<FormColumnType, 'render'> & TableColumnType['render']) => {
+          const { render } = col;
 
-        // 给fieldProps增加ref参数
-        if (fieldProps && typeof fieldProps === 'function') {
-          col.fieldProps = (form) => fieldProps(form, innerRef);
-        }
+          // 给valueType为option列的render增加ref参数
+          if (col.valueType === 'option' && render) {
+            col.render = (text, record, index, actionRef) => {
+              const renderDom = render(
+                text,
+                record,
+                index,
+                actionRef,
+                innerRef,
+              );
 
-        // 给renderFormItem增加ref参数
-        if (renderFormItem) {
-          col.renderFormItem = (a, b, c) => renderFormItem(a, b, c, innerRef);
-        }
-
-        // 给valueType为option列的render增加ref参数
-        if (col.valueType === 'option' && render) {
-          col.render = (text, record, index, actionRef) =>
-            render(text, record, index, actionRef, innerRef);
-        }
-      });
+              //数组的话外面包一个 Space 组件
+              return Array.isArray(renderDom) ? (
+                <Space {...mergedSpaceProps}>{renderDom}</Space>
+              ) : (
+                renderDom
+              );
+            };
+          }
+        },
+      );
     });
   };
 
-  enableDelete = ($cols) => {
+  enableDelete = ($cols): any => {
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { confirmModalType: globalType, confirmModalProps: globalProps } =
+      setting;
+
     // props
-    const { rowKey = 'id', delPermission, delFunction } = this.props;
+    const {
+      rowKey = 'id',
+      delPermission,
+      delFunction,
+      confirmModelType = globalType || 'popconfirm',
+      confirmModalProps = {},
+    } = this.props;
+
+    const mergedProps = mergeOptions(globalProps, confirmModalProps);
 
     const hasDelPermission = delPermission ? delPermission() : true;
 
@@ -127,7 +179,7 @@ class ProTable extends Component<MyProTableType, any> {
 
     // 使用produce是为了改变columns的引用, 从而可以重渲染
     return produce($cols, (cols) => {
-      cols.forEach((col: MyProColumnType) => {
+      cols.forEach((col: FormColumnType) => {
         const { render, enableDelete = false } = col;
 
         // 如果列上开启了删除enableDelete, 复写render
@@ -139,40 +191,79 @@ class ProTable extends Component<MyProTableType, any> {
           render
         ) {
           col.render = (text, record, index, actionRef, innerRef) => {
-            const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
+            // 增强 rowKey 为函数
+            // @ts-ignore
+            const key: string =
+              typeof rowKey === 'function' ? rowKey(record) : rowKey;
+
+            // 增强 enableDelete 为函数
             const $enableDelete =
               typeof enableDelete === 'function'
                 ? enableDelete(record, index)
                 : {};
+
             // enabledDelete为true时的默认值
-            const { disabled = false, visible = true, danger } = $enableDelete;
+            const {
+              disabled = false,
+              visible = true,
+              danger,
+              btnText = '删除',
+            } = $enableDelete;
 
             const renderDom = render(text, record, index, actionRef, innerRef);
 
             if (Array.isArray(renderDom) && visible) {
-              const deleteDom = (
-                <Popconfirm
-                  key={renderDom.length + 1}
-                  title="确定删除吗?"
-                  onConfirm={(e) => {
-                    e?.stopPropagation();
-                    this.handleDelete([record[key]], record);
-                  }}
-                  onCancel={(e) => e?.stopPropagation()}
-                >
-                  <LinkButton
-                    disabled={disabled}
-                    onClick={(e) => e.stopPropagation()}
-                    loading={delLoading && record[key] === this.targetId}
-                    danger={danger}
-                  >
-                    删除
-                  </LinkButton>
-                </Popconfirm>
-              );
+              let deleteDom;
 
+              // 弹框的默认属性
+              const { title = '确定删除吗?', ...rest } = mergedProps;
+
+              if (confirmModelType === 'modal') {
+                deleteDom = (
+                  <ModalConfirm
+                    key={renderDom.length + 1}
+                    title={title}
+                    {...rest}
+                    onOk={() => {
+                      this.handleDelete([record[key]], record);
+                    }}
+                  >
+                    <LinkButton
+                      disabled={disabled}
+                      onClick={(e) => e.stopPropagation()}
+                      loading={delLoading && record[key] === this.targetId}
+                      danger={danger}
+                    >
+                      {btnText}
+                    </LinkButton>
+                  </ModalConfirm>
+                );
+              } else {
+                deleteDom = (
+                  <Popconfirm
+                    key={renderDom.length + 1}
+                    title={title}
+                    {...rest}
+                    onConfirm={(e) => {
+                      e?.stopPropagation();
+                      this.handleDelete([record[key]], record);
+                    }}
+                    onCancel={(e) => e?.stopPropagation()}
+                  >
+                    <LinkButton
+                      disabled={disabled}
+                      onClick={(e) => e.stopPropagation()}
+                      loading={delLoading && record[key] === this.targetId}
+                      danger={danger}
+                    >
+                      {btnText}
+                    </LinkButton>
+                  </Popconfirm>
+                );
+              }
               renderDom.push(deleteDom);
             }
+
             return renderDom;
           };
         }
@@ -205,8 +296,15 @@ class ProTable extends Component<MyProTableType, any> {
     record: Record<string, any>,
     callback?: any,
   ) => {
-    const { rowKey = 'id', delFunction, rowSelection = {} } = this.props;
-    const key = typeof rowKey === 'function' ? rowKey(record) : rowKey;
+    const {
+      rowKey = 'id',
+      delFunction,
+      rowSelection = {},
+      actionRef = this.selfActionRef,
+    } = this.props;
+
+    //@ts-ignore
+    const key: string = typeof rowKey === 'function' ? rowKey(record) : rowKey;
 
     this.setState({ delLoading: true });
     if (record[key]) {
@@ -221,18 +319,20 @@ class ProTable extends Component<MyProTableType, any> {
           if (callback) callback();
 
           // bugfix: 如果在多选选中后, 点的行上的删除, 不是点的批量删除, 删除后要去除掉selectedKeys
-          if (record[key]) {
+          if (record[key] && rowSelection) {
             const ids = (selectedIds || []).filter(
               (_key) => _key !== record[key],
             );
+
             if (rowSelection.selectedRowKeys) {
+              // @ts-ignore onChange 应有三个参数
               if (rowSelection.onChange) rowSelection.onChange(ids);
             } else {
               this.setState({ selectedRowKeys: ids });
             }
           }
 
-          const action = this.props.actionRef?.current;
+          const action = actionRef.current;
           if (action) {
             // bugfix: 假如数据一共有两页, 并且第二页只有一条数据, 删除该数据后应该自动切到上一页
             const { current, total, pageSize } = action.pageInfo;
@@ -263,6 +363,12 @@ class ProTable extends Component<MyProTableType, any> {
     // state
     const { delLoading, selectedRows } = this.state;
 
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { tableAlertOption: globalOption } = setting;
+
     // props
     const {
       tableAlertOption = {},
@@ -270,16 +376,62 @@ class ProTable extends Component<MyProTableType, any> {
       name,
       delFunction,
       delPermission,
+      confirmModelType,
     } = this.props;
+
+    // 合并全局设置和组件传入的属性, 后者传入的优先级高
+    const mergedOption = mergeOptions(globalOption, tableAlertOption);
+
     // tableAlertOption
     const {
       hideDelete = false,
       enableExport = false,
       actions: alertActions = [],
       exportName,
-    } = tableAlertOption;
+      deleteProps,
+    } = mergedOption;
+
+    const { btnText = '批量删除', title, ...rest } = deleteProps || {};
 
     const hasDelPermission = delPermission ? delPermission() : true;
+
+    /* 多选删除 */
+    const getDelDom = () => {
+      if (!hideDelete && delFunction && hasDelPermission) {
+        const defaultTitle = title
+          ? title(_selectedRowKeys.length)
+          : `确定删除${_selectedRowKeys.length}条数据吗?`;
+
+        if (confirmModelType === 'modal') {
+          return (
+            <ModalConfirm
+              title={defaultTitle}
+              {...rest}
+              onOk={() => {
+                this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
+              }}
+              okButtonProps={{ loading: delLoading }}
+            >
+              <LinkButton loading={delLoading}>{btnText}</LinkButton>
+            </ModalConfirm>
+          );
+        } else {
+          return (
+            <Popconfirm
+              overlayStyle={{ width: '180px' }}
+              title={defaultTitle}
+              {...rest}
+              onConfirm={() => {
+                this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
+              }}
+              okButtonProps={{ loading: delLoading }}
+            >
+              <LinkButton loading={delLoading}>{btnText}</LinkButton>
+            </Popconfirm>
+          );
+        }
+      }
+    };
 
     return (
       <Space size={'middle'}>
@@ -293,7 +445,6 @@ class ProTable extends Component<MyProTableType, any> {
                 exportName || `${name ? name + '列表' : ''}导出`,
               );
               onCleanSelected();
-              console.log('exportclick', selectedRows);
             }}
           >
             导出所选
@@ -301,18 +452,7 @@ class ProTable extends Component<MyProTableType, any> {
         )}
 
         {/* 多选删除 */}
-        {!hideDelete && delFunction && hasDelPermission && (
-          <Popconfirm
-            overlayStyle={{ width: '180px' }}
-            title={`确定删除${_selectedRowKeys.length}条数据吗?`}
-            onConfirm={() => {
-              this.handleDelete(_selectedRowKeys, {}, onCleanSelected);
-            }}
-            okButtonProps={{ loading: delLoading }}
-          >
-            <LinkButton loading={delLoading}>批量删除</LinkButton>
-          </Popconfirm>
-        )}
+        {getDelDom()}
 
         {alertActions}
 
@@ -321,13 +461,21 @@ class ProTable extends Component<MyProTableType, any> {
     );
   };
 
+  selfOnOpen = (formType, formRef, formData) => {
+    this.setState({ formType });
+
+    if (this.props.onOpen) {
+      this.props.onOpen(formType, formRef, formData);
+    }
+  };
+
   render() {
     const {
       rowKey = 'id',
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       name,
       columns,
-      options = false,
+      options,
       pagination = {},
       formColumns,
       scroll = { x: '100%' },
@@ -345,6 +493,12 @@ class ProTable extends Component<MyProTableType, any> {
       onOpen,
       modalProps = {},
       formProps = {},
+      defaultHideInSearch,
+      // 仅仅是移除掉它们, 不让它们传给 AntProTable
+      confirmModalProps,
+      confirmModelType,
+      optionColumnSpaceProps,
+      actionRef,
       ...rest
     } = this.props;
 
@@ -356,6 +510,12 @@ class ProTable extends Component<MyProTableType, any> {
       modalProps: settingModalProps = {},
       formProps: settingFormProps = {},
       searchConfig = {},
+      options: globalOptions,
+      defaultHideInSearch: globalDefaultHideInSearch,
+      // 仅仅是移除掉它们, 不让它们传给 AntProTable
+      confirmModalType: a,
+      confirmModalProps: b,
+      tableAlertOption: c,
       ...restSetting
     } = setting;
 
@@ -367,8 +527,23 @@ class ProTable extends Component<MyProTableType, any> {
       className: 'searchFormStyleFix',
     };
 
+    /**
+     * 处理 options 属性的合并
+     * 1. 组件属性为 false, 优先级高
+     * 2. 组件属性为 undefined, 走全局
+     *
+     */
+    const mergedOptions = myMergeOptions(globalOptions, options, false);
+
+    const mergedDefaultHideInSearch = myMergeBoolean(
+      globalDefaultHideInSearch,
+      defaultHideInSearch,
+      false,
+    );
+
     return (
       <>
+        {/* @ts-ignore */}
         <AntProTable
           className={cs(
             className,
@@ -378,8 +553,32 @@ class ProTable extends Component<MyProTableType, any> {
           rowKey={rowKey}
           headerTitle={this.getTitle()}
           // @ts-ignore
-          columns={this.enableDelete(this.patchColumn(columns))}
-          options={options}
+          columns={this.patchColumn(
+            this.enableDelete(
+              normalizeTree(columns, (_item) => {
+                const item = { ..._item };
+                if (item.hideInSearch === undefined) {
+                  item.hideInSearch = mergedDefaultHideInSearch;
+                }
+
+                if (item.type === 'search') {
+                  item.search = true;
+                  item.hideInSearch = false;
+                  item.hideInTable = true;
+                  item.hideInForm = true;
+                }
+
+                return item;
+              }),
+            ),
+          ).filter((col) => {
+            if (col.valueType === 'dependency') return false;
+
+            if (col.type === 'form') return false;
+
+            return true;
+          })}
+          options={mergedOptions}
           pagination={pagination}
           scroll={scroll}
           tableAlertOptionRender={this.tableAlertOptionRender}
@@ -394,11 +593,14 @@ class ProTable extends Component<MyProTableType, any> {
                   return new Promise((resolve, reject) => {
                     request(handleRequestParams(params, sort), sort, filter)
                       .then((res) => {
-                        if (this.props.innerRef?.current) {
-                          this.props.innerRef.current.total = res.total;
-                          this.props.innerRef.current.dataSource = res.data;
-                          this.props.innerRef.current.params =
-                            handleRequestParams(params, sort);
+                        const innerRef = this.getInnerRef();
+                        if (innerRef) {
+                          innerRef.current.total = res.total;
+                          innerRef.current.dataSource = res.data;
+                          innerRef.current.params = handleRequestParams(
+                            params,
+                            sort,
+                          );
                         }
 
                         resolve(res);
@@ -408,15 +610,22 @@ class ProTable extends Component<MyProTableType, any> {
                 }
               : undefined
           }
+          actionRef={actionRef || this.selfActionRef}
           {...tableRest}
         />
         <ModalForm
-          innerRef={this.modalFormRef}
+          innerRef={this.getInnerRef()}
           title={this.getModalTitle()}
           // @ts-ignore
-          columns={this.patchColumn(formColumns || columns)}
+          columns={(formColumns || columns).filter((col) => {
+            if (col.type === 'form') return true;
+
+            if (!col.type) return true;
+
+            return false;
+          })}
           onFinish={onFinish}
-          onOpen={onOpen}
+          onOpen={this.selfOnOpen}
           formProps={{
             ...settingFormProps,
             ...formProps,

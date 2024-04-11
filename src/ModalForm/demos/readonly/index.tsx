@@ -20,7 +20,12 @@ const ReadonlyDemo = () => {
         <Button
           type="primary"
           onClick={() =>
-            ref.current?.openModal('read', { username: '王先生', phone: 134 })
+            ref.current?.openModal('read', {
+              username: '王先生',
+              phone: 134,
+              isMember: '1',
+              grade: '一级',
+            })
           }
         >
           只读模式
@@ -32,6 +37,10 @@ const ReadonlyDemo = () => {
         title={'基本表单非受控'}
         onFinish={onFinish}
         columns={columns}
+        formProps={{
+          layout: 'horizontal',
+          labelCol: { span: 4 },
+        }}
       />
     </div>
   );

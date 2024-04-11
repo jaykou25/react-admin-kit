@@ -74,6 +74,12 @@ export interface BusinessSelectSelfProps<Type> {
    * @default           false
    */
   noCache?: boolean;
+
+  /**
+   * @description 下拉数据加载完成后的回调; 对于分页的下拉组件只在初次加载完成后触发
+   * @default -
+   */
+  onLoad?: (options, total?: number) => void;
 }
 
 export type BusinessSelectProps<Type> = BusinessSelectSelfProps<Type> &

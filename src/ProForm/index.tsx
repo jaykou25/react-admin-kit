@@ -10,14 +10,17 @@ import { splitValues } from '../SchemaForm/utils';
 
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import { setConvertedFieldsValue } from '../SchemaForm';
-import type { InnerRef } from '../SchemaForm/types';
+import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
+import { BaseInnerClass } from '../context';
 
 type ProFormType = ProFormProps & {
   children?: React.ReactNode | React.ReactNode[];
-  innerRef?: InnerRef;
+  innerRef?: BaseInnerRef;
 };
 
-export const InnerRefContext = createContext<InnerRef | undefined>(undefined);
+export const InnerRefContext = createContext<BaseInnerRef | undefined>(
+  undefined,
+);
 
 const ProForm = (props: ProFormType) => {
   const {
@@ -29,20 +32,21 @@ const ProForm = (props: ProFormType) => {
     ...rest
   } = props;
 
-  const setData = (newValue: Record<string, any>) => {
-    if (innerRef?.current) {
-      const values = innerRef.current.data;
-      innerRef.current.data = { ...values, ...newValue };
-    }
+  // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
+  const selfInnerRef = useRef<SchemaFormInnerRefType>();
+  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(new BaseInnerClass());
+
+  const getInnerRef = (): BaseInnerRef => {
+    return innerRef || selfInnerRef;
   };
 
   /**
    * 给 innerRef 增加方法
    */
-  useImperativeHandle(innerRef, () => {
+  useImperativeHandle(getInnerRef(), () => {
     return {
-      data: {},
-      setData,
+      data: baseInnerObjRef.current.data,
+      setData: baseInnerObjRef.current.setData,
     };
   });
 
@@ -104,7 +108,7 @@ const ProForm = (props: ProFormType) => {
   const key = initialValuesInner ? 'hasInitial' : 'noInitial';
 
   return (
-    <InnerRefContext.Provider value={innerRef}>
+    <InnerRefContext.Provider value={getInnerRef()}>
       <AntProForm
         key={key} // initialValues 只在 form 初始化时生效
         onFinish={handleOnFinish}

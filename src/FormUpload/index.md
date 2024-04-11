@@ -10,7 +10,7 @@ description: FormUpload - 表单上传组件适用于在表单中的文件上传
 
 # FormUpload - 表单上传
 
-该组件是对 Antd Upload 组件的封装, 通过对 fileList 和 onChange 的接管, 让它表现为一个标准的 value - onChange 受控组件, 使其能够被直接用在 Form.Item 里.
+该组件是对 Antd [Upload](https://ant-design.antgroup.com/components/upload-cn) 组件的封装, 通过对 fileList 和 onChange 的接管, 让它表现为一个标准的 value - onChange 受控组件, 使其能够被直接用在 Form.Item 里.
 
 FormUpload 组件的设计目标是希望在简单的全局配置过后, 使用 FormUpload 组件就像使用 Input 组件一样简单轻量. 上传成功的文件会被表单自动收集, 上传失败的文件会被自动过滤.
 
@@ -28,6 +28,14 @@ FormUpload 组件的设计目标是希望在简单的全局配置过后, 使用 
 >
   ...
 </SettingProvider>
+```
+
+组件在上传的过程中会给 children 子组件注入 loading 属性. 或者也可以使用 renderFunction
+
+```js
+<FormUpload>
+  {({loading} => <Button>{loading ? '上传中...' : '上传'}</Button>)}
+</FormUpload>
 ```
 
 <code src="./demos/basic/index.tsx"></code>
@@ -59,9 +67,19 @@ FormUpload 还提供了 `nameKey` 和 `urlKey` 来更改 file 对象的取值字
 
 <code src="./demos/changeKey/index.tsx"></code>
 
+### 文件导入
+
+FormUpload 组件还能用于文件导入的场景. 文件导入和表单中的附件上传不一样的地方在于, 每次新导入的文件要覆盖前面的文件, 而附件上传的逻辑是后上传的附件会加入到原来的文件列表中.
+
+要实现这种覆盖的效果可以在导入完成后清空列表.
+
+<code src="./demos/import/index.tsx"></code>
+
 ### API
 
-<API filePath='src/FormUpload/index.tsx' name='FormUploadType'></API>
+### FormUpload
+
+<API name='FormUploadType'></API>
 
 #### responseToFileList 是什么意思?
 

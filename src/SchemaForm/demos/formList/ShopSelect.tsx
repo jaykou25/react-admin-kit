@@ -2,6 +2,7 @@ import { FormListContext } from '@ant-design/pro-form';
 import { Select } from 'antd';
 import { useContext } from 'react';
 
+/** 写这个组件是需要用到 useContext 来拿到表单数组的 index */
 const ShopSelect = (props) => {
   const field = useContext(FormListContext);
   const { value, onChange, form } = props;
@@ -18,6 +19,7 @@ const ShopSelect = (props) => {
 
         form.setFieldsValue({ shopList: newData });
       }}
+      placeholder="请选择"
       options={[
         {
           label: '店铺A',

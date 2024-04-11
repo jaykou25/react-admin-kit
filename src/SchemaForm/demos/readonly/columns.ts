@@ -15,16 +15,36 @@ export const columns: FormColumnType[] = [
   },
   {
     title: '负责人',
-    dataIndex: 'chargeName',
+    dataIndex: 'chargePerson',
+    valueType: 'select',
+    fieldProps: {
+      options: [
+        { label: '负责人1', value: '1' },
+        { label: '负责人2', value: '2' },
+      ],
+    },
   },
   {
-    title: '电话',
-    dataIndex: 'chargePhone',
+    valueType: 'dependency',
+    name: ['chargePerson'],
+    columns: ({ chargePerson }) => {
+      return chargePerson
+        ? [
+            {
+              title: '负责人电话',
+              dataIndex: 'chargePhone',
+            },
+          ]
+        : [];
+    },
   },
   {
     title: '自定义',
     dataIndex: 'mail',
-    render: (dom, record) => {
+    renderText: () => {
+      console.log('renderText');
+    },
+    render: (dom, record, ...rest) => {
       if (record.mode === 'read') {
         return '📧' + record.value;
       }

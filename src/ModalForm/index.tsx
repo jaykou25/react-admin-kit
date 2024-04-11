@@ -1,21 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FormInstance } from 'antd';
 import { Modal } from 'antd';
-import { Component, createRef } from 'react';
+import { Component, MutableRefObject, createRef } from 'react';
 import SchemaForm from '../SchemaForm';
-import type { InnerRef } from '../SchemaForm/types';
 
-import omit from 'omit.js';
-
-import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
+import type {
+  FormType,
+  ModalFormInnerRefType,
+  ModalFormProps,
+  ModalFormSelfProps,
+} from './types';
 
 import { ModalFormContext } from '../SettingProvider/context';
+import { BaseInnerClass } from '../context';
+import { normalizeTree } from '../utils/treeUtil';
 
 class ModalForm extends Component<
   ModalFormProps,
   { formType: FormType; visible: boolean; formData: any; loading: boolean }
 > {
   private formRef;
+  private selfInnerRef;
+  private baseInnerObj;
 
   static contextType = ModalFormContext;
   context!: React.ContextType<typeof ModalFormContext>;
@@ -30,14 +36,20 @@ class ModalForm extends Component<
       loading: false,
     };
 
-    if (props.innerRef) {
-      if (!props.innerRef.current) {
-        props.innerRef.current = {};
-      }
-      props.innerRef.current.openModal = this.openModal;
-    }
-
+    this.selfInnerRef = createRef<ModalFormInnerRefType>();
     this.formRef = createRef<FormInstance>();
+    this.baseInnerObj = new BaseInnerClass();
+
+    const innerRef = this.getInnerRef();
+
+    if (!innerRef.current) {
+      // @ts-ignore
+      innerRef.current = {};
+    }
+    innerRef.current.openModal = this.openModal;
+    if (!innerRef.current.data) innerRef.current.data = this.baseInnerObj.data;
+    if (!innerRef.current.setData)
+      innerRef.current.setData = this.baseInnerObj.setData;
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -66,7 +78,17 @@ class ModalForm extends Component<
     }
   };
 
+  getInnerRef = (): MutableRefObject<ModalFormInnerRefType> => {
+    return this.props.innerRef || this.selfInnerRef;
+  };
+
   openModal = (formType: FormType = 'new', initialData: object) => {
+    /**
+     * 将 formType 挂在 innerRef 上
+     */
+    const innerRef = this.getInnerRef();
+    innerRef.current.formType = formType;
+
     if (initialData) {
       this.setState({ visible: true, formType, formData: initialData });
       return;
@@ -136,17 +158,23 @@ class ModalForm extends Component<
   };
 
   getColumns = (): any => {
-    const { formType } = this.state;
-    const $cols = this.props.columns.map((col) => omit(col, ['width']));
+    const $cols = normalizeTree(
+      this.props.columns,
+      (item) => {
+        /** 去掉 width 属性, 因为在表单中不需要 width */
+        const { width, ...rest } = item;
 
-    if (formType === 'read') {
-      $cols.forEach((col) => (col.readonly = true));
-    }
+        return rest;
+      },
+      { replace: true },
+    );
 
     return $cols;
   };
 
   render() {
+    const { formType } = this.state;
+
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       columns,
@@ -175,10 +203,9 @@ class ModalForm extends Component<
       formProps: settingFormProps = {},
     } = setting;
 
-    const $innerRef: InnerRef | undefined = innerRef; // 只是为了类型定义, 传入SchemaForm的innerRef与ModalForm的innerRef定义不同
     const formRest = {
       ...settingFormProps,
-      innerRef: $innerRef,
+      innerRef: this.getInnerRef(),
       ...restFormProps,
     };
     const modalRest = { ...settingModalProps, ...rest };
@@ -205,6 +232,7 @@ class ModalForm extends Component<
           autoFocusFirstInput={autoFocusFirstInput}
           isKeyPressSubmit={isKeyPressSubmit}
           initialValues={open ? initialValues : { ...this.state.formData }}
+          readonly={formType === 'read'}
           {...formRest}
         />
       </Modal>

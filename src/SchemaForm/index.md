@@ -72,6 +72,12 @@ valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType �
 }
 ```
 
+### required
+
+由于表单中设置必选的频率比较高，schema 中新增了 `required` 字段，作为 `formItemProps: { rules: [{ required: true }]}` 的简写. 当然 formItemProps 的优先级更高.
+
+<code src="./demos/required/index.tsx"></code>
+
 ### 水平模式 horizontal
 
 <code src="./demos/horizontal/index.tsx"></code>
@@ -127,6 +133,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 ### 初始值和表单项赋值
 
 <code src="./demos/initValue/index.tsx"></code>
+<code src="./demos/initValue2/index.tsx"></code>
 
 ### 提交按钮 submitter
 
@@ -187,11 +194,13 @@ submitter 属性默认为 false, 开启后可自动生成提交按钮.
 
 ### 表单数组 FormList
 
-当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用.
+当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用. 
 
 比如下面的例子能够添加多个店铺.
 
 <code src="./demos/formList/index.tsx" ></code>
+
+formList 实际上是一个组件, [api](https://procomponents.ant.design/components/group#proformlist-api) 见这里, 可以通过 fieldProps 给这个组件传递属性.
 
 ### 表单数组 Grid 排列
 
@@ -247,16 +256,16 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 ### ⭐ 数据处理和收集 - 约定式
 
-还有一类组件我们除了要获取其 value 外还要获取它的显示文本(label), 像 Select, TreeSelect 等. 特别是当下拉组件有分页时, 光靠 value 无法回显出下拉内容, 这类场景可以通过开启组件的 `labelInValue` 属性来解决, 此时组件需要接收一个对象 `{ label: string, value: string}`
+有一类组件我们除了要获取其 value 外还要获取它的显示文本(label), 比如 [Select](https://ant-design.antgroup.com/components/select-cn), [TreeSelect](https://ant-design.antgroup.com/components/tree-select-cn). 特别是当 Select 组件有分页时, 光靠 value 并不能回显出下拉内容, 这类场景我们可以开启组件的 `labelInValue` 属性来解决, 开启后组件将不再接收字符串而是需要接收一个对象 `{ label: string, value: string}`
 
-但是后台一般会把值分开给前端, 比如`{userId: 1, userName: 'jack'}`, 前端会把值拼成对象`{value: 1, label: 'jack'}`用于回显, 在表单提交时再把对象拆成字符串.
+但是后台一般会把值分开给到前端, 比如`{userId: 1, userName: 'jack'}`, 前端会把值拼成对象`{value: 1, label: 'jack'}`给到 Select, 在表单提交时再把该对象手动拆成 `{userId: 1, userName: 'jack'}` 给到后端.
 
-这一类场景在实际应用中还是比较常见的. RAK 想通过对`dataIndex`的约定来简化这一流程, 约定如下:
+由于这一类场景在实际应用中还是比较常见的. RAK 想通过对`dataIndex`的约定来简化这一流程, 约定如下:
 
-- 👉 如果`dataIndex`中包含逗号`,`, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会自动将其拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
+- 👉 如果`dataIndex`中包含逗号`,`, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会把该对象拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
 
 ```js
-// 比如有一个表单项开启了labelInValue
+// 比如有一个用户下拉开启了labelInValue
 {
   title: '用户',
   dataIndex: 'userId,userName',
@@ -270,21 +279,23 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
   }
 }
 
-// RAK检测到dataIndex中含有逗号, 所以在表单提交时, values的值会自动转化成:
+// RAK检测到 dataIndex 中含有逗号, 所以在表单提交时会对值进行转化.
+// 未约定时表单拿到的值是
+{'userId,userName': { value: 1, label: 'jack' }}
+
+// 约定后值会被转化成:
 {
   userId: 1,
   userName: 'jack'
 }
 
-// 不需要处理即可直接提交给后端.
+// 同时在表单回显时无需对后端数据进行处理, 直接使用 initialValues 或 setFieldsValue 进行设值即能回显数据.
+initialValues={{ userId: 1, userName: 'jack' }}
 
-// 同时在表单回显时无需对后端数据进行处理, 直接使用initialValues或setFieldsValue即能回显数据.
-initialValues={{userId: 1, userName: 'jack'}}
-
-formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
+formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 ```
 
-- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段同样用逗号隔开. 这种情况的输入如果是`{userId: 1, userName: 'jack'}`则会转换成`{id: 1, name: 'jack'}`
+- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段同样用逗号隔开. 以这个例子来说, 当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件.
 
 <code src="./demos/convention/index.tsx"></code>
 
@@ -296,9 +307,13 @@ formRef.current?.setFieldsValue({userId: 1, userName: 'jack'})
 
 比如对于表单来说有这样一个场景:
 
-有的时侯后台需要前端提交一些不在表单内的额外的信息, 比如表单里有一个人员的下拉框组件, 除了 userId 外还需要提交 userCode 给后台. 一般这种情况我们会定义一个变量, 然后在下拉框组件的 onChange 事件里把额外信息赋给这个变量.
+表单里有一个人员的下拉框组件, 下拉数据里除了人员信息外还携带了部门数据 deptName 和 deptId. 当选中某个人员时部门名称会被自动带出, 同时当 deptId 为 '1' 时, 部门输入框需要置灰. 可参看例子.
 
-innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息. setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
+通常这样的需求我们会把 deptId 存在一个额外的变量里, 然后在部门输入框的 fieldProps 里做判断.
+
+innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息, 然后在其它的表单项里消费 innerRef.
+
+> innerRef 中的 setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
 
 <code src="./demos/innerRefData/index.tsx"></code>
 
@@ -359,3 +374,13 @@ innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里提供
 | hideInForm     | 在 Form 中隐藏                                                                                                                                | `boolean`                                               |
 | rowProps       | 在开启 `grid` 模式时传递给 Row                                                                                                                | [RowProps](https://4x.ant.design/components/grid/#Row)  |
 | colProps       | 在开启 `grid` 模式时传递给 Col                                                                                                                | [ColProps](https://4x.ant.design/components/grid/#Col)  |
+| required | 表单是否必选 | `boolean` |
+
+
+
+
+
+
+
+
+

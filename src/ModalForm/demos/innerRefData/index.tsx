@@ -5,11 +5,10 @@ import { Button, ModalForm } from 'react-admin-kit';
 import { getColumns } from './columns';
 
 const InnerRefDataDemo = () => {
-  const innerRef = useRef<ModalFormInnerRefType>(null);
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = async (values: any) => {
-    const { otherId } = innerRef.current?.data;
-    console.log({ values, otherId });
+    console.log({ values, data: innerRef.current?.data });
   };
 
   return (

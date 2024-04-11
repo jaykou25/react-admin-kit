@@ -22,9 +22,8 @@ export const getBaseColumns = (): FormColumnType[] => {
       name: [['business', 'serviceName']],
       columns: (values) => {
         const serviceName = values?.business?.serviceName;
-        if (serviceName === '1') {
-          return [];
-        } else {
+
+        if (serviceName === '2') {
           return [
             {
               title: '身份证号',
@@ -35,8 +34,10 @@ export const getBaseColumns = (): FormColumnType[] => {
                 labelCol: { flex: '0 0 18.75%' },
               },
             },
-            { fieldProps: { hidden: true } },
+            { fieldProps: { style: { display: 'none' } } },
           ];
+        } else {
+          return [];
         }
       },
     },

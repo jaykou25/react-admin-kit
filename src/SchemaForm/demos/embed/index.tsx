@@ -1,6 +1,6 @@
 import { Button, Card } from 'antd';
 import { useRef, useState } from 'react';
-import { ProForm, SchemaForm } from 'react-admin-kit';
+import { ProForm, SchemaForm, SchemaFormInnerRefType } from 'react-admin-kit';
 import { getBaseColumns } from './baseColumns';
 import getBusinessColumns from './businessColumns';
 
@@ -8,9 +8,10 @@ import type { FormInstance } from 'antd';
 
 const Embed = () => {
   const formRef = useRef<FormInstance>();
+  const innerRef = useRef<SchemaFormInnerRefType>();
 
   const onFinish = async (values: any) => {
-    console.log({ values });
+    console.log({ values, data: innerRef.current?.data });
     return true;
   };
 
@@ -45,6 +46,7 @@ const Embed = () => {
         onFinish={onFinish}
         submitter={false}
         formRef={formRef}
+        innerRef={innerRef}
         readonly={readonly} // 也可以单独设在某个SchemaForm上
         initialValues={{ base: { username: '高先生' } }}
       >

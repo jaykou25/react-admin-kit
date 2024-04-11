@@ -5,7 +5,7 @@ import { SchemaForm } from 'react-admin-kit';
 import { getColumns } from './columns';
 
 const InnerRefDataDemo = () => {
-  const innerRef = useRef<SchemaFormInnerRefType>(null);
+  const innerRef = useRef<SchemaFormInnerRefType>();
 
   const onFinish = async (values: any) => {
     console.log({ values, otherValues: innerRef.current?.data });
@@ -16,7 +16,7 @@ const InnerRefDataDemo = () => {
       columns={getColumns()}
       innerRef={innerRef}
       onFinish={onFinish}
-      submitter={{}}
+      submitter
       autoFocusFirstInput={false}
     />
   );

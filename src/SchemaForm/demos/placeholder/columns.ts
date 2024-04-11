@@ -10,7 +10,7 @@ export const columns: FormColumnType[] = [
     dataIndex: 'phone',
   },
   {
-    fieldProps: { hidden: true },
+    fieldProps: { style: { display: 'none' } },
   },
   {
     title: '负责人',

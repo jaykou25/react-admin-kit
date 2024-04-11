@@ -8,7 +8,7 @@ export type FormUploadSelfProps = {
   /**
    * @description 文件列表. { name: string; url: string; status: string }
    */
-  value?: UploadProps['fileList'];
+  value?: UploadProps['fileList'] | '';
   /**
    * @description 文件变动后的回调; 该属性在 v0.3 版本后发生了变更, 改成与 onFinish 属性一致, 只有当文件全部上传完毕后才触发.
    */
@@ -36,7 +36,13 @@ export type FormUploadSelfProps = {
    * @description       上传失败后的处理函数
    */
   errorHandle?: (res) => void;
-  children?: any;
+
+  /**
+   * @description children
+   * @type ({ loading: boolean }) => Element | Element
+   */
+  children?: any | [(childrenProp: { loading: boolean }) => any];
 };
 
-export type FormUploadProps = UploadProps & FormUploadSelfProps;
+export type FormUploadProps = Omit<UploadProps, 'children'> &
+  FormUploadSelfProps;

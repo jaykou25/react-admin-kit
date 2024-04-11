@@ -6,6 +6,7 @@ export type FormType = 'new' | 'edit' | 'read';
 
 export type ModalFormInnerRefType = {
   openModal: (formType?: FormType, initialValues?: any) => void;
+  formType?: FormType;
 } & SchemaFormInnerRefType;
 
 export type ModalFormSelfProps = {
@@ -17,7 +18,7 @@ export type ModalFormSelfProps = {
   /**
    * @description 非受控模式(推荐); 在open没传的情况下可以通过innerRef来打开弹窗; ref.current.openModal('new', initialValues)
    */
-  innerRef?: React.MutableRefObject<ModalFormInnerRefType | null>;
+  innerRef?: React.MutableRefObject<ModalFormInnerRefType | undefined>;
 
   /**
    * @description 表单项的配置描述;

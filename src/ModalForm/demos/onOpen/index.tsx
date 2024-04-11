@@ -4,6 +4,8 @@ import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
 import { columns } from './columns';
 
+const TitleMap = { new: '新增', edit: '编辑', read: '查看' };
+
 const OnOpenDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>();
 
@@ -13,7 +15,7 @@ const OnOpenDemo = () => {
 
   const requestData = () => {
     return new Promise((resolve) => {
-      setTimeout(resolve, 1000);
+      setTimeout(resolve, 800);
     });
   };
 
@@ -22,28 +24,34 @@ const OnOpenDemo = () => {
       <Space>
         <Button
           type="primary"
-          onClick={() => innerRef.current?.openModal('new')}
+          onClick={() => {
+            innerRef.current?.openModal('new');
+          }}
         >
           新增
         </Button>
 
         <Button
           type="primary"
-          onClick={() => innerRef.current?.openModal('edit')}
+          onClick={() => {
+            innerRef.current?.openModal('edit');
+          }}
         >
           编辑
         </Button>
 
         <Button
           type="primary"
-          onClick={() => innerRef.current?.openModal('read')}
+          onClick={() => {
+            innerRef.current?.openModal('read');
+          }}
         >
           查看
         </Button>
       </Space>
 
       <ModalForm
-        title={'基本表单'}
+        title={TitleMap[innerRef.current?.formType || 'new']}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={columns}

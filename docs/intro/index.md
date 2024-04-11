@@ -9,7 +9,7 @@ title: 简介
 description: React Admin Kit (简称RAK) 是一个基于 React 和 Ant Design 的组件库, 用于在中后台系统中快速的构建表单表格. RAK 的使用不仅能极大的提升开发效率, 而且由于其约定式的 api 还能降低后期不同开发人员的维护成本. 另外由于表单和表格都是由配置式数组生成, 使得不同页面间的表单和表格的复用变得非常简单.
 ---
 
-# 简介
+## 简介
 
 React Admin Kit (简称 RAK) 是一个基于 React 和 Ant Design 的组件库, 用于在中后台系统中快速的构建表单表格. RAK 的使用不仅能极大的提升开发效率, 而且由于其约定式的 api 还能降低后期不同开发人员的维护成本. 另外由于表单和表格都是由配置式数组生成, 使得不同页面间的表单和表格的复用变得非常简单.
 
@@ -39,11 +39,16 @@ yarn add antd
 import 'antd/dist/antd.min.css';
 ```
 
+> 由于 ProComponent 引入了 antd v5的一些组件, 比如 ColorPicker, 会导制在 vite 下启动报错. 如果你还是想继续使用 antd v4 可以改用 webpack. 
+
+
 安装 RAK
 
 ```bash
 $ yarn add react-admin-kit
 ```
+
+> 要使用 antd v4 请使用 RAK < v0.4, v0.4 以后只支持 antd v5.
 
 ### 生成表单
 
@@ -132,9 +137,9 @@ RAK 只有 3 个核心组件, 并且它们是组合的关系:
 
 ```js
 {
-  "@ant-design/pro-form": "^2.2.2",
-  "@ant-design/pro-table": "^3.0.11",
-  "@ant-design/pro-utils": "^2.2.10",
+  "@ant-design/pro-form": "~2.25.0",
+  "@ant-design/pro-table": "~3.15.0",
+  "@ant-design/pro-utils": "~2.15.0",
 }
 
 // peerDependency
@@ -143,6 +148,4 @@ RAK 只有 3 个核心组件, 并且它们是组合的关系:
 }
 ```
 
-文档中的用例使用的是 antd v4 版本.
-
-antd v5 理论也能支持.
+推荐使用 antd v5.

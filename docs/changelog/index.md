@@ -11,6 +11,139 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.3.18
+2024-4-9
+
+ProTable 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 ProTable 中 search 属性的类型定义.
+
+
+## 0.3.17
+2024-4-9
+
+文档用例更新成 antd v5.
+
+ModalForm 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 ModalFormInnerRefType 的类型定义, 修复后 useRef() 默认值可以为空.
+
+ProTable 组件
+- <img style="vertical-align: -3px" width='20' src='./ts.png'> 修复 TableColumnType 的类型定义, 修复后提示更加准确.
+
+## 0.3.16
+2024-2-11
+
+ModalForm 组件
+- 🐛修复 openModal('read') 只读方法对 dependency 里的子项无效的问题.
+
+ProTable 组件
+- 🐛修复 innerRef 与 fieldProps 中的 innerRef 不是同对象的问题.
+
+## 0.3.15
+2024-2-7
+
+ProTable 组件
+- 🛠schema 中的 type 字段新增 'search' 类型, 代表该项只会被用于 ProTable 的 search 区域.
+- 🆕新增 defaultHideInSearch 属性, 来全局控制 column 是否默认显示在搜索区域.
+
+## 0.3.14
+2024-2-2
+
+ProTable 组件
+- 🆕新增 reload 全局事件, 用于在其它页面控制表格的刷新.
+
+## 0.3.13
+2023-12-3
+
+ProTable 组件
+- 🐛删除按钮增加 stopPropogation. 
+
+## 0.3.12
+2023-12-1
+
+SchemaForm 组件
+- 🐛修复约定式赋值问题: setFieldsValue 赋值时会把其它表单项的值赋空.
+
+## 0.3.11
+2023-11-29
+
+SchemaForm 组件
+- 🐛修复约定式赋值问题: 假设组件是 labelInValue 的, dataIndex 是 userId,userName, 当后端返回 userId 和 userName 为空时, 原先会给组件赋上空对象, 现在改成给组件赋 undefined.
+
+## 0.3.10
+2023-11-28
+
+BusinessSelect 组件
+- 🆕增加 onLoad 事件，会在下拉数据加载完成后触发.
+
+BusinessTreeSelect 组件
+- 🆕同上, 增加 onLoad 事件.
+
+## 0.3.9
+2023-11-27
+
+ProTable 组件
+- 🆕增加 optionColumnSpaceProps 属性, 用于控制表格操作列中的按钮排列.
+- 🐛修复当全局设置 options 属性时, 组件内的 options 属性设 false 被覆盖的问题.
+
+SettingProvider 全局设置
+- 🆕增加 optionColumnSpaceProps 属性, 用于全局控制表格操作列中的按钮排列.
+
+
+
+
+## 0.3.7
+2023-11-22
+
+BusinessSelect 组件
+- 修复 allowClear, showSearch 属性被内部默认属性覆盖的问题.
+
+## 0.3.6
+
+2023-11-19
+
+SchemaForm 组件
+
+- 修复 setFieldsValue 对约定式数据赋值无效的问题.
+
+FormUpload 组件
+
+- 当 value 值为空字符串时不报错
+
+ProTable 组件
+
+- 修复 actionRef 没传时, 内部集成的删除功能不会触发 reload
+
+## 0.3.5
+
+Button 组件
+
+- 增加类型定义
+
+FormUpload 组件
+
+- 组件在上传过程中会给 children 组件注入 loading 属性.
+- 组件的 children 也可以是一个函数, 会给 children 函数传入 loading.
+- `文档` 增加文件导入的用例
+
+## 0.3.4
+
+ProTable 组件
+
+- ProTable `search` 属性增加 labelWrap 的 ts 类型.
+- ProTable 组件新增 `confirmModalType` 和 `confirmModalProps` 属性, 用于控制删除弹框的类型. 默认类型为 Popconfirm.
+- ProTable 操作列的删除按钮新增属性 btnText 用于更改按钮的文字. `{ enableDelete: () => ({btnText: ''}) }`
+- ProTable `tableAlertOption` 属性中新增 `deleteProps` 属性, 用于控制批量删除按钮的属性.
+
+全局设置 SettingProvider
+
+- SettingProvider 新增针对 ProTable 的全局属性设置, 可以全局设置删除弹框的类型和提示文字等.
+
+## 0.3.3
+
+- ModalForm 组件的 innerRef 增加 formType 字段, 用于表示当前表单类型, `new | edit | read`
+- SchemaForm 组件的 schema 新增 required 字段, 它是 formItemProps: { rules: [{ required: true }]} 的简写。
+- ProTable 组件的 schema 新增 type 字段, `form | table`, 用于指定该 schema 是被用于表格还是表单, type 为空时既会用于表单也会用于表格.
+
 ## 0.3.2
 
 - 修复 SchemaForm 在 onFinish 时对数组类型的值转换错误的问题。
