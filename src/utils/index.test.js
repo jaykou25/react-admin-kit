@@ -62,6 +62,21 @@ test('mergeOption - undefined 和 undefined', () => {
   expect(mergeOptions(undefined, undefined)).toEqual({});
 });
 
+test('mergeOption - 套嵌', () => {
+  expect(
+    mergeOptions(
+      {
+        header: { height: '20px' },
+        body: { fontSize: '10px', color: 'green' },
+      },
+      { body: { color: 'red' } },
+    ),
+  ).toEqual({
+    header: { height: '20px' },
+    body: { fontSize: '10px', color: 'red' },
+  });
+});
+
 /**
  * 测试 myMergeOption 方法
  * 用于合并全局属性和组件属性

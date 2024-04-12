@@ -10,6 +10,13 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.4.0
+2024-4-12
+
+移除掉在 antd v4中过期的 api. 所以在 v0.4 以后只支持 antd v5.
+
+ModalForm 组件
+- 移除掉 bodyStyle api.
 
 ## 0.3.18
 2024-4-9
