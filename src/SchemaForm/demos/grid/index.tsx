@@ -18,13 +18,13 @@ const Grid = () => {
         grid={true}
         /**
          * 可传入Antd Grid栅格组件的 Row 属性。
-         * https://4x.ant.design/components/grid-cn/#Row
+         * https://ant.design/components/grid-cn/#row
          */
 
         rowProps={{ gutter: [8, 0] }}
         /**
          * 可传入Antd Grid栅格组件的 Col属性。
-         * https://4x.ant.design/components/grid-cn/#Col
+         * https://ant.design/components/grid-cn/#col
          */
         colProps={{ span: 8 }} // 全局控制一行三列，同时在 columns 上可以单独覆盖
         onFinish={onFinish}

@@ -89,4 +89,4 @@ onFinish 回调有三个参数, 第一个参数是表单里收集到的值 value
 | data      | 可以存储表单中的额外数据                                                                                                    | `Record<string, any>`                                                 | `{}`   |
 | setData   | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.                                | `(Record<string, any>) => void`                                       | `--`   |
 
-### 透传给 Modal 的 API 可参考[Antd Modal 文档](https://ant.design/components/modal-cn/#API)
+### 透传给 Modal 的 API 可参考[Antd Modal 文档](https://ant.design/components/modal-cn/#api)

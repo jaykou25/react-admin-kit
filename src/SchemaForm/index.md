@@ -118,15 +118,15 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 ### 只读模式
 
-只读模式下自定义显示走的`render`方法.
+只读模式下自定义显示走的`render`方法. 空白占位请使用`render: () => null`
 
-空白占位请使用`render: () => null`
+> render 函数的第二个参数 record 里不仅包含了表单里的所有值, 还包含了 initialValues 里除表单项外的其它值和 setFieldsValue 里除表单项外的其它值, 提高了实用性.
 
 <code src="./demos/readonly/index.tsx"></code>
 
 ### 表单项联动
 
-可以使用 valueType='dependency'来做显示控制, `name`里的值是需要监控的表单项.
+可以使用 valueType='dependency' 来做显示控制, `name`里的值是需要监控的表单项.
 
 <code src="./demos/dependency/index.tsx"></code>
 
@@ -137,7 +137,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 ### 提交按钮 submitter
 
-submitter 属性默认为 false, 开启后可自动生成提交按钮.
+submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
 <code src="./demos/submitter/index.tsx"></code>
 
@@ -158,7 +158,7 @@ submitter 属性默认为 false, 开启后可自动生成提交按钮.
 - 选择了公司后, 地址会自动带出.
 - 办理业务选择第一项, 基本信息中的身份证项会隐藏.
 
-> 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 antd 的这个[例子](https://4x.ant.design/components/form-cn/#components-form-demo-nest-messages).
+> 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 antd 的这个[例子](https://ant.design/components/form-cn/#components-form-demo-nest-messages).
 >
 > 所以在 setFieldsValue 的时候, 需要把 valueBaseName 的值也考虑进去.
 >
@@ -176,7 +176,7 @@ submitter 属性默认为 false, 开启后可自动生成提交按钮.
 
 当 valueType 为 group 时即开启分组模式. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
 
-默认情况下这些表单项是以[Space](https://4x.ant.design/components/space-cn/#API)组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://4x.ant.design/components/space-cn/#API)
+默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
 
 <code src="./demos/group/index.tsx"></code>
 
@@ -265,7 +265,7 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 - 👉 如果`dataIndex`中包含逗号`,`, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会把该对象拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
 
 ```js
-// 比如有一个用户下拉开启了labelInValue
+// 比如有一个用户下拉开启了 labelInValue
 {
   title: '用户',
   dataIndex: 'userId,userName',
@@ -279,7 +279,6 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
   }
 }
 
-// RAK检测到 dataIndex 中含有逗号, 所以在表单提交时会对值进行转化.
 // 未约定时表单拿到的值是
 {'userId,userName': { value: 1, label: 'jack' }}
 
@@ -340,15 +339,15 @@ innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认
 
 <API filePath='src/SchemaForm/index.tsx' name='SchemaFormType'></API>
 
-除了以上这些属性, 还可以透传 Ant Design 的属性, 更多可参考[ProForm 的文档](https://procomponents.ant.design/components/form#proform)以及[Antd Form 的文档](https://4x.ant.design/components/form-cn/#API), 以下列取一些常用的:
+除了以上这些属性, 还可以透传 Ant Design 的属性, 更多可参考 [ProForm 的文档](https://procomponents.ant.design/components/form#proform) 以及 [Antd Form 的文档](https://ant.design/components/form-cn/#api), 以下列取一些常用的:
 
 | 参数     | 说明                                                                                                                                                            | 类型                                                           | 默认值          |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------- |
 | layout   | 表单布局                                                                                                                                                        | `horizontal` \| `vertical` \| `inline`                         | `vertical`      |
 | grid     | 开启 grid 模式(推荐), 可参考上面的例子. 开启了 grid 后可以通过 rowProps 和 colProps 对任意表单项调整布局                                                        | `Boolean`                                                      | `false`         |
-| rowProps | 开启 `grid` 模式后传递给 `Row`的属性. 例如 {gutter: [16, 0]}                                                                                                    | [RowProps](https://4x.ant.design/components/grid-cn/#Row)      | `{ gutter: 8 }` |
-| colProps | 开启 `grid` 模式后传递给全局表单项的属性. 例如 {span: 8}代表每行三项. 同时在 columns 里也可以单独指定 colProps, columns 里的 colProps 会覆盖 form 上的 colProps | [ColProps](https://4x.ant.design/components/grid-cn/#Col)      | `--`            |
-| labelCol | 传递给表单项中 label 的属性. 如{span: 3}. 同上面的 colProps, 该属性也可以在 columns 里的 formItemProps 里单独指定. 如 `{formItemProps: {labelCol: {span: 3}}}`  | [LabelColProps](https://4x.ant.design/components/grid-cn/#Col) | `--`            |
+| rowProps | 开启 `grid` 模式后传递给 `Row`的属性. 例如 {gutter: [16, 0]}                                                                                                    | [RowProps](https://ant.design/components/grid-cn/#row)      | `{ gutter: 8 }` |
+| colProps | 开启 `grid` 模式后传递给全局表单项的属性. 例如 {span: 8}代表每行三项. 同时在 columns 里也可以单独指定 colProps, columns 里的 colProps 会覆盖 form 上的 colProps | [ColProps](https://ant.design/components/grid-cn/#col)      | `--`            |
+| labelCol | 传递给表单项中 label 的属性. 如{span: 3}. 同上面的 colProps, 该属性也可以在 columns 里的 formItemProps 里单独指定. 如 `{formItemProps: {labelCol: {span: 3}}}`  | [LabelColProps](https://ant.design/components/grid-cn/#col) | `--`            |
 
 ### InnerRef
 
@@ -369,11 +368,12 @@ innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认
 | valueEnum      | 支持 object 和 Map，Map 是支持其他基础类型作为 key                                                                                            | `(Entity)=> ValueEnum` \| `ValueEnum`                   |
 | fieldProps     | 传给渲染的组件的 props，自定义的时候也会传递                                                                                                  | `(form,config)=>fieldProps` \| `fieldProps`             |
 | formItemProps  | 传递给 Form. Item 的配置                                                                                                                      | `(form,config)=>formItemProps` \| `formItemProps`       |
-| render         | 自定义只读模式的 dom, `render` 方法只管理的只读模式，编辑模式需要使用 `renderFormItem`                                                        | `(dom,entity,index, action, schema) => React.ReactNode` |
+| readonly | 只读模式; 优先级更高 | `boolean` |
+| render         | 只读模式下自定义显示. `render` 方法只管理只读模式，编辑模式需要使用 `renderFormItem`                                                        | `(dom,record,index, action, schema) => React.ReactNode` |
 | renderFormItem | 自定义编辑模式, 返回一个 ReactNode，会自动包裹 value 和 onChange                                                                              | `(schema,config,form) => React.ReactNode`               |
 | hideInForm     | 在 Form 中隐藏                                                                                                                                | `boolean`                                               |
-| rowProps       | 在开启 `grid` 模式时传递给 Row                                                                                                                | [RowProps](https://4x.ant.design/components/grid/#Row)  |
-| colProps       | 在开启 `grid` 模式时传递给 Col                                                                                                                | [ColProps](https://4x.ant.design/components/grid/#Col)  |
+| rowProps       | 在开启 `grid` 模式时传递给 Row                                                                                                                | [RowProps](https://ant.design/components/grid/#row)  |
+| colProps       | 在开启 `grid` 模式时传递给 Col                                                                                                                | [ColProps](https://ant.design/components/grid/#col)  |
 | required | 表单是否必选 | `boolean` |
 
 

@@ -130,8 +130,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         const { getFieldsValue, setFieldsValue } = formRef.current;
         return {
           ...formRef.current,
-          setFieldsValue: (values) =>
-            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+          setFieldsValue: (values) => {
+            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
+
+            /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
+            getInnerRef().current?.setData(values || {});
+          },
         };
       }
 
@@ -144,12 +148,22 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
       return {
         ...formRefWithInitial.current,
-        setFieldsValue: (values) =>
-          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+        setFieldsValue: (values) => {
+          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
+
+          /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
+          getInnerRef().current?.setData(values || {});
+        },
       };
     },
     [!initialValuesInner],
   );
+
+  const getFormRef = (): React.MutableRefObject<
+    ProFormInstance | undefined
+  > => {
+    return initialValuesInner ? formRefWithInitial : formRef;
+  };
 
   /**
    * 全局默认设置
@@ -178,6 +192,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           columns,
           formItemProps = {},
           required,
+          render,
         } = col;
 
         // 增加 required: true 简写
@@ -195,6 +210,26 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         // 给renderFormItem增加ref参数
         if (renderFormItem) {
           col.renderFormItem = (a, b, c) => renderFormItem(a, b, c, $innerRef);
+        }
+
+        // 针对只读模式, 扩展 entity
+        if (render) {
+          col.render = (dom, entity, ...rest) => {
+            const values = getFormRef().current?.getFieldsValue();
+            const innerRefData = getInnerRef().current?.data || {};
+
+            /** entity 中原有的 id, value 等属性会有被 values 中同名的值覆盖的可能 */
+            return render(
+              dom,
+              {
+                ...entity,
+                ...(initialValuesInner || {}),
+                ...innerRefData,
+                ...values,
+              },
+              ...rest,
+            );
+          };
         }
 
         // 处理 columns 的套嵌, 例如 valueType 为 group
@@ -287,7 +322,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       onFinish={handleOnFinish}
       //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
       submitter={patchSubmitter()}
-      formRef={key === 'hasInitial' ? formRefWithInitial : formRef}
+      formRef={getFormRef()}
       readonly={readonly}
       initialValues={initialValuesInner}
       {...rest}
