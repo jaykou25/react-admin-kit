@@ -4,26 +4,12 @@ export const columns: FormColumnType[] = [
   {
     title: '用户名',
     dataIndex: 'username',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '用户名为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '电话',
     dataIndex: 'phone',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '电话为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '是否会员',
@@ -50,6 +36,13 @@ export const columns: FormColumnType[] = [
       }
 
       return [];
+    },
+  },
+  {
+    title: '额外信息(只读)',
+    readonly: true,
+    render: (_, record) => {
+      return record.other || '-';
     },
   },
 ];

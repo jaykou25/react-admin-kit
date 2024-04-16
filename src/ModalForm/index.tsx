@@ -3,6 +3,7 @@ import type { FormInstance } from 'antd';
 import { Modal } from 'antd';
 import { Component, MutableRefObject, createRef } from 'react';
 import SchemaForm from '../SchemaForm';
+import { mergeOptions } from '../utils';
 
 import type {
   FormType,
@@ -181,7 +182,7 @@ class ModalForm extends Component<
       onFinish,
       onCancel,
       formProps,
-      bodyStyle = {},
+      styles,
       innerRef,
       open,
       ...rest
@@ -199,25 +200,36 @@ class ModalForm extends Component<
      */
     const setting = this.context || {};
     const {
-      modalProps: settingModalProps = {},
-      formProps: settingFormProps = {},
+      modalProps: globalModalProps = {},
+      formProps: globalFormProps = {},
     } = setting;
 
-    const formRest = {
-      ...settingFormProps,
-      innerRef: this.getInnerRef(),
-      ...restFormProps,
-    };
-    const modalRest = { ...settingModalProps, ...rest };
+    const formRest = mergeOptions(
+      globalFormProps,
+      { innerRef: this.getInnerRef() },
+      restFormProps,
+    );
+
+    /** 分离出 styles 属性 */
+    const { styles: globalStyles, ...globalModalRestProps } = globalModalProps;
+
+    const modalRest = mergeOptions(globalModalRestProps, rest);
+
+    const myStyles = mergeOptions(
+      {
+        body: {
+          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+          overflow: 'auto',
+        },
+      },
+      globalStyles,
+      styles,
+    );
 
     return (
       <Modal
         destroyOnClose
-        bodyStyle={{
-          ...bodyStyle,
-          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
-          overflow: 'auto',
-        }}
+        styles={myStyles}
         open={open ? open : this.state.visible}
         {...modalRest}
         onCancel={this.handleOnCancel}

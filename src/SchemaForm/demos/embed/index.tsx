@@ -53,7 +53,11 @@ const Embed = () => {
         <Card
           style={{ marginBottom: '24px' }}
           size="small"
-          headStyle={{ background: '#ebebeb' }}
+          styles={{
+            header: {
+              background: '#ebebeb',
+            },
+          }}
           title="基本信息"
         >
           <SchemaForm
@@ -70,7 +74,9 @@ const Embed = () => {
         <Card
           size="small"
           title="业务信息"
-          headStyle={{ background: '#ebebeb' }}
+          styles={{
+            header: { background: '#ebebeb' },
+          }}
         >
           <SchemaForm
             embed

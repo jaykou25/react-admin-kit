@@ -25,6 +25,7 @@ const ReadonlyDemo = () => {
               phone: 134,
               isMember: '1',
               grade: '一级',
+              other: '额外',
             })
           }
         >
@@ -39,7 +40,7 @@ const ReadonlyDemo = () => {
         columns={columns}
         formProps={{
           layout: 'horizontal',
-          labelCol: { span: 4 },
+          labelCol: { span: 6 },
         }}
       />
     </div>

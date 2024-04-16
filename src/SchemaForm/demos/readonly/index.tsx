@@ -1,11 +1,12 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { SchemaForm } from 'react-admin-kit';
-import { columns } from './columns';
+import { columns } from './columns.tsx';
 
-import type { FormInstance } from 'antd';
+import { Button, Space, type FormInstance } from 'antd';
 
 const Readonly = () => {
   const formRef = useRef<FormInstance>();
+  const [readonly, setReadonly] = useState(true);
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -13,6 +14,33 @@ const Readonly = () => {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Space style={{ marginBottom: '10px' }}>
+          <Button
+            onClick={() => setReadonly(true)}
+            type={readonly ? 'primary' : 'default'}
+          >
+            只读
+          </Button>
+          <Button
+            onClick={() => setReadonly(false)}
+            type={readonly ? 'default' : 'primary'}
+          >
+            编辑模式
+          </Button>
+        </Space>
+        <Button
+          onClick={() =>
+            formRef.current?.setFieldsValue({
+              name: '马先生',
+              id: 6,
+              queryId: 66,
+            })
+          }
+        >
+          赋值
+        </Button>
+      </div>
       <SchemaForm
         layout="horizontal"
         grid={true}
@@ -22,15 +50,15 @@ const Readonly = () => {
         onFinish={onFinish}
         formRef={formRef}
         columns={columns}
-        readonly={true}
+        readonly={readonly}
         initialValues={{
           name: '王先生',
           phone: 1202228888,
-          sex: '男',
           mail: 'mail.com',
           chargePerson: '1',
-          chargePersonName: '负责人1',
           chargePhone: '123456789',
+          id: 8,
+          queryId: 88,
         }}
       />
     </div>
