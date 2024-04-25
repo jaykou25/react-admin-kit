@@ -119,7 +119,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     }
   }, []);
 
-  // 包装setFieldsValue方法, 用于约定式赋值
+  /* 包装 form 实例的方法, 用于约定式赋值
+   * setFieldsValue, getFieldsValue
+   */
   const formRef = useRef<ProFormInstance>();
   const formRefWithInitial = useRef<ProFormInstance>();
   useImperativeHandle(
@@ -130,8 +132,10 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         const { getFieldsValue, setFieldsValue } = formRef.current;
         return {
           ...formRef.current,
-          setFieldsValue: (values) =>
-            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+          setFieldsValue: (values) => {
+            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
+          },
+          getFieldsValue: () => splitValues(getFieldsValue()),
         };
       }
 
@@ -144,8 +148,10 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
       return {
         ...formRefWithInitial.current,
-        setFieldsValue: (values) =>
-          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue }),
+        setFieldsValue: (values) => {
+          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
+        },
+        getFieldsValue: () => splitValues(getFieldsValue()),
       };
     },
     [!initialValuesInner],
