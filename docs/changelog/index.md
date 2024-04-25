@@ -10,6 +10,12 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.4.1
+2024-4-25
+
+SchemaForm 组件
+- 🐛修复 getFieldsValue 没有对约定式值进行处理的问题.
+
 ## 0.4.0
 2024-4-12
 
@@ -20,6 +26,9 @@ ModalForm 组件
 
 SchemaForm 组件
 - 🆕在只读模式下 render 函数的第二个参数由 entity 扩展成 record. 这个 record 不仅包含所有表单项的值, 还包含了 initialValues 里除表单项以外的值和 setFieldsValue 里除表单项以外的值, 增加了实用性.
+
+## 0.3.19
+同 0.4.1
 
 ## 0.3.18
 2024-4-9
