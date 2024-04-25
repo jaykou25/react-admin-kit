@@ -380,6 +380,7 @@ column 里增加了 `renderExport` 自定义导出的内容
 | enableDelete | 用于开启行上删除功能                                                                            | `boolean` \| `(record, index) => {disabled?: boolean; visible?: boolean; danger?: boolean; btnText?: string }` |
 | type         | 用于指定该 schema 是被用于表单还是表格                                                          | `'table' \| 'form' \| 'search'`                                                                                            |
 | required | 在 form 里是否必选 | `boolean` |
+| colSize | 在 search 区域表单项所占的大小. 默认为1 | `number` |
 
 ### 全局事件
 | 事件名 | 描述| 说明 |

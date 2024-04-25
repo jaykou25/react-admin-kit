@@ -17,7 +17,7 @@ const SearchConfig = () => {
         layout: 'horizontal',
         labelWrap: true,
         defaultCollapsed: false,
-        span: 12,
+        span: 8,
       }}
       columns={getColumns()}
       request={mockRequest}
