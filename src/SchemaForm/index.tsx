@@ -119,7 +119,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     }
   }, []);
 
-  // 包装setFieldsValue方法, 用于约定式赋值
+  /* 包装 form 实例的方法, 用于约定式赋值
+   * setFieldsValue, getFieldsValue
+   */
   const formRef = useRef<ProFormInstance>();
   const formRefWithInitial = useRef<ProFormInstance>();
   useImperativeHandle(
@@ -136,6 +138,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
             /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
             getInnerRef().current?.setData(values || {});
           },
+          getFieldsValue: () => splitValues(getFieldsValue()),
         };
       }
 
@@ -154,6 +157,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
           getInnerRef().current?.setData(values || {});
         },
+        getFieldsValue: () => splitValues(getFieldsValue()),
       };
     },
     [!initialValuesInner],

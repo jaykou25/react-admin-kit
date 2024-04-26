@@ -8,8 +8,16 @@ export const getColumns = (): TableColumnType[] => [
     required: true,
   },
   {
-    title: '电话',
-    dataIndex: 'phone',
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    colSize: 2,
+    transform: (val) => {
+      return {
+        start: val[0],
+        end: val[1],
+      };
+    },
   },
   {
     title: '昵称',
