@@ -4,6 +4,10 @@ test('splitValues-无约定时', () => {
   expect(splitValues({ name: 'jack' })).toStrictEqual({ name: 'jack' });
 });
 
+test('splitValues-无约定时 特殊的 null', () => {
+  expect(splitValues({ name: null })).toStrictEqual({ name: null });
+});
+
 test('splitValues-无约定时-数组', () => {
   expect(splitValues({ ids: [1, 2] })).toStrictEqual({ ids: [1, 2] });
 });
