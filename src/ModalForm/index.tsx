@@ -58,7 +58,7 @@ class ModalForm extends Component<
         this.setState({ loading: true });
         await this.props.onOpen(
           this.state.formType,
-          this.formRef,
+          this.getFormRef(),
           this.state.formData,
         );
         this.setState({ loading: false });
@@ -70,7 +70,7 @@ class ModalForm extends Component<
         this.setState({ loading: true });
         await this.props.onOpen(
           this.state.formType,
-          this.formRef,
+          this.getFormRef(),
           this.state.formData,
         );
         this.setState({ loading: false });
@@ -80,6 +80,10 @@ class ModalForm extends Component<
 
   getInnerRef = (): MutableRefObject<ModalFormInnerRefType> => {
     return this.props.innerRef || this.selfInnerRef;
+  };
+
+  getFormRef = () => {
+    return this.props.formProps?.formRef || this.formRef;
   };
 
   openModal = (formType: FormType = 'new', initialData: object) => {
@@ -102,8 +106,8 @@ class ModalForm extends Component<
   };
 
   onOk = () => {
-    if (this.formRef.current) {
-      const { submit } = this.formRef.current;
+    if (this.getFormRef().current) {
+      const { submit } = this.getFormRef().current;
 
       submit();
     }
@@ -129,7 +133,7 @@ class ModalForm extends Component<
   handleOnCancel = () => {
     const { getContainer, confirmOnClose = true } = this.props;
 
-    const isTouched = this.formRef.current?.isFieldsTouched();
+    const isTouched = this.getFormRef().current?.isFieldsTouched();
 
     if (confirmOnClose && isTouched) {
       Modal.confirm({
@@ -226,7 +230,6 @@ class ModalForm extends Component<
       >
         <SchemaForm
           scrollToFirstError={true}
-          formRef={this.formRef}
           columns={this.getColumns()}
           onFinish={this.onFinish}
           autoFocusFirstInput={autoFocusFirstInput}
@@ -234,6 +237,7 @@ class ModalForm extends Component<
           initialValues={open ? initialValues : { ...this.state.formData }}
           readonly={formType === 'read'}
           {...formRest}
+          formRef={this.getFormRef()}
         />
       </Modal>
     );
