@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FormInstance } from 'antd';
-import { Modal } from 'antd';
+import { Form, Modal } from 'antd';
 import { Component, MutableRefObject, createRef } from 'react';
 import SchemaForm from '../SchemaForm';
 
@@ -16,7 +16,7 @@ import { BaseInnerClass } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 
 class ModalForm extends Component<
-  ModalFormProps,
+  ModalFormProps & { selfForm: any },
   { formType: FormType; visible: boolean; formData: any; loading: boolean }
 > {
   private formRef;
@@ -195,6 +195,7 @@ class ModalForm extends Component<
       isKeyPressSubmit = true,
       autoFocusFirstInput = true,
       initialValues,
+      form,
       ...restFormProps
     } = formProps || {};
 
@@ -210,6 +211,7 @@ class ModalForm extends Component<
     const formRest = {
       ...settingFormProps,
       innerRef: this.getInnerRef(),
+      form: form || this.props.selfForm, // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
       ...restFormProps,
     };
     const modalRest = { ...settingModalProps, ...rest };
@@ -244,7 +246,14 @@ class ModalForm extends Component<
   }
 }
 
-export default ModalForm;
+/** 想使用 useForm hook, 不想改造 ModalForm class 组件 */
+const ModalFormWrapper = (props: ModalFormProps) => {
+  const [form] = Form.useForm();
+
+  return <ModalForm selfForm={form} {...props} />;
+};
+
+export default ModalFormWrapper;
 
 /**
  * 仅用于输出文档
