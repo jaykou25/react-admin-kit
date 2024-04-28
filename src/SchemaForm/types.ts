@@ -60,7 +60,7 @@ export type SchemaFormSelfProps = {
 
 export type OtherFormProps = Omit<
   ProFormProps,
-  'action' | 'onFinish' | 'form' | 'layoutType' | 'submitter'
+  'action' | 'onFinish' | 'layoutType' | 'submitter'
 >;
 
 /**
