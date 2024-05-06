@@ -33,6 +33,9 @@ ModalForm 组件
 SchemaForm 组件
 - 🆕在只读模式下 render 函数的第二个参数由 entity 扩展成 record. 这个 record 不仅包含所有表单项的值, 还包含了 initialValues 里除表单项以外的值和 setFieldsValue 里除表单项以外的值, 增加了实用性.
 
+## 0.3.22
+同 0.4.3
+
 ## 0.3.19
 同 0.4.1
 
