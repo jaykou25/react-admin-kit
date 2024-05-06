@@ -15,6 +15,7 @@ debug: true
 # ProForm
 
 ## 内嵌 ProTable
-ProTable 的 onChange 设值无效
+测试 ProTable 的 onChange 赋值问题
 
 <code src="./proFormDemo/embedProTable/index.tsx"></code>
+<code src="./proFormDemo/embedProTableFormRef/index.tsx"></code>

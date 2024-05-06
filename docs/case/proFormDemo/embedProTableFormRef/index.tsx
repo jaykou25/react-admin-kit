@@ -7,32 +7,6 @@ import {
   Button,
 } from 'react-admin-kit';
 
-const columns = (): TableColumnType[] => {
-  return [
-    {
-      title: '客户',
-      dataIndex: 'customer',
-      valueType: 'select',
-      fieldProps: (form) => ({
-        options: [
-          { label: 'A', value: '1', address: '无锡' },
-          { label: 'B', value: '2', address: '山东' },
-        ],
-        onChange: (val, option) => {
-          form.setFieldsValue({
-            address: option.address,
-            name: option.address,
-          });
-        },
-      }),
-    },
-    {
-      title: '地址',
-      dataIndex: 'address',
-    },
-  ];
-};
-
 const columns2 = (options): TableColumnType[] => {
   const { myFormRef } = options;
   return [
@@ -62,14 +36,12 @@ const columns2 = (options): TableColumnType[] => {
 };
 
 export default function () {
-  const innerRef = useRef<any>();
-
   const innerRef2 = useRef<any>();
   const myFormRef = useRef<any>();
 
   return (
     <div>
-      <div>非 formRef</div>
+      <div style={{ marginTop: '20px' }}>formRef</div>
       <ProForm>
         <SchemaForm
           embed
@@ -82,19 +54,20 @@ export default function () {
         />
 
         <ProTable
-          innerRef={innerRef}
+          innerRef={innerRef2}
           search={false}
+          formProps={{ formRef: myFormRef }}
           toolbar={{
             actions: [
               <Button
-                onClick={() => innerRef.current.openModal()}
+                onClick={() => innerRef2.current.openModal()}
                 type="primary"
               >
                 新增
               </Button>,
             ],
           }}
-          columns={columns()}
+          columns={columns2({ myFormRef })}
         />
       </ProForm>
     </div>
