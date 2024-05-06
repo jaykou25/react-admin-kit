@@ -32,6 +32,17 @@ export const getColumns = (): TableColumnType[] => [
     hideInSearch: true,
   },
   {
+    title: '时间范围',
+    dataIndex: 'time',
+    valueType: 'dateRange',
+    transform: (vals) => {
+      return {
+        startTime: vals[0],
+        endTime: vals[1],
+      };
+    },
+  },
+  {
     title: '操作',
     valueType: 'option',
     enableDelete: true,

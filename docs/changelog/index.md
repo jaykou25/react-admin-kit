@@ -10,6 +10,12 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.4.3
+2024-5-6
+
+ModalForm 组件
+- 🐛修复 ModalForm 组件(或者 ProTable) 套嵌在 ProForm 组件中时, fieldProps 函数中的 form 被覆盖的问题.
+
 ## 0.4.1
 2024-4-25
 
@@ -26,6 +32,9 @@ ModalForm 组件
 
 SchemaForm 组件
 - 🆕在只读模式下 render 函数的第二个参数由 entity 扩展成 record. 这个 record 不仅包含所有表单项的值, 还包含了 initialValues 里除表单项以外的值和 setFieldsValue 里除表单项以外的值, 增加了实用性.
+
+## 0.3.22
+同 0.4.3
 
 ## 0.3.19
 同 0.4.1
