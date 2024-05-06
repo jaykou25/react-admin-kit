@@ -8,6 +8,7 @@ import {
 } from 'react-admin-kit';
 
 export default function () {
+  const myFormRef = useRef<any>();
   const innerRef = useRef<any>();
 
   const columns: TableColumnType[] = [
@@ -15,13 +16,13 @@ export default function () {
       title: '客户',
       dataIndex: 'customer',
       valueType: 'select',
-      fieldProps: (form) => ({
+      fieldProps: () => ({
         options: [
           { label: 'A', value: '1', address: '无锡' },
           { label: 'B', value: '2', address: '山东' },
         ],
         onChange: (val, option) => {
-          form.setFieldsValue({
+          myFormRef.current.setFieldsValue({
             address: option.address,
             name: option.address,
           });
@@ -47,9 +48,10 @@ export default function () {
       />
 
       <ProTable
-        name="非formRef"
+        name="formRef"
         innerRef={innerRef}
         search={false}
+        formProps={{ formRef: myFormRef }}
         toolbar={{
           actions: [
             <Button onClick={() => innerRef.current.openModal()} type="primary">

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { FormInstance } from 'antd';
-import { Form, Modal } from 'antd';
+import type { ProFormInstance } from '@ant-design/pro-form';
+import { Form, Modal, ModalProps } from 'antd';
 import { Component, MutableRefObject, createRef } from 'react';
 import SchemaForm from '../SchemaForm';
 
@@ -13,13 +13,14 @@ import type {
 
 import { ModalFormContext } from '../SettingProvider/context';
 import { BaseInnerClass } from '../context';
+import { mergeOptions } from '../utils';
 import { normalizeTree } from '../utils/treeUtil';
 
 class ModalForm extends Component<
-  ModalFormProps & { selfForm: any },
+  ModalFormProps,
   { formType: FormType; visible: boolean; formData: any; loading: boolean }
 > {
-  private formRef;
+  private selfFormRef;
   private selfInnerRef;
   private baseInnerObj;
 
@@ -37,7 +38,7 @@ class ModalForm extends Component<
     };
 
     this.selfInnerRef = createRef<ModalFormInnerRefType>();
-    this.formRef = createRef<FormInstance>();
+    this.selfFormRef = createRef<ProFormInstance>();
     this.baseInnerObj = new BaseInnerClass();
 
     const innerRef = this.getInnerRef();
@@ -83,7 +84,7 @@ class ModalForm extends Component<
   };
 
   getFormRef = () => {
-    return this.props.formProps?.formRef || this.formRef;
+    return this.props.formProps?.formRef || this.selfFormRef;
   };
 
   openModal = (formType: FormType = 'new', initialData: object) => {
@@ -176,26 +177,51 @@ class ModalForm extends Component<
     return $cols;
   };
 
-  render() {
-    const { formType } = this.state;
-
+  /** 获取 modal props, 需要合并全局的属性 */
+  getModalProps = (): ModalProps => {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       columns,
       onFinish,
       onCancel,
       formProps,
-      bodyStyle = {},
       innerRef,
       open,
       ...rest
     } = this.props;
+
+    /**
+     * 全局默认设置
+     */
+    const setting = this.context || {};
+    const { modalProps: globalModalProps = {} } = setting;
+
+    return mergeOptions(globalModalProps, rest);
+  };
+
+  getBodyStylesProps = () => {
+    const { bodyStyle } = this.getModalProps();
+
+    return mergeOptions(
+      {
+        maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+        overflow: 'auto',
+      },
+      bodyStyle,
+    );
+  };
+
+  render() {
+    const { formType } = this.state;
+
+    const { formProps, open } = this.props;
 
     const {
       isKeyPressSubmit = true,
       autoFocusFirstInput = true,
       initialValues,
       form,
+      formRef,
       ...restFormProps
     } = formProps || {};
 
@@ -203,57 +229,59 @@ class ModalForm extends Component<
      * 全局默认设置
      */
     const setting = this.context || {};
-    const {
-      modalProps: settingModalProps = {},
-      formProps: settingFormProps = {},
-    } = setting;
+    const { formProps: globalFormProps = {} } = setting;
 
-    const formRest = {
-      ...settingFormProps,
-      innerRef: this.getInnerRef(),
-      form: form || this.props.selfForm, // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
-      ...restFormProps,
-    };
-    const modalRest = { ...settingModalProps, ...rest };
+    const formRest = mergeOptions(globalFormProps, restFormProps);
+
+    const { bodyStyle, ...modalRest } = this.getModalProps();
 
     return (
       <Modal
         destroyOnClose
-        bodyStyle={{
-          ...bodyStyle,
-          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
-          overflow: 'auto',
-        }}
+        bodyStyle={this.getBodyStylesProps()}
         open={open ? open : this.state.visible}
         {...modalRest}
         onCancel={this.handleOnCancel}
         onOk={this.onOk}
         okButtonProps={{ loading: this.state.loading }}
       >
-        <SchemaForm
-          scrollToFirstError={true}
+        <ModalContent
           columns={this.getColumns()}
           onFinish={this.onFinish}
-          autoFocusFirstInput={autoFocusFirstInput}
-          isKeyPressSubmit={isKeyPressSubmit}
-          initialValues={open ? initialValues : { ...this.state.formData }}
-          readonly={formType === 'read'}
-          {...formRest}
-          formRef={this.getFormRef()}
+          formRest={{
+            autoFocusFirstInput,
+            isKeyPressSubmit,
+            initialValues: open ? initialValues : { ...this.state.formData },
+            readonly: formType === 'read',
+            ...formRest,
+            formRef: this.getFormRef(),
+            innerRef: this.getInnerRef(),
+          }}
         />
       </Modal>
     );
   }
 }
 
-/** 想使用 useForm hook, 不想改造 ModalForm class 组件 */
-const ModalFormWrapper = (props: ModalFormProps) => {
+/**
+ * 想在这个组件里使用 useForm hook, 并且利用 Modal 的 destroyOnClose 属性来销毁组件
+ */
+const ModalContent = (props: ModalFormProps & { formRest: any }) => {
   const [form] = Form.useForm();
+  const { formProps, columns, onFinish, formRest } = props;
 
-  return <ModalForm selfForm={form} {...props} />;
+  return (
+    <SchemaForm
+      scrollToFirstError={true}
+      columns={columns}
+      onFinish={onFinish}
+      {...formRest}
+      form={formProps?.form || form} // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
+    />
+  );
 };
 
-export default ModalFormWrapper;
+export default ModalForm;
 
 /**
  * 仅用于输出文档
