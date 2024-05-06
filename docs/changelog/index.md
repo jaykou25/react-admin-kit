@@ -10,6 +10,12 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.4.3
+2024-5-6
+
+ModalForm 组件
+- 🐛修复 ModalForm 组件(或者 ProTable) 套嵌在 ProForm 组件中时, fieldProps 函数中的 form 被覆盖的问题.
+
 ## 0.4.1
 2024-4-25
 
