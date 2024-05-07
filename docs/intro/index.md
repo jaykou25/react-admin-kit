@@ -33,22 +33,24 @@ RAK 依赖 Antd, 所以在使用前需要先安装 Antd.
 yarn add antd
 ```
 
-如果使用的是 antd v4 版本, 还需要引入样式.
-
-```js
-import 'antd/dist/antd.min.css';
-```
-
-> 由于 ProComponent 引入了 antd v5的一些组件, 比如 ColorPicker, 会导制在 vite 下启动报错. 如果你还是想继续使用 antd v4 可以改用 webpack. 
-
-
 安装 RAK
 
 ```bash
 $ yarn add react-admin-kit
 ```
+查看文档开始使用 [组件文档](/react-admin-kit/components/schema-form) ✨.
 
-> 要使用 antd v4 请使用 RAK < v0.4, v0.4 以后只支持 antd v5.
+> 如果要使用 antd v4 版本请看下面的注意事项👇
+>
+> 使用 antd v4 版本需要引入样式文件.
+>
+> ```js
+> import 'antd/dist/antd.min.css';
+> ```
+>
+> 由于 ProComponent 引入了 antd v5的一些组件, 比如 ColorPicker. 如果你使用 vite 打包器会在本地开发时启动报错, 可以改用 webpack 打包器来开发. 
+>
+> 请使用 RAK < v0.4的版本, v0.4 以后只支持 antd v5.
 
 ### 生成表单
 
