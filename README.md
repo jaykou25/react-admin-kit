@@ -6,8 +6,6 @@
 </p>
 
 [文档 (github pages)](https://jaykou25.github.io/react-admin-kit/)
-  
-[文档 (gitee pages 暂不可用)](https://jaykou.gitee.io/react-admin-kit)
 
 ## 简介
 
@@ -38,7 +36,7 @@ yarn add antd
 ```bash
 $ yarn add react-admin-kit
 ```
-查看文档开始使用 [gitee版本(暂不可用)](https://jaykou.gitee.io/react-admin-kit/components/schema-form)  [github版本](https://jaykou25.github.io/react-admin-kit/components/schema-form) ✨.
+查看 [组件文档](https://jaykou25.github.io/react-admin-kit/components/schema-form) 并开始使用✨.
 
 > 如果要使用 antd v4 版本请看下面的注意事项👇
 >
