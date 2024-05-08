@@ -15,43 +15,23 @@ description: 通过一个配置式的 schema 来生成表单 (Form), 简单高�
 
 通过一个配置式的 schema 来生成表单. schema 与 antd table 的 columns 非常类似.
 
-### 一个基本的 Schema 表格 (默认是纵向模式 vertical)
+### 一个基本的 Schema 表单 
 
 <code src="./demos/basic/index.tsx"></code>
 
-### valueType
+在开始深入之前, 让我们先来了解几个重要的概念.
 
-valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType 就能映射出不同的表单项. 常用的 valueType 有 `money` `digit` `textarea` `date` `dateRange` `select` `radio` 等, 完整的列表见[这里](https://procomponents.ant.design/components/schema#valuetype-%E5%88%97%E8%A1%A8). 当 valueType 没有指定时, 默认渲染的表单项是 Input 组件.
+SchemaForm 的底层还是 [antd form](https://ant-design.antgroup.com/components/form-cn) 组件. 它通过遍历 **schema 数组** 来生成表单项.
 
-<code src="./demos/valueType/index.tsx"></code>
-
-一个 schema 实际上就是对应一个 Form.Item, Form.Item 里包裹的组件统称为 Field. 如果要给 Field 传递属性, 可以用 `fieldProps`.
+以这个例子来说, <i>columns 数组</i> 中的每一个对象都是一个 **schema**. 
 
 ```js
 {
-  valueType: 'money',
-  // 传递给 InputNumber 的属性
+  title: '用户名',
+  dataIndex: 'username',
   fieldProps: {
-    precision: 2,
-    style: { width: '80%' },
+    Placeholder: '请输入用户名'
   },
-},
-{
-  valueType: 'select',
-  // 传递给 Select 组件的属性
-  fieldProps: {
-    options: [
-      { label: '选择1', value: 1 },
-      { label: '选择2', value: 2 },
-    ],
-  },
-}
-```
-
-而 `formItemProps` 是传递给 Form.Item 的属性, 比如是否必选:
-
-```js
-{
   formItemProps: {
     rules: [
       {
@@ -59,10 +39,89 @@ valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType �
       },
     ],
   },
-}
+},
 ```
 
-如果 valueType 不能满足你的需求, 可以使用 `renderFormItem` 完全自定义表单项, 返回的组件需要满足 Form.Item 的规范, 即组件能接受 value 和 onChange 属性.
+如果用 antd form 的方式来书写, 那么这个 schema 生成的表单项是这样的:
+
+```js
+import { Form, Input } from 'antd'
+
+<Form>
+  <Form.Item
+    label='用户名'
+    name='username'
+    rules={[
+      {
+        required: true
+      }
+    ]}
+  >
+    <Input placeholder='请输入用户名' />
+  </Form.Item>
+</Form>
+```
+
+不难看出, 在 schema 中:
+* `title` 对应的 Form.Item 中的 `label`.
+* `dataIndex` 对应的 Form.Item 中的 `name`.
+* `formItemProps` 的值会传递给 Form.Item 组件.
+* `fieldProps` 的值会传递给被 Form.Item 包裹的组件 (对这个例子来说这个组件是 Input).
+
+我们再来看一下第二个 schema:
+```js | {4}
+{
+  title: "性别",
+  dataIndex: "sex",
+  valueType: "radio",
+  fieldProps: {
+    options: [
+      { label: "男", value: "男" },
+      { label: "女", value: "女" },
+    ],
+  },
+};
+```
+
+与第一个 schema 不同的地方在于, 它多了一个 `valueType` 字段, 很显然 SchemaForm 通过 `valueType` 字段渲染出了不同的组件, 以这个例子来说 valueType: 'radio' 对应的是一个 Radio.Group 组件, 并且通过 fieldProps 给它传入了 options 属性.
+
+这是使用 SchemaForm 的优点之一, 大部分常用的组件都能通过 `valueType` 来渲染. 
+
+**schema** 部分介绍完了, 我们再来看一下 **表单实例 FormInstance**.
+
+[表单实例](https://ant-design.antgroup.com/components/form-cn#forminstance) 是 antd form 中一个比较重要的概念, 通过实例中的方法, 我们可以完成很多操作, 比如: 提交表单, 重置表单, 给表单赋值等.
+
+在 SchemaForm 中, 我们通过 `formRef` 属性来获取 *表单实例*.
+
+```js | {4}
+import { useRef } from 'react';
+import { ProFormInstance, SchemaForm } from 'react-admin-kit';
+
+const formRef = useRef<ProFormInstance>() // 注意这里使用的类型定义是 ProFormInstance. 它在 antd form instance 的基础上扩展了一些方法
+
+<SchemaForm 
+  formRef={formRef}
+>
+
+formRef.current?.submit() // 提交
+formRef.current?.resetFields() // 重置
+formRef.current?.setFieldsValue() // 赋值
+```
+在后文中还会详细介绍 *表单实例* 中的其它一些方法. 
+
+以上就是 SchemaForm 的基本概念, 看到这你已经可以开始书写一些简单的表单了✨. 
+
+随着你使用的不断深入, 你可以不断查看下面的各种例子来了解 SchemaForm 的其它属性, 相信你会越来越得心应手的. 
+
+### valueType
+
+valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType 就能映射出不同的表单项. 常用的 valueType 有 `money` `digit` `textarea` `date` `dateRange` `select` `radio` 等, 完整的列表见[这里](https://procomponents.ant.design/components/schema#valuetype-%E5%88%97%E8%A1%A8). 当 valueType 没有指定时, 默认渲染的表单项是 Input 组件.
+
+<code src="./demos/valueType/index.tsx"></code>
+
+如果 valueType 不能满足你的需求, 可以使用 `renderFormItem` 完全自定义表单项.
+
+自定义的组件需要满足 Form.Item 的规范, 即组件能接受 value 和 onChange 属性.
 
 ```js
 {
@@ -297,9 +356,24 @@ formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
 - 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段同样用逗号隔开. 以这个例子来说, 当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件.
 
-<code src="./demos/convention/index.tsx"></code>
+<code src="./demos/conventionSimple/index.tsx"></code>
 
-<code src="./demos/conventionValueBaseName/index.tsx"></code>
+### 表单取值
+SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFinish 属性来取值. 
+
+除了 onFinish 以外还可以通过 **表单实例** 提供的方法来获取表单值.
+
+我们列举了几个常用的取值方法:
+
+<code inline src="./demos/formValueTable/index.tsx"></code>
+
+这些方法在取值上有细微的差异, 理解这些差异对处理时间, 数值转化等场景会很有帮助.
+
+<code src="./demos/formValue/index.tsx"></code>
+
+<code inline src="./demos/formValueTableResult/index.tsx"></code>
+
+简而言之, 如果你的表单中用到了时间类控件, 又或者用到了 transform, 那么请使用后三种方法.
 
 ### 利用 innerRef 存储额外信息
 
@@ -333,6 +407,53 @@ innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认
 > ...
 > </>
 > ```
+
+### 高级布局
+### 分组 (Group)
+
+当 valueType 为 group 时即开启分组模式. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
+
+默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
+
+<code src="./demos/group/index.tsx"></code>
+
+### 分组 (Grid 模式)
+
+在分组模式下同样也可以自定义表单项的布局, 即开启 grid 模式.
+
+分组模式下布局分为两层, 外层(区块标题)和内层(columns 里的表单项), 所以 grid 的设置也分两层.
+
+<code src="./demos/groupGrid/index.tsx"></code>
+
+### 分组 (Grid 模式) 左右布局
+
+<code src="./demos/groupGridHorizontal/index.tsx"></code>
+
+### 表单数组 FormList
+
+当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用. 
+
+比如下面的例子能够添加多个店铺.
+
+<code src="./demos/formList/index.tsx" ></code>
+
+formList 实际上是一个组件, [api](https://procomponents.ant.design/components/group#proformlist-api) 见这里, 可以通过 fieldProps 给这个组件传递属性.
+
+### 表单数组 Grid 排列
+
+要让表单数组内的表单项 grid 排列, 除了开启 `grid` 属性以外, 表单项还需要用 `valueType='group'` 包裹.
+
+<code src="./demos/formListGrid/index.tsx" ></code>
+
+### 表单数组样式和操作按钮自定义
+
+还可以通过 `itemRender` 属性自定义样式和操作按钮.
+
+itemRender 的参数是 `({ listDom, action }, options)`, 其中 listDom 是表单项合集, action 是操作按钮合集, options 是对象 `{name, field, index, record, fields, operations, meta}`
+
+<code src="./demos/formListGridCustom/index.tsx" ></code>
+
+
 
 ### API
 

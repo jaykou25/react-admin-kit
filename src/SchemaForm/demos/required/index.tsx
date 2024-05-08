@@ -10,11 +10,6 @@ const Required = () => {
           dataIndex: 'username',
           required: true,
         },
-        {
-          title: '邮箱',
-          dataIndex: 'email',
-          required: true,
-        },
       ]}
       autoFocusFirstInput={false}
       submitter
