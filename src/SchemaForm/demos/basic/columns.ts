@@ -1,12 +1,11 @@
-import type { FormColumnType } from 'react-admin-kit/SchemaForm/types';
-import Placeholder from '../placeholder';
+import type { FormColumnType } from 'react-admin-kit';
 
 export const columns: FormColumnType[] = [
   {
     title: '用户名',
     dataIndex: 'username',
     fieldProps: {
-      Placeholder: '请输入用户名'
+      placeholder: '请输入用户名',
     },
     formItemProps: {
       rules: [

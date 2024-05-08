@@ -10,6 +10,7 @@ const FormValueTableResult = () => {
       pagination={false}
       noPadding
       bordered
+      rowKey="name"
       dataSource={[
         {
           name: 'getFieldsValue',
