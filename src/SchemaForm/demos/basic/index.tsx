@@ -1,12 +1,11 @@
 import { useRef } from 'react';
-import { SchemaForm } from 'react-admin-kit';
+import { ProFormInstance, SchemaForm } from 'react-admin-kit';
 
-import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import { columns } from './columns';
 
 const Basic = () => {
-  const formRef = useRef<FormInstance>();
+  const formRef = useRef<ProFormInstance>();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -19,6 +18,7 @@ const Basic = () => {
         formRef={formRef}
         columns={columns}
         autoFocusFirstInput={false}
+        initialValues={{sex: '男'}}
       />
 
       <div style={{ textAlign: 'end' }}>

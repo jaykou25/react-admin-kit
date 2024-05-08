@@ -56,3 +56,7 @@
 .dumi-default-doc-layout .dumi-default-sidebar > dl > dd > a {
   font-size: 14px;
 }
+
+.dumi-default-content .markdown p {
+  text-align: unset;
+}
