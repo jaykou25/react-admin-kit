@@ -47,6 +47,7 @@ import 'antd/dist/antd.min.css';
 ```bash
 $ yarn add react-admin-kit
 ```
+查看 [组件文档](/react-admin-kit/components/schema-form) 并开始使用✨.
 
 > 要使用 antd v4 请使用 RAK < v0.4, v0.4 以后只支持 antd v5.
 
