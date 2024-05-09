@@ -19,3 +19,7 @@ debug: true
 
 <code src="./proFormDemo/embedProTable/index.tsx"></code>
 <code src="./proFormDemo/embedProTableFormRef/index.tsx"></code>
+
+
+##  表单取值
+<code src="./proFormDemo/formValue/index.tsx"></code>
