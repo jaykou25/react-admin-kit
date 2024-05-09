@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_admin_kit=self.webpackChunkreact_admin_kit||[]).push([[9],{95993:function(o,a,e){e.r(a);var n=e(85956),s=e(67294),D=e(34661),_=function(){var d=(0,n.useParams)(),m=d.id,r=(0,n.useSiteData)(),u=r.demos,i=u[m]||{},t=i.component;return t&&(0,s.createElement)(t)};a.default=_}}]);
