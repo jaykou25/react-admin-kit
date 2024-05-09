@@ -2,6 +2,12 @@ import { defineConfig } from 'dumi';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+const isVercel = process.env.VERCEL === '1';
+const outputPath = isVercel ? 'vercel-dist' : 'docs-dist';
+
+// 布署在 github pages 上需要二级目录
+const isBase = process.env.GITHUB === '1';
+
 const parser = require('react-docgen-typescript');
 const doc = parser
   .withCompilerOptions(
@@ -20,10 +26,10 @@ const doc = parser
   ]);
 
 export default defineConfig({
-  outputPath: 'docs-dist',
-  favicons: [isProd ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png'],
+  outputPath,
+  favicons: [isBase ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png'],
   themeConfig: {
-    logo: isProd ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png',
+    logo: isBase ? '/react-admin-kit/rak-r15.png' : '/rak-r15.png',
     name: 'React Admin Kit',
     prefersColor: {
       switch: false,
@@ -33,8 +39,8 @@ export default defineConfig({
     },
     apiDoc: doc,
   },
-  publicPath: isProd ? '/react-admin-kit/' : '/',
-  base: isProd ? '/react-admin-kit/' : '/',
+  publicPath: isBase ? '/react-admin-kit/' : '/',
+  base: isBase ? '/react-admin-kit/' : '/',
   ssr: isProd ? {} : false,
   exportStatic: isProd
     ? {
