@@ -14,4 +14,10 @@ debug: true
 
 # SchemaForm
 
-## usr 
+## 约定式
+<code src="../../src/SchemaForm/demos/convention/index.tsx"></code>
+
+<code src="../../src/SchemaForm/demos/conventionValueBaseName/index.tsx"></code>
+
+## 实例取值
+<code src="./schemaFormDemo/formValue/index.tsx"></code>

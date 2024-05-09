@@ -38,7 +38,7 @@ yarn add antd
 ```bash
 $ yarn add react-admin-kit
 ```
-查看文档开始使用 [组件文档](/react-admin-kit/components/schema-form) ✨.
+查看 [组件文档](/react-admin-kit/components/schema-form) 并开始使用✨.
 
 > 如果要使用 antd v4 版本请看下面的注意事项👇
 >
