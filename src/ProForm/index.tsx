@@ -11,7 +11,7 @@ import { splitValues } from '../SchemaForm/utils';
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import { setConvertedFieldsValue } from '../SchemaForm';
 import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
-import { BaseInnerClass } from '../context';
+import { BaseInnerFn } from '../context';
 
 type ProFormType = ProFormProps & {
   children?: React.ReactNode | React.ReactNode[];
@@ -34,7 +34,7 @@ const ProForm = (props: ProFormType) => {
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
   const selfInnerRef = useRef<SchemaFormInnerRefType>();
-  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(new BaseInnerClass());
+  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(BaseInnerFn());
 
   const getInnerRef = (): BaseInnerRef => {
     return innerRef || selfInnerRef;

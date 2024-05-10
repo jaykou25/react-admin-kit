@@ -20,7 +20,7 @@ import type {
 } from './types';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { BaseInnerClass } from 'react-admin-kit/context';
+import { BaseInnerFn } from '../context';
 import { InnerRefContext } from '../ProForm';
 import { convertValues, splitValues } from './utils';
 
@@ -79,7 +79,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
   const selfInnerRef = useRef<SchemaFormInnerRefType>();
-  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(new BaseInnerClass());
+  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(BaseInnerFn());
 
   const parentInnerRef = useContext(InnerRefContext);
 
