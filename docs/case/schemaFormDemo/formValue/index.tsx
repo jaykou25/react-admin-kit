@@ -1,19 +1,33 @@
 import { useRef } from 'react';
-import { Button, SchemaForm } from 'react-admin-kit';
+import { Button, ProFormInstance, SchemaForm } from 'react-admin-kit';
 import { columns } from './columns';
 
 import { Space } from 'antd';
-import type { ProFormInstance } from 'react-admin-kit';
 
 const FormValueDemo = () => {
   const formRef = useRef<ProFormInstance>();
 
+  const setHtml = (query, vals) => {
+    const ele = document.querySelector(query);
+    if (ele) {
+      ele.innerHTML = typeof vals === 'object' ? JSON.stringify(vals) : vals;
+    }
+  };
+
   const onFinish = (values: any) => {
-    console.log({ values });
+    setHtml('#onFinish', values);
   };
 
   return (
     <div>
+      <div id="onFinish" data-testid="onFinish"></div>
+      <div id="getFieldsValue" data-testid="getFieldsValue"></div>
+      <div id="validateFields" data-testid="validateFields"></div>
+      <div id="getFieldsFormatValue" data-testid="getFieldsFormatValue"></div>
+      <div
+        id="validateFieldsReturnFormatValue"
+        data-testid="validateFieldsReturnFormatValue"
+      ></div>
       <SchemaForm
         grid
         colProps={{ span: 12 }}
@@ -30,16 +44,17 @@ const FormValueDemo = () => {
         <Space wrap>
           <Button onClick={() => formRef.current?.submit()}>onFinish</Button>
           <Button
-            onClick={() =>
-              console.log('getFieldsValue:', formRef.current?.getFieldsValue())
-            }
+            onClick={() => {
+              const vals = formRef.current?.getFieldsValue();
+              setHtml('#getFieldsValue', vals);
+            }}
           >
             getFieldsValue
           </Button>
           <Button
             onClick={() =>
               formRef.current?.validateFields().then((vals) => {
-                console.log('validateFields:', vals);
+                setHtml('#validateFields', vals);
               })
             }
           >
@@ -47,8 +62,8 @@ const FormValueDemo = () => {
           </Button>
           <Button
             onClick={() =>
-              console.log(
-                'getFieldsFormatValue:',
+              setHtml(
+                '#getFieldsFormatValue',
                 formRef.current?.getFieldsFormatValue?.(),
               )
             }
@@ -60,7 +75,7 @@ const FormValueDemo = () => {
               formRef.current
                 ?.validateFieldsReturnFormatValue?.()
                 .then((vals) => {
-                  console.log('validateFieldsReturnFormatValue:', vals);
+                  setHtml('#validateFieldsReturnFormatValue', vals);
                 })
             }
           >
