@@ -20,8 +20,8 @@ import type {
 } from './types';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { BaseInnerFn } from '../context';
 import { InnerRefContext } from '../ProForm';
+import { BaseInnerFn } from '../context';
 import { convertValues, splitValues } from './utils';
 
 // 按照约定式格式重新包装 setFieldsValue 方法
@@ -120,7 +120,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   }, []);
 
   /* 包装 form 实例的方法, 用于约定式赋值
-   * setFieldsValue, getFieldsValue
+   * setFieldsValue, getFieldsValue, validateFields, getFieldsFormatValue, validateFieldsReturnFormatValue
    */
   const formRef = useRef<ProFormInstance>();
   const formRefWithInitial = useRef<ProFormInstance>();
@@ -129,7 +129,14 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     () => {
       // 没有初始值的情况
       if (!initialValuesInner && formRef.current) {
-        const { getFieldsValue, setFieldsValue } = formRef.current;
+        const {
+          getFieldsValue,
+          setFieldsValue,
+          validateFields,
+          getFieldsFormatValue,
+          validateFieldsReturnFormatValue,
+        } = formRef.current;
+
         return {
           ...formRef.current,
           setFieldsValue: (values) => {
@@ -139,15 +146,36 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
             getInnerRef().current?.setData(values || {});
           },
           getFieldsValue: () => splitValues(getFieldsValue()),
+          getFieldsFormatValue: getFieldsFormatValue
+            ? () => splitValues(getFieldsFormatValue())
+            : undefined,
+          validateFields: () => {
+            return validateFields().then((res) => {
+              return splitValues(res);
+            });
+          },
+          validateFieldsReturnFormatValue: validateFieldsReturnFormatValue
+            ? () => {
+                return validateFieldsReturnFormatValue().then((res) => {
+                  return splitValues(res);
+                });
+              }
+            : undefined,
         };
       }
 
-      // 有初始值的情况
       if (!formRefWithInitial.current) {
         return formRefWithInitial.current;
       }
 
-      const { getFieldsValue, setFieldsValue } = formRefWithInitial.current;
+      // 有初始值的情况
+      const {
+        getFieldsValue,
+        setFieldsValue,
+        validateFields,
+        getFieldsFormatValue,
+        validateFieldsReturnFormatValue,
+      } = formRefWithInitial.current;
 
       return {
         ...formRefWithInitial.current,
@@ -158,6 +186,21 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           getInnerRef().current?.setData(values || {});
         },
         getFieldsValue: () => splitValues(getFieldsValue()),
+        getFieldsFormatValue: getFieldsFormatValue
+          ? () => splitValues(getFieldsFormatValue())
+          : undefined,
+        validateFields: () => {
+          return validateFields().then((res) => {
+            return splitValues(res);
+          });
+        },
+        validateFieldsReturnFormatValue: validateFieldsReturnFormatValue
+          ? () => {
+              return validateFieldsReturnFormatValue().then((res) => {
+                return splitValues(res);
+              });
+            }
+          : undefined,
       };
     },
     [!initialValuesInner],
