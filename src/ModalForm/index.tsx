@@ -14,7 +14,7 @@ import type {
 } from './types';
 
 import { ModalFormContext } from '../SettingProvider/context';
-import { BaseInnerClass } from '../context';
+import { BaseInnerFn } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 
 class ModalForm extends Component<
@@ -40,7 +40,7 @@ class ModalForm extends Component<
 
     this.selfInnerRef = createRef<ModalFormInnerRefType>();
     this.selfFormRef = createRef<ProFormInstance>();
-    this.baseInnerObj = new BaseInnerClass();
+    this.baseInnerObj = BaseInnerFn();
 
     const innerRef = this.getInnerRef();
 

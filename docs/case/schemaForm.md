@@ -21,3 +21,6 @@ debug: true
 
 ## 实例取值
 <code src="./schemaFormDemo/formValue/index.tsx"></code>
+
+## fieldProps 中的约定式赋值
+<code src="./schemaFormDemo/fieldPropsForm/index.tsx"></code>

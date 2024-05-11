@@ -16,7 +16,7 @@ import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
 
-import { BaseInnerClass } from '../context';
+import { BaseInnerFn } from '../context';
 import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
 import { normalizeTree } from '../utils/treeUtil';
 import './styles.css';
@@ -55,7 +55,7 @@ class ProTable extends Component<MyProTableType, any> {
     this.selfInnerRef = createRef<InnerRefType>();
     this.selfActionRef = createRef<ActionRefType>();
 
-    this.baseInnerObj = new BaseInnerClass();
+    this.baseInnerObj = BaseInnerFn();
 
     // @ts-ignore
     this.getInnerRef().current = {};

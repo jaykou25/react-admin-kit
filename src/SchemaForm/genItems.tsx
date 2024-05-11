@@ -1,4 +1,4 @@
-import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
+import { renderValueType } from '@ant-design/pro-form/lib/components/SchemaForm/valueType/index';
 import {
   LabelIconTip,
   omitUndefined,

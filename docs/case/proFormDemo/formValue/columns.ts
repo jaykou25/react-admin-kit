@@ -8,7 +8,6 @@ export const columns: FormColumnType[] = [
     fieldProps: {
       labelInValue: true,
       open: true,
-      getPopupContainer: (node) => node.parentNode,
       ['data-testid']: 'userCaseSelect',
       options: [
         {

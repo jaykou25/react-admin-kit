@@ -1,8 +1,9 @@
 import { useRef } from 'react';
-import { Button, ProFormInstance, SchemaForm } from 'react-admin-kit';
+import { Button, ProForm, SchemaForm } from 'react-admin-kit';
 import { columns } from './columns';
 
 import { Space } from 'antd';
+import type { ProFormInstance } from 'react-admin-kit';
 
 const FormValueDemo = (props) => {
   const {
@@ -11,7 +12,6 @@ const FormValueDemo = (props) => {
       userName: '李四',
     },
   } = props;
-
   const formRef = useRef<ProFormInstance>();
 
   const setHtml = (query, vals) => {
@@ -21,7 +21,7 @@ const FormValueDemo = (props) => {
     }
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     setHtml('#onFinish', values);
   };
 
@@ -35,15 +35,14 @@ const FormValueDemo = (props) => {
         id="validateFieldsReturnFormatValue"
         data-testid="validateFieldsReturnFormatValue"
       ></div>
-      <SchemaForm
-        grid
-        colProps={{ span: 12 }}
+      <ProForm
         onFinish={onFinish}
         formRef={formRef}
-        columns={columns}
-        autoFocusFirstInput={false}
+        submitter={false}
         initialValues={initialValues}
-      />
+      >
+        <SchemaForm embed grid colProps={{ span: 12 }} columns={columns} />
+      </ProForm>
       <div style={{ textAlign: 'end' }}>
         <Space wrap>
           <Button onClick={() => formRef.current?.submit()}>onFinish</Button>
