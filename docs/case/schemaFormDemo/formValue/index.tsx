@@ -4,7 +4,14 @@ import { columns } from './columns';
 
 import { Space } from 'antd';
 
-const FormValueDemo = () => {
+const FormValueDemo = (props) => {
+  const {
+    initialValues = {
+      userId: '2',
+      userName: '李四',
+    },
+  } = props;
+
   const formRef = useRef<ProFormInstance>();
 
   const setHtml = (query, vals) => {
@@ -35,10 +42,7 @@ const FormValueDemo = () => {
         formRef={formRef}
         columns={columns}
         autoFocusFirstInput={false}
-        initialValues={{
-          userId: '2',
-          userName: '李四',
-        }}
+        initialValues={initialValues}
       />
       <div style={{ textAlign: 'end' }}>
         <Space wrap>
