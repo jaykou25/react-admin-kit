@@ -5,7 +5,13 @@ import { columns } from './columns';
 import { Space } from 'antd';
 import type { ProFormInstance } from 'react-admin-kit';
 
-const FormValueDemo = () => {
+const FormValueDemo = (props) => {
+  const {
+    initialValues = {
+      userId: '2',
+      userName: '李四',
+    },
+  } = props;
   const formRef = useRef<ProFormInstance>();
 
   const setHtml = (query, vals) => {
@@ -33,10 +39,7 @@ const FormValueDemo = () => {
         onFinish={onFinish}
         formRef={formRef}
         submitter={false}
-        initialValues={{
-          userId: '2',
-          userName: '李四',
-        }}
+        initialValues={initialValues}
       >
         <SchemaForm embed grid colProps={{ span: 12 }} columns={columns} />
       </ProForm>
