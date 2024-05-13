@@ -23,3 +23,6 @@ debug: true
 
 ##  表单取值
 <code src="./proFormDemo/formValue/index.tsx"></code>
+
+## 布局问题(embed 时 layout)
+<code src="./proFormDemo/layout/index.tsx" ></code>
