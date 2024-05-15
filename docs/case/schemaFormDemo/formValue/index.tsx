@@ -35,6 +35,7 @@ const FormValueDemo = (props) => {
         id="validateFieldsReturnFormatValue"
         data-testid="validateFieldsReturnFormatValue"
       ></div>
+      <div style={{ height: '40px' }}></div>
       <SchemaForm
         grid
         colProps={{ span: 12 }}

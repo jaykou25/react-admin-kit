@@ -10,6 +10,12 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+
+## 0.5.0
+2024-5-15
+
+- ✨ 重构 SchemaForm, ProForm 的约定式实现. 修复了 fieldProps 函数中 form 约定式赋值无效的问题. 覆盖了测试用例.
+
 ## 0.4.4
 2024-5-11
 

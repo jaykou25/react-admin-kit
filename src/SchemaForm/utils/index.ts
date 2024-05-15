@@ -10,6 +10,8 @@
  * {info: {'user,userName': {value: '1', label: 'jack'}}} => {info: {user: '1, userName: 'jack'}}
  */
 
+import { useCallback } from 'react';
+
 export function splitValues(values = {}) {
   const result = {};
   Object.keys(values).forEach((key) => {
@@ -119,4 +121,49 @@ export function convertValues(values, allVals: Record<string, any> = {}) {
  */
 export function matchConvention(dataIndex: string) {
   return dataIndex && typeof dataIndex === 'string' && dataIndex.includes(',');
+}
+
+/**
+ * 从一个字符串中提取类似对象结构的值
+ * 用法可参看测试用例
+ *
+ * @todo 这个方法暂时用不上, 因为 dataIndex 可能还是数组, 需要考虑套嵌的情况
+ */
+export function extractValuesInString(string, key: string): string[] {
+  const reg1 = new RegExp(key);
+  const reg2 = new RegExp(/\s*:\s*[\'\"]([^\"\']*)[\'\"]/, 'g');
+  // reg 拼接成一个新的 reg, 因为如果直接用字符串拼接可能会丢失一些特殊字符
+  const reg = new RegExp(reg1.source + reg2.source, 'g');
+
+  /**
+   * 直接字符串拼接会丢失
+   * const reg = new RegExp(`${key}\s*:\s*[\'\"]([^\"\']*)[\'\"]`, 'g');
+   * 输出: /dataIndexs*:s*['"]([^"']*)['"]/g
+   * 会丢失 \s 这样的转译
+   */
+
+  const matchResult = string.matchAll(reg);
+
+  return Array.from(matchResult).map((item: any) => item[1]);
+}
+
+export function setFieldsValueConvention(
+  values,
+  { getFieldsValue, setFieldsValue, callback }: any,
+) {
+  const fields = getFieldsValue();
+  const convertedVals = convertValues(values, fields);
+  // 第一次赋值
+  setFieldsValue(convertedVals);
+
+  // 第二次赋值. 因为一次赋值不够, 有些 field 是 dependency 的
+  setTimeout(() => {
+    const allFields = getFieldsValue();
+    const finalConvertedVals = convertValues(values, allFields);
+    setFieldsValue(finalConvertedVals);
+
+    if (callback) {
+      callback(finalConvertedVals);
+    }
+  }, 50);
 }

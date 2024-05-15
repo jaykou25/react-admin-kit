@@ -1,4 +1,5 @@
 import { ProForm as AntProForm } from '@ant-design/pro-form';
+import { Form } from 'antd';
 import {
   createContext,
   useEffect,
@@ -6,10 +7,9 @@ import {
   useRef,
   useState,
 } from 'react';
-import { splitValues } from '../SchemaForm/utils';
+import { setFieldsValueConvention, splitValues } from '../SchemaForm/utils';
 
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
-import { setConvertedFieldsValue } from '../SchemaForm';
 import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
 import { BaseInnerFn } from '../context';
 
@@ -61,120 +61,105 @@ const ProForm = (props: ProFormType) => {
     });
   };
 
-  /**
-   * 截获了initialValues
-   * 对initialValues进行约定式转化后再赋值
+  const [form] = Form.useForm();
+  const formInstance = Form.useFormInstance();
+  const formInstanceRef = useRef<ProFormInstance | undefined>(
+    props.form || formInstance || form,
+  );
+
+  const selfFormRef = useRef<ProFormInstance>();
+
+  const initialValuesRef = useRef<any>(undefined);
+
+  const [updateKey, setUpdateKey] = useState(1);
+
+  /* 包装 form 实例的方法, 用于约定式赋值
+   * setFieldsValue
    */
-  const [initialValuesInner, setInitialValuesInner] = useState(undefined);
   useEffect(() => {
-    if (initialValues && formRef.current) {
-      const { getFieldsValue, setFieldsValue } = formRef.current;
-      setConvertedFieldsValue(initialValues, {
-        getFieldsValue,
-        setFieldsValue,
-        isInit: true,
-        setInitialValuesInner,
-      });
+    if (formInstanceRef.current) {
+      const { getFieldsValue, setFieldsValue } = formInstanceRef.current;
+
+      formInstanceRef.current = {
+        ...formInstanceRef.current,
+        setFieldsValue: (values) => {
+          setFieldsValueConvention(values, {
+            getFieldsValue,
+            setFieldsValue,
+          });
+
+          /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
+          getInnerRef().current?.setData(values || {});
+        },
+      };
+
+      // 对initialValues进行约定式转化
+      if (initialValues) {
+        setFieldsValueConvention(initialValues, {
+          getFieldsValue,
+          setFieldsValue,
+          callback: (finalVals) => {
+            initialValuesRef.current = finalVals;
+            setUpdateKey((val) => val + 1);
+          },
+        });
+      } else {
+        setUpdateKey((val) => val + 1);
+      }
     }
   }, []);
 
-  /* 包装 form 实例的方法, 用于约定式赋值
-   * setFieldsValue, getFieldsValue, validateFields, getFieldsFormatValue, validateFieldsReturnFormatValue
+  /* 包装 form 实例的取值相关的方法, 需要约定式转化
+   * getFieldsValue, validateFields, getFieldsFormatValue, validateFieldsReturnFormatValue
    */
-  const formRef = useRef<ProFormInstance>();
-  const formRefWithInitial = useRef<ProFormInstance>();
   useImperativeHandle(
     propsFormRef,
     () => {
-      // 没有初始值的情况
-      if (!initialValuesInner && formRef.current) {
+      if (selfFormRef.current) {
         const {
           getFieldsValue,
-          setFieldsValue,
           validateFields,
           getFieldsFormatValue,
           validateFieldsReturnFormatValue,
-        } = formRef.current;
+        } = selfFormRef.current;
 
         return {
-          ...formRef.current,
-          setFieldsValue: (values) => {
-            setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
-
-            /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
-            getInnerRef().current?.setData(values || {});
+          ...selfFormRef.current,
+          getFieldsValue: (...rest) => {
+            // @ts-ignore
+            return splitValues(getFieldsValue(...rest));
           },
-          getFieldsValue: () => splitValues(getFieldsValue()),
           getFieldsFormatValue: getFieldsFormatValue
-            ? () => splitValues(getFieldsFormatValue())
+            ? (namePath: any, filter: any) =>
+                splitValues(getFieldsFormatValue(namePath, filter))
             : undefined,
-          validateFields: () => {
-            return validateFields().then((res) => {
+          validateFields: (...rest) => {
+            return validateFields(...rest).then((res) => {
               return splitValues(res);
             });
           },
           validateFieldsReturnFormatValue: validateFieldsReturnFormatValue
-            ? () => {
-                return validateFieldsReturnFormatValue().then((res) => {
+            ? (namePath) => {
+                return validateFieldsReturnFormatValue(namePath).then((res) => {
                   return splitValues(res);
                 });
               }
             : undefined,
         };
       }
-
-      if (!formRefWithInitial.current) {
-        return formRefWithInitial.current;
-      }
-
-      // 有初始值的情况
-      const {
-        getFieldsValue,
-        setFieldsValue,
-        validateFields,
-        getFieldsFormatValue,
-        validateFieldsReturnFormatValue,
-      } = formRefWithInitial.current;
-
-      return {
-        ...formRefWithInitial.current,
-        setFieldsValue: (values) => {
-          setConvertedFieldsValue(values, { getFieldsValue, setFieldsValue });
-
-          /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
-          getInnerRef().current?.setData(values || {});
-        },
-        getFieldsValue: () => splitValues(getFieldsValue()),
-        getFieldsFormatValue: getFieldsFormatValue
-          ? () => splitValues(getFieldsFormatValue())
-          : undefined,
-        validateFields: () => {
-          return validateFields().then((res) => {
-            return splitValues(res);
-          });
-        },
-        validateFieldsReturnFormatValue: validateFieldsReturnFormatValue
-          ? () => {
-              return validateFieldsReturnFormatValue().then((res) => {
-                return splitValues(res);
-              });
-            }
-          : undefined,
-      };
     },
-    [!initialValuesInner],
+    [],
   );
-
-  const key = initialValuesInner ? 'hasInitial' : 'noInitial';
 
   return (
     <InnerRefContext.Provider value={getInnerRef()}>
       <AntProForm
-        key={key} // initialValues 只在 form 初始化时生效
+        key={updateKey}
         onFinish={handleOnFinish}
-        formRef={key === 'hasInitial' ? formRefWithInitial : formRef}
-        initialValues={initialValuesInner}
+        initialValues={initialValuesRef.current}
+        formRef={selfFormRef}
         {...rest}
+        form={formInstanceRef.current}
       >
         {children}
       </AntProForm>

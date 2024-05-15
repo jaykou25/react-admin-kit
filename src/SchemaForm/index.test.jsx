@@ -6,6 +6,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FormValue from '../../docs/case/schemaFormDemo/formValue';
 import FormValue2 from '../../docs/case/proFormDemo/formValue';
+import FieldDemo from '../../docs/case/schemaFormDemo/fieldPropsForm';
+import TouchDemo from '../../docs/case/schemaFormDemo/initialValueTouch';
+
+async function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, ms);
+  });
+}
 
 async function doExpect() {
   await userEvent.click(screen.getByText('onFinish'));
@@ -80,4 +90,27 @@ test('测试 ProForm 约定式取值 - 无默认值', async () => {
   await userEvent.click(option);
 
   await doExpect();
+});
+
+test('测试 fieldProps 里的 form 约定式赋值问题', async () => {
+  render(<FieldDemo />);
+
+  const select = screen.getByTestId('targetOption');
+  await userEvent.click(select.firstChild);
+
+  // 期望是选中的状态
+  const resultOption = screen.getByTestId('resultOption');
+  const attr = resultOption.getAttribute('aria-selected');
+  expect(attr).toBe('true');
+});
+
+test('测试 SchemaForm 有初始值时是否 touch 问题', async () => {
+  render(<TouchDemo />);
+
+  const btn = screen.getByText('是否touch');
+  await userEvent.click(btn);
+
+  const result = screen.getByTestId('touchResult');
+  const text = result.innerHTML;
+  expect(text).toBe('false');
 });

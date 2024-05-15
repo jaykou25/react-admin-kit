@@ -41,8 +41,34 @@ export const columns: FormColumnType[] = [
     formItemProps: {
       labelCol: { flex: '0 0 18.75%' },
     },
-    tooltip:
-      '这里演示了在只读模式下使用 render 函数自定义显示的用法. render 函数的第二个参数 record 里不仅包含了表单里的所有值, 还包括了 initialValues 里的值和 setFieldsValue 里的值, 使用非常方便. \n但是有一点需要注意的是如果在 render 函数里用到了表单项里的值, 在 setFieldsValue 时 render 函数并不会被及时执行, 如果是这种情况可以使用 valueType: dependency',
+    tooltip: {
+      title: (
+        <div>
+          <div style={{ marginBottom: '10px' }}>
+            这里演示了只读模式下的自定义显示.
+          </div>
+          <div style={{ marginBottom: '10px' }}>
+            render 函数的第二个参数 record 里不仅包含了表单里的所有值, 还包括了
+            initialValues 里的值和 setFieldsValue 里的值.
+          </div>
+          <div>
+            不过需要注意的是如果在 render 函数里用到了表单项里的值, 在
+            setFieldsValue 后 render 函数并不会被立即执行. 如果是这种情况请使用
+            valueType: dependency
+          </div>
+        </div>
+      ),
+      color: '#1a1a1a',
+      overlayStyle: {
+        maxWidth: '270px',
+      },
+      overlayInnerStyle: {
+        letterSpacing: '0.3px',
+        color: '#e1e1e1',
+        padding: '10px 18px',
+      },
+    },
+
     render: (dom, record, ...rest) => {
       return (
         <LinkButton
@@ -50,7 +76,7 @@ export const columns: FormColumnType[] = [
             (window.location.href = `/?id=${record.id}&queryId=${record.queryId}&name=${record.name}`)
           }
         >
-          id: {record.id} queryId: {record.queryId} name: {record.name}
+          queryId: {record.queryId}
         </LinkButton>
       );
     },
@@ -65,7 +91,7 @@ export const columns: FormColumnType[] = [
           title: '依赖演示',
           dataIndex: 'other',
           render: (dom, record) => {
-            return `hi ${record.name}`;
+            return `Hi ${record.name}`;
           },
         },
       ];

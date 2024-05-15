@@ -7,13 +7,19 @@ const columns = (): FormColumnType[] => {
       dataIndex: 'customer',
       valueType: 'select',
       fieldProps: (form) => ({
+        open: true,
+        placement: 'topLeft',
         options: [
-          { label: 'A', value: '1', address: '无锡' },
+          {
+            label: 'A',
+            value: '1',
+            address: '无锡',
+            ['data-testid']: 'targetOption',
+          },
           { label: 'B', value: '2', address: '山东' },
         ],
         onChange: (val, option) => {
           form.setFieldsValue({
-            // 'userId,userName': { value: '1', label: 'hi' },
             userId: '1',
             userName: '张三',
           });
@@ -26,18 +32,19 @@ const columns = (): FormColumnType[] => {
       valueType: 'select',
       fieldProps: {
         labelInValue: true,
-        // open: true,
+        open: true,
+        placement: 'bottomLeft',
         getPopupContainer: (node) => node.parentNode,
         ['data-testid']: 'userCaseSelect',
         options: [
           {
             label: '张三',
             value: '1',
+            ['data-testid']: 'resultOption',
           },
           {
             label: '李四',
             value: '2',
-            ['data-testid']: 'userCaseSelectOption',
           },
         ],
       },

@@ -31,7 +31,7 @@ const Convention = () => {
       <div style={{ textAlign: 'end' }}>
         <Button
           style={{ marginRight: '10px' }}
-          onClick={() =>
+          onClick={() => {
             formRef.current?.setFieldsValue({
               name: 'jack',
               deptId: '2',
@@ -39,8 +39,8 @@ const Convention = () => {
               isMember: 1,
               gradeId: '1',
               gradeName: 'A',
-            })
-          }
+            });
+          }}
         >
           赋值
         </Button>
