@@ -187,7 +187,7 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 可以使用 valueType='dependency' 来做显示控制, `name`里的值是需要监控的表单项.
 
-<code src="./demos/dependency/index.tsx"></code>
+<code src="./demos/dependency/index.tsx" ></code>
 
 ### 初始值和表单项赋值
 

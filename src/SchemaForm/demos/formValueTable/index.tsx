@@ -28,7 +28,8 @@ const FormValueTable = () => {
         {
           name: 'getFieldsFormatValue',
           desc: '获取一组或所有转化后的值',
-          remark: '会根据 valueType 处理时间格式, 会处理 transform',
+          remark:
+            '会根据 valueType 处理时间格式; 会处理 schema 中的 transform 转化',
           source: 'proComponent',
         },
         {

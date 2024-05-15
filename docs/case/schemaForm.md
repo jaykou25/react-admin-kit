@@ -24,3 +24,6 @@ debug: true
 
 ## fieldProps 中的约定式赋值
 <code src="./schemaFormDemo/fieldPropsForm/index.tsx"></code>
+
+## 有初始值的 touch 问题
+<code src="./schemaFormDemo/initialValueTouch/index.tsx"></code>
