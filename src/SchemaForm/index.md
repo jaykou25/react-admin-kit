@@ -177,9 +177,12 @@ grid 模式可以任意控制每个 FormItem 所占的空间
 
 ### 只读模式
 
-只读模式下自定义显示走的`render`方法. 空白占位请使用`render: () => null`
+通过 readonly 属性或者 schema 上的 readonly 属性可以设置只读模式. 只读模式有以下几个注意点:
 
-> render 函数的第二个参数 record 里不仅包含了表单里的所有值, 还包含了 initialValues 里除表单项外的其它值和 setFieldsValue 里除表单项外的其它值, 提高了实用性.
+1. 只读模式下的自定义显示用 `render` 方法, 而不是 `renderFormItem`.
+2. 空白占位可以用 `render` 方法返回 null 来实现. `render: () => null`.
+
+> 💡 Rakjs 扩展了只读模式下 render 函数的第二个参数 record. 这个 record 里包含了表单里的所有值, 提高了实用性.
 
 <code src="./demos/readonly/index.tsx"></code>
 

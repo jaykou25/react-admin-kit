@@ -27,3 +27,6 @@ debug: true
 
 ## 有初始值的 touch 问题
 <code src="./schemaFormDemo/initialValueTouch/index.tsx"></code>
+
+## 只读模式的 render
+<code src="../../src/SchemaForm/cases/readonly/index.tsx"></code>

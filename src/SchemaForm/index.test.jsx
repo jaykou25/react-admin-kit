@@ -9,6 +9,14 @@ import FormValue2 from '../../docs/case/proFormDemo/formValue';
 import FieldDemo from '../../docs/case/schemaFormDemo/fieldPropsForm';
 import TouchDemo from '../../docs/case/schemaFormDemo/initialValueTouch';
 
+async function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, ms);
+  });
+}
+
 async function doExpect() {
   await userEvent.click(screen.getByText('onFinish'));
   const onFinishValue = screen.getByTestId('onFinish').innerHTML;
