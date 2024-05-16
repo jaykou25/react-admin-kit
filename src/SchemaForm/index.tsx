@@ -20,14 +20,14 @@ import type {
 } from './types';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { InnerRefContext } from '../ProForm';
+import { InnerRefContext, ReadonlyContext } from '../ProForm';
 import { BaseInnerFn } from '../context';
 import { setFieldsValueConvention, splitValues } from './utils';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const {
     embed = false,
-    readonly = false,
+    readonly,
     submitter = false,
     columns = [],
     valueBaseName,
@@ -241,6 +241,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   // const formInstance = Form.useFormInstance();
   if (embed) {
     const { grid, rowProps, colProps, labelCol } = props;
+    const parentReadonly = useContext(ReadonlyContext);
+    const activeReadonly = readonly === undefined ? parentReadonly : readonly;
 
     if (grid) {
       return (
@@ -250,7 +252,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
             valueBaseName,
             colProps,
             grid,
-            readonly,
+            readonly: activeReadonly,
           })}
         </Row>
       );
@@ -259,7 +261,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     return genItems(patchColumn(columns), 'form', formInstance, {
       labelCol,
       valueBaseName,
-      readonly,
+      readonly: activeReadonly,
     });
   }
 
