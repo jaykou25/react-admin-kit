@@ -5,6 +5,8 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!(lodash-es|uuid)/)'],
   moduleNameMapper: {
     'react-admin-kit': '<rootDir>/src/index.ts',
+    '@ant-design/pro-form/es/components/SchemaForm/valueType/index':
+      '@ant-design/pro-form/lib/components/SchemaForm/valueType/index',
     '.(css|less)$': 'identity-obj-proxy',
   },
 };
