@@ -150,7 +150,7 @@ const ProForm = (props: ProFormType) => {
         };
       }
     },
-    [],
+    [updateKey],
   );
 
   return (
