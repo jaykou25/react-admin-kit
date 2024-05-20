@@ -141,15 +141,55 @@ valueType 是 schema 里的一个非常重要的字段, 通过指定 valueType �
 
 <code src="./demos/horizontal/index.tsx"></code>
 
-### ⭐ grid 模式 (推荐)
+### ⭐ grid 栅格模式 
 
-grid 模式可以任意控制每个 FormItem 所占的空间
+grid 栅格模式是把 FormItem 放入 Ant Design 的[栅格系统](https://ant-design.antgroup.com/components/grid-cn)中, 通过 [Row](https://ant-design.antgroup.com/components/grid-cn#row) 和 [Col](https://ant-design.antgroup.com/components/grid-cn#col) 的属性来控制每个 FormItem 的布局.
+
+```js
+<SchemaForm 
+  grid
+  rowProps={{}}
+  colProps={{}}
+  columns=[
+    { 
+      title: 'name', 
+      colProps: {} // 更高优先级
+    },
+    { 
+      title: 'age', 
+      colProps: {} // 更高优先级
+    }
+  ]
+>
+```
+以这个组件为例, 当它开启 `grid` 属性后, 它实际上会被渲染成:
+
+```js | {3,4,10}
+// 伪代码, 仅用于示意.
+<Form>
+  <Row {...rowProps}>
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+  </Row>
+</Form>
+```
+
+通过栅格系统, 表单项的布局将会变得更加的灵活.
 
 <code src="./demos/grid/index.tsx"></code>
 
-### grid 模式 (水平方向)
+### grid 栅格模式水平方向
 
-当设成水平方向时, 如果不同行所占的空间不同, 表单项 label 的宽度可能会不一致.
+当 layout 设成水平方向时, 如果不同表单项所占的空间不同, 表单项 label 的宽度可能会不一致.
 
 以下面这个例子为例, 第一行表单项独占 24, 第二行每个表单项占 8, 第三行表单项占 16. 默认状态下他们的 label 宽度会不一致.
 
