@@ -1,4 +1,4 @@
-import { BetaSchemaForm } from '@ant-design/pro-form';
+import { BetaSchemaForm, GridContext } from '@ant-design/pro-form';
 import { produce } from 'immer';
 import React, {
   useContext,
@@ -79,6 +79,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    * setFieldsValue
    */
   useEffect(() => {
+    if (embed) return;
+
     if (formInstanceRef.current) {
       const { getFieldsValue, setFieldsValue } = formInstanceRef.current;
 
@@ -106,7 +108,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         setUpdateKey((val) => val + 1);
       }
     }
-  }, []);
+  }, [embed]);
 
   /* 包装 form 实例的取值相关的方法, 需要约定式转化
    * getFieldsValue, validateFields, getFieldsFormatValue, validateFieldsReturnFormatValue
@@ -238,7 +240,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   /**
    * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
    */
-  // const formInstance = Form.useFormInstance();
   if (embed) {
     const { grid, rowProps, colProps, labelCol } = props;
     const parentReadonly = useContext(ReadonlyContext);
@@ -246,15 +247,16 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
     if (grid) {
       return (
-        <Row {...rowProps}>
-          {genItems(patchColumn(columns), 'form', formInstance, {
-            labelCol,
-            valueBaseName,
-            colProps,
-            grid,
-            readonly: activeReadonly,
-          })}
-        </Row>
+        <GridContext.Provider value={{ grid: true, colProps }}>
+          <Row {...rowProps}>
+            {genItems(patchColumn(columns), 'form', formInstance, {
+              labelCol,
+              valueBaseName,
+              colProps,
+              readonly: activeReadonly,
+            })}
+          </Row>
+        </GridContext.Provider>
       );
     }
 
