@@ -11,6 +11,13 @@ description: React Admin Kit 组件库的更新日志
 
 # 更新日志
 
+## 0.5.1
+2024-5-20
+
+ProForm 组件
+- 🐛修复 formRef 约定式赋值没有及时更新的问题.
+- 🐛修复在 `embed` 模式下对 valueType: formList 的 grid 布局失效的问题.
+
 ## 0.5.0
 2024-5-15
 
