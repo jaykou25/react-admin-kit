@@ -1,10 +1,9 @@
-import { renderValueType } from '@ant-design/pro-form/lib/components/SchemaForm/valueType/index';
+import { renderValueType } from '@ant-design/pro-form/es/components/SchemaForm/valueType/index';
 import {
   LabelIconTip,
   omitUndefined,
   runFunction,
 } from '@ant-design/pro-utils';
-import { Col } from 'antd';
 
 /**
  * 生成 formItems
@@ -20,7 +19,6 @@ export const genItems = (
   const {
     labelCol = {},
     valueBaseName,
-    grid,
     colProps = {},
     readonly = false,
   } = options;
@@ -98,19 +96,10 @@ export const genItems = (
           genItems(items, type, formInstance, {
             labelCol,
             valueBaseName,
-            grid,
             colProps,
             readonly,
           }),
       });
-
-      if (grid && dom && item.valueType !== 'dependency') {
-        return (
-          <Col key={key} {...colProps} {...item.colProps}>
-            {dom}
-          </Col>
-        );
-      }
 
       return dom;
     })

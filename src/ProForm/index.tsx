@@ -22,6 +22,8 @@ export const InnerRefContext = createContext<BaseInnerRef | undefined>(
   undefined,
 );
 
+export const ReadonlyContext = createContext<boolean>(false);
+
 const ProForm = (props: ProFormType) => {
   const {
     onFinish,
@@ -148,21 +150,23 @@ const ProForm = (props: ProFormType) => {
         };
       }
     },
-    [],
+    [updateKey],
   );
 
   return (
     <InnerRefContext.Provider value={getInnerRef()}>
-      <AntProForm
-        key={updateKey}
-        onFinish={handleOnFinish}
-        initialValues={initialValuesRef.current}
-        formRef={selfFormRef}
-        {...rest}
-        form={formInstanceRef.current}
-      >
-        {children}
-      </AntProForm>
+      <ReadonlyContext.Provider value={props.readonly || false}>
+        <AntProForm
+          key={updateKey}
+          onFinish={handleOnFinish}
+          initialValues={initialValuesRef.current}
+          formRef={selfFormRef}
+          {...rest}
+          form={formInstanceRef.current}
+        >
+          {children}
+        </AntProForm>
+      </ReadonlyContext.Provider>
     </InnerRefContext.Provider>
   );
 };
