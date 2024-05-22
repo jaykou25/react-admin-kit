@@ -3,6 +3,19 @@
   "version": "0.5.1",
   "private": false,
   "description": "A react based UI components for admin system",
+  "keywords": [
+    "rakjs",
+    "rak",
+    "schema",
+    "protable",
+    "proform",
+    "schema form",
+    "admin kit",
+    "中后台组件库",
+    "react 组件库",
+    "快速表单",
+    "快速表格"
+  ],
   "homepage": "https://jaykou25.github.io/react-admin-kit/",
   "bugs": {
     "url": "https://github.com/jaykou25/react-admin-kit/issues"
