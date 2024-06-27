@@ -11,6 +11,11 @@ const Home = () => {
       <Helmet>
         <html lang="zh-CN" />
         <title>{title}</title>
+        <link
+          rel="stylesheet"
+          crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/misans@4.0.0/lib/Normal/MiSans-Bold.min.css"
+        />
         <meta property="og:title" content={title} />
         <meta name="description" content={description} />
         <meta property="og:description" content={description} />
@@ -29,7 +34,7 @@ const Home = () => {
             </span>
           </span>
         </h1>
-        <div className="slogon">中后台系统的最佳伴侣</div>
+        <div className="slogon">开发中后台应用的最佳伴侣</div>
         <p className="description">构建高质量的表单和表格</p>
         <p className="actions">
           <Link className="get-started" to="/components/schema-form">
