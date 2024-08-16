@@ -561,7 +561,7 @@ class ProTable extends Component<MyProTableType, any> {
                   item.hideInSearch = mergedDefaultHideInSearch;
                 }
 
-                if (item.type === 'search') {
+                if (item.type === 'search' || item.valueType === 'dependency') {
                   item.search = true;
                   item.hideInSearch = false;
                   item.hideInTable = true;
@@ -572,8 +572,6 @@ class ProTable extends Component<MyProTableType, any> {
               }),
             ),
           ).filter((col) => {
-            if (col.valueType === 'dependency') return false;
-
             if (col.type === 'form') return false;
 
             return true;
