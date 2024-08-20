@@ -263,6 +263,10 @@ ProTable 同样支持 valueType, 只是与 SchemaForm 不同的是, ProTable 的
 
 <code src="./demos/searchConfig/index.tsx"></code>
 
+### 搜索表单的关联控制
+
+<code src="./demos/searchDependency/index.tsx"></code>
+
 ### 更改弹窗表单的布局
 
 `formProps`属性可以透传 SchemaForm 中的属性.
