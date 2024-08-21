@@ -11,7 +11,9 @@ const isBase = process.env.GITHUB === '1';
 const parser = require('react-docgen-typescript');
 const doc = parser
   .withCompilerOptions(
-    { esModuleInterop: true, jsx: 'preserve' },
+    {
+      esModuleInterop: true,
+    },
     { propFilter: { skipPropsWithoutDoc: true } },
   )
   .parse([
