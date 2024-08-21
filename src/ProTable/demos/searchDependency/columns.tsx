@@ -53,27 +53,6 @@ export const getColumns = (): TableColumnType[] => [
     },
   },
   {
-    valueType: 'dependency',
-    // type: 'search',
-    name: ['userType'],
-    columns: ({ userType }) => {
-      if (userType === '2') {
-        return [
-          {
-            title: '充值次数',
-            dataIndex: 'num',
-            valueType: 'digit',
-            fieldProps: {
-              min: 0,
-            },
-          },
-        ];
-      }
-
-      return [];
-    },
-  },
-  {
     type: 'search',
     title: '注册时间',
     dataIndex: 'loginTime',
