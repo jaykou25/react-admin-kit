@@ -288,6 +288,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
       showSearch,
       optionFilterProp,
       allowClear,
+      searchDebounceValue = 300,
       ...rest
     } = this.props;
 
@@ -307,10 +308,10 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
         })}
         // 搜索部分
         showSearch={_showSearch}
-        allowClear={_allowClear}
+        allowClear={_allowClear && !this.state.loading}
         filterOption={false}
         onPopupScroll={this.handlePopupScroll}
-        onSearch={debounce(this.handleSearch, 500)}
+        onSearch={debounce(this.handleSearch, searchDebounceValue)}
       />
     );
   }

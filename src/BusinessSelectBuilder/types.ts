@@ -80,6 +80,12 @@ export interface BusinessSelectSelfProps<Type> {
    * @default -
    */
   onLoad?: (options, total?: number) => void;
+
+  /**
+   * @description 分页下拉组件搜索的 debounce 值.
+   * @default 300
+   */
+  searchDebounceValue?: number;
 }
 
 export type BusinessSelectProps<Type> = BusinessSelectSelfProps<Type> &
