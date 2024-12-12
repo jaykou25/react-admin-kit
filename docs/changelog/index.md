@@ -10,6 +10,11 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.4
+BusinessSelect 组件
+- 🆕增加 searchDebounceValue 属性, 控制组件搜索时的 debounce 值.
+- 🐛修复组件搜索时 loading 和 allowClear 冲突的问题.
+
 
 ## 0.5.3
 ProTable 组件

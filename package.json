@@ -1,6 +1,6 @@
 {
   "name": "react-admin-kit",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": false,
   "description": "A react based UI components for admin system",
   "keywords": [
@@ -96,7 +96,7 @@
     "antd": "^5",
     "babel-jest": "^29.6.2",
     "dayjs": "^1.11.11",
-    "dumi": "^2.2.0",
+    "dumi": "^2.4.0",
     "eslint": "^8.23.0",
     "father": "^4.1.0",
     "gh-pages": "^6.0.0",
