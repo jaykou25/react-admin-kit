@@ -10,6 +10,13 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.5
+ModalForm 组件
+- 💄ModalForm 弹窗表单有滚动时滚动条贴边.
+
+SchemaForm 组件
+- 🐛修复 schema 中 required 属性在 formItemProps 为函数时失效的问题.
+
 ## 0.5.4
 BusinessSelect 组件
 - 🆕增加 searchDebounceValue 属性, 控制组件搜索时的 debounce 值.
