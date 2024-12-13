@@ -1,8 +1,11 @@
-import type { Workbook } from 'exceljs';
-import * as ExcelJs from 'exceljs';
+// import type { Workbook } from 'exceljs';
+// import * as ExcelJs from 'exceljs';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
 import type { TableColumnType } from '../index';
+
+type Workbook = any;
+const ExcelJs: any = {};
 
 // 默认的列宽
 export const DEFAULT_COLUMN_WIDTH = 20;
