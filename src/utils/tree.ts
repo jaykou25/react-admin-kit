@@ -94,13 +94,15 @@ export function normalizeSelect(data = [], options?: SelectOptions) {
   const { labelKey = 'name', valueKey = 'id', renderLabel } = options || {};
 
   return data.map((row) => {
+    const { disabled, title, options, className } = row;
+
     let label;
     if (renderLabel) {
       label = renderLabel(row);
     } else {
       label = row[labelKey];
     }
-    return { label, value: row[valueKey] };
+    return { label, value: row[valueKey], disabled, title, options, className };
   });
 }
 

@@ -1,10 +1,10 @@
 import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
-import { queryBrand, queryColor, queryUser } from './query';
+import { queryBrand, queryColor, queryGroup, queryUser } from './query';
 
 /**
  * 在全局维护 BusinessSelect
  */
-type SelectType = 'color' | 'brand' | 'user'; // 定义 type 类型
+type SelectType = 'color' | 'brand' | 'user' | 'group'; // 定义 type 类型
 export const BusinessSelect = BusinessSelectBuilder<SelectType>({
   apis: [
     {
@@ -20,6 +20,10 @@ export const BusinessSelect = BusinessSelectBuilder<SelectType>({
     {
       api: queryUser,
       type: 'user',
+    },
+    {
+      type: 'group',
+      api: queryGroup,
     },
   ],
   defaultProps: {
@@ -53,6 +57,13 @@ const Basic = () => {
               placeholder="请选择品牌"
             />
           ),
+        },
+        {
+          title: '分组',
+          dataIndex: 'group',
+          renderFormItem: () => {
+            return <BusinessSelect type="group" placeholder="请选择" />;
+          },
         },
       ]}
     />
