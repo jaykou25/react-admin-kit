@@ -80,12 +80,12 @@ export const queryGroup = (): Promise<any> => {
             options: [
               {
                 name: <span>Jack</span>,
-                value: 'Jack',
+                id: 'Jack',
                 className: 'group-sub-demo',
               },
               {
                 name: <span>Lucy</span>,
-                value: 'Lucy',
+                id: 'Lucy',
                 title: 'lucy title',
                 disabled: true,
               },

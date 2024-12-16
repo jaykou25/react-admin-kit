@@ -55,7 +55,7 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 >
 > 其中 data 为一个对象数组, 组件默认读取 name 作为文本显示, id 作为下拉取值.
 >
-> 也可通过 labelKey 和 valueKey 更改取值字段.
+> 注意 antd Select 组件是使用的 label 和 value 作为文本和下拉取值字段. 本组件使用 name 和 id 来取值是因为后端返回的数据中这两个值更为通用. 当然你可以通过 labelKey 和 valueKey 这两个 api 来更改取值字段.
 
 ### 基本的使用方法
 
