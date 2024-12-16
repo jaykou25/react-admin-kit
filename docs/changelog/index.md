@@ -10,6 +10,10 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.7
+BusinessSelect 组件
+- 🐛修复 BusinessSelect 分组选项的问题.
+
 ## 0.5.6
 BusinessSelect 组件
 - 🐛修复 BusinessSelect 组件 disabled 属性未接收问题. 同时增加分组选项.
