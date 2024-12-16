@@ -182,9 +182,28 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         } = col;
 
         // 增加 required: true 简写
-        // @ts-ignore
-        if (required && !formItemProps.rules) {
-          col.formItemProps = { ...formItemProps, rules: [{ required: true }] };
+        if (required) {
+          if (typeof formItemProps === 'function') {
+            col.formItemProps = (_form, _config): any => {
+              const _formItemProps = formItemProps(_form, _config);
+
+              if (!_formItemProps.rules) {
+                _formItemProps.rules = [];
+              }
+
+              _formItemProps.rules.push({ required: true });
+
+              return _formItemProps;
+            };
+          } else {
+            const _formItemProps = formItemProps || {};
+            if (!_formItemProps.rules) {
+              _formItemProps.rules = [];
+            }
+            _formItemProps.rules.push({ required: true });
+
+            col.formItemProps = _formItemProps;
+          }
         }
 
         // 给fieldProps增加ref参数

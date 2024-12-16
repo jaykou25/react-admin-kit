@@ -194,6 +194,9 @@ class ModalForm extends Component<
         body: {
           maxHeight: 'calc(100vh - 108px - 100px - 25px)',
           overflow: 'auto',
+          // 让滚动条贴边
+          marginRight: '-20px',
+          paddingRight: '20px',
         },
       },
       styles,

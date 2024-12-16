@@ -30,3 +30,6 @@ debug: true
 
 ## 只读模式的 render
 <code src="../../src/SchemaForm/cases/readonly/index.tsx"></code>
+
+## required 简单与 formItemProps 为函数
+<code src="./schemaFormDemo/required/index.tsx"></code>

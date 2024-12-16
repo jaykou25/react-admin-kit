@@ -15,6 +15,7 @@ export interface BaseSelectProps extends SelectProps<any> {
   queryParams?: Record<string, any>;
   noCache?: boolean;
   onLoad?: (options, total?: number) => void;
+  searchDebounceValue?: number;
 }
 
 class BaseSelect extends Component<BaseSelectProps, any> {
