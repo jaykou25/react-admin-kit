@@ -19,6 +19,7 @@ interface ErrorHandlingConfig {
 // 扩展全局 Error 构造函数的类型定义
 declare global {
   interface ErrorConstructor {
+    // @ts-ignore
     captureStackTrace?(targetObject: object, constructorOpt?: Function): void;
   }
 }
