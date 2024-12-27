@@ -10,6 +10,9 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.8
+🐛 增加对 pro-component 警告信息的捕获, 例如 `Warning: findDOMNode is deprecated`
+
 ## 0.5.7
 BusinessSelect 组件
 - 🐛修复 BusinessSelect 分组选项的问题.
