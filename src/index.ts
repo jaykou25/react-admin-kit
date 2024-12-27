@@ -1,5 +1,3 @@
-import { setupGlobalErrorHandling } from './utils/setupGlobalErrorHandling';
-
 // 核心组件
 export { default as ProForm } from './ProForm';
 export { default as SchemaForm } from './SchemaForm';
@@ -25,4 +23,7 @@ export type { ProFormInstance } from '@ant-design/pro-form';
 export type { FormColumnType, SchemaFormInnerRefType } from './SchemaForm/types'
 export type { ActionType as ActionRefType } from '@ant-design/pro-table';
 
-setupGlobalErrorHandling()
+// 用于捕获来自 pro-component 的告警信息 https://github.com/ant-design/pro-components/discussions/8837
+if (typeof window !== 'undefined') {
+  require('./utils/setupGlobalErrorHandling').setupGlobalErrorHandling()
+}
