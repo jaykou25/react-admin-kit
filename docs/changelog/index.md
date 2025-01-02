@@ -10,6 +10,12 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.9
+🐛 增加 pro-component 警告信息的捕获 `antd: Form.Item` .
+
+ModalForm 组件
+🐛 initialValues 与 openModal 中初始值的合并处理.
+
 ## 0.5.8
 🐛 增加对 pro-component 警告信息的捕获, 例如 `Warning: findDOMNode is deprecated`
 
