@@ -39,6 +39,7 @@ class ExtendedError extends Error {
 const IGNORED_WARNING_MESSAGES = [
   '`bordered` is deprecated',
   'Warning: findDOMNode is deprecated',
+  'antd: Form.Item',
 ] as const;
 
 // 默认配置
