@@ -6,7 +6,7 @@ group:
   title: 核心组件
   order: 0
 toc: content
-order: 1
+order: 30
 title: ProTable
 debug: true
 ---

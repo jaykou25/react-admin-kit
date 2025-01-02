@@ -5,7 +5,7 @@ nav:
 group:
   title: 核心组件
   order: 0
-order: 1
+order: 10
 toc: content
 title: ProForm
 debug: true

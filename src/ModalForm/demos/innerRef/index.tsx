@@ -14,7 +14,10 @@ const InnerRefDemo = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => ref.current?.openModal()}>
+        <Button
+          type="primary"
+          onClick={() => ref.current?.openModal('edit', { username: 'Jack' })}
+        >
           打开弹窗
         </Button>
       </div>
