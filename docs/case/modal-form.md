@@ -30,3 +30,11 @@ columns 上有 initialValue. Form 上也有 initialValues. 这两者会合并处
 期望1: `{name: 'Jack2', phone: 123}`
 
 <code src="./modal-form-demo/modal-form-initial-value" ></code>
+
+案例2. 采用 open 受控模式, 并且用于 Class 组件.
+
+<code src="./modal-form-demo/modal-form-initial-value-control-class" ></code>
+
+案例3. 采用 open 受控模式, 用于 Function 组件.
+
+<code src="./modal-form-demo/modal-form-initial-value-control" ></code>

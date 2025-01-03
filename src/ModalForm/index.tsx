@@ -206,6 +206,10 @@ class ModalForm extends Component<
     const { formData } = this.state;
     const { open } = this.props;
 
+    // 合并初始值. openModal 所携带的初始值优先级更大.
+    const propsInitialValues = this.props.formProps?.initialValues || {};
+    const initialValues = { ...propsInitialValues, ...formData };
+
     const $cols = normalizeTree(
       this.props.columns,
       (item) => {
@@ -215,9 +219,8 @@ class ModalForm extends Component<
         // columns 上和 SchemaForm 组件的 initialValues 上不能有相同的字段, 否则会有告警.
         // Form already set 'initialValues' with path 'name'. Field can not overwrite it
         if (
-          !open &&
           typeof item.dataIndex === 'string' &&
-          formData.hasOwnProperty(item.dataIndex)
+          initialValues.hasOwnProperty(item.dataIndex)
         ) {
           return rest;
         } else {
