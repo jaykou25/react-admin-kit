@@ -2,6 +2,8 @@
 /** @type {import('jest').Config} */
 module.exports = {
   setupFiles: ['./setup.js'],
+  // verbose: false,
+  // silent: false,
   transformIgnorePatterns: ['node_modules/(?!(lodash-es|uuid)/)'],
   moduleNameMapper: {
     'react-admin-kit': '<rootDir>/src/index.ts',

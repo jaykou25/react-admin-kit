@@ -9,11 +9,13 @@ const setHtml = (query, vals) => {
   }
 };
 
-export default function () {
+export default function (props) {
   const formRef = useRef<ProFormInstance>();
+
   return (
     <div>
       <SchemaForm
+        autoFocusFirstInput={false}
         formRef={formRef}
         initialValues={{ name: 'jack', userId: '1', userName: '张三' }}
         columns={[
@@ -32,12 +34,15 @@ export default function () {
 
       <Button
         onClick={() => {
-          setHtml('#touchResult', formRef.current?.isFieldsTouched());
+          const isTouch = formRef.current?.isFieldsTouched();
+          console.log('isTouch', isTouch);
+          if (props.touchHandle) {
+            props.touchHandle(isTouch);
+          }
         }}
       >
         是否touch
       </Button>
-      <div id="touchResult" data-testid="touchResult"></div>
     </div>
   );
 }

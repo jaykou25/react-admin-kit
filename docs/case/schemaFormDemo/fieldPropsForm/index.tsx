@@ -55,7 +55,7 @@ const columns = (): FormColumnType[] => {
 export default function () {
   return (
     <div>
-      <SchemaForm columns={columns()} />
+      <SchemaForm autoFocusFirstInput={false} columns={columns()} />
     </div>
   );
 }

@@ -4,11 +4,14 @@ import { columns } from './columns';
 
 import type { ProFormInstance } from 'react-admin-kit';
 
-const Convention = () => {
+const Convention = (props) => {
   const formRef = useRef<ProFormInstance>();
 
   const onFinish = (values: any) => {
-    console.log({ values });
+    console.log('values', values);
+    if (props.onFinish) {
+      props.onFinish(values);
+    }
   };
 
   return (
@@ -28,8 +31,9 @@ const Convention = () => {
         }}
       />
 
-      <div style={{ textAlign: 'end' }}>
+      <div style={{ textAlign: 'end', marginTop: '100px' }}>
         <Button
+          data-testid="setBtn"
           style={{ marginRight: '10px' }}
           onClick={() => {
             formRef.current?.setFieldsValue({
@@ -45,12 +49,14 @@ const Convention = () => {
           赋值
         </Button>
         <Button
+          data-testid="resetDeptBtn"
           style={{ marginRight: '10px' }}
           onClick={() => formRef.current?.resetFields(['deptId,deptName'])}
         >
           重置部门
         </Button>
         <Button
+          data-testid="resetGradeBtn"
           style={{ marginRight: '10px' }}
           onClick={() =>
             formRef.current?.resetFields([
@@ -62,12 +68,17 @@ const Convention = () => {
           重置部门等级
         </Button>
         <Button
+          data-testid="resetAllBtn"
           style={{ marginRight: '10px' }}
           onClick={() => formRef.current?.resetFields()}
         >
           重置所有
         </Button>
-        <Button type="primary" onClick={() => formRef.current?.submit()}>
+        <Button
+          data-testid="submitBtn"
+          type="primary"
+          onClick={() => formRef.current?.submit()}
+        >
           提交
         </Button>
       </div>
