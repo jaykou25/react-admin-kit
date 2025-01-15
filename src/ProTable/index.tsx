@@ -131,12 +131,12 @@ class ProTable extends Component<MyProTableType, any> {
 
           // 给valueType为option列的render增加ref参数
           if (col.valueType === 'option' && render) {
-            col.render = (text, record, index, actionRef) => {
+            col.render = (text, record, index, action) => {
               const renderDom = render(
                 text,
                 record,
                 index,
-                actionRef,
+                action,
                 innerRef,
               );
 

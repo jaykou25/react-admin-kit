@@ -127,7 +127,7 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
     text: string | number,
     record: Record,
     index: number,
-    actionRef: React.RefObject<ActionType | undefined>,
+    action: ActionType,
     innerRef: InnerRef,
   ) => any;
 };
