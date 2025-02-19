@@ -5,7 +5,7 @@ nav:
 group:
   title: 核心组件
   order: 0
-order: 1
+order: 10
 toc: content
 title: ProForm
 debug: true
@@ -21,7 +21,7 @@ debug: true
 <code src="./proFormDemo/embedProTableFormRef/index.tsx"></code>
 
 
-##  表单取值
+##  表单取值 (已添加集成测试)
 <code src="./proFormDemo/formValue/index.tsx"></code>
 
 ## 布局问题(embed 时 layout)

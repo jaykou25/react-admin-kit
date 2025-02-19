@@ -6,7 +6,7 @@ group:
   title: 核心组件
   order: 0
 toc: content
-order: 1
+order: 30
 title: ProTable
 debug: true
 ---
@@ -14,4 +14,6 @@ debug: true
 
 # ProTable
 
-## hi
+## columns 中的 actionRef 无效
+
+<code src="./pro-table-demo/basic/index.tsx"></code>

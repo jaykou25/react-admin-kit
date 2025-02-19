@@ -66,3 +66,33 @@ export const queryUser = (params): Promise<any> => {
     }, 1200);
   });
 };
+
+export const queryGroup = (): Promise<any> => {
+  return new Promise((resolve) => {
+    console.log('query group data');
+    setTimeout(() => {
+      resolve({
+        data: [
+          {
+            name: <span>manager</span>,
+            title: 'manager title',
+            className: 'group-demo',
+            options: [
+              {
+                name: <span>Jack</span>,
+                id: 'Jack',
+                className: 'group-sub-demo',
+              },
+              {
+                name: <span>Lucy</span>,
+                id: 'Lucy',
+                title: 'lucy title',
+                disabled: true,
+              },
+            ],
+          },
+        ],
+      });
+    }, 1000);
+  });
+};

@@ -5,7 +5,7 @@ import { columns } from './columns';
 import { Space } from 'antd';
 import type { ProFormInstance } from 'react-admin-kit';
 
-const FormValueDemo = (props) => {
+const ProFormValueDemo = (props) => {
   const {
     initialValues = {
       userId: '2',
@@ -90,4 +90,4 @@ const FormValueDemo = (props) => {
   );
 };
 
-export default FormValueDemo;
+export default ProFormValueDemo;

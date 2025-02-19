@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { omitUndefined } from '@ant-design/pro-utils';
 
 interface TreeSelectOptions {
   titleKey?: string; // title的取值字段, 默认是title
@@ -94,13 +95,33 @@ export function normalizeSelect(data = [], options?: SelectOptions) {
   const { labelKey = 'name', valueKey = 'id', renderLabel } = options || {};
 
   return data.map((row) => {
+    /**
+     * antd Select 组件的 options 接受以下字段:
+     * label: 文本显示
+     * title: 原生 title 提示
+     * value: 下拉值
+     */
+    const { disabled, title, options: selectOptions, className } = row;
+
     let label;
     if (renderLabel) {
       label = renderLabel(row);
     } else {
       label = row[labelKey];
     }
-    return { label, value: row[valueKey] };
+
+    const _options = selectOptions
+      ? normalizeSelect(selectOptions, options)
+      : undefined;
+
+    return omitUndefined({
+      label,
+      value: row[valueKey],
+      disabled,
+      title,
+      className,
+      options: _options,
+    });
   });
 }
 

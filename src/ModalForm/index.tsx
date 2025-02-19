@@ -95,15 +95,14 @@ class ModalForm extends Component<
     const innerRef = this.getInnerRef();
     innerRef.current.formType = formType;
 
-    if (initialData) {
-      this.setState({ visible: true, formType, formData: initialData });
-      return;
-    }
+    // 合并初始值. openModal 所携带的初始值优先级更大.
+    const propsInitialValues = this.props.formProps?.initialValues || {};
+    const initialValues = { ...propsInitialValues, ...initialData };
 
     this.setState({
       visible: true,
       formType,
-      formData: this.props.formProps?.initialValues || {},
+      formData: initialValues,
     });
   };
 
@@ -204,13 +203,29 @@ class ModalForm extends Component<
   };
 
   getColumns = (): any => {
+    const { formData } = this.state;
+    const { open } = this.props;
+
+    // 合并初始值. openModal 所携带的初始值优先级更大.
+    const propsInitialValues = this.props.formProps?.initialValues || {};
+    const initialValues = { ...propsInitialValues, ...formData };
+
     const $cols = normalizeTree(
       this.props.columns,
       (item) => {
         /** 去掉 width 属性, 因为在表单中不需要 width */
-        const { width, ...rest } = item;
+        const { width, initialValue, ...rest } = item;
 
-        return rest;
+        // columns 上和 SchemaForm 组件的 initialValues 上不能有相同的字段, 否则会有告警.
+        // Form already set 'initialValues' with path 'name'. Field can not overwrite it
+        if (
+          typeof item.dataIndex === 'string' &&
+          initialValues.hasOwnProperty(item.dataIndex)
+        ) {
+          return rest;
+        } else {
+          return { initialValue, ...rest };
+        }
       },
       { replace: true },
     );

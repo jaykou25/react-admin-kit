@@ -10,6 +10,27 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.10
+ModalForm 组件
+- 🐛 消除 initialValue 相关告警.
+
+## 0.5.9
+- 🐛 增加 pro-component 警告信息的捕获 `antd: Form.Item` .
+
+ModalForm 组件
+- 🐛 initialValues 与 openModal 中初始值的合并处理.
+
+## 0.5.8
+- 🐛 增加对 pro-component 警告信息的捕获, 例如 `Warning: findDOMNode is deprecated`
+
+## 0.5.7
+BusinessSelect 组件
+- 🐛修复 BusinessSelect 分组选项的问题.
+
+## 0.5.6
+BusinessSelect 组件
+- 🐛修复 BusinessSelect 组件 disabled 属性未接收问题. 同时增加分组选项.
+
 ## 0.5.5
 ModalForm 组件
 - 💄ModalForm 弹窗表单有滚动时滚动条贴边.

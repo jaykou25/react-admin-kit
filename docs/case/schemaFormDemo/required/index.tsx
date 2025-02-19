@@ -6,6 +6,7 @@ const Required = () => {
   };
   return (
     <SchemaForm
+      autoFocusFirstInput={false}
       onFinish={onFinish}
       submitter
       columns={[

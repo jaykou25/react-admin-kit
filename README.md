@@ -1,5 +1,12 @@
 # react-admin-kit
 
+
+<p>
+  <a href="https://www.npmjs.com/package/react-admin-kit"><img src="https://badgen.net/npm/v/react-admin-kit" alt="Version" /></a>
+   <a href="https://www.npmjs.com/package/react-admin-kit"><img src="https://badgen.net/npm/dm/react-admin-kit" alt="Downloads" /></a>
+  <a href="https://www.npmjs.com/package/react-admin-kit"><img src="https://badgen.net/npm/license/react-admin-kit" alt="License" /></a>
+</p>
+
 <p align="left">
     <img alt='react admin kit logo' height="80" src="https://github.com/jaykou25/react-admin-kit/raw/v0.3/public/rak.png">
   <p style="font-size: 22px">快速构建表单表格的 React 组件库</p>

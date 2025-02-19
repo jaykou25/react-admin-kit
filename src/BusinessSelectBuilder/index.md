@@ -22,7 +22,7 @@ description: BusinessSelect - 业务下拉组件用于解决中后台系统中�
 2. 有些下拉是需要分页的, 希望能对分页的下拉组件进行更通用的封装.
 3. 很多下拉组件会在多个页面中多次使用, 如何更好的复用他们.
 
-与其让这些下拉组件分布在各个页面中, 不如把他们定义到一块, 由 type 区分, 形成一个更为通用的下拉组件.
+与其让这些下拉组件分布在各个页面中, 不如把他们统一定义到一块, 由 type 区分, 并且为每种 type 指定相应的请求接口, 从而形成一个更为通用的下拉组件.
 
 我们称这个组件为 `BusinessSelect`, 它是由 `BusinessSelectBuilder` 初始化而来:
 
@@ -50,6 +50,12 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 <BusinessSelect type="color" />;
 <BusinessSelect type="brand" />;
 ```
+
+> 请求接口返回的格式必须为 `{data: [], total: xx}`, 对于非分页组件 total 可不返回.
+>
+> 其中 data 为一个对象数组, 组件默认读取 name 作为文本显示, id 作为下拉取值.
+>
+> 注意 antd Select 组件是使用的 label 和 value 作为文本和下拉取值字段. 本组件使用 name 和 id 来取值是因为后端返回的数据中这两个值更为通用. 当然你可以通过 labelKey 和 valueKey 这两个 api 来更改取值字段.
 
 ### 基本的使用方法
 
