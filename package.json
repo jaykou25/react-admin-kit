@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev:website": "pnpm --filter website run start"
+  },
   "devDependencies": {
     "eslint": "^8.23.0",
     "prettier": "^2.7.1",
