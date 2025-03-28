@@ -9,11 +9,11 @@
   },
   "item.label.intro": {
     "message": "Intro",
-    "description": "Navbar item with label Intro"
+    "description": "Navbar item with label intro"
   },
   "item.label.components": {
     "message": "Components",
-    "description": "Navbar item with label Components"
+    "description": "Navbar item with label components"
   },
   "item.label.changelog": {
     "message": "Changelog",
@@ -21,6 +21,6 @@
   },
   "item.label.gitHub": {
     "message": "GitHub",
-    "description": "Navbar item with label GitHub"
+    "description": "Navbar item with label gitHub"
   }
 }

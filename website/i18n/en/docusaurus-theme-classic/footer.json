@@ -1,35 +1,35 @@
 {
   "link.title.doc": {
     "message": "Doc",
-    "description": "The title of the footer links column with title=文档 in the footer"
+    "description": "The title of the footer links column with title=doc in the footer"
   },
   "link.title.more": {
     "message": "More",
-    "description": "The title of the footer links column with title=更多 in the footer"
+    "description": "The title of the footer links column with title=more in the footer"
   },
   "link.title.feedback": {
     "message": "Feedback",
-    "description": "The title of the footer links column with title=反馈 in the footer"
+    "description": "The title of the footer links column with title=feedback in the footer"
   },
   "link.item.label.intro": {
     "message": "Intro",
-    "description": "The label of footer link with label=简介 linking to /intro"
+    "description": "The label of footer link with label=intro linking to /intro"
   },
   "link.item.label.components": {
     "message": "Components",
-    "description": "The label of footer link with label=组件 linking to /components"
+    "description": "The label of footer link with label=components linking to /components"
   },
   "link.item.label.changelog": {
     "message": "Changelog",
-    "description": "The label of footer link with label=更新日志 linking to /changelog"
+    "description": "The label of footer link with label=changelog linking to /changelog"
   },
   "link.item.label.gitHub": {
     "message": "GitHub",
-    "description": "The label of footer link with label=GitHub linking to https://github.com/jaykou25/react-admin-kit"
+    "description": "The label of footer link with label=gitHub linking to https://github.com/jaykou25/react-admin-kit"
   },
   "link.item.label.suggestions": {
     "message": "Suggestions",
-    "description": "The label of footer link with label=建议和反馈 linking to https://github.com/jaykou25/react-admin-kit/issues"
+    "description": "The label of footer link with label=suggestions linking to https://github.com/jaykou25/react-admin-kit/issues"
   },
   "copyright": {
     "message": "React Admin Kit By Jay kou",

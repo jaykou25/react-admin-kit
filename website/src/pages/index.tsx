@@ -38,10 +38,7 @@ function HomepageHeader() {
             {translate({ id: 'home.buttons.start' })}
           </Link>
 
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro"
-          >
+          <Link className="button button--secondary button--lg" to="/intro">
             {translate({ id: 'home.buttons.intro' })}
           </Link>
         </div>
