@@ -5,32 +5,44 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
+import { translate } from '@docusaurus/Translate';
 
 import styles from './index.module.css';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx('hero', styles.heroBanner)}>
       <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <h1 className={clsx(styles.tagline)}>
+          <span className={clsx(styles['tagline-inner'])}>
+            <span className="word">
+              <span className={clsx(styles['first-letter'])}>R</span>eact{' '}
+            </span>
+            <span className="word">
+              <span className={clsx(styles['first-letter'])}>A</span>dmin{' '}
+            </span>
+            <span className="word">
+              <span className={clsx(styles['first-letter'])}>K</span>it
+            </span>
+          </span>
+        </h1>
+
+        <p className="hero__subtitle">{translate({ id: 'tagline' })}</p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
+            className="button button--primary button--lg"
             style={{ marginRight: '10px' }}
             to="/docs/intro"
           >
-            开始使用
+            {translate({ id: 'home.buttons.start' })}
           </Link>
 
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro"
           >
-            介绍
+            {translate({ id: 'home.buttons.intro' })}
           </Link>
         </div>
       </div>

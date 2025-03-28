@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "React Admin Kit",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "RAK Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.intro": {
+    "message": "Intro",
+    "description": "Navbar item with label Intro"
+  },
+  "item.label.components": {
+    "message": "Components",
+    "description": "Navbar item with label Components"
+  },
+  "item.label.changelog": {
+    "message": "Changelog",
+    "description": "Navbar item with label changelog"
+  },
+  "item.label.gitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

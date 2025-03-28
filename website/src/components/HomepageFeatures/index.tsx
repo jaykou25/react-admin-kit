@@ -2,36 +2,37 @@ import type { ReactNode } from 'react';
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import { translate } from '@docusaurus/Translate';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Img: string;
   description: ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: '丰富的文档用例',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: <>每个组件都配合丰富的用例，用例层层递进, 新手友好。</>,
+    title: translate({ id: 'home.features.0.title' }),
+    Img: require('@site/static/img/feature0.png').default,
+    description: translate({ id: 'home.features.0.description' }),
   },
   {
-    title: '有限的组件',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: <>组件分类清晰，数量有限, 与 Ant Design 深度配合.</>,
+    title: translate({ id: 'home.features.1.title' }),
+    Img: require('@site/static/img/flower-0.png').default,
+    description: translate({ id: 'home.features.1.description' }),
   },
   {
-    title: 'API 提示友好',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: <>TS编写，api 提示方便.</>,
+    title: translate({ id: 'home.features.2.title' }),
+    Img: require('@site/static/img/feature2.png').default,
+    description: translate({ id: 'home.features.2.description' }),
   },
 ];
 
-function Feature({ title, Svg, description }: FeatureItem) {
+function Feature({ title, description, Img }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        {Img && <img height={145} src={Img} style={{ marginBottom: '10px' }} />}
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

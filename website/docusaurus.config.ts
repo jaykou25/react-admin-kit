@@ -28,7 +28,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'zh-Hans',
-    locales: ['zh-Hans'],
+    locales: ['zh-Hans', 'en'],
   },
 
   presets: [
@@ -70,12 +70,16 @@ const config: Config = {
         src: 'img/rak-r15.png',
       },
       items: [
-        { to: '/intro', label: '简介', position: 'left' },
-        { to: '/components', label: '组件', position: 'left' },
-        { to: '/changelog', label: '更新日志', position: 'left' },
+        { to: '/intro', label: 'intro', position: 'left' },
+        { to: '/components', label: 'components', position: 'left' },
+        { to: '/changelog', label: 'changelog', position: 'left' },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
         {
           href: 'https://github.com/jaykou25/react-admin-kit',
-          label: 'GitHub',
+          label: 'gitHub',
           position: 'right',
         },
       ],
@@ -84,36 +88,36 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: '文档',
+          title: 'doc',
           items: [
             {
-              label: '简介',
+              label: 'intro',
               to: '/intro',
             },
             {
-              label: '组件',
+              label: 'components',
               to: '/components',
             },
           ],
         },
         {
-          title: '更多',
+          title: 'more',
           items: [
             {
-              label: '更新日志',
+              label: 'changelog',
               to: '/changelog',
             },
             {
-              label: 'GitHub',
+              label: 'gitHub',
               href: 'https://github.com/jaykou25/react-admin-kit',
             },
           ],
         },
         {
-          title: '反馈',
+          title: 'feedback',
           items: [
             {
-              label: '建议和反馈',
+              label: 'suggestions',
               href: 'https://github.com/jaykou25/react-admin-kit/issues',
             },
           ],

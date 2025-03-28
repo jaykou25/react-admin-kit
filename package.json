@@ -4,7 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev:website": "pnpm --filter website run start"
+    "dev:website": "pnpm --filter website run start",
+    "dev:website:en": "pnpm --filter website run start:en"
   },
   "devDependencies": {
     "eslint": "^8.23.0",
