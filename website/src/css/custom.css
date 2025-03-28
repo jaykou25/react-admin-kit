@@ -5,6 +5,11 @@
  */
 
 /* You can override the default Infima variables here. */
+/**
+  vue官网 字体颜色 #213547
+          footer 背景 #F9F9F9
+          footer 字体 rgba(60, 60, 60, 0.7)
+*/
 :root {
   --ifm-color-primary: #1677ff;
   --ifm-color-primary-dark: #3c89e8;
@@ -15,9 +20,17 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-color-base: #213547;
+  --ifm-footer-background-color: #f0f3fa; /* antd */
+  --ifm-footer-background-color: #f9f9f9; /*vue */
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
+/**
+vue官网 字体颜色 rgba(255, 255, 255, 0.87)
+       背景颜色 #1a1a1a
+       footer背景 #242424
+*/
 [data-theme='dark'] {
   --ifm-color-primary: #1677ff;
   --ifm-color-primary-dark: #3c89e8;
@@ -28,6 +41,10 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-font-color-base: rgba(255, 255, 255, 0.87);
+  --ifm-background-color: #1a1a1a;
+  --ifm-navbar-background-color: #1a1a1a;
+  --ifm-footer-background-color: #242424;
 }
 
 .hero {
@@ -41,4 +58,17 @@
 .footer__copyright {
   font-style: italic;
   font-size: small;
+}
+
+.footer--dark {
+  --ifm-footer-background-color: unset;
+  --ifm-footer-title-color: #213547;
+  --ifm-footer-link-color: rgba(60, 60, 60, 0.7); /*vue*/
+  --ifm-footer-link-color: rgba(0, 0, 0, 0.7); /*antd*/
+}
+
+[data-theme='dark'] .footer--dark {
+  --ifm-footer-background-color: unset;
+  --ifm-footer-title-color: rgba(255, 255, 255, 0.87);
+  --ifm-footer-link-color: rgba(235, 235, 235, 0.6); /*vue*/
 }
