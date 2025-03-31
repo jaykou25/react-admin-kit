@@ -46,7 +46,7 @@ const config: Config = {
           routeBasePath: '/components',
           showReadingTime: false,
           showLastUpdateTime: false,
-          sidebar: { groupByYear: false },
+          sortPosts: 'ascending',
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
@@ -74,7 +74,11 @@ const config: Config = {
       },
       items: [
         { to: '/intro', label: 'intro', position: 'left' },
-        { to: '/components', label: 'components', position: 'left' },
+        {
+          to: '/components/schema-form',
+          label: 'components',
+          position: 'left',
+        },
         { to: '/changelog', label: 'changelog', position: 'left' },
         {
           type: 'localeDropdown',
@@ -99,7 +103,7 @@ const config: Config = {
             },
             {
               label: 'components',
-              to: '/components',
+              to: '/components/schema-form',
             },
           ],
         },

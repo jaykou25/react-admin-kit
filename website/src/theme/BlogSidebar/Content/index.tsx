@@ -15,7 +15,7 @@ function BlogSidebarYearGroup({
 }) {
   return (
     <div role="group">
-      <Heading as="h3" className={yearGroupHeadingClassName}>
+      <Heading as="h4" className={yearGroupHeadingClassName}>
         {year}
       </Heading>
       {children}
@@ -30,14 +30,44 @@ function BlogSidebarContent({
 }: Props): ReactNode {
   const themeConfig = useThemeConfig();
   if (themeConfig.blog.sidebar.groupByYear) {
-    console.log('items', items);
-    const itemsByYear = groupBlogSidebarItemsByYear(items);
+    // title的命名格式 docName:docIndex:groupName:groupIndex
+    const $items = items.map((item) => {
+      const { title, ...rest } = item;
+      const [docName, docIndex = 0, groupName = '', groupIndex = 0] =
+        title.split(':');
+      return { ...rest, title: docName, docIndex, groupName, groupIndex };
+    });
+
+    // 按groupName进行分组, 同时按groupIndex进行排序
+    const groups = $items.reduce((acc, item) => {
+      const { groupName } = item;
+      if (!acc[groupName]) {
+        acc[groupName] = [];
+      }
+      acc[groupName].push(item);
+      return acc;
+    }, {});
+
+    // 组内按docIndex进行排序
+    Object.values(groups).forEach((group: any[]) => {
+      group.sort((a, b) => Number(a.docIndex) - Number(b.docIndex));
+    });
+
+    // 分组按groupIndex进行排序
+    const sortedGroups = Object.entries(groups).sort(
+      ([groupNameA], [groupNameB]) => {
+        const groupIndexA = parseInt(groups[groupNameA][0].groupIndex);
+        const groupIndexB = parseInt(groups[groupNameB][0].groupIndex);
+        return groupIndexA - groupIndexB;
+      },
+    );
+
     return (
       <>
-        {itemsByYear.map(([year, yearItems]) => (
+        {sortedGroups.map(([groupName, yearItems]) => (
           <BlogSidebarYearGroup
-            key={year}
-            year={year}
+            key={groupName}
+            year={groupName}
             yearGroupHeadingClassName={yearGroupHeadingClassName}
           >
             <ListComponent items={yearItems} />
