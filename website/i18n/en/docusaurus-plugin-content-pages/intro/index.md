@@ -43,15 +43,15 @@ Check out the [Component Documentation](/react-admin-kit/en/components/schema-fo
 
 > Note for Ant Design v4 Users 👇
 >
-> If you're using Ant Design v4, you need to import the stylesheet manually:
+> 1. If you're using Ant Design v4, you need to import the stylesheet manually:
 >
 > ```js
 > import 'antd/dist/antd.min.css';
 > ```
 >
-> Since ProComponent includes some Ant Design v5 components(e.g., `ColorPicker`), using Vite as your bundler may cause startup errors during local development. In such cases, consider switching to Webpack.
+> 2. Since ProComponent includes some Ant Design v5 components(e.g., `ColorPicker`), using Vite as your bundler may cause startup errors during local development. In such cases, consider switching to Webpack.
 >
-> For Ant Design v4 compatibility, use RAK versions below v0.4. Versions v0.4+ only support Ant Design v5.
+> 3. For Ant Design v4 compatibility, use RAK versions below v0.4. Versions v0.4+ only support Ant Design v5.
 
 ### Forms
 
@@ -80,7 +80,7 @@ import { Form, Input, DatePicker, Select } from 'antd';
 </Form>;
 ```
 
-RAK generates Form using **schemas**, where each schema corresponds to a **`Form.Item`**:
+RAK generates Form using **schemas**, where each **schema** corresponds to a **`Form.Item`**:
 
 ```js
 import { SchemaForm } from 'react-admin-kit';
