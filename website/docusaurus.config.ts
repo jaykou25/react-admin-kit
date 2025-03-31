@@ -43,7 +43,10 @@ const config: Config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          showReadingTime: true,
+          routeBasePath: '/components',
+          showReadingTime: false,
+          showLastUpdateTime: false,
+          sidebar: { groupByYear: false },
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
