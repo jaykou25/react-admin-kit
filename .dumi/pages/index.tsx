@@ -12,6 +12,10 @@ const Home = () => {
         <html lang="zh-CN" />
         <title>{title}</title>
         <link
+          rel="canonical"
+          href="https://jaykou25.github.io/react-admin-kit/"
+        />
+        <link
           rel="stylesheet"
           crossorigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/misans@4.0.0/lib/Normal/MiSans-Bold.min.css"
@@ -37,10 +41,10 @@ const Home = () => {
         <div className="slogon">中后台应用的最佳伴侣</div>
         <p className="description">构建高质量的表单和表格</p>
         <p className="actions">
-          <Link className="get-started" to="/components/schema-form">
+          <Link className="get-started" to="/components/schema-form/">
             开始使用
           </Link>
-          <Link className="intro" to="/intro">
+          <Link className="intro" to="/intro/">
             介绍
           </Link>
         </p>
