@@ -5,7 +5,6 @@ import BlogSidebarMobile from '@theme/BlogSidebar/Mobile';
 import type { Props } from '@theme/BlogSidebar';
 
 export default function BlogSidebar({ sidebar }: Props): ReactNode {
-  console.log('sidebar', sidebar);
   const windowSize = useWindowSize();
   if (!sidebar?.items.length) {
     return null;

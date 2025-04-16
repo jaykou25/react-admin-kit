@@ -1,0 +1,51 @@
+{
+  "name": "react-admin-kit",
+  "version": "1.0.0-beta.0",
+  "description": "A react based UI components for admin system",
+  "keywords": [
+    "react-admin",
+    "admin-dashboard",
+    "react-components",
+    "antd",
+    "ant-design",
+    "protable",
+    "proform",
+    "schema-form",
+    "admin-template",
+    "react-ui-kit",
+    "typescript",
+    "后台管理系统",
+    "中后台组件库",
+    "react组件库",
+    "表单生成器",
+    "表格组件"
+  ],
+  "license": "ISC",
+  "author": "jay.kou@qq.com",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "doctor": "father doctor",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "antd": "^5.24.7",
+    "father": "^4.5.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependencies": {
+    "antd": ">=4.23.4",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.27.0"
+  }
+}

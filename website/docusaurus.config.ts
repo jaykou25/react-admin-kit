@@ -31,6 +31,8 @@ const config: Config = {
     locales: ['zh-Hans', 'en'],
   },
 
+  plugins: ['./plugins/alias.ts'],
+
   presets: [
     [
       'classic',
