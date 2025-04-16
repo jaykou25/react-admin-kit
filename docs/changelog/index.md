@@ -10,6 +10,10 @@ description: React Admin Kit 组件库的更新日志
 ---
 
 # 更新日志
+## 0.5.11
+ModalForm 组件
+- style: 修复长表单时的滚动条.
+
 ## 0.5.10
 ModalForm 组件
 - 🐛 消除 initialValue 相关告警.
