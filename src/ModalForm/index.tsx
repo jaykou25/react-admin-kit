@@ -191,7 +191,7 @@ class ModalForm extends Component<
     return mergeOptions(
       {
         body: {
-          maxHeight: 'calc(100vh - 108px - 100px - 25px)',
+          maxHeight: 'calc(100vh - 240px)',
           overflow: 'auto',
           // 让滚动条贴边
           marginRight: '-20px',
