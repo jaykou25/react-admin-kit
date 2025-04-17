@@ -1,0 +1,24 @@
+{
+  "name": "docusaurus-rehype-plugin-previewer",
+  "version": "1.0.0-beta.0",
+  "description": "Used to preview components in the code block of mdx files.",
+  "keywords": [],
+  "license": "ISC",
+  "author": "jay.kou@qq.com",
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^5.1.4",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0",
+    "upath": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "@types/unist": "^3.0.3"
+  }
+}

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@site/*": ["./*"],
       "react-admin-kit": ["../packages/react-admin-kit/src"],
       "react-admin-kit/*": ["../packages/react-admin-kit/src/*", "*"]
     }

@@ -1,4 +1,5 @@
 import { themes as prismThemes } from 'prism-react-renderer';
+import path from 'path';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
@@ -57,6 +58,19 @@ const config: Config = {
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
+          rehypePlugins: [
+            [
+              require('docusaurus-rehype-plugin-previewer'),
+              {
+                alias: {
+                  '@@': path.resolve(
+                    __dirname,
+                    '../packages/react-admin-kit/src',
+                  ),
+                },
+              },
+            ],
+          ],
         },
         theme: {
           customCss: './src/css/custom.css',

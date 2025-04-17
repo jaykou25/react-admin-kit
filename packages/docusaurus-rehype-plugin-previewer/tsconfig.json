@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+
+    "strict": true,
+    "noImplicitAny": false,
+    "target": "ES2020",
+    "lib": ["ESNext"],
+    "declaration": true,
+    "jsx": "react-native",
+    "baseUrl": ".",
+
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "lib/**/*"]
+}
