@@ -1,4 +1,10 @@
 {
+  "previewer.actions.code.shrink": {
+    "message": "收起代码"
+  },
+  "previewer.actions.code.expand": {
+    "message": "展开代码"
+  },
   "tagline": {
     "message": "构建可靠的管理系统 - 企业级前端组件库"
   },

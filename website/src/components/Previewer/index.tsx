@@ -1,6 +1,10 @@
 import resultObj from '@site/.docusaurus-previewer-cache/result.json';
 import { demos } from '@site/.docusaurus-previewer-cache/demos';
-import React, { createElement } from 'react';
+import { createElement } from 'react';
+import classnames from 'classnames';
+
+import './index.less';
+import PreviewerActions from '../PreviewerActions';
 
 const Previewer = (props: any) => {
   console.log('src', props.src);
@@ -15,15 +19,33 @@ const Previewer = (props: any) => {
   console.log('info', info);
 
   return (
-    <div>
-      <div>previewer 测试</div>
-      {/* 展示组件 */}
-      <div>组件:</div>
-      {demoNode}
+    <div
+      className={classnames('dumi-default-previewer', props.className)}
+      style={props.style}
+    >
+      <div
+        className="dumi-default-previewer-demo"
+        style={{ background: props.background }}
+      >
+        {demoNode}
+      </div>
 
-      {/* 展示源源码码 */}
-      <div>源码:</div>
-      <pre style={{ color: 'black' }}>{info.sourceCode}</pre>
+      <div className="dumi-default-previewer-meta">
+        {props.title && (
+          <div className="dumi-default-previewer-desc">
+            <h5>
+              <a href={link}>{props.title}</a>
+            </h5>
+            {props.description && (
+              <div
+                className="markdown"
+                dangerouslySetInnerHTML={{ __html: props.description }}
+              />
+            )}
+          </div>
+        )}
+        <PreviewerActions {...props} />
+      </div>
     </div>
   );
 };

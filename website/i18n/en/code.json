@@ -1,4 +1,10 @@
 {
+  "previewer.actions.code.shrink": {
+    "message": "Hide Code"
+  },
+  "previewer.actions.code.expand": {
+    "message": "Show Code"
+  },
   "tagline": {
     "message": "Trusted Components for Management Systems"
   },

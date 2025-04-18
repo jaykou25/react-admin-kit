@@ -1,11 +1,14 @@
 import { Space } from 'antd';
 import { useState } from 'react';
 import { Button } from 'react-admin-kit';
+import './index.less';
+import Hello from './Hello';
 
 const Basic = () => {
   const [visible, setVisible] = useState(true);
   return (
     <div>
+      <Hello />
       <Button onClick={() => setVisible(!visible)}>切换</Button>
 
       <div style={{ marginTop: '20px' }}>

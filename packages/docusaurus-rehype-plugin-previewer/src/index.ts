@@ -5,11 +5,13 @@
 
 import { visit } from 'unist-util-visit';
 import path from 'path';
+import { createHash } from 'crypto';
 import upath from 'upath';
 import fs from 'fs';
 import { createFilter } from '@rollup/pluginutils';
 import type { Plugin } from 'unified';
 import type { Node } from 'unist';
+import { analyzeDependencies, checkAndReturnPath } from './utils.js';
 
 interface PreviewerOptions {
   include?: string | RegExp | (string | RegExp)[];
@@ -102,7 +104,7 @@ const plugin: Plugin<[PreviewerOptions?]> = (
 
     const tsContent = `
     import React from 'react';
-     export const demos = {
+    export const demos = {
     ${innerContent}
      } 
       `;
@@ -118,63 +120,40 @@ function processDemoFile(filePath: string) {
   // 2. 分析依赖
   const dependencies = analyzeDependencies(code);
 
-  // 3. 存储文件到临时目录
-  // 所有的 Previewer 都存在一个对象下, 键值是文件的绝对路径. 值是一个对象, 参考如下:
-  // {
-  //   sourceCode: '对应源码',
-  //   dependencies: {
-  //           '依赖文件相对路径': {
-  //              ext: '文件后缀',
-  //              sourceCode: '依赖文件源码',
-  //           }
-  //}
+  /**
+   * 3. 存储文件到临时目录 result.json 中
+   * 参考如下:
+   * {
+   *   id: 'XX
+   *   dependencies: [
+   *    {
+   *      type: 'FILE' | 'NPM',
+   *      source: 'xxx.less',
+   *      ext: 'js' | 'ts' | 'jsx' | 'tsx',
+   *      value: '文件内容'
+   *    }
+   *   ]
+   */
 
   // 创建 demo 组件的信息对象
   const demoInfo = {
+    id: base64ShortHash(filePath),
     sourceCode: code,
-    dependencies: dependencies.reduce((acc, dep) => {
-      const depRelativePath = path.relative(process.cwd(), dep);
-      const ext = path.extname(dep).slice(1);
-      acc[depRelativePath] = {
-        ext,
-        sourceCode: fs.readFileSync(dep, 'utf-8'),
-      };
-      return acc;
-    }, {} as Record<string, { ext: string; sourceCode: string }>),
+    dependencies: dependencies.map((item) => {
+      if (item.type === 'FILE') {
+        const depFilePath = path.resolve(filePath, '..', item.source);
+        const depFilePathSafe = checkAndReturnPath(depFilePath);
+        return {
+          ...item,
+          value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容
+        };
+      } else {
+        return item;
+      }
+    }),
   };
 
   return demoInfo;
-}
-
-function analyzeDependencies(code: string): string[] {
-  // TODO: 实现依赖分析逻辑
-  return [];
-}
-
-function checkAndReturnPath(absSrc: string) {
-  // abssrc 地址可能是一个文件夹, 如果是文件夹的话需要默认去找下面的 index.tsx 或 index.jsx 或 index.ts 或 index.js
-  if (fs.existsSync(absSrc)) {
-    // 是文件夹
-    if (fs.statSync(absSrc).isDirectory()) {
-      const indexFiles = ['index.tsx', 'index.jsx', 'index.ts', 'index.js'];
-
-      const foundIndex = indexFiles.find((file) =>
-        fs.existsSync(path.join(absSrc, file)),
-      );
-
-      if (foundIndex) {
-        absSrc = path.join(absSrc, foundIndex);
-        return absSrc;
-      } else {
-        throw new Error(`在目录 ${absSrc} 中找不到 index 文件`);
-      }
-    } else {
-      // 是文件
-      return absSrc;
-    }
-  } else {
-    throw new Error(`${absSrc} 不存在`);
-  }
 }
 
 function useAlias(src: string, alias: Record<string, string>) {
@@ -185,6 +164,14 @@ function useAlias(src: string, alias: Record<string, string>) {
     }
   }
   return src;
+}
+
+function base64ShortHash(str) {
+  return createHash('sha256')
+    .update(str)
+    .digest('base64')
+    .replace(/[+/=]/g, '') // 移除特殊字符
+    .substring(0, 8);
 }
 
 export default plugin;
