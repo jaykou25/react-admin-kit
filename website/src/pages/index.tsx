@@ -33,7 +33,7 @@ function HomepageHeader() {
           <Link
             className="button button--primary button--lg"
             style={{ marginRight: '10px' }}
-            to="/docs/intro"
+            to="/components/schema-form"
           >
             {translate({ id: 'home.buttons.start' })}
           </Link>

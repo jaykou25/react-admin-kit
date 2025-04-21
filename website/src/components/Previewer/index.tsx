@@ -7,21 +7,27 @@ import './index.less';
 import PreviewerActions from '../PreviewerActions';
 
 const Previewer = (props: any) => {
-  console.log('src', props.src);
   const { src } = props;
-
   const info = resultObj[src] || {};
 
   const demo = demos[src];
 
   const demoNode = demo ? createElement(demo) : null;
 
-  console.log('info', info);
+  return <PluginPreviewer {...props} {...info} demoNode={demoNode} />;
+};
+
+const PluginPreviewer = (props: any) => {
+  const { demoNode, id } = props;
+  const link = `#${id}`;
+  const hash = window.location.hash;
 
   return (
     <div
+      id={id}
       className={classnames('dumi-default-previewer', props.className)}
       style={props.style}
+      data-active={hash === link || undefined}
     >
       <div
         className="dumi-default-previewer-demo"

@@ -11,7 +11,7 @@ import fs from 'fs';
 import { createFilter } from '@rollup/pluginutils';
 import type { Plugin } from 'unified';
 import type { Node } from 'unist';
-import { analyzeDependencies, resolvePath } from './utils.js';
+import { analyzeDependencies, getFullRelPath, resolvePath } from './utils.js';
 
 interface PreviewerOptions {
   include?: string | RegExp | (string | RegExp)[];
@@ -118,7 +118,21 @@ function processDemoFile(filePath: string) {
   const code = fs.readFileSync(filePath, 'utf-8');
 
   // 2. 分析依赖
-  const dependencies = analyzeDependencies(code);
+  const dependencies: any = analyzeDependencies(code).map((item) => {
+    if (item.type === 'FILE') {
+      const depFilePath = path.resolve(filePath, '..', item.source);
+      const depFilePathSafe = resolvePath(depFilePath);
+
+      return {
+        ...item,
+        // 给 source 带上后缀, eg: ./Foo => ./Foo.tsx
+        resolvedSource: getFullRelPath(depFilePathSafe, item.source),
+        value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容
+      };
+    } else {
+      return item;
+    }
+  });
 
   /**
    * 3. 存储文件到临时目录 result.json 中
@@ -139,18 +153,15 @@ function processDemoFile(filePath: string) {
   const demoInfo = {
     id: base64ShortHash(filePath),
     sourceCode: code,
-    dependencies: dependencies.map((item) => {
-      if (item.type === 'FILE') {
-        const depFilePath = path.resolve(filePath, '..', item.source);
-        const depFilePathSafe = resolvePath(depFilePath);
-        return {
-          ...item,
-          value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容
-        };
-      } else {
-        return item;
-      }
-    }),
+    dependencies: [
+      {
+        type: 'FILE',
+        source: path.basename(filePath),
+        resolvedSource: path.basename(filePath),
+        ext: path.extname(filePath).slice(1) || 'tsx',
+        value: code, // 读取文件内容
+      },
+    ].concat(dependencies),
   };
 
   return demoInfo;

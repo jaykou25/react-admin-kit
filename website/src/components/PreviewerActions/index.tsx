@@ -1,7 +1,29 @@
 import { useState, type FC } from 'react';
+import Tabs from '../Tab';
 import CodeBlock from '@theme/CodeBlock';
 import { translate } from '@docusaurus/Translate';
+import classNames from 'classnames';
 import './index.less';
+import SourceCode from '../SourceCode';
+import RcTooltip from 'rc-tooltip';
+import type { TooltipProps as RcTooltipProps } from 'rc-tooltip/lib/Tooltip';
+
+export interface TooltipProps extends Omit<RcTooltipProps, 'overlay'> {
+  placement?: 'top' | 'bottom';
+  title?: React.ReactNode;
+}
+
+const Tooltip: FC<TooltipProps> = (props) => {
+  const { title, placement = 'top', ...rest } = props;
+  return (
+    <RcTooltip
+      prefixCls="dumi-theme-default-tooltip"
+      placement={placement}
+      {...rest}
+      overlay={title}
+    />
+  );
+};
 
 const IconCode: FC = () => (
   <svg viewBox="0 0 200 117">
@@ -21,6 +43,11 @@ const PreviewerActions = (props: any) => {
   );
   const [activeKey, setActiveKey] = useState(0);
 
+  const files = props.dependencies.filter(({ type }) => type === 'FILE');
+  const isSingleFile = files.length === 1;
+
+  console.log('files', files);
+
   return (
     <>
       <div className="dumi-default-previewer-actions">
@@ -37,7 +64,26 @@ const PreviewerActions = (props: any) => {
       </div>
       {showCode && (
         <>
-          <CodeBlock>const jay;</CodeBlock>
+          <div className="dumi-default-previewer-sources">
+            <Tabs
+              className={classNames(
+                'dumi-default-previewer-tabs',
+                isSingleFile && 'dumi-default-previewer-tabs-single',
+              )}
+              defaultActiveKey={String(activeKey)}
+              onChange={(key) => setActiveKey(Number(key))}
+              items={files.map(({ resolvedSource, ext }, i) => ({
+                key: String(i),
+                // remove leading ./ prefix
+                label: resolvedSource.replace(/^\.\//, ''),
+                children: (
+                  <SourceCode lang={ext}>
+                    {files[activeKey].value.trim()}
+                  </SourceCode>
+                ),
+              }))}
+            />
+          </div>
         </>
       )}
     </>

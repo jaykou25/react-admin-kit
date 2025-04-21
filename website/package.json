@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons-svg": "^4.4.2",
     "@docusaurus/core": "3.7.0",
     "@docusaurus/plugin-content-blog": "3.7.0",
     "@docusaurus/preset-classic": "3.7.0",
@@ -36,21 +37,26 @@
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "docusaurus-rehype-plugin-previewer": "workspace:1.0.0-beta.0",
-    "prism-react-renderer": "^2.3.0",
+    "prism-react-renderer": "^2.4.1",
+    "prism-themes": "^1.9.0",
     "rc-tabs": "^15.6.0",
+    "rc-tooltip": "^6.4.0",
     "react": "^19.0.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
+    "@svgr/webpack": "^8.1.0",
     "classnames": "^2.5.1",
     "css-loader": "^7.1.2",
     "less": "^4.3.0",
     "less-loader": "^12.2.0",
     "style-loader": "^4.0.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "url-loader": "^4.1.1"
   },
   "engines": {
     "node": ">=18.0"

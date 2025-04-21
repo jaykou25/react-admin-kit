@@ -39,7 +39,7 @@ pnpm i antd --save
 pnpm i react-admin-kit --save
 ```
 
-然后查看 [组件文档](/react-admin-kit/components/schema-form) 并开始使用✨.
+然后查看 [组件文档](/components/schema-form) 并开始使用✨.
 
 > 如果要使用 antd v4 版本请看下面的注意事项👇
 >

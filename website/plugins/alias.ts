@@ -5,7 +5,7 @@ export default async function myPlugin(context, opts) {
     name: 'react-admin-kit-alias',
     configureWebpack(config, isServer, utils, content) {
       return {
-        cache: false,
+        // cache: false,
         watchOptions: {
           ignored: /\.docusaurus-previewer-cache/,
         },

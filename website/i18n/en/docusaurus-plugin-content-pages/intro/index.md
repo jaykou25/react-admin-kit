@@ -39,7 +39,7 @@ Install RAK:
 pnpm i react-admin-kit --save
 ```
 
-Check out the [Component Documentation](/react-admin-kit/en/components/schema-form) and start building ✨.
+Check out the [Component Documentation](/components/schema-form) and start building ✨.
 
 > Note for Ant Design v4 Users 👇
 >

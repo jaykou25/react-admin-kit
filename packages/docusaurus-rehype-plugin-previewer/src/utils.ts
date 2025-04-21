@@ -8,7 +8,7 @@ import * as t from '@babel/types';
 // 定义依赖类型
 interface Dependency {
   type: 'NPM' | 'FILE';
-  source: string;
+  source: string; // 源地址 eg: ./Hello
   ext?: string;
   importType: 'default' | 'namespace' | 'named' | 'side-effect';
   imported?: string[]; // 导入的具体内容
@@ -169,16 +169,6 @@ export function resolvePath(targetPath: string, options: FileOptions = {}) {
       return path.join(targetPath, indexFile);
     }
 
-    // // 2. 如果没有 index 文件，查找第一个匹配扩展名的文件
-    // const files = fs.readdirSync(targetPath);
-    // const matchedFile = files.find((file) =>
-    //   extensions.includes(path.extname(file)),
-    // );
-
-    // if (matchedFile) {
-    //   return path.join(targetPath, matchedFile);
-    // }
-
     throw new Error(
       `在目录 ${targetPath} 中未找到有效的入口文件\n` +
         `支持的索引文件: ${indexFiles.join(', ')}\n` +
@@ -187,4 +177,22 @@ export function resolvePath(targetPath: string, options: FileOptions = {}) {
   }
 
   throw new Error(`无效的路径类型: ${targetPath}`);
+}
+
+// 提示词
+/**
+ * 实现一个函数, 该函数接收一个绝对路径, 一个相对文件名, 返回一个带后缀的文件名.
+ * 比如: /home/user/dir/Hello.tsx, ./Hello => ./Hello.tsx
+ * 比如: /home/user/dir/index.js, ./dir => ./dir/index.js
+ * 比如: /home/user/dir/index.js,  ../../dir => ../../dir/index.js
+ */
+
+export function getFullRelPath(absPath: string, relPath: string) {
+  // 去除 relPath 的 ./ 前缀
+  const relPathSafe = relPath.replace(/^\.[\.\/]*\//, '');
+
+  const arr = absPath.split(relPathSafe);
+  const end = arr[arr.length - 1];
+
+  return relPath + end;
 }
