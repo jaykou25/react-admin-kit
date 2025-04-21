@@ -1,0 +1,24 @@
+{
+  "name": "docusaurus-plugin-library-tool",
+  "version": "1.0.0-beat.0",
+  "description": "Provides a set of tools for component development, such as a component previewer and API documentation generator.",
+  "keywords": [],
+  "license": "ISC",
+  "author": "jay.kou@qq.com",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "doctor": "father doctor",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.27.0"
+  },
+  "devDependencies": {
+    "father": "^4.5.2"
+  }
+}
