@@ -11,7 +11,7 @@ import fs from 'fs';
 import { createFilter } from '@rollup/pluginutils';
 import type { Plugin } from 'unified';
 import type { Node } from 'unist';
-import { analyzeDependencies, checkAndReturnPath } from './utils.js';
+import { analyzeDependencies, resolvePath } from './utils.js';
 
 interface PreviewerOptions {
   include?: string | RegExp | (string | RegExp)[];
@@ -70,7 +70,7 @@ const plugin: Plugin<[PreviewerOptions?]> = (
             : aliasedPath;
 
           // absSrc 可能是一个文件夹, 如果是文件夹的话需要默认去找下面的 index.tsx 或 index.jsx 或 index.ts 或 index.js
-          const demoRawPath = checkAndReturnPath(absSrc);
+          const demoRawPath = resolvePath(absSrc);
 
           // 转换成 unix 风格, 用作键值
           const demoPath = upath.normalize(demoRawPath);
@@ -142,7 +142,7 @@ function processDemoFile(filePath: string) {
     dependencies: dependencies.map((item) => {
       if (item.type === 'FILE') {
         const depFilePath = path.resolve(filePath, '..', item.source);
-        const depFilePathSafe = checkAndReturnPath(depFilePath);
+        const depFilePathSafe = resolvePath(depFilePath);
         return {
           ...item,
           value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容

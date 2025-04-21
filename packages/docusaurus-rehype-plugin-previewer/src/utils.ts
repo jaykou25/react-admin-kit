@@ -119,28 +119,72 @@ export function analyzeDependencies(code: string): Dependency[] {
   }
 }
 
-export function checkAndReturnPath(absSrc: string) {
-  // abssrc 地址可能是一个文件夹, 如果是文件夹的话需要默认去找下面的 index.tsx 或 index.jsx 或 index.ts 或 index.js
-  if (fs.existsSync(absSrc)) {
-    // 是文件夹
-    if (fs.statSync(absSrc).isDirectory()) {
-      const indexFiles = ['index.tsx', 'index.jsx', 'index.ts', 'index.js'];
+interface FileOptions {
+  extensions?: string[];
+  indexFiles?: string[];
+}
 
-      const foundIndex = indexFiles.find((file) =>
-        fs.existsSync(path.join(absSrc, file)),
-      );
+export function resolvePath(targetPath: string, options: FileOptions = {}) {
+  const {
+    extensions = ['.tsx', '.jsx', '.ts', '.js'],
+    indexFiles = ['index.tsx', 'index.jsx', 'index.ts', 'index.js'],
+  } = options;
 
-      if (foundIndex) {
-        absSrc = path.join(absSrc, foundIndex);
-        return absSrc;
+  // 检查路径是否存在，如果不存在且没有后缀，尝试添加后缀
+  if (!fs.existsSync(targetPath)) {
+    // 获取无后缀的路径和当前后缀
+    const ext = path.extname(targetPath);
+    if (!ext) {
+      // 尝试所有可能的后缀
+      const targetWithExt = extensions
+        .map((ext) => targetPath + ext)
+        .find((fullPath) => fs.existsSync(fullPath));
+
+      if (targetWithExt) {
+        targetPath = targetWithExt;
       } else {
-        throw new Error(`在目录 ${absSrc} 中找不到 index 文件`);
+        throw new Error(
+          `路径不存在: ${targetPath}\n` +
+            `尝试过的后缀: ${extensions.join(', ')}`,
+        );
       }
     } else {
-      // 是文件
-      return absSrc;
+      throw new Error(`路径不存在: ${targetPath}`);
     }
-  } else {
-    throw new Error(`${absSrc} 不存在`);
   }
+
+  // 如果是文件直接返回
+  if (fs.statSync(targetPath).isFile()) {
+    return targetPath;
+  }
+
+  // 如果是目录，尝试查找索引文件
+  if (fs.statSync(targetPath).isDirectory()) {
+    // 1. 先尝试查找 index 文件
+    const indexFile = indexFiles.find((file) =>
+      fs.existsSync(path.join(targetPath, file)),
+    );
+
+    if (indexFile) {
+      return path.join(targetPath, indexFile);
+    }
+
+    // // 2. 如果没有 index 文件，查找第一个匹配扩展名的文件
+    // const files = fs.readdirSync(targetPath);
+    // const matchedFile = files.find((file) =>
+    //   extensions.includes(path.extname(file)),
+    // );
+
+    // if (matchedFile) {
+    //   return path.join(targetPath, matchedFile);
+    // }
+
+    throw new Error(
+      `在目录 ${targetPath} 中未找到有效的入口文件\n` +
+        `支持的索引文件: ${indexFiles.join(', ')}\n` +
+        `支持的文件扩展名: ${extensions.join(', ')}`,
+    );
+  }
+
+  throw new Error(`无效的路径类型: ${targetPath}`);
 }
