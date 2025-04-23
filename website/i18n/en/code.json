@@ -1,4 +1,19 @@
 {
+  "api.property": {
+    "message": "Property"
+  },
+  "api.description": {
+    "message": "Description"
+  },
+  "api.type": {
+    "message": "Type"
+  },
+  "api.default": {
+    "message": "Default"
+  },
+  "api.required": {
+    "message": "Required"
+  },
   "previewer.actions.code.shrink": {
     "message": "Hide Code"
   },

@@ -43,7 +43,9 @@ const PreviewerActions = (props: any) => {
   );
   const [activeKey, setActiveKey] = useState(0);
 
-  const files = props.dependencies.filter(({ type }) => type === 'FILE');
+  const files = (props.dependencies || []).filter(
+    ({ type }) => type === 'FILE',
+  );
   const isSingleFile = files.length === 1;
 
   console.log('files', files);

@@ -1,0 +1,47 @@
+{
+  "name": "docusaurus-plugin-library-dev-tool",
+  "version": "1.0.0-beat.0",
+  "description": "Provides a set of tools for component development, such as a component previewer and API documentation generator.",
+  "keywords": [],
+  "license": "ISC",
+  "author": "jay.kou@qq.com",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "es"
+  ],
+  "scripts": {
+    "build": "father build",
+    "doctor": "father doctor",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.27.0",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.1",
+    "lodash-es": "^4.17.21",
+    "react-docgen-typescript": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "father": "^4.5.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "optionalDependencies": {
+    "react": "^19.0.0"
+  }
+}

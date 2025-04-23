@@ -32,6 +32,9 @@
     "doctor": "father doctor",
     "prepublishOnly": "npm run build"
   },
+  "dependencies": {
+    "@babel/runtime": "^7.27.0"
+  },
   "devDependencies": {
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
@@ -44,8 +47,5 @@
     "antd": ">=4.23.4",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.27.0"
   }
 }

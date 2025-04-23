@@ -32,7 +32,13 @@ const config: Config = {
     locales: ['zh-Hans', 'en'],
   },
 
-  plugins: ['./plugins/alias.ts'],
+  plugins: [
+    './plugins/alias.ts',
+    [
+      'docusaurus-plugin-library-dev-tool',
+      { libPath: path.resolve(__dirname, '../packages/react-admin-kit/src') },
+    ],
+  ],
 
   presets: [
     [

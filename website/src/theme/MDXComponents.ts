@@ -1,5 +1,6 @@
 import MDXComponents from '@theme-original/MDXComponents';
 import Previewer from '@site/src/components/Previewer';
+import { API } from 'docusaurus-plugin-library-dev-tool';
 
 export default {
   // Re-use the default mapping
@@ -7,4 +8,5 @@ export default {
   // Map the "<Highlight>" tag to our Highlight component
   // `Highlight` will receive all props that were passed to `<Highlight>` in MDX
   Previewer,
+  API,
 };
