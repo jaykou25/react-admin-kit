@@ -177,7 +177,7 @@ function useAlias(src: string, alias: Record<string, string>) {
   return src;
 }
 
-function base64ShortHash(str) {
+function base64ShortHash(str: string) {
   return createHash('sha256')
     .update(str)
     .digest('base64')

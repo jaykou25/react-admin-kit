@@ -66,7 +66,7 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
           rehypePlugins: [
             [
-              require('docusaurus-rehype-plugin-previewer'),
+              require('docusaurus-plugin-library-dev-tool/rehype-plugin'),
               {
                 alias: {
                   '@@': path.resolve(
