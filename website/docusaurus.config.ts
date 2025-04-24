@@ -36,7 +36,7 @@ const config: Config = {
     './plugins/alias.ts',
     [
       'docusaurus-plugin-library-dev-tool',
-      { libPath: path.resolve(__dirname, '../packages/react-admin-kit/src') },
+      { libPath: path.resolve(__dirname, '../packages/react-admin-kit/') },
     ],
   ],
 
@@ -55,12 +55,12 @@ const config: Config = {
           routeBasePath: '/components',
           showReadingTime: false,
           showLastUpdateTime: false,
+          showLastUpdateAuthor: false,
           sortPosts: 'ascending',
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
           },
-
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',

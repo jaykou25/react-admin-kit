@@ -27,7 +27,7 @@ export default async function pluginLibraryDevTool(
   const cacheDir = '.docusaurus-previewer-cache';
 
   const docgenParser = withCustomConfig(
-    path.resolve(libPath, '../tsconfig.json'),
+    path.resolve(libPath, 'tsconfig.json'),
     {
       savePropValueAsString: true,
       shouldExtractLiteralValuesFromEnum: true,
