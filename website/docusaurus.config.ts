@@ -35,8 +35,10 @@ const config: Config = {
   plugins: [
     './plugins/alias.ts',
     [
-      'docusaurus-plugin-library-dev-tool',
-      { libPath: path.resolve(__dirname, '../packages/react-admin-kit/') },
+      'docusaurus-plugin-lib-dev',
+      {
+        libPath: path.resolve(__dirname, '../packages/react-admin-kit/'),
+      },
     ],
   ],
 
@@ -66,7 +68,7 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
           rehypePlugins: [
             [
-              require('docusaurus-plugin-library-dev-tool/rehype-plugin'),
+              require('docusaurus-plugin-lib-dev-rehype'),
               {
                 alias: {
                   '@@': path.resolve(

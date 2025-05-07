@@ -16,12 +16,13 @@ interface PluginOptions {
   libPath: string;
   // 要扫描的文件匹配模式
   pattern?: string;
+  alias?: Record<string, string>;
 }
 
-export default async function pluginLibraryDevTool(
+async function pluginLibraryDevTool(
   context: any,
   opts: PluginOptions,
-) {
+): Promise<any> {
   const { libPath, pattern = '**/*.tsx' } = opts;
 
   const cacheDir = '.docusaurus-previewer-cache';
@@ -84,7 +85,7 @@ export default async function pluginLibraryDevTool(
     },
 
     // 配置 webpack，忽略缓存目录
-    configureWebpack() {
+    configureWebpack(config: any) {
       return {
         watchOptions: {
           ignored: /\.docusaurus-previewer-cache/,
@@ -99,3 +100,5 @@ export default async function pluginLibraryDevTool(
     },
   };
 }
+
+export default pluginLibraryDevTool;

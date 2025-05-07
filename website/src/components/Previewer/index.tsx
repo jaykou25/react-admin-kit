@@ -8,6 +8,7 @@ import PreviewerActions from '../PreviewerActions';
 
 const Previewer = (props: any) => {
   const { src } = props;
+  console.log('previewer src', src);
   const info = resultObj[src] || {};
 
   const demo = demos[src];

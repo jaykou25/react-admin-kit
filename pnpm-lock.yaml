@@ -21,7 +21,7 @@ importers:
         specifier: ^2.2.18
         version: 2.5.10(prettier@2.8.8)
 
-  packages/docusaurus-plugin-library-dev-tool:
+  packages/docusaurus-plugin-lib-dev:
     dependencies:
       '@babel/parser':
         specifier: ^7.27.0
@@ -32,15 +32,27 @@ importers:
       '@babel/traverse':
         specifier: ^7.27.0
         version: 7.27.0
+      '@docusaurus/mdx-loader':
+        specifier: ^3.7.0
+        version: 3.7.0(acorn@8.14.1)(react-dom@19.0.0)(react@19.0.0)
+      '@mdx-js/mdx':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.14.1)
       '@rollup/pluginutils':
         specifier: ^5.1.4
         version: 5.1.4
+      docusaurus-plugin-lib-dev-rehype:
+        specifier: workspace:1.0.0-beat.0
+        version: link:../docusaurus-plugin-lib-dev-rehype
       fs-extra:
         specifier: ^11.3.0
         version: 11.3.0
       glob:
         specifier: ^11.0.1
         version: 11.0.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -56,6 +68,9 @@ importers:
       upath:
         specifier: ^2.0.1
         version: 2.0.1
+      vfile:
+        specifier: ^6.0.3
+        version: 6.0.3
     optionalDependencies:
       react:
         specifier: ^19.0.0
@@ -79,6 +94,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
+      '@types/lodash':
+        specifier: ^4.17.16
+        version: 4.17.16
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -104,9 +122,12 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
 
-  packages/docusaurus-rehype-plugin-previewer:
+  packages/docusaurus-plugin-lib-dev-rehype:
     dependencies:
       '@babel/parser':
+        specifier: ^7.27.0
+        version: 7.27.0
+      '@babel/runtime':
         specifier: ^7.27.0
         version: 7.27.0
       '@babel/traverse':
@@ -134,15 +155,15 @@ importers:
       '@babel/types':
         specifier: ^7.27.0
         version: 7.27.0
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^22.14.1
-        version: 22.14.1
+      '@types/babel__traverse':
+        specifier: ^7.20.7
+        version: 7.20.7
       '@types/unist':
         specifier: ^3.0.3
         version: 3.0.3
+      father:
+        specifier: ^4.5.2
+        version: 4.5.2(@babel/core@7.26.10)(@types/node@22.14.1)(styled-components@6.1.17)(webpack@5.98.0)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.14.1)
@@ -189,18 +210,21 @@ importers:
       '@docusaurus/theme-common':
         specifier: 3.7.0
         version: 3.7.0(@docusaurus/plugin-content-docs@3.7.0)(acorn@8.14.1)(react-dom@19.0.0)(react@19.0.0)
+      '@mdx-js/mdx':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.14.1)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.1.0)(react@19.0.0)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
-      docusaurus-plugin-library-dev-tool:
+      docusaurus-plugin-lib-dev:
         specifier: workspace:1.0.0-beat.0
-        version: link:../packages/docusaurus-plugin-library-dev-tool
-      docusaurus-rehype-plugin-previewer:
-        specifier: workspace:1.0.0-beta.0
-        version: link:../packages/docusaurus-rehype-plugin-previewer
+        version: link:../packages/docusaurus-plugin-lib-dev
+      docusaurus-plugin-lib-dev-rehype:
+        specifier: workspace:1.0.0-beat.0
+        version: link:../packages/docusaurus-plugin-lib-dev-rehype
       prism-react-renderer:
         specifier: ^2.4.1
         version: 2.4.1(react@19.0.0)

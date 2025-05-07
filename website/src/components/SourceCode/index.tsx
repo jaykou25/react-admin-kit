@@ -73,11 +73,12 @@ const SourceCode: FC<ISourceCodeProps> = (props) => {
                 className={classNames({
                   'line-cell': themeConfig.showLineNum,
                 })}
+                key={i}
               >
                 {line.map((token, key) => (
                   // getTokenProps 返回值包含 key
                   // eslint-disable-next-line react/jsx-key
-                  <span {...getTokenProps({ token, key })} />
+                  <span {...getTokenProps({ token, key })} key={key} />
                 ))}
               </div>
             </div>

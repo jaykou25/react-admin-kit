@@ -11,7 +11,7 @@ import fs from 'fs';
 import { createFilter } from '@rollup/pluginutils';
 import type { Plugin } from 'unified';
 import type { Node } from 'unist';
-import { analyzeDependencies, getFullRelPath, resolvePath } from './utils.js';
+import { analyzeDependencies, getFullRelPath, resolvePath } from './utils';
 
 interface PreviewerOptions {
   include?: string | RegExp | (string | RegExp)[];
@@ -21,9 +21,7 @@ interface PreviewerOptions {
   alias?: Record<string, string>;
 }
 
-const plugin: Plugin<[PreviewerOptions?]> = (
-  options: PreviewerOptions = {},
-) => {
+const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
   const {
     include = /\.mdx?$/,
     exclude,
@@ -38,6 +36,8 @@ const plugin: Plugin<[PreviewerOptions?]> = (
     'elementName:',
     elementName,
   );
+
+  console.log('visit', visit, typeof visit);
 
   // 写入到 .cacheDir 中
   const result: Record<string, any> = {};
