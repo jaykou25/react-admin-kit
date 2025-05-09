@@ -15,7 +15,13 @@ const Previewer = (props: any) => {
   const demo = demos[src];
 
   const demoNode = demo ? (
-    <Suspense fallback={<div>loading...</div>}>{createElement(demo)}</Suspense>
+    <Suspense
+      fallback={
+        <div style={{ textAlign: 'center', color: '#777' }}>loading...</div>
+      }
+    >
+      {createElement(demo)}
+    </Suspense>
   ) : null;
 
   // const demoNode = demo ? createElement(demo) : null;
