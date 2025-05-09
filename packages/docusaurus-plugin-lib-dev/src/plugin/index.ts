@@ -42,7 +42,7 @@ async function pluginLibraryDevTool(
     },
   );
 
-  console.log('插件启动docusaurus-plugin-library-tool');
+  console.log('插件启动docusaurus-plugin-lib-dev');
 
   return {
     name: 'docusaurus-plugin-library-dev-tool',
@@ -55,8 +55,10 @@ async function pluginLibraryDevTool(
       // 扫描所有组件文件
       const files = await glob(pattern, {
         cwd: libPath,
-        ignore: ['node_modules/**'], // 忽略文件
+        ignore: ['node_modules/*', 'dist/*', '**/demos/**/*', '**/cases/**/*'], // 忽略文件
       });
+
+      console.log('插件日志', 'tsx 文件数', files.length);
 
       const docsData: any = [];
 

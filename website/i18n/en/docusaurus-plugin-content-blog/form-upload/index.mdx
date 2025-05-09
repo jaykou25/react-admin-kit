@@ -1,0 +1,121 @@
+---
+date: 2025-01-05
+sidebar_label: FormUpload:4:Deriving:1
+---
+
+# FormUpload
+
+This component is a wrapper for Antd's [Upload](https://ant-design.antgroup.com/components/upload) component. By managing `fileList` and `onChange` props, it behaves as a standard controlled component with value/onChange pattern, making it ready to use directly within `Form.Item`.
+
+The design goal of `FormUpload` is to provide a simple, lightweight experience similar to using an `Input` component after basic global configuration.
+
+the successfully uploaded files are automatically collected by the form, while failed uploads are filtered out.
+
+## Basic Usage
+
+you can configure essential props like `action` and `headers` globally:
+
+```js
+<SettingProvider
+  formUploadSetting={{
+    action: 'https://mock.apifox.cn/m1/1864670-0-default/mockUpload',
+    headers: { Authorization: 'myToken' },
+    responseToFileList: (res) => ({ id: res?.data.id }), // Merge API response into file object
+  }}
+>
+  ...
+</SettingProvider>
+```
+
+The component injects a loading prop into its children during upload. Alternatively, you can use a render function:
+
+```js
+<FormUpload>
+  {({ loading }) => <Button>{loading ? 'Uploading...' : 'Upload'}</Button>}
+</FormUpload>
+```
+
+<Previewer src="@@/FormUpload/demos/basic-en/index.tsx"></Previewer>
+
+## Failed Uploads
+
+you can configure error notifications globally.
+
+Failed files won't be collected by the form.
+
+<Previewer src="@@/FormUpload/demos/errorHandle-en/index.tsx"></Previewer>
+
+## Initial Values
+
+> Files where beforeUpload returns false are excluded from form collection.
+
+<Previewer src="@@/FormUpload/demos/show-en/index.tsx"></Previewer>
+
+## Data Processing
+
+`SchemaForm` provides `convertValue` and `transform` for data processing:
+
+- convertValue: Pre-processes initial values
+
+- transform: Processes data before submission
+
+> By default, FormUpload expects file objects in format: `{ name: string; url: string }`
+>
+> This demo shows how to transform non-conforming API responses.
+
+<Previewer src="@@/FormUpload/demos/dataSubmit-en/index.tsx"></Previewer>
+
+## Custom Field Mapping
+
+Use `nameKey` and `urlKey` to customize file object fields. Global configuration is also supported.
+
+<Previewer src="@@/FormUpload/demos/changeKey-en/index.tsx"></Previewer>
+
+## File Import
+
+FormUpload also supports file import scenarios. Unlike regular file uploads (which append to existing files), file import have to empty file list after every upload.
+
+<Previewer src="@@/FormUpload/demos/import-en/index.tsx"></Previewer>
+
+## API
+
+<API name="FormUploadType"></API>
+
+## FAQ
+
+### What is responseToFileList?
+
+After successful uploads, the default collected data looks like:
+
+```js
+{
+  uid: 'rc-upload-1691485494798-17',
+  name: 'xx.png',
+  size: 1403,
+  status: 'done',
+  response: {
+    // API response
+    id: 123,
+    filePath: 'xxx'
+  }
+}
+```
+
+Example: `responseToFileList: (res) => ({ id: res.id })` adds the ID to the final submitted object:
+
+```js
+{
+  id: 123,
+  uid: 'rc-upload-1691485494798-17',
+  name: 'xx.png',
+  size: 1403,
+  status: 'done',
+  response: {
+     // API response
+    id: 123,
+    filePath: 'xxx'
+  }
+}
+```
+
+Typically configured globally via SettingProvider.

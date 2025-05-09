@@ -19,6 +19,22 @@ interface PreviewerOptions {
   cacheDir?: string;
   elementName?: string;
   alias?: Record<string, string>;
+  defaultLocale?: string;
+}
+
+function getCurrentLocale(filePath: string, options: PreviewerOptions) {
+  // 适配Docusaurus的多语言路径结构 i18n/[locale]/docs/
+  const pathSegments = filePath.split(path.sep);
+
+  // 查找i18n目录的索引位置
+  const i18nIndex = pathSegments.findIndex((seg) => seg === 'i18n');
+
+  // 如果存在i18n目录且后续有语言代码
+  if (i18nIndex !== -1 && pathSegments.length > i18nIndex + 1) {
+    return pathSegments[i18nIndex + 1];
+  }
+
+  return options.defaultLocale;
 }
 
 const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
@@ -30,32 +46,34 @@ const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
     alias = {},
   } = options;
 
-  console.log(
-    '日志+++++++++++',
-    '加载 rehype 插件 Previewer',
-    'elementName:',
-    elementName,
-  );
+  console.log('日志+++++++++++', '加载 rehype 插件');
 
   // 写入到 .cacheDir 中
-  const result: Record<string, any> = {};
+  let result: Record<string, any> = {};
 
   const filter = createFilter(include, exclude);
 
   return (tree: Node, file: any) => {
-    console.log('日志', 'rehype 插件', '执行');
     if (!filter(file.path)) {
       return;
     }
 
     visit(tree, 'mdxJsxFlowElement', (node: any) => {
-      console.log('日志', 'rehype 插件', '执行 visit');
       if (node.name === elementName) {
-        console.log('日志', 'rehype 插件', '执行 visit 遇到 previewer 节点');
         const srcAttr = node.attributes.find(
           (attr: any) => attr.name === 'src',
         );
         const src = srcAttr.value;
+
+        console.log(
+          '日志',
+          'rehype 插件',
+          '执行 visit 遇到 previewer 节点',
+          src,
+          file.path,
+        );
+
+        const locale = getCurrentLocale(file.path, options);
 
         if (src) {
           // 处理 src 中的别名
@@ -87,12 +105,20 @@ const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
     const resultPath = path.join(cacheDir, 'result.json');
     fs.mkdirSync(path.dirname(resultPath), { recursive: true });
 
+    let existingResult = {};
+    try {
+      existingResult = JSON.parse(fs.readFileSync(resultPath, 'utf-8'));
+    } catch (e) {
+      // 文件不存在时忽略错误
+    }
+    const mergedResult = { ...existingResult, ...result };
+
     // 将对象写入文件
-    fs.writeFileSync(resultPath, JSON.stringify(result, null, 2));
+    fs.writeFileSync(resultPath, JSON.stringify(mergedResult, null, 2));
 
     const demosPath = path.join(cacheDir, 'demos.ts');
 
-    const innerContent = Object.keys(result)
+    const innerContent = Object.keys(mergedResult)
       .map((demoPath) => {
         const demoRelRawPath = path.relative(cacheDir, demoPath);
         const demoRelPath = upath.normalize(demoRelRawPath);

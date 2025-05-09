@@ -7,6 +7,7 @@
     "noImplicitAny": false,
     "jsx": "react-jsx",
     "baseUrl": "./",
+    "lib": ["es2016", "dom"],
     "paths": {
       "react-admin-kit": ["src"],
       "react-admin-kit/*": ["src/*", "*"]

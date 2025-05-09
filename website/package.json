@@ -43,15 +43,16 @@
     "prism-themes": "^1.9.0",
     "rc-tabs": "^15.6.0",
     "rc-tooltip": "^6.4.0",
-    "react": "^19.0.0",
+    "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
     "@svgr/webpack": "^8.1.0",
+    "antd": "^5.24.7",
     "classnames": "^2.5.1",
     "css-loader": "^7.1.2",
     "less": "^4.3.0",

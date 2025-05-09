@@ -33,7 +33,17 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@babel/runtime": "^7.27.0"
+    "@ant-design/pro-form": "~2.25.0",
+    "@ant-design/pro-table": "~3.16.0",
+    "@ant-design/pro-utils": "~2.15.0",
+    "@babel/runtime": "^7.27.0",
+    "classnames": "^2.5.1",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "immer": "^9.0.15",
+    "lodash-es": "^4.17.21",
+    "merge-options": "^3.0.4",
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",

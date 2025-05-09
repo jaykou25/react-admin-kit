@@ -48,8 +48,6 @@ const PreviewerActions = (props: any) => {
   );
   const isSingleFile = files.length === 1;
 
-  console.log('files', files);
-
   return (
     <>
       <div className="dumi-default-previewer-actions">

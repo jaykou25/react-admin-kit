@@ -55,6 +55,7 @@ const config: Config = {
         },
         blog: {
           routeBasePath: '/components',
+          blogSidebarCount: 'ALL',
           showReadingTime: false,
           showLastUpdateTime: false,
           showLastUpdateAuthor: false,
@@ -76,6 +77,7 @@ const config: Config = {
                     '../packages/react-admin-kit/src',
                   ),
                 },
+                defaultLocale: 'zh-Hans',
               },
             ],
           ],

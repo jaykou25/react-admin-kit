@@ -1,6 +1,7 @@
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import resultObj from '@site/.docusaurus-previewer-cache/result.json';
 import { demos } from '@site/.docusaurus-previewer-cache/demos';
-import { createElement } from 'react';
+import { createElement, Suspense } from 'react';
 import classnames from 'classnames';
 
 import './index.less';
@@ -13,15 +14,21 @@ const Previewer = (props: any) => {
 
   const demo = demos[src];
 
-  const demoNode = demo ? createElement(demo) : null;
+  const demoNode = demo ? (
+    <Suspense fallback={<div>loading...</div>}>{createElement(demo)}</Suspense>
+  ) : null;
+
+  // const demoNode = demo ? createElement(demo) : null;
 
   return <PluginPreviewer {...props} {...info} demoNode={demoNode} />;
 };
 
 const PluginPreviewer = (props: any) => {
   const { demoNode, id } = props;
+  const isBrowser = useIsBrowser();
+
   const link = `#${id}`;
-  const hash = window.location.hash;
+  const hash = isBrowser ? window.location.hash : '';
 
   return (
     <div
