@@ -10,10 +10,10 @@ const QueryParams = () => {
       <Button
         onClick={() => {
           clearSelectCache('user');
-          message.info('缓存清除成功');
+          message.info('clear user cache success');
         }}
       >
-        清除缓存
+        clear cache
       </Button>
 
       <Button
@@ -21,14 +21,15 @@ const QueryParams = () => {
         style={{ marginLeft: '10px' }}
         onClick={() => innerRef.current?.openModal('new')}
       >
-        打开弹窗
+        open
       </Button>
 
       <ModalForm
         innerRef={innerRef}
         columns={[
           {
-            title: '人员所有 (注意下拉框上的 loading 图标)',
+            title:
+              'User (Notice the loading indicator on the right corner of input)',
             renderFormItem: () => <BusinessSelect type="user" />,
           },
         ]}

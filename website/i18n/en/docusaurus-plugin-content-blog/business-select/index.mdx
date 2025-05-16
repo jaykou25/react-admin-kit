@@ -1,0 +1,153 @@
+---
+date: 2025-02-01
+sidebar_label: BusinessSelect:0:Deriving:1
+---
+
+# BusinessSelect
+
+Background:
+
+In form pages, we use `Select` components which **fetch options via API request** quite a lot (referred to as "business select"). The traditional approach involves making API requests directly in the page and processing the option data. However, when multiple "business selects" exist in a page, this leads to:
+
+1. Excessive repetitive code (requests, processing, assignment).
+2. Some dropdowns require scroll pagination, making unified handling difficult.
+3. Poor cross-page reusability.
+
+Solution:
+
+What if we could centrally manage these components? Essentially, consolidate all business dropdowns into **a single** component, differentiated by `type`, to achieve:
+
+- Unified management entry
+- Built-in pagination support
+- Cross-page reusability
+
+Initialization example:
+
+```ts
+import { BusinessSelectBuilder } from 'react-admin-kit';
+
+// Define type for better code hints
+type SelectType = 'country' | 'brand';
+
+const BusinessSelect = BusinessSelectBuilder<SelectType>({
+  apis: [
+    {
+      type: 'country',
+      api: queryCountryFunction,
+    },
+    {
+      type: 'brand',
+      api: queryBrandFunction,
+      pagination: true, // Enable pagination
+    },
+  ],
+});
+
+// Usage in page
+<BusinessSelect type="country" />;
+<BusinessSelect type="brand" />;
+```
+
+> API responses must follow `{data: [], total: xx}` format. Non-paginated components may omit `total`.
+>
+> The data array contains objects where `name` is used as display text and `id` as value by default.
+>
+> Note: while antd Select uses label/value, this component defaults to name/id for broader backend compatibility. Use `labelKey` and `valueKey` to customize fields.
+
+## Basic Usage
+
+`BusinessSelect` extends antd Select, supporting all its props.
+
+<Previewer src="@@/BusinessSelectBuilder/demos/basic-en/index.tsx"></Previewer>
+
+## Data is cached after first request
+
+multiple references will only trigger one API request
+
+<Previewer src="@@/BusinessSelectBuilder/demos/oneQuery/index.tsx"></Previewer>
+
+## Pass parameters to APIs
+
+```js
+// Page A
+<BusinessSelect type="user" queryParams={{ type: 1 }} />
+
+// Page B
+<BusinessSelect type="user" queryParams={{ type: 2 }} />
+```
+
+> Data caching is disabled when queryParams is used.
+
+<Previewer src="@@/BusinessSelectBuilder/demos/queryParams/index.tsx"></Previewer>
+
+## Pagination & Search
+
+For large datasets, set pagination: true to enable:
+
+- Infinite scroll loading
+
+- Remote search
+
+The component will emit `current` and `searchValue` to API request:
+
+```js
+// ApiType
+{
+  api: ({ current, searchValue }) => request();
+}
+```
+
+<Previewer src="@@/BusinessSelectBuilder/demos/search/index.tsx"></Previewer>
+
+## Clear Cache
+
+Use `clearSelectCache(type?: string)` to clear cache. Omitting `type` clears all caches.
+
+<Previewer src="@@/BusinessSelectBuilder/demos/clearCache-en/index.tsx"></Previewer>
+
+## Customize labelKey & valueKey
+
+Override default name/id mapping:
+
+```js
+// Per-component
+<BusinessSelect type="user" labelKey="userName" valueKey="userId" />;
+
+// Or globally during builder setup
+BusinessSelectBuilder({
+  apis: [
+    {
+      type: 'user',
+      defaultProps: {
+        labelKey: 'userName',
+        valueKey: 'userId',
+      },
+    },
+  ],
+});
+```
+
+## onLoad Event
+
+Triggered after options data first request. Useful for scenarios like auto-selecting the first item.
+
+<Previewer src="@@/BusinessSelectBuilder/demos/onLoad/index.tsx"></Previewer>
+
+## API
+
+### BusinessSelectBuilder
+
+<API
+  filePath="src/BusinessSelectBuilder/index.tsx"
+  name="BusinessSelectBuilder"
+></API>
+
+### ApiType
+
+<API name="BizApi"></API>
+
+### BusinessSelect
+
+<API name="BusinessSelectSelf"></API>
+
+[See additional properties](https://ant.design/components/select#select-props)

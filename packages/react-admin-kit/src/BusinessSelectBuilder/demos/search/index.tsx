@@ -1,5 +1,5 @@
 import { SchemaForm } from 'react-admin-kit';
-import { BusinessSelect } from '../basic';
+import BusinessSelect from '../BusinessSelect';
 
 const Search = () => {
   return (
@@ -10,7 +10,7 @@ const Search = () => {
         autoFocusFirstInput={false}
         columns={[
           {
-            title: '分页查询',
+            title: 'Pagination and Search',
             renderFormItem: () => <BusinessSelect type="brand" />,
           },
         ]}

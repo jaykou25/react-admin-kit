@@ -1,5 +1,5 @@
 import { SchemaForm } from 'react-admin-kit';
-import { BusinessSelect } from '../basic';
+import BusinessSelect from '../BusinessSelect';
 
 const OneQuery = () => {
   return (
@@ -10,19 +10,19 @@ const OneQuery = () => {
       autoFocusFirstInput={false}
       columns={[
         {
-          title: '颜色',
-          dataIndex: 'color',
-          renderFormItem: () => <BusinessSelect type="color" />,
+          title: 'Country',
+          dataIndex: 'country',
+          renderFormItem: () => <BusinessSelect type="country" />,
         },
         {
-          title: '颜色2',
-          dataIndex: 'color2',
-          renderFormItem: () => <BusinessSelect type="color" />,
+          title: 'Country2',
+          dataIndex: 'country2',
+          renderFormItem: () => <BusinessSelect type="country" />,
         },
         {
-          title: '颜色3',
-          dataIndex: 'color3',
-          renderFormItem: () => <BusinessSelect type="color" />,
+          title: 'Country3',
+          dataIndex: 'country3',
+          renderFormItem: () => <BusinessSelect type="country" />,
         },
       ]}
     />

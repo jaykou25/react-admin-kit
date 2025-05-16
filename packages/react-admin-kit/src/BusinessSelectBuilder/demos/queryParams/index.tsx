@@ -1,5 +1,5 @@
 import { SchemaForm } from 'react-admin-kit';
-import { BusinessSelect } from '../basic';
+import BusinessSelect from '../BusinessSelect';
 
 const QueryParams = () => {
   return (
@@ -10,17 +10,17 @@ const QueryParams = () => {
         autoFocusFirstInput={false}
         columns={[
           {
-            title: '人员所有',
+            title: 'All Users',
             renderFormItem: () => <BusinessSelect type="user" />,
           },
           {
-            title: '人员A',
+            title: 'User A',
             renderFormItem: () => (
               <BusinessSelect type="user" queryParams={{ type: 1 }} />
             ),
           },
           {
-            title: '人员B',
+            title: 'User B',
             renderFormItem: () => (
               <BusinessSelect type="user" queryParams={{ type: 2 }} />
             ),

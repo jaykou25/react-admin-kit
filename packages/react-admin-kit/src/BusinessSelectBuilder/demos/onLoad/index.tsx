@@ -1,6 +1,6 @@
 import { Space } from 'antd';
 import { useState } from 'react';
-import { BusinessSelect } from '../basic';
+import BusinessSelect from '../BusinessSelect';
 
 const OnLoad = () => {
   const [userId, setUserId] = useState();
