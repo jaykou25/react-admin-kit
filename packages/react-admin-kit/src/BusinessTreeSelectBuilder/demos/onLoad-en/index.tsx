@@ -1,6 +1,6 @@
 import { Space } from 'antd';
 import { useState } from 'react';
-import BusinessTreeSelect from '../BusinessTreeSelect';
+import BusinessTreeSelect from '../BusinessTreeSelect-en';
 
 const OnLoad = () => {
   const [companyId, setCompanyId] = useState();
@@ -8,7 +8,7 @@ const OnLoad = () => {
   return (
     <Space>
       <BusinessTreeSelect
-        style={{ width: '150px' }}
+        style={{ width: '250px' }}
         type="company"
         value={companyId}
         onLoad={(options) => {

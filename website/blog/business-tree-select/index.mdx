@@ -1,0 +1,75 @@
+---
+date: 2025-02-02
+sidebar_label: BusinessTreeSelect - 业务树下拉:1:衍生组件:1
+---
+
+# BusinessTreeSelect - 业务树下拉
+
+与 BusinessSelect 功能一致，区别是 BusinessTreeSelect 处理的是 **树形** 数据。
+
+只需一次定义, 全页面都能方便使用。
+
+下面是组件的初始化示例：
+
+```js
+import { BusinessTreeSelectBuilder } from 'react-admin-kit';
+
+// 定义 type 类型, 方便在使用时有代码提示
+type TreeSelectType = 'org';
+
+const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
+  {
+    apis: [
+      {
+        type: 'org',
+        api: queryOrgFunction,
+      },
+    ],
+  })
+
+// 在页面中使用
+<BusinessTreeSelect type="org" />;
+```
+
+> 由于处理的是树形数据，因此树形组件没有分页功能。请求接口返回的格式直接为一个对象数组，组件默认读取 `name` 作为文本显示，`id` 作为下拉取值。
+
+## 基本的使用方法
+
+`BusinessTreeSelect`是 [antd TreeSelect](https://ant.design/components/tree-select-cn#api) 的封装，因此组件可以接受 antd TreeSelect 的所有属性。
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic/index.tsx"></Previewer>
+
+## 级联
+
+- 该例子中部门会根据公司级联。
+
+- 可以使用 `queryParams` 传参数给请求接口。
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams/index.tsx"></Previewer>
+
+## 清除缓存
+
+使用`clearTreeSelectCache(type: string)`方法清除缓存. type 不传清除所有类型的缓存.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache/index.tsx"></Previewer>
+
+## onLoad 事件
+当下拉数据加载完成后会触发 onLoad 事件. 这个事件对于某些场景非常有用, 例如可以用它实现默认选中第一条数据.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad/index.tsx"></Previewer>
+
+## API
+
+### BusinessTreeSelectBuilder
+
+<API filePath='src/BusinessTreeSelectBuilder/index.tsx' name='BusinessTreeSelectBuilder' ></API>
+
+### ApiType
+
+<API name='BizTreeApi' ></API>
+
+### BusinessTreeSelect
+
+<API name='BusinessTreeSelectSelf'></API>
+
+更多属性查看 [antd TreeSelect](https://ant.design/components/tree-select-cn#api)

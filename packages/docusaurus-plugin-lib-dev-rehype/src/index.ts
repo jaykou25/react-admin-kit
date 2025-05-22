@@ -142,16 +142,15 @@ function processDemoFile(filePath: string) {
   const code = fs.readFileSync(filePath, 'utf-8');
 
   // 2. 分析依赖
-  const dependencies: any = analyzeDependencies(code).map((item) => {
+  const dependencies: any = analyzeDependencies(code, {
+    rootDir: path.dirname(filePath),
+  }).map((item) => {
     if (item.type === 'FILE') {
-      const depFilePath = path.resolve(filePath, '..', item.source);
-      const depFilePathSafe = resolvePath(depFilePath);
-
       return {
         ...item,
         // 给 source 带上后缀, eg: ./Foo => ./Foo.tsx
-        resolvedSource: getFullRelPath(depFilePathSafe, item.source),
-        value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容
+        resolvedSource: getFullRelPath(item.realPath!, item.source),
+        value: fs.readFileSync(item.realPath!, 'utf-8'), // 读取文件内容
       };
     } else {
       return item;

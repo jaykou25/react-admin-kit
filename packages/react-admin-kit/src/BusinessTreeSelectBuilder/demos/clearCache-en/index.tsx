@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { useRef } from 'react';
 import { Button, ModalForm, clearTreeSelectCache } from 'react-admin-kit';
-import BusinessTreeSelect from '../BusinessTreeSelect';
+import BusinessTreeSelect from '../BusinessTreeSelect-en';
 
 const ClearCacheDemo = () => {
   const innerRef = useRef<any>();
@@ -11,10 +11,10 @@ const ClearCacheDemo = () => {
       <Button
         onClick={() => {
           clearTreeSelectCache('company');
-          message.info('缓存清除成功');
+          message.info('clear cache success');
         }}
       >
-        清除缓存
+        clear cache
       </Button>
 
       <Button
@@ -22,7 +22,7 @@ const ClearCacheDemo = () => {
         style={{ marginLeft: '10px' }}
         onClick={() => innerRef.current?.openModal('new')}
       >
-        打开弹窗
+        open
       </Button>
 
       <ModalForm
@@ -30,7 +30,8 @@ const ClearCacheDemo = () => {
         onFinish={(values) => console.log({ values })}
         columns={[
           {
-            title: '公司 (注意下拉框上的 loading 图标)',
+            title:
+              'Company (Notice the loading indicator on the right corner of input)',
             dataIndex: 'company',
             renderFormItem: () => <BusinessTreeSelect type="company" />,
           },

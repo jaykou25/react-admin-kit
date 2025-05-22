@@ -23,7 +23,7 @@ async function pluginLibraryDevTool(
   context: any,
   opts: PluginOptions,
 ): Promise<any> {
-  const { libPath, pattern = '**/*.tsx' } = opts;
+  const { libPath, pattern = '**/index.tsx' } = opts;
 
   const cacheDir = '.docusaurus-previewer-cache';
 
@@ -66,6 +66,7 @@ async function pluginLibraryDevTool(
         try {
           const filePath = path.join(libPath, file);
           const tsInfo = docgenParser.parse(filePath);
+          console.log('解析 ts 文件成功', filePath);
           if (tsInfo.length > 0) {
             tsInfo.forEach((info) => {
               docsData.push(info);

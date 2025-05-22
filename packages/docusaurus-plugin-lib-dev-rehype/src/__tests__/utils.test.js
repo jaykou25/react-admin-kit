@@ -1,3 +1,4 @@
+import path from 'path';
 import { analyzeDependencies } from '../utils';
 
 describe('analyzeDependencies', () => {
@@ -31,7 +32,9 @@ describe('analyzeDependencies', () => {
 
   it('应该正确分析命名空间导入', () => {
     const code = `import * as styles from './styles.module.css';`;
-    const deps = analyzeDependencies(code);
+    const deps = analyzeDependencies(code, {
+      noRealPath: true,
+    });
 
     expect(deps).toEqual([
       {
@@ -46,7 +49,9 @@ describe('analyzeDependencies', () => {
 
   it('应该正确分析动态导入', () => {
     const code = `const OtherComponent = React.lazy(() => import('./OtherComponent'));`;
-    const deps = analyzeDependencies(code);
+    const deps = analyzeDependencies(code, {
+      noRealPath: true,
+    });
 
     expect(deps).toEqual([
       {
@@ -68,7 +73,7 @@ describe('analyzeDependencies', () => {
       const Modal = React.lazy(() => import('./components/Modal'));
     `;
 
-    const deps = analyzeDependencies(code);
+    const deps = analyzeDependencies(code, { noRealPath: true });
 
     expect(deps).toEqual([
       {
@@ -112,5 +117,61 @@ describe('analyzeDependencies', () => {
     const deps = analyzeDependencies(code);
 
     expect(deps).toEqual([]);
+  });
+
+  //递归依赖分析
+  it('应该正确分析递归依赖', () => {
+    const code = `
+      import Bar from './b';
+    `;
+    const rootDir = __dirname;
+    const deps = analyzeDependencies(code, { rootDir });
+
+    expect(deps).toEqual([
+      {
+        type: 'FILE',
+        source: './b',
+        realPath: path.resolve(rootDir, './b.js'),
+        ext: 'js',
+        importType: 'default',
+        imported: ['default'],
+      },
+      {
+        type: 'FILE',
+        source: './c',
+        realPath: path.resolve(rootDir, './c.js'),
+        ext: 'js',
+        importType: 'default',
+        imported: ['default'],
+      },
+    ]);
+  });
+
+  it('应该正确分析递归依赖, 去重', () => {
+    const code = `
+      import Bar from './b';
+      import Foo from './c';
+    `;
+    const rootDir = __dirname;
+    const deps = analyzeDependencies(code, { rootDir });
+
+    expect(deps).toEqual([
+      {
+        type: 'FILE',
+        source: './b',
+        realPath: path.resolve(rootDir, './b.js'),
+        ext: 'js',
+        importType: 'default',
+        imported: ['default'],
+      },
+      {
+        type: 'FILE',
+        source: './c',
+        realPath: path.resolve(rootDir, './c.js'),
+        ext: 'js',
+        importType: 'default',
+        imported: ['default'],
+      },
+    ]);
   });
 });

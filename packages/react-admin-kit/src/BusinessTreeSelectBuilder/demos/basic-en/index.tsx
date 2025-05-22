@@ -1,5 +1,5 @@
 import { SchemaForm } from 'react-admin-kit';
-import BusinessTreeSelect from '../BusinessTreeSelect';
+import BusinessTreeSelect from '../BusinessTreeSelect-en';
 
 const Basic = () => {
   return (
@@ -10,10 +10,10 @@ const Basic = () => {
       autoFocusFirstInput={false}
       columns={[
         {
-          title: '公司',
+          title: 'Company',
           dataIndex: 'company',
           renderFormItem: () => (
-            <BusinessTreeSelect placeholder="请选择公司" type="company" />
+            <BusinessTreeSelect placeholder="choose a company" type="company" />
           ),
         },
       ]}

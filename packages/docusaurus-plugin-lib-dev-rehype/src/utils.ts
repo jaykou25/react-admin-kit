@@ -9,13 +9,73 @@ import * as t from '@babel/types';
 interface Dependency {
   type: 'NPM' | 'FILE';
   source: string; // 源地址 eg: ./Hello
+  realPath?: string; // 完整的绝对地址
   ext?: string;
   importType: 'default' | 'namespace' | 'named' | 'side-effect';
   imported?: string[]; // 导入的具体内容
 }
 
-export function analyzeDependencies(code: string): Dependency[] {
+// 添加缓存参数
+interface AnalyzeOptions {
+  visited?: Set<string>;
+  rootDir?: string;
+  noRealPath?: boolean;
+}
+
+export function analyzeDependencies(
+  code: string,
+  options: AnalyzeOptions = {},
+): Dependency[] {
+  const {
+    visited = new Set(),
+    rootDir = process.cwd(),
+    noRealPath = false,
+  } = options;
   const dependencies: Dependency[] = [];
+
+  const getRealPath = (source: string) => {
+    const absPath = path.resolve(rootDir, source);
+    return resolvePath(absPath);
+  };
+
+  // 写入后缀和真实路径
+  const writeToExtAndPath = (source: string, dep: any) => {
+    // 测试场景
+    if (noRealPath) {
+      const ext = path.extname(source);
+      dep.ext = ext.slice(1) || 'tsx';
+    } else {
+      // 后缀应该根据真实路径来获取
+      const realPath = getRealPath(source);
+      dep.realPath = realPath;
+      const ext = path.extname(realPath);
+      dep.ext = ext.slice(1) || 'tsx';
+    }
+  };
+
+  // 去重
+  const pushToDeps = (deps: any) => {
+    const exist = (p: string) => {
+      return dependencies.some((d) => d.realPath === p);
+    };
+
+    const singlePush = (depObj: any) => {
+      // 根据 realpath 去重
+      if (depObj.realPath) {
+        if (!exist(depObj.realPath)) dependencies.push(depObj);
+      } else {
+        dependencies.push(depObj);
+      }
+    };
+
+    if (Array.isArray(deps)) {
+      deps.forEach((dep) => {
+        singlePush(dep);
+      });
+    } else {
+      singlePush(deps);
+    }
+  };
 
   try {
     // 解析代码生成 AST
@@ -73,16 +133,10 @@ export function analyzeDependencies(code: string): Dependency[] {
 
         // 为文件类型添加扩展名
         if (isRelativePath) {
-          const ext = path.extname(source);
-          if (ext) {
-            dependency.ext = ext.slice(1);
-          } else {
-            // 如果没有扩展名，根据上下文推断
-            dependency.ext = 'tsx'; // 默认为 tsx
-          }
+          writeToExtAndPath(source, dependency);
         }
 
-        dependencies.push(dependency);
+        pushToDeps(dependency);
       },
 
       // 处理动态导入
@@ -102,15 +156,31 @@ export function analyzeDependencies(code: string): Dependency[] {
             };
 
             if (isRelativePath) {
-              const ext = path.extname(source);
-              dependency.ext = ext ? ext.slice(1) : 'tsx';
+              writeToExtAndPath(source, dependency);
             }
 
-            dependencies.push(dependency);
+            pushToDeps(dependency);
           }
         }
       },
     });
+
+    // 添加递归分析逻辑
+    const validExtensions = ['js', 'jsx', 'ts', 'tsx'];
+    for (const dep of dependencies.filter(
+      (d) => d.type === 'FILE' && validExtensions.includes(d.ext!),
+    )) {
+      const realPath = dep.realPath;
+      if (realPath && !visited.has(realPath)) {
+        visited.add(realPath);
+        const fileContent = fs.readFileSync(realPath, 'utf-8');
+        const subDeps = analyzeDependencies(fileContent, {
+          visited,
+          rootDir: path.dirname(realPath),
+        });
+        pushToDeps(subDeps);
+      }
+    }
 
     return dependencies;
   } catch (error) {

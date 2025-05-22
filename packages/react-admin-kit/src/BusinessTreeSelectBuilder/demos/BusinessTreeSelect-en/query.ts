@@ -4,20 +4,20 @@ export const queryCompany = () => {
     setTimeout(() => {
       resolve([
         {
-          name: '集团公司',
+          name: 'Group Company',
           id: 1,
           children: [
             {
-              name: '业务子公司A',
+              name: 'Sub Company A',
               id: 2,
             },
             {
-              name: '业务子公司B',
+              name: 'Sub Company B',
               id: 3,
             },
           ],
         },
-        { name: '其它公司', id: -1 },
+        { name: 'Other Company', id: -1 },
       ]);
     }, 1200);
   });
@@ -29,28 +29,45 @@ export const queryDept = (params): Promise<any> => {
     setTimeout(() => {
       if (params.id === 1) {
         resolve([
-          { name: '集团 - 总经理室', id: 1 },
+          { name: 'Group - CEO', id: 1 },
           {
-            name: '集团 - 销售部',
+            name: 'Group - Sales',
             id: 2,
             children: [
-              { name: '集团 - 销售部1', id: 3 },
-              { name: '集团 - 销售部2', id: 4 },
+              { name: 'Group - Sale 1', id: 3 },
+              { name: 'Group - Sale 2', id: 4 },
             ],
           },
         ]);
-      } else if (params.id === 2 || params.id === 3) {
+      } else if (params.id === 2) {
         resolve([
           {
-            name: '子公司 - 部门1',
+            name: 'Sub Company A - dept',
             id: 1,
             children: [
               {
-                name: '子公司 - 子部门1',
+                name: 'Sub Company A - dept 1',
                 id: 2,
               },
               {
-                name: '子公司- 子部门2',
+                name: 'Sub Company A - dept 2',
+                id: 3,
+              },
+            ],
+          },
+        ]);
+      } else if (params.id === 3) {
+        resolve([
+          {
+            name: 'Sub Company B - dept',
+            id: 1,
+            children: [
+              {
+                name: 'Sub Company B - dept 1',
+                id: 2,
+              },
+              {
+                name: 'Sub Company B - dept 2',
                 id: 3,
               },
             ],
@@ -59,20 +76,19 @@ export const queryDept = (params): Promise<any> => {
       } else {
         resolve([
           {
-            name: '其它公司 - 部门1',
+            name: 'Other Company - dept',
             id: 1,
             children: [
               {
-                name: '其它公司 - 子部门1',
+                name: 'Other Company - dept 1',
                 id: 2,
               },
               {
-                name: '其它公司 - 子部门2',
+                name: 'Other Company - dept 2',
                 id: 3,
               },
             ],
           },
-          { name: '其它公司 - 部门2', id: -1 },
         ]);
       }
     }, 1000);
