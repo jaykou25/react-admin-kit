@@ -19,7 +19,10 @@ const GridHorizontal = () => {
         grid={true}
         rowProps={{ gutter: [0, 0] }}
         colProps={{ span: 8 }}
-        labelCol={{ span: 9 }}
+        // 以整个一行作为 24 份。每个表单项占 8 份。
+        // 假设每个 label 占据 3 份
+        // n = 3
+        labelCol={{ flex: '0 0 37.5%' }} // 3 / 8 = 0.375
         onFinish={onFinish}
         formRef={formRef}
         columns={getColumns()}

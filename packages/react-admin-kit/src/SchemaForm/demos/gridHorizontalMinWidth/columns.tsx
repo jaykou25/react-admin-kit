@@ -6,7 +6,6 @@ export const getColumns = (): FormColumnType[] => [
     dataIndex: 'username',
     colProps: { span: 24 },
     formItemProps: {
-      labelCol: { flex: '0 0 12.5%' }, // 3 / 24 = 0.125
       rules: [
         {
           required: true,
@@ -37,10 +36,6 @@ export const getColumns = (): FormColumnType[] => [
   {
     title: '身份证号',
     colProps: { span: 16 },
-    formItemProps: {
-      // 3 / 16 = 0.1875
-      labelCol: { flex: '0 0 18.75%' },
-    },
     dataIndex: 'idNumber',
   },
 ];

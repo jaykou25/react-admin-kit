@@ -19,6 +19,10 @@
     "message": "更新日志",
     "description": "Navbar item with label 更新日志"
   },
+  "item.label.case": {
+    "message": "用例",
+    "description": "展示测试用例"
+  },
   "item.label.GitHub": {
     "message": "GitHub",
     "description": "Navbar item with label GitHub"

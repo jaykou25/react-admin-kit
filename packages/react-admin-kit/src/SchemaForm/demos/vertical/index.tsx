@@ -1,7 +1,7 @@
 import { SchemaForm } from 'react-admin-kit';
 import { columns } from './columns';
 
-const Horizontal = () => {
+const Demo = () => {
   const onFinish = (values: any) => {
     console.log({ values });
   };
@@ -9,7 +9,7 @@ const Horizontal = () => {
   return (
     <div>
       <SchemaForm
-        layout="horizontal"
+        layout="vertical"
         labelCol={{ span: 3 }}
         onFinish={onFinish}
         columns={columns}
@@ -20,4 +20,4 @@ const Horizontal = () => {
   );
 };
 
-export default Horizontal;
+export default Demo;

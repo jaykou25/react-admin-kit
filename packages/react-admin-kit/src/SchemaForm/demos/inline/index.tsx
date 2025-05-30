@@ -1,7 +1,7 @@
 import { SchemaForm } from 'react-admin-kit';
 import { columns } from './columns';
 
-const Horizontal = () => {
+const Demo = () => {
   const onFinish = (values: any) => {
     console.log({ values });
   };
@@ -9,15 +9,13 @@ const Horizontal = () => {
   return (
     <div>
       <SchemaForm
-        layout="horizontal"
-        labelCol={{ span: 3 }}
+        layout="inline"
         onFinish={onFinish}
         columns={columns}
         autoFocusFirstInput={false}
-        submitter
       />
     </div>
   );
 };
 
-export default Horizontal;
+export default Demo;

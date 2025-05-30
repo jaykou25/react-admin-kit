@@ -17,7 +17,7 @@ const DependencyDemo = () => {
     },
     {
       valueType: 'dependency',
-      name: ['showPhone'],
+      name: ['showPhone'], // 可以写多个字段，用于观察多个值
       columns: ({ showPhone }) => {
         if (showPhone) {
           return [

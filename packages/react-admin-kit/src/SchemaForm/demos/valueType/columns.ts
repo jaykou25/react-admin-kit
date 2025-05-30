@@ -36,8 +36,8 @@ export const columns: FormColumnType[] = [
     valueType: 'select',
     fieldProps: {
       options: [
-        { label: '选择1', value: 1 },
-        { label: '选择2', value: 2 },
+        { label: 'option 1', value: 1 },
+        { label: 'option 2', value: 2 },
       ],
     },
     initialValue: 1,
@@ -48,8 +48,8 @@ export const columns: FormColumnType[] = [
     valueType: 'radio',
     fieldProps: {
       options: [
-        { label: '是', value: 1 },
-        { label: '否', value: 0 },
+        { label: 'Yes', value: 1 },
+        { label: 'No', value: 0 },
       ],
     },
     initialValue: 1,
@@ -58,6 +58,6 @@ export const columns: FormColumnType[] = [
     title: 'textarea',
     dataIndex: 'textarea',
     valueType: 'textarea',
-    initialValue: '文本域',
+    initialValue: 'The only way to do great work is to love what you do.',
   },
 ];

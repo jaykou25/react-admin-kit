@@ -1,4 +1,5 @@
 // 核心组件
+export { default as ProForm } from './ProForm';
 export { default as SchemaForm } from './SchemaForm';
 export { default as ModalForm } from './ModalForm';
 export { default as ProTable } from './ProTable';
@@ -16,4 +17,9 @@ export { default as FormUpload } from './FormUpload';
 export { default as SettingProvider } from './SettingProvider';
 
 // 类型定义
+export type { ProFormInstance } from '@ant-design/pro-form';
+export type {
+  FormColumnType,
+  SchemaFormInnerRefType,
+} from './SchemaForm/types';
 export type { ActionType as ActionRefType } from '@ant-design/pro-table';

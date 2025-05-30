@@ -5,6 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const config: Config = {
   title: 'React Admin Kit',
   tagline: '中后台应用的最佳伴侣',
@@ -40,6 +42,40 @@ const config: Config = {
         libPath: path.resolve(__dirname, '../packages/react-admin-kit/'),
       },
     ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'blog2',
+        path: 'case',
+        routeBasePath: '/case',
+        blogSidebarCount: 'ALL',
+        showReadingTime: false,
+        showLastUpdateTime: false,
+        showLastUpdateAuthor: false,
+        sortPosts: 'ascending',
+        feedOptions: {
+          type: ['rss', 'atom'],
+          xslt: true,
+        },
+        onInlineTags: 'warn',
+        onInlineAuthors: 'warn',
+        onUntruncatedBlogPosts: 'warn',
+        rehypePlugins: [
+          [
+            require('docusaurus-plugin-lib-dev-rehype'),
+            {
+              alias: {
+                '@@': path.resolve(
+                  __dirname,
+                  '../packages/react-admin-kit/src',
+                ),
+              },
+              defaultLocale: 'zh-Hans',
+            },
+          ],
+        ],
+      },
+    ],
   ],
 
   presets: [
@@ -54,6 +90,7 @@ const config: Config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
+          id: 'blog1',
           routeBasePath: '/components',
           blogSidebarCount: 'ALL',
           showReadingTime: false,
@@ -87,6 +124,51 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
+    // [
+    //   'classic',
+    //   {
+    //     // id: 'case',
+    //     docs: false,
+    //     blog: {
+    //       id: 'blog2',
+    //       path: 'case',
+    //       routeBasePath: '/case',
+    //       blogSidebarCount: 'ALL',
+    //       showReadingTime: false,
+    //       showLastUpdateTime: false,
+    //       showLastUpdateAuthor: false,
+    //       sortPosts: 'ascending',
+    //       feedOptions: {
+    //         type: ['rss', 'atom'],
+    //         xslt: true,
+    //       },
+    //       onInlineTags: 'warn',
+    //       onInlineAuthors: 'warn',
+    //       onUntruncatedBlogPosts: 'warn',
+    //       rehypePlugins: [
+    //         [
+    //           require('docusaurus-plugin-lib-dev-rehype'),
+    //           {
+    //             alias: {
+    //               '@@': path.resolve(
+    //                 __dirname,
+    //                 '../packages/react-admin-kit/src',
+    //               ),
+    //             },
+    //             defaultLocale: 'zh-Hans',
+    //           },
+    //         ],
+    //       ],
+    //     },
+    //     pages: false,
+    //     debug: false,
+    //     svgr: false,
+    //     theme: {
+    //       id: 'case',
+    //       customCss: './src/css/custom.css',
+    //     },
+    //   },
+    // ],
   ],
 
   themeConfig: {
@@ -98,6 +180,7 @@ const config: Config = {
         alt: 'RAK Logo',
         src: 'img/rak-r15.png',
       },
+      // @ts-ignore
       items: [
         { to: '/intro', label: 'intro', position: 'left' },
         {
@@ -106,6 +189,9 @@ const config: Config = {
           position: 'left',
         },
         { to: '/changelog', label: 'changelog', position: 'left' },
+        isDev
+          ? { to: '/case/schema-form', label: 'case', position: 'left' }
+          : null,
         {
           type: 'localeDropdown',
           position: 'right',
@@ -115,7 +201,7 @@ const config: Config = {
           label: 'gitHub',
           position: 'right',
         },
-      ],
+      ].filter((i) => i),
     },
     footer: {
       style: 'dark',

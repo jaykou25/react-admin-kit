@@ -4,17 +4,25 @@ export const columns: FormColumnType[] = [
   {
     title: 'A1',
     dataIndex: 'a1',
+    render: (_, record) => record.a1 + 'with ID: ' + record.id,
   },
   {
     title: 'A2',
     dataIndex: 'a2',
   },
   {
-    fieldProps: { style: { display: 'none' } },
+    render: () => null,
   },
   {
     title: 'B1',
     dataIndex: 'b1',
+    valueType: 'select',
+    fieldProps: {
+      options: [
+        { label: 'option 1', value: 'b1-1' },
+        { label: 'option 2', value: 'b1-2' },
+      ],
+    },
   },
   {
     title: 'B2',
