@@ -22,7 +22,7 @@ const Demo = () => {
             formRef.current?.setFieldsValue({
               showUser: 1,
               user: '2',
-              userName: '用户2',
+              userName: 'Jack',
             })
           }
         >
