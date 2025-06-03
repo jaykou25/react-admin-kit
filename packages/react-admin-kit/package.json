@@ -29,9 +29,11 @@
   ],
   "scripts": {
     "build": "father build",
+    "coverage:open": "start coverage/index.html",
     "doctor": "father doctor",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@ant-design/pro-form": "~2.25.0",
