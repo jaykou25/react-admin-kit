@@ -15,34 +15,34 @@ const FormValueTable = () => {
       dataSource={[
         {
           name: 'getFieldsValue',
-          desc: '获取一组或所有的表单值.',
+          desc: '获取表单值',
           remark: '',
-          source: 'antd form',
+          source: 'Antd Form',
         },
         {
           name: 'validateFields',
-          desc: '表单验证通过后得到所有的表单值',
+          desc: '表单验证通过后返回表单值',
           remark: '',
-          source: 'antd form',
+          source: 'Antd Form',
         },
         {
           name: 'getFieldsFormatValue',
-          desc: '获取一组或所有转化后的值',
+          desc: '获取表单值（会额外根据 valueType 处理时间格式; 会额外处理 schema 中的 transform 转化）',
           remark:
             '会根据 valueType 处理时间格式; 会处理 schema 中的 transform 转化',
-          source: 'proComponent',
+          source: 'ProComponent',
         },
         {
           name: 'onFinish',
           desc: '同上',
           remark: '同上',
-          source: 'proComponent',
+          source: 'ProComponent',
         },
         {
           name: 'validateFieldsReturnFormatValue',
-          desc: '表单验证通过后得到所有的转化后的值',
+          desc: '表单验证通过后返回表单值（同上额外处理转换）',
           remark: '同上',
-          source: 'proComponent',
+          source: 'ProComponent',
         },
       ]}
       columns={[
@@ -54,10 +54,6 @@ const FormValueTable = () => {
         {
           title: '描述',
           dataIndex: 'desc',
-        },
-        {
-          title: '备注',
-          dataIndex: 'remark',
         },
         {
           title: '来源',

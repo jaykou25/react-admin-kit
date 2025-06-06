@@ -7,6 +7,7 @@ export const columns: FormColumnType[] = [
     title: 'name',
     dataIndex: 'name',
   },
+
   {
     title: '额外信息',
     dataIndex: 'id',

@@ -8,8 +8,7 @@ import './index.less';
 import PreviewerActions from '../PreviewerActions';
 
 const Previewer = (props: any) => {
-  const { src } = props;
-  console.log('previewer src', src);
+  const { src, inline } = props;
   const info = resultObj[src] || {};
 
   const demo = demos[src];
@@ -23,6 +22,10 @@ const Previewer = (props: any) => {
       {createElement(demo)}
     </Suspense>
   ) : null;
+
+  if (inline) {
+    return demoNode;
+  }
 
   // const demoNode = demo ? createElement(demo) : null;
 

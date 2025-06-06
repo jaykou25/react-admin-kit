@@ -10,10 +10,30 @@ const ConventionSimple = () => {
 
   const onFinish = (values: any) => {
     console.log({ values });
+    const resultElement = document.querySelector('[data-testid="result"]');
+    if (resultElement) {
+      resultElement.textContent = JSON.stringify(values, null, 2);
+    }
   };
 
   return (
     <div>
+      <Space direction="vertical" style={{ marginBottom: '20px' }}>
+        <Button onClick={() => formRef.current?.resetFields()}>
+          0. 初始状态
+        </Button>
+        <Button
+          onClick={() =>
+            formRef.current?.setFieldsValue({
+              userId: '2',
+              userName: 'Jennifer',
+            })
+          }
+        >
+          1. 约定式赋值
+        </Button>
+        <Button onClick={() => formRef.current?.submit()}>2. 提交</Button>
+      </Space>
       <SchemaForm
         layout="horizontal"
         onFinish={onFinish}
@@ -21,23 +41,8 @@ const ConventionSimple = () => {
         columns={columns}
         autoFocusFirstInput={false}
       />
-      <div style={{ textAlign: 'end' }}>
-        <Space>
-          <Button
-            onClick={() =>
-              formRef.current?.setFieldsValue({
-                userId: '2',
-                userName: '李四',
-              })
-            }
-          >
-            赋值
-          </Button>
-          <Button type="primary" onClick={() => formRef.current?.submit()}>
-            提交
-          </Button>
-        </Space>
-      </div>
+
+      <div data-testid="result"></div>
     </div>
   );
 };

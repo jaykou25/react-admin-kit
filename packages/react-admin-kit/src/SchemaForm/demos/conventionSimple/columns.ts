@@ -8,8 +8,8 @@ export const columns: FormColumnType[] = [
     fieldProps: {
       labelInValue: true,
       options: [
-        { label: '张三', value: '1' },
-        { label: '李四', value: '2' },
+        { label: 'Jack', value: '1' },
+        { label: 'Jennifer', value: '2' },
       ],
     },
   },

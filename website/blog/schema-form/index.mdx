@@ -156,7 +156,7 @@ valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 
   src="@@/SchemaForm/demos/inline/index.tsx"
 ></Previewer>
 
-### ⭐ grid 栅格模式
+### grid 栅格模式
 
 grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://ant-design.antgroup.com/components/grid-cn) 中，通过传入 [Row](https://ant-design.antgroup.com/components/grid-cn#row) 和 [Col](https://ant-design.antgroup.com/components/grid-cn#col) 的属性来控制每个 FormItem 的布局。
 
@@ -250,7 +250,7 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 ## 初始值和表单项赋值
 
-1. 初始状态下是否显示用户为否。
+1. [是否显示用户] 初始值为否。
 2. 点击赋值按钮后显示为是。
 3. 点击重置按钮后显示为否。
 
@@ -268,41 +268,43 @@ submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
 ## 只读与编辑切换
 
-这是一个综合示例，用于模拟一个表单场景：
+下面模拟演示两个真实场景:
 
-1. 请求接口后给表单赋值。
-2. 获取到表单为只读状态，将其设为只读。
+**1. 模拟一个表单页的回显**
 
-<Previewer src="@@/SchemaForm/demos/readonly/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/readonly-form/index.tsx"></Previewer>
 
-### ⭐ 内嵌模式 (Embed)
+**2. 只读表单项的依赖显示**
 
-对于复杂表单, 内嵌模式可以让每个区块单独设置布局, 同时通过设置 `valueBaseName` 属性, 数据也可以收集在各自的对象里.
+<Previewer src="@@/SchemaForm/demos/readonly-render/index.tsx"></Previewer>
 
-以这个例子为, `基本信息`区块和`业务信息`区块可以单独设置布局. 同时表单提交时的数据会收集成 `{ base: { username: 'xx'}, business: { company: 'xx'}}`
+## 表单数据相关
 
-<Previewer src="@@/SchemaForm/demos/embed/index.tsx"></Previewer>
+### 表单取值
 
-这个例子同时还展示了表单项的赋值和表单项的联动控制.
+SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFinish 属性来取值.
 
-- 选择了公司后, 地址会自动带出.
-- 办理业务选择第一项, 基本信息中的身份证项会隐藏.
+除了 onFinish 以外还可以通过 **表单实例** 提供的方法来获取表单值.
 
-> 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 antd 的这个[例子](https://ant.design/components/form-cn/#components-form-demo-nest-messages).
->
-> 所以在 setFieldsValue 的时候, 需要把 valueBaseName 的值也考虑进去.
->
-> ```js
-> setFieldsValue({ business: { company: 'xxx' } });
-> ```
->
-> 同时在做联动控制时, 当 valueType='dependency'并且 valueBaseName 有值时, `name` 里的值应该是套嵌数组.
->
-> ```js
-> { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
-> ```
+下面列举了几个常用的取值方法:
 
-### 数据处理和收集 - ConvertValue-Transform
+<Previewer
+  inline
+  src="@@/SchemaForm/demos/formValueTable/index.tsx"
+></Previewer>
+
+这几个方法在取值上有细微的差异，主要的差异点在时间格式的处理，transform 转化等场景下。
+
+**简单来说，如果你明确知道需要转换前的值，可以用前两种方法，否则请使用后三种方法。**
+
+<Previewer src="@@/SchemaForm/demos/formValue/index.tsx"></Previewer>
+
+<Previewer
+  inline
+  src="@@/SchemaForm/demos/formValueTableResult/index.tsx"
+></Previewer>
+
+### ConvertValue 和 Transform
 
 有的时候后端返回的数据并不能直接用于表单控件, 需要先对数据进行处理. (ConvertValue)
 
@@ -338,20 +340,20 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
 <Previewer src="@@/FormUpload/demos/dataSubmit/index"></Previewer>
 
-附件上传场景可以使用衍生组件中的 [FormUpload 组件](/components/form-upload).
+> 附件上传场景可以使用衍生组件中的 [FormUpload 组件](/components/form-upload).
 
-### ⭐ 数据处理和收集 - 约定式
+### 约定式
 
-有一类组件我们除了要获取其 value 外还要获取它的显示文本(label), 比如 [Select](https://ant-design.antgroup.com/components/select-cn), [TreeSelect](https://ant-design.antgroup.com/components/tree-select-cn). 特别是当 Select 组件有分页时, 光靠 value 并不能回显出下拉内容, 这类场景我们可以开启组件的 `labelInValue` 属性来解决, 开启后组件将不再接收字符串而是需要接收一个对象 `{ label: string, value: string}`
+对于 [Select](https://ant-design.antgroup.com/components/select-cn), [TreeSelect](https://ant-design.antgroup.com/components/tree-select-cn) 等组件， 当其开启了 `labelInValue` 属性时，组件不再接受字符串而是需要接收一个对象 `{ label: string, value: string}` 来回显。
 
-但是后台一般会把值分开给到前端, 比如`{userId: 1, userName: 'jack'}`, 前端会把值拼成对象`{value: 1, label: 'jack'}`给到 Select, 在表单提交时再把该对象手动拆成 `{userId: 1, userName: 'jack'}` 给到后端.
+因此前端需要转化这个数据，而在提交时又要把这个对象拆成原来的字段。
 
-由于这一类场景在实际应用中还是比较常见的. RAK 想通过对`dataIndex`的约定来简化这一流程, 约定如下:
+由于这类场景比较常见的，RAK 想通过对 `dataIndex` 的约定来简化这一流程，约定如下：
 
-- 👉 如果`dataIndex`中包含逗号`,`, RAK 会根据逗号前后的字段来自动拼接成一个对象, 提交时又会把该对象拆分. 逗号前的字段映射成 value, 逗号后的字段映射成 label.
+- 👉 如果 `dataIndex` 中包含逗号 `,`, RAK 会根据逗号前后的字段来自动拼接成一个对象，提交时又会把该对象拆分。逗号前的字段映射成 value，逗号后的字段映射成 label。
 
-```js
-// 比如有一个用户下拉开启了 labelInValue
+```js | {4,7}
+// 比如一个用户下拉组件开启了 labelInValue
 {
   title: '用户',
   dataIndex: 'userId,userName',
@@ -365,66 +367,36 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
   }
 }
 
-// 未约定时表单拿到的值是
+// 由于符合约定式只需要这样给值就可以
+initialValues={{ userId: 1, userName: 'jack' }}
+
+formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
+
+// 提交时表单不会拿到：
 `{'userId,userName': { value: 1, label: 'jack' }}`
 
-// 约定后值会被转化成:
+// 而是会拿到:
 {
   userId: 1,
   userName: 'jack'
 }
-
-// 同时在表单回显时无需对后端数据进行处理, 直接使用 initialValues 或 setFieldsValue 进行设值即能回显数据.
-initialValues={{ userId: 1, userName: 'jack' }}
-
-formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 ```
 
-- 如果组件接受对象的键值不是 value 和 label, 还可以通过下划线自定义. 比如`userId,userName_id,name`, RAK 会拆分下划线, 下划线后面的字段同样用逗号隔开. 以这个例子来说, 当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件.
+- 如果组件接受对象的键值不是 value 和 label，还可以通过下划线自定义。比如`userId,userName_id,name`，RAK 会拆分下划线，下划线后面的字段同样用逗号隔开。以这个例子来说，当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件。
 
 <Previewer src="@@/SchemaForm/demos/conventionSimple/index.tsx"></Previewer>
-
-### 表单取值
-
-SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFinish 属性来取值.
-
-除了 onFinish 以外还可以通过 **表单实例** 提供的方法来获取表单值.
-
-我们列举了几个常用的取值方法:
-
-<Previewer
-  inline
-  src="@@/SchemaForm/demos/formValueTable/index.tsx"
-></Previewer>
-
-这些方法在取值上有细微的差异, 理解这些差异对处理时间, 数值转化等场景会很有帮助.
-
-<Previewer src="@@/SchemaForm/demos/formValue/index.tsx"></Previewer>
-
-<Previewer
-  inline
-  src="@@/SchemaForm/demos/formValueTableResult/index.tsx"
-></Previewer>
-
-简而言之, 如果你的表单中用到了时间类控件, 又或者用到了 transform, 那么请使用后三种方法.
 
 ### 利用 innerRef 存储额外信息
 
 `innerRef`是 RAK 提供的一个工具类 ref, 里面包含了一些实用的方法可以用来简化一些特殊的场景.
 
-比如对于表单来说有这样一个场景:
-
-表单里有一个人员的下拉框组件, 下拉数据里除了人员信息外还携带了部门数据 deptName 和 deptId. 当选中某个人员时部门名称会被自动带出, 同时当 deptId 为 '1' 时, 部门输入框需要置灰. 可参看例子.
-
-通常这样的需求我们会把 deptId 存在一个额外的变量里, 然后在部门输入框的 fieldProps 里做判断.
-
-innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息, 然后在其它的表单项里消费 innerRef.
+在 fieldProps 的第二个参数里默认提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息, 然后在其它的表单项里消费 innerRef.
 
 > innerRef 中的 setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
 
 <Previewer src="@@/SchemaForm/demos/innerRefData/index.tsx"></Previewer>
 
-> 对于内嵌模式 (embed), innerRef 可以传到 ProForm 上.
+> 对于[内嵌模式](#内嵌模式-embed) (embed), innerRef 可以传到 ProForm 上.
 >
 > ```js
 > import { ProForm } from 'react-admin-kit';
@@ -441,11 +413,59 @@ innerRef 就可以减化这一流程, 在 fieldProps 的第二个参数里默认
 > </>
 > ```
 
-### 高级布局
+## 高级布局
 
-### 分组 (Group)
+### 内嵌模式 (Embed)
 
-当 valueType 为 group 时即开启分组模式. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
+对于复杂表单, 内嵌模式可以让每个区块单独设置布局, 同时通过设置 `valueBaseName` 属性, 数据也可以收集在各自的对象里.
+
+```js | {4,6,7,12,13,19,20}
+import { ProForm, SchemaForm } from 'react-admin-kit';
+import { Card } from 'antd';
+
+<ProForm>
+  <SchemaForm 
+    embed 
+    valueBaseName="one" 
+  />
+
+  <div>
+    <SchemaForm 
+      embed 
+      valueBaseName="two" 
+    />
+  </div>
+
+  <Card>
+    <SchemaForm 
+      embed 
+      valueBaseName="three" 
+    />
+  </Card>
+</ProForm>;
+
+// 表单提交时收集到的值为 { one: ..., two: ..., three: ... }`
+```
+
+<Previewer src="@@/SchemaForm/demos/embed-simple/index.tsx"></Previewer>
+
+> 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 Antd 的这个[例子](https://ant.design/components/form-cn/#components-form-demo-nest-messages).
+>
+> 所以在 setFieldsValue 的时候, 需要把 valueBaseName 的值也考虑进去.
+>
+> ```js
+> setFieldsValue({ business: { company: 'xxx' } });
+> ```
+>
+> 同时在做联动控制时, 当 valueType='dependency'并且 valueBaseName 有值时, `name` 里的值应该是套嵌数组.
+>
+> ```js
+> { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
+> ```
+
+### 分组布局 (Group)
+
+当 valueType 为 group 时即开启分组布局. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
 
 默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
 

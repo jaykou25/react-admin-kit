@@ -55,7 +55,9 @@ export type SchemaFormSelfProps = {
    * @type boolean | SubmitterProps & { style: React.CSSProperties }
    * @default    false
    */
-  submitter?: boolean | (SubmitterProps & { style: React.CSSProperties });
+  submitter?:
+    | boolean
+    | (SubmitterProps & { style: React.CSSProperties; className?: string });
 };
 
 export type OtherFormProps = Omit<

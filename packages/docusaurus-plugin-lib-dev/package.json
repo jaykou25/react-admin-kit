@@ -63,11 +63,6 @@
     "@types/react-dom": "^19.1.2",
     "@types/unist": "^3.0.3",
     "father": "^4.5.2",
-    "jest": "^29.7.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "optionalDependencies": {
-    "react": "^19.0.0"
+    "jest": "^29.7.0"
   }
 }

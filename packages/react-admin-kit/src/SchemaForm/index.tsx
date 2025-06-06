@@ -87,6 +87,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       formInstanceRef.current = {
         ...formInstanceRef.current,
         setFieldsValue: (values) => {
+          console.log('日志++++', values);
           setFieldsValueConvention(values, { getFieldsValue, setFieldsValue });
 
           /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
@@ -291,7 +292,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    */
   const patchSubmitter = () => {
     if (typeof submitter === 'object') {
-      const { render, style = {} } = submitter;
+      const { render, style = {}, className } = submitter;
 
       if (render) {
         return submitter;
@@ -299,6 +300,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         submitter.render = (options, dom) => {
           return (
             <div
+              className={className}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -339,6 +341,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 export default SchemaForm;
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const SchemaFormType: React.FC<SchemaFormSelfProps> = () => {
   return null;
 };

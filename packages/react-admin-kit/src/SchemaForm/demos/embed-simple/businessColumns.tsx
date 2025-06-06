@@ -1,0 +1,52 @@
+import type { SelectProps } from 'antd';
+import type { FormColumnType } from 'react-admin-kit';
+
+export const getBusinessColumns = (): FormColumnType[] => [
+  {
+    title: '公司名',
+    dataIndex: 'company',
+    required: true,
+    valueType: 'select',
+    fieldProps: (form, innerRef): SelectProps<any, any> => ({
+      options: [
+        {
+          label: 'A公司',
+          value: '1',
+          address: '江苏省无锡市',
+          otherKey: '1a',
+        },
+      ],
+      onChange: (val, option) => {
+        console.log('onChange', { form });
+        if (val) {
+          form.setFieldsValue({ business: { address: option.address } });
+          innerRef.current?.setData({ other: option.otherKey });
+        } else {
+          form.setFieldsValue({ business: { address: undefined } });
+          innerRef.current?.setData({ other: undefined });
+        }
+      },
+    }),
+  },
+  {
+    title: '地址',
+    dataIndex: 'address',
+  },
+  {
+    title: '办理业务',
+    dataIndex: 'serviceName',
+    valueType: 'select',
+    fieldProps: {
+      options: [
+        {
+          label: '不需要身份证业务',
+          value: '1',
+        },
+        {
+          label: '需要身份证业务',
+          value: '2',
+        },
+      ],
+    },
+  },
+];
