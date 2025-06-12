@@ -38,12 +38,12 @@ const Demo = () => {
           0. 初始状态
         </Button>
         <Button
-          onClick={() =>
+          onClick={() => {
             formRef.current?.setFieldsValue({
               id: '1',
               name: 'Jennifer',
-            })
-          }
+            });
+          }}
         >
           1. 约定式赋值
         </Button>

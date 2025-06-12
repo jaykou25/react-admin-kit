@@ -295,7 +295,7 @@ SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFini
 
 这几个方法在取值上有细微的差异，主要的差异点在时间格式的处理，transform 转化等场景下。
 
-**简单来说，如果你明确知道需要转换前的值，可以用前两种方法，否则请使用后三种方法。**
+**简单来说**，如果你明确知道需要 **转换前** 的值，请使用前两种方法，否则请使用后三种方法。
 
 <Previewer src="@@/SchemaForm/demos/formValue/index.tsx"></Previewer>
 
@@ -417,7 +417,7 @@ formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
 ### 内嵌模式 (Embed)
 
-对于复杂表单, 内嵌模式可以让每个区块单独设置布局, 同时通过设置 `valueBaseName` 属性, 数据也可以收集在各自的对象里.
+对于复杂表单, 通过内嵌模式可以让每个区块单独设置布局, 同时通过设置 `valueBaseName` 属性, 数据也可以收集在各自的对象里.
 
 ```js | {4,6,7,12,13,19,20}
 import { ProForm, SchemaForm } from 'react-admin-kit';

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Button, SchemaForm } from 'react-admin-kit';
+import { columns } from './columns';
 
 import { Space } from 'antd';
 import type { ProFormInstance } from 'react-admin-kit';
@@ -9,9 +10,7 @@ const ConventionSimple = () => {
 
   const onFinish = (values: any) => {
     console.log({ values });
-    const resultElement = document.querySelector(
-      '[data-testid="convention-simple"]',
-    );
+    const resultElement = document.querySelector('[data-testid="result"]');
     if (resultElement) {
       resultElement.textContent = JSON.stringify(values, null, 2);
     }
@@ -39,24 +38,11 @@ const ConventionSimple = () => {
         layout="horizontal"
         onFinish={onFinish}
         formRef={formRef}
-        columns={[
-          {
-            title: '用户',
-            dataIndex: 'userId,userName',
-            valueType: 'select',
-            fieldProps: {
-              labelInValue: true,
-              options: [
-                { label: 'Jack', value: '1' },
-                { label: 'Jennifer', value: '2' },
-              ],
-            },
-          },
-        ]}
+        columns={columns}
         autoFocusFirstInput={false}
       />
 
-      <div data-testid="result-convention-simple"></div>
+      <div data-testid="result"></div>
     </div>
   );
 };

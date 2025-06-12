@@ -32,7 +32,7 @@
     "coverage:open": "start coverage/index.html",
     "doctor": "father doctor",
     "prepublishOnly": "npm run build",
-    "test": "jest --coverage=false",
+    "test": "set DEBUG_PRINT_LIMIT=10&& jest --coverage=false --noStackTrace",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {

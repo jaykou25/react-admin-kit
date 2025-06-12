@@ -30,11 +30,7 @@ export const getColumns = (): FormColumnType[] => [
             valueType: 'select',
             fieldProps: {
               labelInValue: true,
-              options: [
-                { label: '用户1', value: '1' },
-                { label: '用户2', value: '2' },
-                { label: '用户3', value: '3' },
-              ],
+              options: [{ label: 'Jack', value: '1' }],
             },
           },
         ];

@@ -21,7 +21,7 @@ const Demo = () => {
           onClick={() =>
             formRef.current?.setFieldsValue({
               showUser: 1,
-              user: '2',
+              user: '1',
               userName: 'Jack',
             })
           }
