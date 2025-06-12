@@ -92,6 +92,10 @@ const collectDataIndexByColumn = (
       );
       result = result.concat(collectDataIndex(columns, value, baseName));
     }
+  } else if (column.valueType === 'group') {
+    if (Array.isArray(column.columns)) {
+      result = result.concat(collectDataIndex(column.columns, value, baseName));
+    }
   } else if (!!column.dataIndex || column.dataIndex === 0) {
     result.push(_genDataIndex(column.dataIndex, baseName));
   }

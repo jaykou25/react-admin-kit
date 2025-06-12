@@ -332,4 +332,29 @@ describe('带 baseName 参数的情况', () => {
     // baseName 为空字符串
     expect(collectDataIndex(columns, {}, '')).toEqual(['name']);
   });
+
+  it('group 类型的列', () => {
+    const columns = [
+      {
+        valueType: 'group',
+        columns: [
+          {
+            dataIndex: 'a',
+          },
+          {
+            dataIndex: 'b,c',
+          },
+        ],
+      },
+      {
+        dataIndex: 'other',
+      },
+    ];
+
+    expect(collectDataIndex(columns, {}, 'global')).toEqual([
+      ['global', 'a'],
+      ['global', 'b,c'],
+      ['global', 'other'],
+    ]);
+  });
 });

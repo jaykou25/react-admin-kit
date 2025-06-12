@@ -137,9 +137,9 @@ valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 
 
 <Previewer src="@@/SchemaForm/demos/required/index.tsx"></Previewer>
 
-## 布局相关
+## 表单布局
 
-### 表单传统布局
+### 传统布局
 
 <Previewer
   title="Horizontal"
@@ -233,7 +233,9 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 <Previewer src="@@/SchemaForm/demos/placeholder/index.tsx"></Previewer>
 
-## 只读模式
+## 表单操作
+
+### 只读模式
 
 通过 readonly 属性或者 schema 上的 readonly 属性可以设置只读模式. 只读模式有以下几个注意点:
 
@@ -244,11 +246,11 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 <Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx"></Previewer>
 
-## 表单项联动
+### 表单项联动
 
 <Previewer src="@@/SchemaForm/demos/dependency/index.tsx"></Previewer>
 
-## 初始值和表单项赋值
+### 初始值和表单项赋值
 
 1. [是否显示用户] 初始值为否。
 2. 点击赋值按钮后显示为是。
@@ -256,7 +258,7 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 <Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx"></Previewer>
 
-## 提交按钮 submitter
+### 提交按钮 submitter
 
 submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
@@ -266,7 +268,7 @@ submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
 <Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx"></Previewer>
 
-## 只读与编辑切换
+### 只读与编辑切换
 
 下面模拟演示两个真实场景:
 
@@ -278,7 +280,7 @@ submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
 <Previewer src="@@/SchemaForm/demos/readonly-render/index.tsx"></Previewer>
 
-## 表单数据相关
+## 表单数据
 
 ### 表单取值
 
@@ -469,9 +471,9 @@ import { Card } from 'antd';
 
 默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
 
-<Previewer src="@@/SchemaForm/demos/group/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/group/index.tsx" />
 
-### 分组 (Grid 模式)
+### 分组布局 (Grid 模式)
 
 在分组模式下同样也可以自定义表单项的布局, 即开启 grid 模式.
 
