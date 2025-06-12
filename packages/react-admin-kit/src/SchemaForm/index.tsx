@@ -5,10 +5,9 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState,
 } from 'react';
 
-import { Form, Row } from 'antd';
+import { Form, Row, type FormInstance } from 'antd';
 import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
@@ -20,9 +19,17 @@ import type {
 } from './types';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { InnerRefContext, ReadonlyContext } from '../ProForm';
+import {
+  EmbedColumnContext,
+  InnerRefContext,
+  ReadonlyContext,
+} from '../ProForm';
 import { BaseInnerFn } from '../context';
-import { setFieldsValueConvention, splitValues } from './utils';
+import {
+  collectDataIndex,
+  splitValues,
+  transformValuesForConvention,
+} from './utils';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const {
@@ -48,6 +55,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     return parentInnerRef || innerRef || selfInnerRef;
   };
 
+  const embedColumnsRef = useContext(EmbedColumnContext);
+
   /**
    * 给 innerRef 增加方法
    */
@@ -63,57 +72,46 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       $innerRef.current.setData = baseInnerObjRef.current.setData;
   }, []);
 
+  // 包装 form 实例方法, 用于约定式赋值
+  const wrapForm = (form: FormInstance) => {
+    const { setFieldsValue } = form;
+
+    form.setFieldsValue = (values) => {
+      const $values = transformValuesForConvention(
+        values,
+        collectDataIndex(columns, values, valueBaseName),
+      );
+
+      setFieldsValue($values);
+
+      /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
+      getInnerRef().current?.setData($values || {});
+    };
+
+    return form;
+  };
+
   const [form] = Form.useForm();
   const formInstance = Form.useFormInstance();
   const formInstanceRef = useRef<ProFormInstance | undefined>(
-    props.form || formInstance || form,
+    embed ? null : wrapForm(props.form || formInstance || form),
   );
 
   const selfFormRef = useRef<ProFormInstance>();
 
-  const initialValuesRef = useRef<any>(undefined);
+  const initialValuesRef = useRef<any>(
+    transformValuesForConvention(
+      initialValues,
+      collectDataIndex(columns, initialValues, valueBaseName),
+    ),
+  );
 
-  const [updateKey, setUpdateKey] = useState(1);
-
-  /* 包装 form 实例的方法, 用于约定式赋值
-   * setFieldsValue
-   */
   useEffect(() => {
-    if (embed) return;
-
-    if (formInstanceRef.current) {
-      const { getFieldsValue, setFieldsValue } = formInstanceRef.current;
-
-      formInstanceRef.current = {
-        ...formInstanceRef.current,
-        setFieldsValue: (values) => {
-          console.log('日志++++', values);
-          setFieldsValueConvention(values, { getFieldsValue, setFieldsValue });
-
-          /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
-          getInnerRef().current?.setData(values || {});
-        },
-      };
-
-      // 对initialValues进行约定式转化
-      if (initialValues) {
-        setFieldsValueConvention(initialValues, {
-          getFieldsValue,
-          setFieldsValue,
-          callback: (finalVals) => {
-            initialValuesRef.current = finalVals;
-            setUpdateKey((val) => val + 1);
-          },
-        });
-      } else {
-        setUpdateKey((val) => val + 1);
-      }
+    if (embed) {
+      embedColumnsRef.current.push({ columns, baseName: valueBaseName });
     }
   }, [embed]);
 
-  /* 包装 form 实例的取值相关的方法, 需要约定式转化
-   * getFieldsValue, validateFields, getFieldsFormatValue, validateFieldsReturnFormatValue
-   */
   useImperativeHandle(
     propsFormRef,
     () => {
@@ -124,32 +122,32 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           getFieldsFormatValue,
           validateFieldsReturnFormatValue,
         } = selfFormRef.current;
-
         return {
           ...selfFormRef.current,
-          getFieldsValue: (...rest) => {
+
+          getFieldsValue: (...args) => {
             // @ts-ignore
-            return splitValues(getFieldsValue(...rest));
+            return splitValues(getFieldsValue(...args));
           },
-          getFieldsFormatValue: getFieldsFormatValue
-            ? (namePath: any) => splitValues(getFieldsFormatValue(namePath))
-            : undefined,
-          validateFields: (...rest) => {
-            return validateFields(...rest).then((res) => {
+          getFieldsFormatValue: (...args) => {
+            // @ts-ignore
+            return splitValues(getFieldsFormatValue(...args));
+          },
+          validateFields: (...args) => {
+            return validateFields(...args).then((res) => {
               return splitValues(res);
             });
           },
-          validateFieldsReturnFormatValue: validateFieldsReturnFormatValue
-            ? (namePath) => {
-                return validateFieldsReturnFormatValue(namePath).then((res) => {
-                  return splitValues(res);
-                });
-              }
-            : undefined,
+          validateFieldsReturnFormatValue: (...args) => {
+            // @ts-ignore
+            return validateFieldsReturnFormatValue(...args).then((res) => {
+              return splitValues(res);
+            });
+          },
         };
       }
     },
-    [updateKey],
+    [selfFormRef.current],
   );
 
   /**
@@ -231,7 +229,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
                 ...entity,
                 ...(initialValues || {}),
                 ...innerRefData,
-                ...splitValues(values),
+                ...values,
               },
               ...rest,
             );
@@ -322,7 +320,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   return (
     <BetaSchemaForm
-      key={updateKey}
+      // key={updateKey}
       {...setting}
       onFinish={handleOnFinish}
       //@ts-ignore 说不能传true, 但是试了下 true 是可以给的

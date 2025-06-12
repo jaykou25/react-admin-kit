@@ -1,21 +1,23 @@
 import { ProForm as AntProForm } from '@ant-design/pro-form';
 import { Form } from 'antd';
+import { createContext, useEffect, useImperativeHandle, useRef } from 'react';
 import {
-  createContext,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
-import { setFieldsValueConvention, splitValues } from '../SchemaForm/utils';
+  collectDataIndex,
+  splitValues,
+  transformValuesForConvention,
+} from '../SchemaForm/utils';
 
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
 import { BaseInnerFn } from '../context';
 
-type ProFormType = ProFormProps & {
+type ProFormType = Omit<ProFormProps, 'onFinish'> & {
   children?: React.ReactNode | React.ReactNode[];
   innerRef?: BaseInnerRef;
+  /**
+   * @description 表单提交时的回调;
+   */
+  onFinish?: (values: any) => Promise<boolean | void> | void;
 };
 
 export const InnerRefContext = createContext<BaseInnerRef | undefined>(
@@ -23,6 +25,8 @@ export const InnerRefContext = createContext<BaseInnerRef | undefined>(
 );
 
 export const ReadonlyContext = createContext<boolean>(false);
+
+export const EmbedColumnContext = createContext<any>({});
 
 const ProForm = (props: ProFormType) => {
   const {
@@ -54,60 +58,61 @@ const ProForm = (props: ProFormType) => {
 
   const handleOnFinish = async (values: any) => {
     if (onFinish) {
-      await onFinish(splitValues(values));
-      return;
+      return await onFinish(splitValues(values));
     }
+  };
 
-    return new Promise<boolean>((resolve) => {
-      resolve(true);
-    });
+  const selfFormRef = useRef<ProFormInstance>();
+
+  const initialValuesRef = useRef<any>(initialValues);
+
+  const embedColumnsRef = useRef<any>([]);
+
+  const getDataIndexes = (values): any => {
+    return embedColumnsRef.current.reduce(
+      (prev, item) =>
+        prev.concat(collectDataIndex(item.columns, values, item.baseName)),
+      [],
+    );
+  };
+
+  const wrapForm = (form) => {
+    const { setFieldsValue } = form;
+
+    form.setFieldsValue = (values) => {
+      const $values = transformValuesForConvention(
+        values,
+        getDataIndexes(values),
+      );
+
+      setFieldsValue($values);
+
+      /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
+      getInnerRef().current?.setData($values || {});
+    };
+
+    return form;
   };
 
   const [form] = Form.useForm();
   const formInstance = Form.useFormInstance();
   const formInstanceRef = useRef<ProFormInstance | undefined>(
-    props.form || formInstance || form,
+    wrapForm(props.form || formInstance || form),
   );
 
-  const selfFormRef = useRef<ProFormInstance>();
-
-  const initialValuesRef = useRef<any>(undefined);
-
-  const [updateKey, setUpdateKey] = useState(1);
-
-  /* 包装 form 实例的方法, 用于约定式赋值
-   * setFieldsValue
-   */
   useEffect(() => {
     if (formInstanceRef.current) {
-      const { getFieldsValue, setFieldsValue } = formInstanceRef.current;
+      // @ts-ignore
+      const { setInitialValues } = formInstanceRef.current.getInternalHooks(
+        'RC_FORM_INTERNAL_HOOKS',
+      );
+      const $values = transformValuesForConvention(
+        initialValues,
+        getDataIndexes(initialValues),
+      );
 
-      formInstanceRef.current = {
-        ...formInstanceRef.current,
-        setFieldsValue: (values) => {
-          setFieldsValueConvention(values, {
-            getFieldsValue,
-            setFieldsValue,
-          });
-
-          /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
-          getInnerRef().current?.setData(values || {});
-        },
-      };
-
-      // 对initialValues进行约定式转化
-      if (initialValues) {
-        setFieldsValueConvention(initialValues, {
-          getFieldsValue,
-          setFieldsValue,
-          callback: (finalVals) => {
-            initialValuesRef.current = finalVals;
-            setUpdateKey((val) => val + 1);
-          },
-        });
-      } else {
-        setUpdateKey((val) => val + 1);
-      }
+      formInstanceRef.current?.setFieldsValue($values);
+      setInitialValues($values);
     }
   }, []);
 
@@ -150,22 +155,23 @@ const ProForm = (props: ProFormType) => {
         };
       }
     },
-    [updateKey],
+    [selfFormRef.current],
   );
 
   return (
     <InnerRefContext.Provider value={getInnerRef()}>
       <ReadonlyContext.Provider value={props.readonly || false}>
-        <AntProForm
-          key={updateKey}
-          onFinish={handleOnFinish}
-          initialValues={initialValuesRef.current}
-          formRef={selfFormRef}
-          {...rest}
-          form={formInstanceRef.current}
-        >
-          {children}
-        </AntProForm>
+        <EmbedColumnContext.Provider value={embedColumnsRef}>
+          <AntProForm
+            onFinish={handleOnFinish}
+            initialValues={initialValuesRef.current}
+            formRef={selfFormRef}
+            {...rest}
+            form={formInstanceRef.current}
+          >
+            {children}
+          </AntProForm>
+        </EmbedColumnContext.Provider>
       </ReadonlyContext.Provider>
     </InnerRefContext.Provider>
   );
