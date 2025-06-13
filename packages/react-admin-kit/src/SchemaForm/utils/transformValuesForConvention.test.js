@@ -111,3 +111,93 @@ describe('transformValuesForConvention', () => {
     });
   });
 });
+
+describe('FormList 数据转换', () => {
+  it('基础数组数据转换', () => {
+    const dataIndexes = [['users', 'userId,userName']];
+    const values = {
+      users: [
+        {
+          userId: '1',
+          userName: 'Alice',
+        },
+      ],
+    };
+
+    expect(transformValuesForConvention(values, dataIndexes)).toEqual({
+      users: [
+        {
+          'userId,userName': { value: '1', label: 'Alice' },
+          userId: '1',
+          userName: 'Alice',
+        },
+      ],
+    });
+  });
+
+  it('多条数组数据转换', () => {
+    const dataIndexes = [['users', 'userId,userName']];
+    const values = {
+      users: [
+        {
+          userId: '1',
+          userName: 'Alice',
+        },
+        {
+          userId: '2',
+          userName: 'Bob',
+        },
+      ],
+    };
+
+    expect(transformValuesForConvention(values, dataIndexes)).toEqual({
+      users: [
+        {
+          'userId,userName': { value: '1', label: 'Alice' },
+          userId: '1',
+          userName: 'Alice',
+        },
+        {
+          'userId,userName': { value: '2', label: 'Bob' },
+          userId: '2',
+          userName: 'Bob',
+        },
+      ],
+    });
+  });
+
+  it('处理空数组的情况', () => {
+    const dataIndexes = [['users', 'userId,userName']];
+    const values = {
+      users: [],
+    };
+
+    expect(transformValuesForConvention(values, dataIndexes)).toEqual({
+      users: [],
+    });
+  });
+
+  it('处理数组中不存在的索引', () => {
+    const dataIndexes = [['users', 'userId,userName']];
+    const values = {
+      users: [
+        {
+          userId: '1',
+          userName: 'Alice',
+        },
+        {},
+      ],
+    };
+
+    expect(transformValuesForConvention(values, dataIndexes)).toEqual({
+      users: [
+        {
+          'userId,userName': { value: '1', label: 'Alice' },
+          userId: '1',
+          userName: 'Alice',
+        },
+        {},
+      ],
+    });
+  });
+});

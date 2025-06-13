@@ -467,49 +467,47 @@ import { Card } from 'antd';
 
 ### 分组布局 (Group)
 
-当 valueType 为 group 时即开启分组布局. 每个 group 相当于是一个区块, `columns`里的内容会生成表单项.
+当 valueType 为 group 时即开启分组布局。每个 group 相当于是一个区块，`columns`里的内容会生成表单项。
 
-默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的. 所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
+默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的。所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
 
 <Previewer src="@@/SchemaForm/demos/group/index.tsx" />
 
-### 分组布局 (Grid 模式)
+### 分组布局 (Grid)
 
-在分组模式下同样也可以自定义表单项的布局, 即开启 grid 模式.
+group 模式下的布局分为两层，外层（区块标题）和内层（columns 里的表单项），所以 colProps 的设置也要分两层设置。
 
-分组模式下布局分为两层, 外层(区块标题)和内层(columns 里的表单项), 所以 grid 的设置也分两层.
+<Previewer title='分组 grid' src="@@/SchemaForm/demos/groupGrid/index.tsx" />
 
-<Previewer src="@@/SchemaForm/demos/groupGrid/index.tsx"></Previewer>
+<Previewer title='分组 grid 左右布局' src="@@/SchemaForm/demos/groupGridHorizontal/index.tsx" />
 
-### 分组 (Grid 模式) 左右布局
-
-<Previewer src="@@/SchemaForm/demos/groupGridHorizontal/index.tsx"></Previewer>
-
-### 表单数组 FormList
+## 表单数组 FormList
 
 当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用.
 
 比如下面的例子能够添加多个店铺.
 
-<Previewer src="@@/SchemaForm/demos/formList/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/formList/index.tsx" />
 
 formList 实际上是一个组件, [api](https://procomponents.ant.design/components/group#proformlist-api) 见这里, 可以通过 fieldProps 给这个组件传递属性.
 
-### 表单数组 Grid 排列
+### Grid 排列
 
 要让表单数组内的表单项 grid 排列, 除了开启 `grid` 属性以外, 表单项还需要用 `valueType='group'` 包裹.
 
-<Previewer src="@@/SchemaForm/demos/formListGrid/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/formListGrid/index.tsx" />
 
-### 表单数组样式和操作按钮自定义
+### 样式自定义
 
-还可以通过 `itemRender` 属性自定义样式和操作按钮.
+还可以通过 `itemRender` 属性自定义样式和操作按钮。用法见示例。
 
-itemRender 的参数是 `({ listDom, action }, options)`, 其中 listDom 是表单项合集, action 是操作按钮合集, options 是对象 `{name, field, index, record, fields, operations, meta}`
+> itemRender 的参数类型是 `({ listDom, action }, options) => ReactNode`
+>
+> options: `{name, field, index, record, fields, operations, meta}`
 
 <Previewer src="@@/SchemaForm/demos/formListGridCustom/index.tsx"></Previewer>
 
-### API
+## API
 
 ### SchemaForm
 

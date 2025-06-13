@@ -100,3 +100,56 @@ test('splitValues-有约定时-两层套嵌-都有', () => {
   };
   expect(splitValues(before)).toStrictEqual(after);
 });
+
+describe('FormList 数组数据处理', () => {
+  it('基础数组约定式转换', () => {
+    const values = {
+      users: [
+        {
+          'userId,userName': { value: '1', label: 'Alice' },
+        },
+      ],
+    };
+
+    expect(splitValues(values)).toEqual({
+      users: [
+        {
+          userId: '1',
+          userName: 'Alice',
+        },
+      ],
+    });
+  });
+
+  it('多条数组数据转换', () => {
+    const values = {
+      users: [
+        {
+          'userId,userName': { value: '1', label: 'Alice' },
+        },
+        {
+          'userId,userName': { value: '2', label: 'Bob' },
+        },
+      ],
+    };
+
+    expect(splitValues(values)).toEqual({
+      users: [
+        {
+          userId: '1',
+          userName: 'Alice',
+        },
+        {
+          userId: '2',
+          userName: 'Bob',
+        },
+      ],
+    });
+  });
+
+  it('处理空数组的情况', () => {
+    const values = { users: [] };
+
+    expect(splitValues(values)).toEqual({ users: [] });
+  });
+});

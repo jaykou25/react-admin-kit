@@ -1,12 +1,10 @@
 import { Button } from 'antd';
 import { useRef } from 'react';
-import { SchemaForm } from 'react-admin-kit';
+import { SchemaForm, type ProFormInstance } from 'react-admin-kit';
 import { columns } from './columns';
 
-import type { FormInstance } from 'antd';
-
 const GroupGridHorizontal = () => {
-  const formRef = useRef<FormInstance>();
+  const formRef = useRef<ProFormInstance>();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -15,9 +13,7 @@ const GroupGridHorizontal = () => {
   return (
     <div>
       <SchemaForm
-        // 👇这是设置给外层的👇
         grid
-        // 👆这是设置给外层的👆
         onFinish={onFinish}
         formRef={formRef}
         columns={columns}

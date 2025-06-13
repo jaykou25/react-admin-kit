@@ -16,19 +16,23 @@ import React from 'react';
 
 export function splitValues(values = {}) {
   const result = {};
+
   Object.keys(values).forEach((key) => {
     let value = values[key];
 
-    // 处理套嵌
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    // 处理数组
+    if (Array.isArray(value)) {
+      value = value.map((item) =>
+        typeof item === 'object' && item !== null ? splitValues(item) : item,
+      );
+      // 把对象的形式全都循环处理一遍
+    } else if (typeof value === 'object' && value !== null) {
       value = splitValues(value);
     }
 
-    const [before, after] = key.split('_');
-    const names = before.split(',');
-    if (names.length > 1) {
-      const [valueName, labelName] = names;
-
+    if (_stringMatchConvention(key)) {
+      const [before, after] = key.split('_');
+      const [valueName, labelName] = before.split(',');
       const [toValueName = 'value', toLabelName = 'label'] = after
         ? after.split(',')
         : [];
@@ -75,6 +79,24 @@ export const _genDataIndex = (key: DataIndexType, baseName?: React.Key) => {
 };
 
 /**
+ * 数组套嵌数组去重
+ * @param arrays 要去重的数组
+ * @returns 去重后的数组
+ */
+export const uniqueNestedArrays = (arrays: any[]): any[] => {
+  const seen = new Set<string>();
+
+  return arrays.filter((item) => {
+    const key = JSON.stringify(item);
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+};
+
+/**
  * 收集单列的 dataIndex
  * 用于循环
  */
@@ -95,6 +117,31 @@ const collectDataIndexByColumn = (
   } else if (column.valueType === 'group') {
     if (Array.isArray(column.columns)) {
       result = result.concat(collectDataIndex(column.columns, value, baseName));
+    }
+  } else if (column.valueType === 'formList') {
+    // todo: 对于 formList 暂不考虑额外 baseName 前缀, formList 本身就是一个前缀
+    const dataIndex = column.dataIndex;
+    if (!!dataIndex || dataIndex === 0) {
+      // result.push(_genDataIndex(dataIndex));
+
+      if (Array.isArray(column.columns)) {
+        const arrValue = value[dataIndex.toString()] || [];
+
+        // 使用数组存储结果，最后再去重
+        const listResult: DataIndexType[] = [];
+
+        arrValue.forEach((itemValue) => {
+          collectDataIndex(
+            // @ts-ignore
+            column.columns,
+            itemValue,
+            dataIndex, // baseName
+          ).forEach((key: DataIndexType) => {
+            listResult.push(key);
+          });
+        });
+        result = result.concat(uniqueNestedArrays(listResult));
+      }
     }
   } else if (!!column.dataIndex || column.dataIndex === 0) {
     result.push(_genDataIndex(column.dataIndex, baseName));
@@ -163,7 +210,19 @@ export const transformValuesForConvention = (
         const path = dataIndex.slice(0, matchIndex).join('.');
         const $values = get(values, path);
         const $dataIndex = dataIndex[matchIndex];
-        $values[$dataIndex] = _transformValueForConvention($values, $dataIndex);
+
+        // formList 的情况
+        if (Array.isArray($values)) {
+          $values.forEach((itemValue, index) => {
+            $values[index][$dataIndex.toString()] =
+              _transformValueForConvention(itemValue, $dataIndex);
+          });
+        } else {
+          $values[$dataIndex] = _transformValueForConvention(
+            $values,
+            $dataIndex,
+          );
+        }
       }
     }
   });

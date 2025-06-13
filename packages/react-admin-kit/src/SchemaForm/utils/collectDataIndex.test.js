@@ -198,6 +198,93 @@ describe('collectDataIndex', () => {
 
     expect(collectDataIndex(columns)).toEqual([]);
   });
+
+  it('formList 类型的列', () => {
+    const columns = [
+      {
+        valueType: 'formList',
+        dataIndex: 'users',
+        columns: [
+          {
+            dataIndex: 'id,name',
+          },
+          {
+            valueType: 'group',
+            columns: [
+              {
+                dataIndex: 'a',
+              },
+              {
+                dataIndex: 'b,c',
+              },
+            ],
+          },
+          {
+            valueType: 'dependency',
+            name: ['id,name'],
+            columns: (values) => {
+              const userValue = values['id,name'];
+              if (userValue?.value === '1') {
+                return [
+                  {
+                    dataIndex: 'deptId,deptName',
+                  },
+                ];
+              }
+
+              if (userValue?.value === '2') {
+                return [
+                  {
+                    dataIndex: 'deptId2,deptName2',
+                  },
+                ];
+              }
+              return [];
+            },
+          },
+        ],
+      },
+    ];
+
+    // 测试 formList 的数组索引处理
+    expect(
+      collectDataIndex(columns, {
+        users: [
+          {
+            id: '1',
+            name: 'Alice',
+          },
+        ],
+      }),
+    ).toEqual([
+      ['users', 'id,name'],
+      ['users', 'a'],
+      ['users', 'b,c'],
+      ['users', 'deptId,deptName'],
+    ]);
+
+    // 测试有多个数组项的情况
+    expect(
+      collectDataIndex(columns, {
+        users: [
+          {
+            id: '1',
+            name: 'Alice',
+          },
+          {
+            id: '2',
+            name: 'Bob',
+          },
+        ],
+      }),
+    ).toEqual([
+      ['users', 'id,name'],
+      ['users', 'a'],
+      ['users', 'b,c'],
+      ['users', 'deptId,deptName'],
+      ['users', 'deptId2,deptName2'],
+    ]);
+  });
 });
 
 describe('带 baseName 参数的情况', () => {
