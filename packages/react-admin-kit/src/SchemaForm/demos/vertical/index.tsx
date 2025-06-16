@@ -10,7 +10,6 @@ const Demo = () => {
     <div>
       <SchemaForm
         layout="vertical"
-        labelCol={{ span: 3 }}
         onFinish={onFinish}
         columns={columns}
         autoFocusFirstInput={false}

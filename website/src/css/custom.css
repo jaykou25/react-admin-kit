@@ -23,6 +23,8 @@
   --ifm-font-color-base: #213547;
   --ifm-footer-background-color: #f0f3fa; /* antd */
   --ifm-footer-background-color: #f9f9f9; /*vue */
+  --ifm-container-width: 1232px;
+  --ifm-container-width-xl: 1420px;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -92,6 +94,10 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   border-color: #e4e9ec;
 }
 
+.markdown td {
+  font-size: 14px;
+}
+
 .markdown th {
   background-color: #fbfcfd;
 }
@@ -128,4 +134,5 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   background: rgb(240, 244, 248);
   border-radius: 2px;
   border: none;
+  word-break: break-word;
 }

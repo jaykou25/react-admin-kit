@@ -5,7 +5,7 @@ sidebar_label: SchemaForm - JSON 表单:0:核心组件:0
 
 # SchemaForm - JSON 表单
 
-通过一个配置式的 schema 来生成表单。schema 与 antd table 的 columns 非常类似。
+通过一个配置式的 schema 来生成表单。schema 与 Antd Table 的 columns 非常类似。
 
 ## 基本概念
 
@@ -14,7 +14,7 @@ sidebar_label: SchemaForm - JSON 表单:0:核心组件:0
 <Previewer
   title="一个基本的 Schema 表单"
   src="@@/SchemaForm/demos/basic/index.tsx"
-></Previewer>
+/>
 
 在开始深入之前，让我们先来了解几个重要的概念。
 
@@ -88,7 +88,7 @@ import { Form, Input } from 'antd';
 
 **schema** 部分介绍完了，我们再来看一下 **表单实例 FormInstance**。
 
-[表单实例](https://ant-design.antgroup.com/components/form-cn#forminstance) 是 antd form 中一个比较重要的概念，通过实例中的方法，我们可以完成很多操作，比如：提交表单，重置表单，给表单赋值等。
+[表单实例](https://ant-design.antgroup.com/components/form-cn#forminstance) 是 Antd Form 中一个比较重要的概念，通过实例中的方法，我们可以完成很多操作，比如：提交表单，重置表单，给表单赋值等。
 
 在 SchemaForm 中，我们通过 `formRef` 属性来获取 _表单实例_。
 
@@ -144,17 +144,17 @@ valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 
 <Previewer
   title="Horizontal"
   src="@@/SchemaForm/demos/horizontal/index.tsx"
-></Previewer>
+/>
 
 <Previewer
   title="Vertical"
   src="@@/SchemaForm/demos/vertical/index.tsx"
-></Previewer>
+/>
 
 <Previewer
   title="Inline"
   src="@@/SchemaForm/demos/inline/index.tsx"
-></Previewer>
+/>
 
 ### grid 栅格模式
 
@@ -201,27 +201,27 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 通过栅格系统，表单项的布局将会变得更加的灵活，比如：
 
-<Previewer src="@@/SchemaForm/demos/grid/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/grid/index.tsx" />
 
 ### grid 水平方向
 
 当开启 `grid` 并且 `layout` 为 horizontal 时，表单项的 label 宽度很可能会不一致。如下所示:
 
-<Previewer src="@@/SchemaForm/demos/gridHorizontalInit/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/gridHorizontalInit/index.tsx" />
 
 有许多方法能让 label 宽度统一。比如给它设定一个最小宽度：
 
 <Previewer
   title="label 设最小宽度"
   src="@@/SchemaForm/demos/gridHorizontalMinWidth/index.tsx"
-></Previewer>
+/>
 
 或者给每个表单的 label 单独指定宽度。
 
 <Previewer
   title="单独指定 label"
   src="@@/SchemaForm/demos/gridHorizontal/index.tsx"
-></Previewer>
+/>
 
 > `labelCol` 是 Antd Form 的一个属性。同 [Col](https://ant.design/components/grid-cn#col) 组件，可以传入 `{span: 8}` 或者 `{flex: 0 0 30%}` 等属性。
 >
@@ -231,7 +231,7 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 需要强制换行时可用空白占位.
 
-<Previewer src="@@/SchemaForm/demos/placeholder/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/placeholder/index.tsx" />
 
 ## 表单操作
 
@@ -244,11 +244,11 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 > 💡 Rakjs 扩展了只读模式下 render 函数的第二个参数 record. 这个 record 里包含了表单里的所有值, 提高了实用性.
 
-<Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
 
 ### 表单项联动
 
-<Previewer src="@@/SchemaForm/demos/dependency/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/dependency/index.tsx" />
 
 ### 初始值和表单项赋值
 
@@ -256,17 +256,17 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 2. 点击赋值按钮后显示为是。
 3. 点击重置按钮后显示为否。
 
-<Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx" />
 
 ### 提交按钮 submitter
 
 submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
-<Previewer src="@@/SchemaForm/demos/submitter/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/submitter/index.tsx" />
 
 还可以给生成的按钮传递属性.
 
-<Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx" />
 
 ### 只读与编辑切换
 
@@ -274,11 +274,11 @@ submitter 属性默认为 false. 开启后可自动生成提交按钮.
 
 **1. 模拟一个表单页的回显**
 
-<Previewer src="@@/SchemaForm/demos/readonly-form/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/readonly-form/index.tsx" />
 
 **2. 只读表单项的依赖显示**
 
-<Previewer src="@@/SchemaForm/demos/readonly-render/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/readonly-render/index.tsx" />
 
 ## 表单数据
 
@@ -293,18 +293,18 @@ SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFini
 <Previewer
   inline
   src="@@/SchemaForm/demos/formValueTable/index.tsx"
-></Previewer>
+/>
 
 这几个方法在取值上有细微的差异，主要的差异点在时间格式的处理，transform 转化等场景下。
 
 **简单来说**，如果你明确知道需要 **转换前** 的值，请使用前两种方法，否则请使用后三种方法。
 
-<Previewer src="@@/SchemaForm/demos/formValue/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/formValue/index.tsx" />
 
 <Previewer
   inline
   src="@@/SchemaForm/demos/formValueTableResult/index.tsx"
-></Previewer>
+/>
 
 ### ConvertValue 和 Transform
 
@@ -340,7 +340,7 @@ SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFini
 
 Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 
-<Previewer src="@@/FormUpload/demos/dataSubmit/index"></Previewer>
+<Previewer src="@@/FormUpload/demos/dataSubmit/index" />
 
 > 附件上传场景可以使用衍生组件中的 [FormUpload 组件](/components/form-upload).
 
@@ -349,6 +349,26 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 对于 [Select](https://ant-design.antgroup.com/components/select-cn), [TreeSelect](https://ant-design.antgroup.com/components/tree-select-cn) 等组件， 当其开启了 `labelInValue` 属性时，组件不再接受字符串而是需要接收一个对象 `{ label: string, value: string}` 来回显。
 
 因此前端需要转化这个数据，而在提交时又要把这个对象拆成原来的字段。
+
+```js | {4,7}
+// 比如一个用户下拉组件开启了 labelInValue
+{
+  title: '用户',
+  dataIndex: 'user',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// 后端返回 userId: 1, userName: 'jack' 用于回显
+// => 前端需转化成 user: { value: 1, label: 'jack'}
+// => 提交时需要把对象再转化成 userId: 2, userName: 'tom'
+```
 
 由于这类场景比较常见的，RAK 想通过对 `dataIndex` 的约定来简化这一流程，约定如下：
 
@@ -372,6 +392,7 @@ Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
 // 由于符合约定式只需要这样给值就可以
 initialValues={{ userId: 1, userName: 'jack' }}
 
+// 或者
 formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
 // 提交时表单不会拿到：
@@ -475,7 +496,7 @@ import { Card } from 'antd';
 
 ### 分组布局 (Grid)
 
-group 模式下的布局分为两层，外层（区块标题）和内层（columns 里的表单项），所以 colProps 的设置也要分两层设置。
+group 的布局分为两层，外层（区块标题）和内层（columns 里的表单项），所以 colProps 的设置也要分两层设置。
 
 <Previewer title='分组 grid' src="@@/SchemaForm/demos/groupGrid/index.tsx" />
 
@@ -483,7 +504,7 @@ group 模式下的布局分为两层，外层（区块标题）和内层（colum
 
 ## 表单数组 FormList
 
-当 `valueType` 为 formList 时能够生成表单数组, 这对于收集数组信息非常有用.
+当 `valueType` 为 formList 时能够生成表单数组, 这对于收集 **数组** 信息非常有用.
 
 比如下面的例子能够添加多个店铺.
 
@@ -513,9 +534,10 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 
 <API filePath="src/SchemaForm/index.tsx" name="SchemaFormType"></API>
 
-除了以上这些属性, 还可以透传 Ant Design 的属性, 更多可参考 [ProForm 的文档](https://procomponents.ant.design/components/form#proform) 以及 [Antd Form 的文档](https://ant.design/components/form-cn/#api), 以下列取一些常用的:
+更多属性请参考 [ProForm](https://procomponents.ant.design/components/form#proform) 以及 [Antd Form](https://ant.design/components/form-cn/#api), 以下列取一些常用的:
 
-| 参数 | 说明 | 类型 | 默认值 |
+
+| 参数 | 说明 | 类型 | <div style={{width: '65px'}}>默认值</div> |
 | --- | --- | --- | --- |
 | layout | 表单布局 | `horizontal` \| `vertical` \| `inline` | `vertical` |
 | grid | 开启 grid 模式(推荐), 可参考上面的例子. 开启了 grid 后可以通过 rowProps 和 colProps 对任意表单项调整布局 | `Boolean` | `false` |
@@ -535,7 +557,7 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 | 字段名称 | 说明 | 类型 |
 | --- | --- | --- |
 | key | 确定这个列的唯一值, 一般用于 dataIndex 重复的情况 | `React.key` |
-| dataIndex | 可使用约定模式自动处理值: userId, userName 或 userId, userName_id, name; 可参考[约定式例子](/components/schema-form#-数据处理和收集---约定式) | `string` |
+| dataIndex | 可使用约定模式自动处理值: userId, userName 或 userId, userName_id, name; 可参考[约定式例子](/components/schema-form#约定式) | `string` |
 | valueType | 数据的渲渲染方式，我们自带了一部分，你也可以自定义 valueType | `ProFieldValueType` |
 | title | 标题的内容，在 form 中是 label | `ReactNode` \| `(props,type,dom)=> ReactNode` |
 | tooltip | 会在 title 旁边展示一个 icon，鼠标浮动之后展示 | `string` |
