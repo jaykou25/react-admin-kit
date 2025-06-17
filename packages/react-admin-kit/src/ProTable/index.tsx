@@ -16,7 +16,7 @@ import { ProTableContext } from '../SettingProvider/context';
 import { exportAntTableToExcel } from '../utils/exceljs';
 import ModalConfirm from './components/ModalConfirm';
 
-import { BaseInnerFn } from '../context';
+import { CreateBaseInner } from '../context';
 import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
 import { normalizeTree } from '../utils/treeUtil';
 import './styles.css';
@@ -55,7 +55,7 @@ class ProTable extends Component<MyProTableType, any> {
     this.selfInnerRef = createRef<InnerRefType>();
     this.selfActionRef = createRef<ActionRefType>();
 
-    this.baseInnerObj = BaseInnerFn();
+    this.baseInnerObj = CreateBaseInner();
 
     // @ts-ignore
     this.getInnerRef().current = {};
@@ -132,13 +132,7 @@ class ProTable extends Component<MyProTableType, any> {
           // 给valueType为option列的render增加ref参数
           if (col.valueType === 'option' && render) {
             col.render = (text, record, index, action) => {
-              const renderDom = render(
-                text,
-                record,
-                index,
-                action,
-                innerRef,
-              );
+              const renderDom = render(text, record, index, action, innerRef);
 
               //数组的话外面包一个 Space 组件
               return Array.isArray(renderDom) ? (

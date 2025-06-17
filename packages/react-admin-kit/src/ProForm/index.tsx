@@ -9,7 +9,7 @@ import {
 
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
-import { BaseInnerFn } from '../context';
+import { CreateBaseInner } from '../context';
 
 type ProFormType = Omit<ProFormProps, 'onFinish'> & {
   children?: React.ReactNode | React.ReactNode[];
@@ -34,27 +34,23 @@ const ProForm = (props: ProFormType) => {
     formRef: propsFormRef,
     initialValues,
     children,
-    innerRef,
+    innerRef: propsInnerRef,
     ...rest
   } = props;
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
-  const selfInnerRef = useRef<SchemaFormInnerRefType>();
-  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(BaseInnerFn());
-
-  const getInnerRef = (): BaseInnerRef => {
-    return innerRef || selfInnerRef;
-  };
+  const innerRef = useRef<SchemaFormInnerRefType>(CreateBaseInner());
 
   /**
    * 给 innerRef 增加方法
    */
-  useImperativeHandle(getInnerRef(), () => {
-    return {
-      data: baseInnerObjRef.current.data,
-      setData: baseInnerObjRef.current.setData,
-    };
-  });
+  useImperativeHandle(
+    propsInnerRef,
+    () => {
+      return innerRef.current;
+    },
+    [],
+  );
 
   const handleOnFinish = async (values: any) => {
     if (onFinish) {
@@ -88,7 +84,7 @@ const ProForm = (props: ProFormType) => {
       setFieldsValue($values);
 
       /** 将赋值的值额外存在 innerRef 里, 在 render 函数(只读模式), 表单提交等场景里可用 */
-      getInnerRef().current?.setData($values || {});
+      innerRef.current?.setData($values || {});
     };
 
     return form;
@@ -159,7 +155,7 @@ const ProForm = (props: ProFormType) => {
   );
 
   return (
-    <InnerRefContext.Provider value={getInnerRef()}>
+    <InnerRefContext.Provider value={innerRef}>
       <ReadonlyContext.Provider value={props.readonly || false}>
         <EmbedColumnContext.Provider value={embedColumnsRef}>
           <AntProForm

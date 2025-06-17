@@ -24,7 +24,7 @@ import {
   InnerRefContext,
   ReadonlyContext,
 } from '../ProForm';
-import { BaseInnerFn } from '../context';
+import { CreateBaseInner } from '../context';
 import {
   collectDataIndex,
   splitValues,
@@ -41,36 +41,28 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     initialValues,
     formRef: propsFormRef,
     onFinish,
-    innerRef,
+    innerRef: propsInnerRef,
     ...rest
   } = props;
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
-  const selfInnerRef = useRef<SchemaFormInnerRefType>();
-  const baseInnerObjRef = useRef<SchemaFormInnerRefType>(BaseInnerFn());
+  const innerRef = useRef<SchemaFormInnerRefType>(CreateBaseInner());
 
   const parentInnerRef = useContext(InnerRefContext);
 
   const getInnerRef = (): BaseInnerRef => {
-    return parentInnerRef || innerRef || selfInnerRef;
+    return parentInnerRef || innerRef;
   };
 
   const embedColumnsRef = useContext(EmbedColumnContext);
 
-  /**
-   * 给 innerRef 增加方法
-   */
-  useEffect(() => {
-    const $innerRef = getInnerRef();
-    if (!$innerRef.current) {
-      $innerRef.current = baseInnerObjRef.current;
-    }
-
-    if (!$innerRef.current.data)
-      $innerRef.current.data = baseInnerObjRef.current.data;
-    if (!$innerRef.current.setData)
-      $innerRef.current.setData = baseInnerObjRef.current.setData;
-  }, []);
+  useImperativeHandle(
+    propsInnerRef,
+    () => {
+      return getInnerRef().current;
+    },
+    [],
+  );
 
   // 包装 form 实例方法, 用于约定式赋值
   const wrapForm = (form: FormInstance) => {
