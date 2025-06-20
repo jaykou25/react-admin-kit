@@ -24,12 +24,13 @@ export const columns: FormColumnType[] = [
   },
   {
     title: '性别',
-    dataIndex: 'sex',
+    dataIndex: 'gender',
     valueType: 'radio',
     fieldProps: {
       options: [
         { label: '男', value: '男' },
         { label: '女', value: '女' },
+        { label: '其它', value: '其它' },
       ],
     },
   },

@@ -9,6 +9,7 @@ const Demo = () => {
   return (
     <div>
       <SchemaForm
+        name="demo-initial-value-basic"
         formRef={formRef}
         columns={getColumns()}
         autoFocusFirstInput={false}

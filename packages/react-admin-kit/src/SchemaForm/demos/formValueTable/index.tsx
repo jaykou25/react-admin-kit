@@ -1,15 +1,13 @@
-import { ProTable } from 'react-admin-kit';
+import { Table } from 'antd';
 
 import './index.less';
 
 const FormValueTable = () => {
   return (
-    <ProTable
+    <Table
       style={{ marginTop: '10px' }}
       size="small"
-      search={false}
       pagination={false}
-      noPadding
       bordered
       rowKey="name"
       dataSource={[

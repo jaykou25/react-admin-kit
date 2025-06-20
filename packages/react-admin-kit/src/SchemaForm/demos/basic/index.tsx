@@ -14,11 +14,12 @@ const Basic = () => {
   return (
     <div>
       <SchemaForm
+        name="basic"
         onFinish={onFinish}
         formRef={formRef}
         columns={columns}
         autoFocusFirstInput={false}
-        initialValues={{sex: '男'}}
+        initialValues={{ sex: '男' }}
       />
 
       <div style={{ textAlign: 'end' }}>

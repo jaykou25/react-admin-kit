@@ -5,6 +5,7 @@ const GridHorizontalInit = () => {
   return (
     <div>
       <SchemaForm
+        name="grid-demo-horizontal-init"
         layout="horizontal"
         grid={true}
         rowProps={{ gutter: [8, 0] }}

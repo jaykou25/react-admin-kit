@@ -7,8 +7,7 @@
     "noImplicitAny": false,
     "jsx": "react-jsx",
     "baseUrl": "./",
-    "lib": ["es2017", "dom"],
-    // "target": "es2015",
+    "lib": ["es2018", "dom"],
     "paths": {
       "react-admin-kit": ["src"],
       "react-admin-kit/*": ["src/*", "*"]

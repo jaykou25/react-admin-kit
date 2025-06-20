@@ -15,6 +15,7 @@ const Grid = () => {
   return (
     <div>
       <SchemaForm
+        name="grid-demo"
         grid={true}
         // https://ant.design/components/grid-cn/#row
         rowProps={{ gutter: [8, 0] }}

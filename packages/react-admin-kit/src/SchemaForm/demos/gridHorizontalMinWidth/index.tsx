@@ -5,6 +5,7 @@ const Demo = () => {
   return (
     <div>
       <SchemaForm
+        name="grid-demo-horizontal-min-width"
         layout="horizontal"
         grid={true}
         rowProps={{ gutter: [8, 0] }}

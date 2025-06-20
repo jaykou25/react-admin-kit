@@ -15,6 +15,7 @@ const GroupGrid = () => {
   return (
     <div>
       <SchemaForm
+        name="demo-grid"
         grid
         // 👇这是设置给外层的👇
         colProps={{ span: 24 }}

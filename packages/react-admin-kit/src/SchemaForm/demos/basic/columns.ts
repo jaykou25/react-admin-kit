@@ -17,7 +17,7 @@ export const columns: FormColumnType[] = [
   },
   {
     title: '性别',
-    dataIndex: 'sex',
+    dataIndex: 'gender',
     valueType: 'radio',
     fieldProps: {
       options: [

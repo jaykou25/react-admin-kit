@@ -3,10 +3,10 @@ import type { FormColumnType } from 'react-admin-kit';
 export const columns: FormColumnType[] = [
   {
     title: 'Field A',
-    dataIndex: 'a',
+    dataIndex: 'aa',
   },
   {
     title: 'Field B',
-    dataIndex: 'b',
+    dataIndex: 'bb',
   },
 ];

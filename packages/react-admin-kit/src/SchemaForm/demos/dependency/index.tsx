@@ -35,7 +35,11 @@ const DependencyDemo = () => {
 
   return (
     <div>
-      <SchemaForm columns={columns} autoFocusFirstInput={false} />
+      <SchemaForm
+        name="demo-dependency"
+        columns={columns}
+        autoFocusFirstInput={false}
+      />
     </div>
   );
 };

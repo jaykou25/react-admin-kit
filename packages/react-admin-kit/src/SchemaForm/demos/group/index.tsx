@@ -8,6 +8,7 @@ const Group = () => {
 
   return (
     <SchemaForm
+      name="demo-group"
       onFinish={onFinish}
       columns={columns}
       autoFocusFirstInput={false}

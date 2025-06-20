@@ -5,6 +5,7 @@ import { columns } from './columns';
 const Demo = () => {
   return (
     <SchemaForm
+      name="demo-submitter-props"
       columns={columns}
       autoFocusFirstInput={false}
       submitter={{

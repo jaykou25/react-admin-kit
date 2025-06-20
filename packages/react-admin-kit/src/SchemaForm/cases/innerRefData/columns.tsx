@@ -48,6 +48,7 @@ export const getColumns = (): FormColumnType[] => [
             formItemProps: { style: { paddingTop: 86 } },
             fieldProps: (form, innerRef): SelectProps<any, any> => {
               return {
+                // @ts-ignore
                 ['data-testid']: 'deptInput',
                 disabled: innerRef.current?.data.deptId === '1',
               };

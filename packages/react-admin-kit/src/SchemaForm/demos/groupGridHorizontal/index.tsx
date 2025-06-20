@@ -13,6 +13,7 @@ const GroupGridHorizontal = () => {
   return (
     <div>
       <SchemaForm
+        name="demo-grid-hor"
         grid
         onFinish={onFinish}
         formRef={formRef}

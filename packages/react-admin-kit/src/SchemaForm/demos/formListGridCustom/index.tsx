@@ -4,6 +4,7 @@ import { columns } from './columns';
 const FormList = () => {
   return (
     <SchemaForm
+      name="demo-form-list-custom"
       onFinish={console.log}
       columns={columns}
       submitter

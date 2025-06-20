@@ -4,9 +4,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@site/*": ["./*"],
-      "react-admin-kit": ["../packages/react-admin-kit/src"],
-      "react-admin-kit/*": ["../packages/react-admin-kit/src/*", "*"]
+      "@site/*": ["./*"]
+      // "react-admin-kit": ["../packages/react-admin-kit/src"],
+      // "react-admin-kit/*": ["../packages/react-admin-kit/src/*", "*"]
     }
   },
   "exclude": [".docusaurus", "build"]

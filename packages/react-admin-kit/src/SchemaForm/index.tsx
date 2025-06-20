@@ -321,6 +321,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       initialValues={initialValuesRef.current}
       formRef={selfFormRef}
       {...rest}
+      // @ts-ignore
       form={formInstanceRef.current}
       columns={patchColumn(columns)}
       layoutType={'Form'}

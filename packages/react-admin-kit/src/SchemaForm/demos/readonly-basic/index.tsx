@@ -4,6 +4,7 @@ import { columns } from './columns';
 const Readonly = () => {
   return (
     <SchemaForm
+      name="demo-readonly-basic"
       layout="horizontal"
       grid={true}
       rowProps={{ gutter: [0, 0] }}

@@ -58,6 +58,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.15.29",
     "father": "^4.5.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",

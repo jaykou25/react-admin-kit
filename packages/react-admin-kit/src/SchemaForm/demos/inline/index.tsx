@@ -9,6 +9,7 @@ const Demo = () => {
   return (
     <div>
       <SchemaForm
+        name="layout-inline"
         layout="inline"
         onFinish={onFinish}
         columns={columns}

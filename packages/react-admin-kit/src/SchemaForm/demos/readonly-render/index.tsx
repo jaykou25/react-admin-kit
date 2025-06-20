@@ -34,6 +34,7 @@ const Demo = () => {
       </Space>
 
       <SchemaForm
+        name="demo-readonly-render"
         style={{ marginTop: '20px' }}
         layout="horizontal"
         grid={true}

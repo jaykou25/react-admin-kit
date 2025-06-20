@@ -2,6 +2,7 @@ import produce from 'immer';
 import { Component, createRef, MutableRefObject } from 'react';
 import type { FormColumnType } from '../SchemaForm/types';
 import type { InnerRefType, MyProTableType, TableColumnType } from './types';
+import type { ProTableProps } from '@ant-design/pro-table';
 
 import AntProTable from '@ant-design/pro-table';
 import { message, Popconfirm, Space } from 'antd';
@@ -266,7 +267,7 @@ class ProTable extends Component<MyProTableType, any> {
   };
 
   // 分受控和非受控
-  getRowSelection = () => {
+  getRowSelection = (): ProTableProps<any, any>['rowSelection'] => {
     // props
     const { rowSelection } = this.props;
 

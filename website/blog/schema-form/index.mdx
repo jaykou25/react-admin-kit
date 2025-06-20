@@ -117,7 +117,7 @@ formRef.current?.setFieldsValue() // 赋值
 
 valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 就能映射出不同的表单项。常用的 valueType 有 `money` `digit` `date` `dateRange` `select` `radio` `textarea` 等，完整的列表见[这里](https://procomponents.ant.design/components/schema#valuetype-%E5%88%97%E8%A1%A8)。当 valueType 没有指定时，默认渲染的表单项是 Input 组件。
 
-<Previewer src="@@/SchemaForm/demos/valueType/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/valueType/index.tsx" />
 
 如果 valueType 不能满足你的需求，可以使用 `renderFormItem` 完全自定义表单项。
 
@@ -135,7 +135,7 @@ valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 
 
 由于表单中设置必选的频率比较高，schema 中新增了 `required` 字段，作为 `formItemProps: { rules: [{ required: true }]}` 的简写。当然 formItemProps 的优先级更高。
 
-<Previewer src="@@/SchemaForm/demos/required/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/required/index.tsx" />
 
 ## 表单布局
 
@@ -407,7 +407,7 @@ formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
 - 如果组件接受对象的键值不是 value 和 label，还可以通过下划线自定义。比如`userId,userName_id,name`，RAK 会拆分下划线，下划线后面的字段同样用逗号隔开。以这个例子来说，当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件。
 
-<Previewer src="@@/SchemaForm/demos/conventionSimple/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/conventionSimple/index.tsx" />
 
 ### 利用 innerRef 存储额外信息
 
@@ -417,7 +417,7 @@ formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
 > innerRef 中的 setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
 
-<Previewer src="@@/SchemaForm/demos/innerRefData/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/innerRefData/index.tsx" />
 
 > 对于[内嵌模式](#内嵌模式-embed) (embed), innerRef 可以传到 ProForm 上.
 >
@@ -470,7 +470,7 @@ import { Card } from 'antd';
 // 表单提交时收集到的值为 { one: ..., two: ..., three: ... }`
 ```
 
-<Previewer src="@@/SchemaForm/demos/embed-simple/index.tsx"></Previewer>
+<Previewer src="@@/SchemaForm/demos/embed-simple/index.tsx" />
 
 > 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 Antd 的这个[例子](https://ant.design/components/form-cn/#components-form-demo-nest-messages).
 >
