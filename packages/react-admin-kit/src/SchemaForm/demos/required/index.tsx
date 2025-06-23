@@ -7,7 +7,7 @@ const Required = () => {
       onFinish={console.log}
       columns={[
         {
-          title: '用户名',
+          title: 'User',
           dataIndex: 'username',
           required: true,
         },

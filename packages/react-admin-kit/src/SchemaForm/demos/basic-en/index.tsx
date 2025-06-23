@@ -19,7 +19,7 @@ const Basic = () => {
         formRef={formRef}
         columns={columns}
         autoFocusFirstInput={false}
-        initialValues={{ gender: '男' }}
+        initialValues={{ gender: 'male' }}
       />
 
       <div style={{ textAlign: 'end' }}>
@@ -27,10 +27,10 @@ const Basic = () => {
           style={{ marginRight: '10px' }}
           onClick={() => formRef.current?.resetFields()}
         >
-          重置
+          Reset
         </Button>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          提交
+          Submit
         </Button>
       </div>
     </div>

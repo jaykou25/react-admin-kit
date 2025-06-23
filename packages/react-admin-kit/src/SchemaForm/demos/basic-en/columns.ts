@@ -2,10 +2,10 @@ import type { FormColumnType } from 'react-admin-kit';
 
 export const columns: FormColumnType[] = [
   {
-    title: '用户名',
+    title: 'User',
     dataIndex: 'username',
     fieldProps: {
-      placeholder: '请输入用户名',
+      placeholder: 'please enter user name',
     },
     formItemProps: {
       rules: [
@@ -16,14 +16,14 @@ export const columns: FormColumnType[] = [
     },
   },
   {
-    title: '性别',
+    title: 'Gender',
     dataIndex: 'gender',
     valueType: 'radio',
     fieldProps: {
       options: [
-        { label: '男', value: '男' },
-        { label: '女', value: '女' },
-        { label: '其它', value: '其它' },
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' },
       ],
     },
   },

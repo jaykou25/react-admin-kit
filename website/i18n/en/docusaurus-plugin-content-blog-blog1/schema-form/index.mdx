@@ -1,0 +1,230 @@
+---
+date: 2025-01-01
+sidebar_label: SchemaForm:0:Core:0
+---
+
+# SchemaForm - JSON Form Generator
+
+Generates forms through a declarative schema configuration. The schema structure closely resembles Antd Table's columns.
+
+## Core Concepts
+
+It's a basic SchemaForm example:
+
+<Previewer
+ inline
+  title="Basic SchemaForm Example"
+  src="@@/SchemaForm/demos/basic-en/index.tsx"
+/>
+
+Before diving deeper, let's clarify several key concepts.
+
+SchemaForm is built upon the [Antd Form](https://ant-design.antgroup.com/components/form) component. It generates form items by iterating through a **schema array**.
+
+In this example, each object in the <i>columns array</i> represents a **schema**.
+
+```js
+{
+  title: 'Username',
+  dataIndex: 'username',
+  fieldProps: {
+    placeholder: 'Please enter username'
+  },
+  formItemProps: {
+    rules: [
+      {
+        required: true,
+      },
+    ],
+  },
+},
+```
+
+If written using Antd Form directly, this schema would generate:
+
+```js
+import { Form, Input } from 'antd';
+
+<Form>
+  <Form.Item
+    label="Username"
+    name="username"
+    rules={[
+      {
+        required: true,
+      },
+    ]}
+  >
+    <Input placeholder="Please enter username" />
+  </Form.Item>
+</Form>;
+```
+
+Key mappings in schema:
+
+- `title` maps to Form.Item's `label`.
+- `dataIndex` maps to Form.Item's `name`.
+- `formItemProps` are passed to the Form.Item component.
+- `fieldProps` are passed to the wrapped component (Input in this case).
+
+Now examine the second schema:
+
+```js | {4}
+{
+  title: "Gender",
+  dataIndex: "gender",
+  valueType: "radio",
+  fieldProps: {
+    options: [
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+      { label: "Other", value: "other" },
+    ],
+  },
+};
+```
+
+The key difference is the `valueType` field. SchemaForm renders different components based on `valueType` - here 'radio' maps to a Radio.Group component, with options passed via `fieldProps`.
+
+This demonstrates SchemaForm's advantage: most common components can be rendered through valueType.
+
+Now let's examine **FormInstance**.
+
+The [FormInstance](https://ant-design.antgroup.com/components/form#forminstance) is a core Antd Form concept, providing methods for form operations like submission, reset, and value assignment.
+
+In SchemaForm, we access the form instance through the `formRef` prop:
+
+```js | {4}
+import { useRef } from 'react';
+import { ProFormInstance, SchemaForm } from 'react-admin-kit';
+
+const formRef = useRef<ProFormInstance>(); // Note: Uses ProFormInstance which extends Antd's form instance
+
+<SchemaForm formRef={formRef} />
+
+formRef.current?.submit(); // Submit
+formRef.current?.resetFields(); // Reset
+formRef.current?.setFieldsValue(); // Set values
+```
+
+We'll explore more form instance methods later.
+
+These are SchemaForm's fundamental concepts - you're now ready to create basic forms ✨.
+
+As you progress, consult the examples below to master SchemaForm's advanced features.
+
+### valueType
+
+The valueType field is crucial in schema configuration, determining which form component gets rendered. Common types include `money`, `digit`, `date`, `dateRange`, `select`, `radio`, `textarea`, etc. (Complete list [here](https://procomponents.ant.design/en-US/components/schema#valuetype-lists)). When unspecified, defaults to Input.
+
+<Previewer src="@@/SchemaForm/demos/valueType/index.tsx" />
+
+For custom components, use `renderFormItem`. Custom components must follow Form.Item conventions (accept value/onChange props).
+
+```js
+{
+  renderFormItem: (schema, config, form) => {
+    return <MyComp />;
+  };
+}
+```
+
+### required
+
+Since required fields are common, SchemaForm provides a required shorthand for formItemProps: `{ rules: [{ required: true }]}`. formItemProps takes precedence.
+
+<Previewer src="@@/SchemaForm/demos/required/index.tsx" />
+
+## Form Layouts
+
+### Traditional Layouts
+
+<Previewer title="Horizontal" src="@@/SchemaForm/demos/horizontal/index.tsx" />
+
+<Previewer title="Vertical" src="@@/SchemaForm/demos/vertical/index.tsx" />
+
+<Previewer title="Inline" src="@@/SchemaForm/demos/inline/index.tsx" />
+
+### Grid Mode
+
+Grid mode utilizes Ant Design's [Grid](https://ant-design.antgroup.com/components/grid) System, controlling layout through [Row](https://ant-design.antgroup.com/components/grid#row) and [Col](https://ant-design.antgroup.com/components/grid#col) props.
+
+```js | {2}
+<SchemaForm
+  grid
+  rowProps={{}}
+  colProps={{}}
+  columns={[
+    {
+      title: 'name',
+      colProps: {} // Higher priority
+    },
+    {
+      title: 'age',
+      colProps: {} // Higher priority
+    }
+  ]}
+/>
+```
+
+When `grid` is enabled, it renders as:
+
+```js | {3,4,10}
+// pseudocode for illustration only
+<Form>
+  <Row {...rowProps}>
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+  </Row>
+</Form>
+```
+
+Grid system enables flexible layouts:
+
+<Previewer src="@@/SchemaForm/demos/grid/index.tsx" />
+
+### Horizontal Grid Alignment
+
+In horizontal grid mode, label widths may vary:
+
+<Previewer src="@@/SchemaForm/demos/gridHorizontalInit/index.tsx" />
+
+Solutions include setting minimum widths:
+
+<Previewer title="Minimum Label Width" src="@@/SchemaForm/demos/gridHorizontalMinWidth/index.tsx" />
+
+Or specifying individual widths:
+
+<Previewer title="Custom Label Widths" src="@@/SchemaForm/demos/gridHorizontal/index.tsx" />
+
+> `labelCol` is an Antd Form prop that accepts Col props like `{span: 8}` or `{flex: '0 0 30%'}`.
+>
+> Values are calculated relative to the form item's width (divided into 24 units). `{span: 8}` means the label occupies 8/24 of the item's width.
+
+### Placeholder Spacing
+
+Use empty placeholders for forced line breaks.
+
+<Previewer src="@@/SchemaForm/demos/placeholder/index.tsx" />
+
+## Form Operations
+
+### Readonly Mode
+
+Enable via `readonly` prop or schema's `readonly`. Key notes:
+
+1. Use `render` (not `renderFormItem`) for custom readonly displays
+2. Return null from render for empty space: `render: () => null`
+
+> 💡 Rakjs extends the readonly render function's second parameter (record) to include all form values.
+
+<Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
