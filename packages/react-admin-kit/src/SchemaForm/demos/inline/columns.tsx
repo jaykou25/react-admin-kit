@@ -4,7 +4,6 @@ import type { FormColumnType } from 'react-admin-kit';
 
 export const columns: FormColumnType[] = [
   {
-    title: '1',
     dataIndex: 'username',
     fieldProps: {
       placeholder: 'Username',
@@ -12,7 +11,6 @@ export const columns: FormColumnType[] = [
     },
   },
   {
-    title: '2',
     dataIndex: 'password',
     fieldProps: {
       placeholder: 'Password',

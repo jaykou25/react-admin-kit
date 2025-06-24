@@ -5,14 +5,7 @@ export const getColumns = (): FormColumnType[] => [
     title: '用户名',
     dataIndex: 'username',
     colProps: { span: 24 },
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '用户名为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '电话',
@@ -25,7 +18,7 @@ export const getColumns = (): FormColumnType[] => [
   {
     title: '性别',
     dataIndex: 'gender',
-    valueType: 'radio',
+    valueType: 'select',
     fieldProps: {
       options: [
         { label: '男', value: '男' },

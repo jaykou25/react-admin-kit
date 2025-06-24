@@ -190,21 +190,21 @@ When `grid` is enabled, it renders as:
 
 Grid system enables flexible layouts:
 
-<Previewer src="@@/SchemaForm/demos/grid/index.tsx" />
+<Previewer src="@@/SchemaForm/demos/grid-en/index.tsx" />
 
 ### Horizontal Grid Alignment
 
 In horizontal grid mode, label widths may vary:
 
-<Previewer src="@@/SchemaForm/demos/gridHorizontalInit/index.tsx" />
+<Previewer src="@@/SchemaForm/demos/gridHorizontalInit-en/index.tsx" />
 
 Solutions include setting minimum widths:
 
-<Previewer title="Minimum Label Width" src="@@/SchemaForm/demos/gridHorizontalMinWidth/index.tsx" />
+<Previewer title="Minimum Label Width" src="@@/SchemaForm/demos/gridHorizontalMinWidth-en/index.tsx" />
 
 Or specifying individual widths:
 
-<Previewer title="Custom Label Widths" src="@@/SchemaForm/demos/gridHorizontal/index.tsx" />
+<Previewer title="Custom Label Widths" src="@@/SchemaForm/demos/gridHorizontal-en/index.tsx" />
 
 > `labelCol` is an Antd Form prop that accepts Col props like `{span: 8}` or `{flex: '0 0 30%'}`.
 >
@@ -228,3 +228,17 @@ Enable via `readonly` prop or schema's `readonly`. Key notes:
 > 💡 Rakjs extends the readonly render function's second parameter (record) to include all form values.
 
 <Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
+
+### Field Dependencies
+
+<Previewer src="@@/SchemaForm/demos/dependency/index.tsx" />
+
+### Initial Values and Value Assignment
+
+1. [Show User] defaults to false
+
+2. Toggles to true when clicking "Set Values"
+
+3. Resets to false when clicking "Reset"
+
+<Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx" />

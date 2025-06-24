@@ -7,10 +7,10 @@ const Grid = () => {
       <SchemaForm
         name="grid-demo"
         grid={true}
-        // https://ant.design/components/grid-cn/#row
+        // https://ant.design/components/grid/#row
         rowProps={{ gutter: [8, 0] }}
-        // https://ant.design/components/grid-cn/#col
-        colProps={{ span: 8 }} // 全局控制一行三列，同时在 columns 上可以单独覆盖
+        // https://ant.design/components/grid/#col
+        colProps={{ span: 8 }}
         columns={columns}
         autoFocusFirstInput={false}
       />

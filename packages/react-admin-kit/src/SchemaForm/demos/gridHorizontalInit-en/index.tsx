@@ -1,20 +1,20 @@
 import { SchemaForm } from 'react-admin-kit';
-import { columns } from './columns';
+import { getColumns } from './columns';
 
-const Placeholder = () => {
+const GridHorizontalInit = () => {
   return (
     <div>
       <SchemaForm
+        name="grid-demo-horizontal-init"
         layout="horizontal"
         grid={true}
-        rowProps={{ gutter: [0, 0] }}
+        rowProps={{ gutter: [8, 0] }}
         colProps={{ span: 8 }}
-        labelCol={{ span: 9 }}
-        columns={columns}
+        columns={getColumns()}
         autoFocusFirstInput={false}
       />
     </div>
   );
 };
 
-export default Placeholder;
+export default GridHorizontalInit;
