@@ -1,7 +1,7 @@
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import resultObj from '@site/.docusaurus-previewer-cache/result.json';
 import { demos } from '@site/.docusaurus-previewer-cache/demos';
-import { createElement, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import classnames from 'classnames';
 
 import './index.less';
@@ -11,23 +11,21 @@ const Previewer = (props: any) => {
   const { src, inline } = props;
   const info = resultObj[src] || {};
 
-  const demo = demos[src];
+  const Demo = demos[src];
 
-  const demoNode = demo ? (
+  const demoNode = Demo ? (
     <Suspense
       fallback={
         <div style={{ textAlign: 'center', color: '#777' }}>loading...</div>
       }
     >
-      {createElement(demo)}
+      <Demo />
     </Suspense>
   ) : null;
 
   if (inline) {
     return demoNode;
   }
-
-  // const demoNode = demo ? createElement(demo) : null;
 
   return <PluginPreviewer {...props} {...info} demoNode={demoNode} />;
 };

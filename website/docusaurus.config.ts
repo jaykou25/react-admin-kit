@@ -12,6 +12,11 @@ const config: Config = {
   tagline: '中后台应用的最佳伴侣',
   favicon: 'img/rak-r15.png',
 
+  future: {
+    v4: true,
+    experimental_faster: true,
+  },
+
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
   // Set the /<baseUrl>/ pathname under which your site is served
