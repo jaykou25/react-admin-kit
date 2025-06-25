@@ -7,9 +7,11 @@
  */
 
 import path from 'path';
+import upath from 'upath';
 import fs from 'fs-extra';
 import { glob } from 'glob';
 import { withCustomConfig } from 'react-docgen-typescript';
+import FileSystemCache from 'file-system-cache';
 
 interface PluginOptions {
   // 组件库的源码目录
@@ -25,7 +27,9 @@ async function pluginLibraryDevTool(
 ): Promise<any> {
   const { libPath, pattern = '**/index.tsx' } = opts;
 
-  const cacheDir = '.docusaurus-previewer-cache';
+  const cacheBaseDir = '.docusaurus-previewer-cache';
+  const cacheDir = path.join(context.siteDir, cacheBaseDir, 'docgen-files');
+  const cacheFilePath = path.join(context.siteDir, cacheBaseDir, 'docgen.json');
 
   const docgenParser = withCustomConfig(
     path.resolve(libPath, 'tsconfig.json'),
@@ -42,6 +46,10 @@ async function pluginLibraryDevTool(
     },
   );
 
+  const cache = FileSystemCache({
+    basePath: cacheDir,
+  });
+
   console.log('插件启动docusaurus-plugin-lib-dev');
 
   return {
@@ -50,7 +58,6 @@ async function pluginLibraryDevTool(
     // 在构建开始前执行文档解析
     async loadContent() {
       console.log('插件日志', '解析 tsx 文件...');
-      const cacheFilePath = path.join(context.siteDir, cacheDir, 'docgen.json');
 
       // 扫描所有组件文件
       const files = await glob(pattern, {
@@ -65,12 +72,26 @@ async function pluginLibraryDevTool(
       for (const file of files) {
         try {
           const filePath = path.join(libPath, file);
+          const cacheKey = upath.normalize(filePath);
+
+          // 获取文件最后修改时间
+          const stat = await fs.stat(filePath);
+          const mtime = stat.mtimeMs;
+
+          // 读取缓存
+          const cacheItem = await cache.get(cacheKey);
+          if (cacheItem && cacheItem.mtime === mtime && cacheItem.data) {
+            // 缓存有效
+            docsData.push(...cacheItem.data);
+            continue;
+          }
+
           const tsInfo = docgenParser.parse(filePath);
+          await cache.set(cacheKey, { mtime, data: tsInfo });
+
           console.log('解析 ts 文件成功', filePath);
           if (tsInfo.length > 0) {
-            tsInfo.forEach((info) => {
-              docsData.push(info);
-            });
+            docsData.push(...tsInfo);
           }
         } catch (error) {
           console.warn(`Failed to parse ${file}:`, error);

@@ -39,6 +39,7 @@
     "@mdx-js/mdx": "^3.1.0",
     "@rollup/pluginutils": "^5.1.4",
     "docusaurus-plugin-lib-dev-rehype": "workspace:1.0.0-beat.0",
+    "file-system-cache": "2.4.7",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.1",
     "lodash": "^4.17.21",
