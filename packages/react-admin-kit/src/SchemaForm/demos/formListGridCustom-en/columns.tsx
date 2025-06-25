@@ -1,6 +1,6 @@
 import { Badge, Button } from 'antd';
 import type { FormColumnType } from 'react-admin-kit';
-import ShopSelect from '../formList/ShopSelect';
+import ShopSelect from '../formList-en/ShopSelect';
 
 export const columns: FormColumnType[] = [
   {
@@ -10,10 +10,10 @@ export const columns: FormColumnType[] = [
     fieldProps: {
       alwaysShowItemLabel: true,
       creatorButtonProps: {
-        creatorButtonText: '添加店铺',
+        creatorButtonText: 'Add Shop',
         type: 'primary',
       },
-      // listDom 是表单项合集, action 是操作按钮合集
+      // listDom is the collection of form items, action is the collection of action buttons
       itemRender: ({ listDom, action }, options) => {
         const { index, operation } = options;
         return (
@@ -33,7 +33,7 @@ export const columns: FormColumnType[] = [
               type="primary"
               onClick={() => operation.remove(index)}
             >
-              删除店铺
+              Delete Shop
             </Button>
           </div>
         );
@@ -42,11 +42,11 @@ export const columns: FormColumnType[] = [
     columns: [
       {
         valueType: 'group',
-        // 👇 rowProps 需要设置在 group 上👇
+        // 👇 rowProps should be set on the group 👇
         rowProps: { gutter: [16, 0] },
         columns: [
           {
-            title: '店铺',
+            title: 'Shop',
             dataIndex: 'shop',
             required: true,
             renderFormItem(item, config, form) {
@@ -55,19 +55,19 @@ export const columns: FormColumnType[] = [
             colProps: { span: 16 },
           },
           {
-            title: '店铺面积',
+            title: 'Shop Area',
             dataIndex: 'area',
             valueType: 'digit',
             colProps: { span: 8 },
             fieldProps: { style: { width: '100%' } },
           },
           {
-            title: '店铺联系人',
+            title: 'Shop Contact',
             dataIndex: 'contacts',
             colProps: { span: 12 },
           },
           {
-            title: '联系人电话',
+            title: 'Contact Phone',
             dataIndex: 'contactsPhone',
             colProps: { span: 12 },
           },

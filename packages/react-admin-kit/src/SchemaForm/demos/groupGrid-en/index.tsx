@@ -7,9 +7,9 @@ const GroupGrid = () => {
       <SchemaForm
         name="demo-grid"
         grid
-        // 👇这是设置给外层的👇
+        // 👇This is set for the outer container👇
         colProps={{ span: 24 }}
-        // 👆这是设置给外层的👆
+        // 👆This is set for the outer container👆
 
         onFinish={console.log}
         columns={columns}

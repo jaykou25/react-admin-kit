@@ -7,25 +7,25 @@ const DependencyDemo = () => {
         name="demo-dependency"
         columns={[
           {
-            title: '是否显示电话',
+            title: 'Show Phone',
             dataIndex: 'showPhone',
             valueType: 'radio',
             initialValue: 0,
             fieldProps: {
               options: [
-                { label: '是', value: 1 },
-                { label: '否', value: 0 },
+                { label: 'Yes', value: 1 },
+                { label: 'No', value: 0 },
               ],
             },
           },
           {
             valueType: 'dependency',
-            name: ['showPhone'], // 可以写多个字段，用于观察多个值
+            name: ['showPhone'], // You can specify multiple fields here to observe multiple values
             columns: ({ showPhone }) => {
               if (showPhone) {
                 return [
                   {
-                    title: '电话',
+                    title: 'Phone',
                     dataIndex: 'phone',
                   },
                 ];

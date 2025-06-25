@@ -9,51 +9,59 @@ export type SchemaFormProps = SchemaFormSelfProps & OtherFormProps;
 
 export type SchemaFormSelfProps = {
   /**
-   * @description       是否为内嵌模式
-   * @default           false
+   * @zh-Hans 是否为内嵌模式
+   * @en      Whether it is embed mode
+   * @default false
    */
   embed?: boolean;
 
   /**
-   * @description      开启embed后处理套嵌数据结构; 在onFinish收集数据时, 会挂在该字段下. 仅适用于embed模式
-   * @default           false
+   * @zh-Hans 开启embed后处理套嵌数据结构; 在onFinish收集数据时, 会挂在该字段下. 仅适用于embed模式
+   * @en      When embed is enabled, handle nested data structure; when collecting data in onFinish, it will be attached under this field. Only applicable in embed mode.
+   * @default false
    */
   valueBaseName?: string;
 
   /**
-   * @description       是否为只读模式
-   * @default           false
+   * @zh-Hans 是否为只读模式
+   * @en      Whether it is readonly mode
+   * @default false
    */
   readonly?: boolean;
 
   /**
-   * @description 表单项的配置描述;
+   * @zh-Hans 表单项的配置描述;
+   * @en      Configuration description of form items;
    */
   columns: FormColumnType[];
 
   /**
-   * @description 表单提交时的回调;
+   * @zh-Hans 表单提交时的回调;
+   * @en      Callback when the form is submitted;
    */
   onFinish?: (values: any) => Promise<boolean | void> | void;
 
   /**
-   * @description 用于获取form实例; 请使用formRef而不要通过form属性传入一个form实例来获取实例. 因为RAK组件对form实例进行了额外的封装, 一定要通过formRef来获取.
-   * @type RefObject<ProFormInstance>
+   * @zh-Hans 用于获取form实例; 请使用formRef而不要通过form属性传入一个form实例来获取实例. 因为RAK组件对form实例进行了额外的封装, 一定要通过formRef来获取.
+   * @en      Used to get the form instance; please use formRef instead of passing a form instance through the form property. Because RAK components have extra encapsulation for the form instance, you must get it through formRef.
+   * @type    RefObject<ProFormInstance>
    */
   formRef?:
     | React.MutableRefObject<ProFormInstance<any> | undefined>
     | React.RefObject<ProFormInstance<any> | undefined>;
 
   /**
-   * @description RAK特有的ref, 用于存放一些工具类函数和数据.
-   * @type RefObject<SchemaFormInnerRefType>
+   * @zh-Hans RAK特有的ref, 用于存放一些工具类函数和数据.
+   * @en      RAK specific ref, used to store some utility functions and data.
+   * @type    RefObject<SchemaFormInnerRefType>
    */
   innerRef?: BaseInnerRef;
 
   /**
-   * @description 提交按钮相关配置.
-   * @type boolean | SubmitterProps & { style: React.CSSProperties }
-   * @default    false
+   * @zh-Hans 提交按钮相关配置.
+   * @en      Submit button related configuration.
+   * @type    boolean | SubmitterProps & { style: React.CSSProperties }
+   * @default false
    */
   submitter?:
     | boolean

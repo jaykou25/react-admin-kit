@@ -2,13 +2,13 @@ import type { FormColumnType } from 'react-admin-kit';
 
 export const getColumns = (): FormColumnType[] => [
   {
-    title: '是否显示用户',
+    title: 'Show User',
     dataIndex: 'showUser',
     valueType: 'radio',
     fieldProps: {
       options: [
-        { label: '是', value: 1 },
-        { label: '否', value: 0 },
+        { label: 'Yes', value: 1 },
+        { label: 'No', value: 0 },
       ],
     },
   },
@@ -19,7 +19,7 @@ export const getColumns = (): FormColumnType[] => [
       if (showUser) {
         return [
           {
-            title: '用户',
+            title: 'User',
             dataIndex: 'user',
             valueType: 'select',
             fieldProps: {

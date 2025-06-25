@@ -231,14 +231,317 @@ Enable via `readonly` prop or schema's `readonly`. Key notes:
 
 ### Field Dependencies
 
-<Previewer src="@@/SchemaForm/demos/dependency/index.tsx" />
+<Previewer src="@@/SchemaForm/demos/dependency-en/index.tsx" />
 
 ### Initial Values and Value Assignment
 
-1. [Show User] defaults to false
+1. [Show User] defaults to No
 
-2. Toggles to true when clicking "Set Values"
+2. Toggles to Yes when clicking "Set Values"
 
-3. Resets to false when clicking "Reset"
+3. Resets to No when clicking "Reset"
 
-<Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx" />
+<Previewer src="@@/SchemaForm/demos/init-value-basic-en/index.tsx" />
+
+### Submit Button
+
+The `submitter` prop defaults to false. When enabled, automatically generates submit buttons.
+
+<Previewer src="@@/SchemaForm/demos/submitter/index.tsx" />
+
+Customize button props:
+
+<Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx" />
+
+### Readonly/Editable Toggle
+
+Practical scenarios:
+
+**1. Form Display Simulation**
+
+<Previewer src="@@/SchemaForm/demos/readonly-form-en/index.tsx" />
+
+**2. Dependent Field Display in Readonly Mode**
+
+<Previewer src="@@/SchemaForm/demos/readonly-render-en/index.tsx" />
+
+## Form Data
+
+### Value Retrieval
+
+SchemaForm provides multiple value retrieval methods. The most common is `onFinish`.
+
+Other methods via form instance:
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTable-en/index.tsx" />
+
+These methods have subtle differences in handling formats and transformations.
+
+**Rule of thumb**: Use the first two methods when you need raw values, others for processed values.
+
+<Previewer src="@@/SchemaForm/demos/formValue-en/index.tsx" />
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTableResult-en/index.tsx" />
+
+### ConvertValue and Transform
+
+Backend data often requires transformation before being used in form controls. (ConvertValue)
+
+Similarly, form-collected data may need processing before being sent to the server. (Transform)
+
+This is particularly common in scenarios like file attachments upload, where:
+
+```js
+// there is a upload component
+{
+  title: 'Files',
+  dataIndex: 'fileList',
+  renderFormItem: () => <FormUpload />
+}
+
+// <FormUpload /> expects: [{ name: 'FileA', url: 'www.xx.com/xx' }]
+
+// Backend returns for display: [{ id: 1, fileName: 'FileA', filePath: 'www.xx.com/xx' }]
+
+// Submission requires: fileIds: '1,2'
+```
+
+`convertValue` and `transform` handle these scenarios.
+
+<Previewer src="@@/FormUpload/demos/dataSubmit-en/index" />
+
+> For file uploads, use the [FormUpload](/components/form-upload) component.
+
+### Convention Handling
+
+For components like [Select](https://ant-design.antgroup.com/components/select) and [TreeSelect](https://ant-design.antgroup.com/components/tree-select), when the `labelInValue` property is enabled, the component no longer accepts strings but requires an object `{ label: string, value: string }` for display purposes.
+
+As a result, the frontend needs to transform this data, and when submitting, the object must be split back into its original fields.
+
+```js
+// Example: A user dropdown component with labelInValue enabled
+{
+  title: 'User',
+  dataIndex: 'user',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// Backend returns userId: 1, userName: 'jack' for display
+// => Frontend transforms into user: { value: 1, label: 'jack' }
+// => On submission, the object is converted back to userId: 2, userName: 'tom'
+```
+
+Since this scenario is quite common, RAK aims to simplify the process by introducing a convention for dataIndex, as follows:
+
+- 👉 If dataIndex contains a comma `,`, RAK will automatically assemble an object based on the fields before and after the comma. During submission, the object will be split back. The field before the comma maps to value, and the field after maps to label.
+
+```js
+// Example: A user dropdown component with labelInValue enabled
+{
+  title: 'User',
+  dataIndex: 'userId,userName',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// With this convention, simply provide the values like this:
+initialValues={{ userId: 1, userName: 'jack' }}
+
+// Or:
+formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
+
+// Upon submission, the form will not receive:
+`{'userId,userName': { value: 1, label: 'jack' }}`
+
+// Instead, it will receive:
+{
+  userId: 1,
+  userName: 'jack'
+}
+```
+
+- If the component expects object keys other than `value` and `label`, you can customize them using an underscore. For example, `userId,userName_id,name` splits the underscore, where the fields after the underscore are also comma-separated. In this case, when assigning `{userId: 1, userName: 'jack'}` to the component, the value will be transformed into `{` id: 1, name: 'jack' }` before being passed to the component.
+
+<Previewer src="@@/SchemaForm/demos/conventionSimple-en/index.tsx" />
+
+### Storing Additional Data with innerRef
+
+`innerRef` is a utility ref containing helpful methods for special scenarios.
+
+Use `innerRef.current?.setData()` to store extra data, consumable by other fields.
+
+> Similar to React's setState, setData merges updates.
+
+<Previewer src="@@/SchemaForm/demos/innerRefData-en/index.tsx" />
+
+> For Embed Mode, pass innerRef to ProForm:
+>
+> ```js
+> import { ProForm } from 'react-admin-kit';
+> import { useRef } from 'react'
+>
+> const innerRef = useRef();
+> ...
+>
+> <ProForm
+>   innerRef={innerRef}
+>   ...
+> >
+> ...
+> </>
+> ```
+
+## Advanced Layouts
+
+### Embed Mode
+
+For complex forms, using embed mode allows each section to have its own layout configuration while collecting data in separate objects through the `valueBaseName` property.
+
+```js | {4,6,7,12,13,19,20}
+import { ProForm, SchemaForm } from 'react-admin-kit';
+import { Card } from 'antd';
+
+<ProForm>
+  <SchemaForm 
+    embed 
+    valueBaseName="one" 
+  />
+
+  <div>
+    <SchemaForm 
+      embed 
+      valueBaseName="two" 
+    />
+  </div>
+
+  <Card>
+    <SchemaForm 
+      embed 
+      valueBaseName="three" 
+    />
+  </Card>
+</ProForm>;
+
+// The collected form values upon submission will be: { one: ..., two: ..., three: ... }`
+```
+
+<Previewer src="@@/SchemaForm/demos/embed-simple-en/index.tsx" />
+
+> 👉 Important note: In embed mode, the `valueBaseName` implementation simply converts the schema's dataIndex into an array format. See this Ant Design [example](https://ant.design/components/form/#components-form-demo-nest-messages).
+>
+> Therefore, when using setFieldsValue, you must include the valueBaseName in the value structure.
+>
+> ```js
+> setFieldsValue({ business: { company: 'xxx' } });
+> ```
+>
+> For dependency controls, when valueType='dependency' and `valueBaseName` has a value, the `name` property should use nested array syntax.
+>
+> ```js
+> { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
+> 
+
+### Group Layout
+
+When `valueType` is set to group, it enables grouped layout mode. Each group functions as a distinct section, with form items generated from the contents of columns.
+
+By default, these form items are wrapped in Ant Design's [Space](https://ant.design/components/space/) component. Therefore, you can pass Space component's API properties through fieldProps.
+
+<Previewer src="@@/SchemaForm/demos/group-en/index.tsx" />
+
+### Group Layout grid
+
+The group layout operates at two levels:
+
+1. Outer layer (section title)
+
+2. Inner layer (form items within **columns**)
+
+Accordingly, `colProps` configurations must be specified separately for each level.
+
+<Previewer title='Group Grid Layout' src="@@/SchemaForm/demos/groupGrid-en/index.tsx" />
+
+<Previewer title='Horizontal Group Grid Layout' src="@@/SchemaForm/demos/groupGridHorizontal-en/index.tsx" />
+
+## Form Array
+
+When `valueType` is set to `formList`, it generates a form array, which is particularly useful for collecting **array-type** data.
+
+For example, the following demo allows collecting multiple shop infomation:
+
+<Previewer src="@@/SchemaForm/demos/formList-en/index.tsx" />
+
+`formList` is essentially a component, and its [API](https://procomponents.ant.design/en-US/components/group#proformlist-api) can be configured via fieldProps.
+
+### Grid Layout
+
+The form items must be wrapped in valueType='group'.
+
+<Previewer src="@@/SchemaForm/demos/formListGrid-en/index.tsx" />
+
+### Custom Styling
+
+You can further customize the styling and action buttons using the `itemRender` property. See the example for usage.
+
+> The `itemRender` function signature: `({ listDom, action }, options) => ReactNode`
+>
+> The `options` signature: `{name, field, index, record, fields, operations, meta}`
+
+<Previewer src="@@/SchemaForm/demos/formListGridCustom-en/index.tsx" />
+
+## API
+
+### SchemaForm
+
+<API name="SchemaFormType" />
+
+For more properties, please refer to [ProForm](https://procomponents.ant.design/en-US/components/form#proform) and [Antd Form](https://ant.design/components/form/#api). Below are some commonly used ones:
+
+
+| Property | Description | Type | <div style={{width: '65px'}}>Default</div> |
+| --- | --- | --- | --- |
+| layout | Form layout | `horizontal` \| `vertical` \| `inline` | `vertical` |
+| grid | Enable grid mode. See the examples above. When grid is enabled, you can use rowProps and colProps to adjust the layout of any form item | `Boolean` | `false` |
+| rowProps | Props passed to `Row` when grid mode is enabled. For example, `{gutter: [16, 0]}` | [RowProps](https://ant.design/components/grid/#row) | `{ gutter: 8 }` |
+| colProps | Props passed to all form items when grid mode is enabled. For example, `{span: 8}` means three items per row. You can also specify colProps individually in columns, which will override the global colProps | [ColProps](https://ant.design/components/grid/#col) | `--` |
+| labelCol | Props passed to the label of a form item, e.g. `{span: 3}`. Like colProps above, this can also be specified individually in columns via formItemProps, e.g. `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid/#col) | `--`|
+
+### InnerRef
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| data | Can be used to store extra data in the form | `Record<string, any>` | `{}` |
+| setData | Store data; setData works like React's setState, you only need to pass the fields you care about, and it will not overwrite other fields. | `(Record<string, any>) => void` | `--` |
+
+### Column
+
+| Field Name | Description | Type |
+| --- | --- | --- |
+| key | Unique value for this column, generally used when dataIndex is duplicated | `React.key` |
+| dataIndex | You can use convention mode to automatically handle values,see [Convention Example](/components/schema-form#convention-handling) | `string` |
+| valueType | How the data is rendered. We provide some built-in types, and you can also customize valueType | `ProFieldValueType` |
+| title | The content of the title, which is the label in the form | `ReactNode` \| `(props,type,dom)=> ReactNode` |
+| tooltip | An icon will be displayed next to the title, and a tooltip will appear on hover | `string` |
+| valueEnum | Supports object and Map. Map allows other basic types as keys | `(Entity)=> ValueEnum` \| `ValueEnum` |
+| fieldProps | Props passed to the rendered component; also passed when customizing | `(form,config)=>fieldProps` \| `fieldProps` |
+| formItemProps | Props passed to Form.Item | `(form,config)=>formItemProps` \| `formItemProps` |
+| readonly | Readonly mode; has higher priority | `boolean` |
+| render | Custom display in readonly mode. The `render` method only manages readonly mode; use `renderFormItem` for edit mode | `(dom,record,index, action, schema) => React.ReactNode` |
+| renderFormItem | Custom edit mode, returns a ReactNode, value and onChange will be wrapped automatically | `(schema,config,form) => React.ReactNode` |
+| hideInForm | Hide in Form | `boolean` |
+| rowProps | Passed to Row when `grid` mode is enabled | [RowProps](https://ant.design/components/grid/#row) |
+| colProps | Passed to Col when `grid` mode is enabled | [ColProps](https://ant.design/components/grid/#col) |
+| required | Whether the field is required |

@@ -26,13 +26,13 @@ const Demo = () => {
             })
           }
         >
-          赋值
+          Set Values
         </Button>
         <Button
           style={{ marginRight: '10px' }}
           onClick={() => formRef.current?.resetFields()}
         >
-          重置
+          Reset
         </Button>
       </div>
     </div>

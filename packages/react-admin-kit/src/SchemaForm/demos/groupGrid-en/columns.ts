@@ -2,23 +2,23 @@ import type { FormColumnType } from 'react-admin-kit';
 
 export const columns: FormColumnType[] = [
   {
-    title: '基本信息',
+    title: 'Basic Information',
     valueType: 'group',
     columns: [
       {
-        title: '用户名',
+        title: 'Username',
         dataIndex: 'username',
         required: true,
 
-        // 👇这是设置给里层的👇
+        // 👇This is set for the inner item👇
         colProps: { span: 24 },
       },
       {
-        title: '电话',
+        title: 'Phone',
         dataIndex: 'phone',
         required: true,
 
-        // 👇这是设置给里层的👇
+        // 👇This is set for the inner item👇
         colProps: { span: 24 },
       },
     ],
@@ -27,40 +27,40 @@ export const columns: FormColumnType[] = [
     valueType: 'divider',
   },
   {
-    title: '额外信息',
+    title: 'Additional Information',
     valueType: 'group',
     columns: [
       {
-        title: '昵称',
+        title: 'Nickname',
         required: true,
         dataIndex: 'nickName',
       },
       {
-        title: '性别',
+        title: 'Gender',
         dataIndex: 'gender',
         valueType: 'select',
         fieldProps: {
           options: [
             {
-              label: '男',
-              value: '男',
+              label: 'Male',
+              value: 'Male',
             },
             {
-              label: '女',
-              value: '女',
+              label: 'Female',
+              value: 'Female',
             },
           ],
         },
 
-        // 👇这是设置给里层的👇
+        // 👇This is set for the inner item👇
         colProps: { span: 12 },
       },
       {
-        title: '身份证号',
+        title: 'ID Number',
         dataIndex: 'idNumber',
         required: true,
 
-        // 👇这是设置给里层的👇
+        // 👇This is set for the inner item👇
         colProps: { span: 12 },
       },
     ],

@@ -1,12 +1,16 @@
 import { SchemaForm } from 'react-admin-kit';
 
-import { columns } from './columns';
-
 const Basic = () => {
   return (
     <SchemaForm
       name="demo-submitter"
-      columns={columns}
+      columns={[
+        {
+          title: 'User',
+          dataIndex: 'username',
+          required: true,
+        },
+      ]}
       autoFocusFirstInput={false}
       submitter
       onFinish={console.log}

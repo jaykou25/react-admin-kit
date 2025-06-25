@@ -21,7 +21,7 @@ const ConventionSimple = () => {
     <div>
       <Space direction="vertical" style={{ marginBottom: '20px' }}>
         <Button onClick={() => formRef.current?.resetFields()}>
-          0. 初始状态
+          0. Initial State
         </Button>
         <Button
           onClick={() =>
@@ -31,9 +31,9 @@ const ConventionSimple = () => {
             })
           }
         >
-          1. 约定式赋值
+          1. Set Convention Value
         </Button>
-        <Button onClick={() => formRef.current?.submit()}>2. 提交</Button>
+        <Button onClick={() => formRef.current?.submit()}>2. Submit</Button>
       </Space>
       <SchemaForm
         layout="horizontal"
@@ -41,7 +41,7 @@ const ConventionSimple = () => {
         formRef={formRef}
         columns={[
           {
-            title: '用户',
+            title: 'User',
             dataIndex: 'userId,userName',
             valueType: 'select',
             fieldProps: {
