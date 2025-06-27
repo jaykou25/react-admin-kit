@@ -11,13 +11,15 @@ import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
 import { CreateBaseInner } from '../context';
 
-type ProFormType = Omit<ProFormProps, 'onFinish'> & {
+type ProFormType = Omit<ProFormProps, 'onFinish' | 'submitter'> & {
   children?: React.ReactNode | React.ReactNode[];
   innerRef?: BaseInnerRef;
   /**
    * @description 表单提交时的回调;
    */
   onFinish?: (values: any) => Promise<boolean | void> | void;
+
+  submitter?: boolean | ProFormProps['submitter'];
 };
 
 export const InnerRefContext = createContext<BaseInnerRef | undefined>(
@@ -35,6 +37,7 @@ const ProForm = (props: ProFormType) => {
     initialValues,
     children,
     innerRef: propsInnerRef,
+    submitter,
     ...rest
   } = props;
 
@@ -162,6 +165,7 @@ const ProForm = (props: ProFormType) => {
             onFinish={handleOnFinish}
             initialValues={initialValuesRef.current}
             formRef={selfFormRef}
+            submitter={submitter === true ? {} : submitter}
             {...rest}
             form={formInstanceRef.current}
           >
