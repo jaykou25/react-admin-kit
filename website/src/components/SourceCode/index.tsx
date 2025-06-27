@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './index.less';
+import { useColorMode } from '@docusaurus/theme-common';
 
 /**
  * define DSL which can be highlighted as similar language
@@ -38,6 +39,8 @@ const SourceCode: FC<ISourceCodeProps> = (props) => {
   const [isCopied, setIsCopied] = useState(false);
   const [text, setText] = useState(children);
 
+  const { colorMode } = useColorMode();
+
   useEffect(() => {
     const isShell = /shellscript|shell|bash|sh|zsh/.test(lang);
     if (isShell) {
@@ -50,7 +53,7 @@ const SourceCode: FC<ISourceCodeProps> = (props) => {
     <Highlight
       code={props.textarea ? children : children.trim()}
       language={SIMILAR_DSL[lang] || lang}
-      theme={themes.oneLight}
+      theme={colorMode === 'light' ? themes.oneLight : themes.vsDark}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre className={className} style={style}>

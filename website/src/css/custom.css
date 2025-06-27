@@ -23,8 +23,9 @@
   --ifm-font-color-base: #213547;
   --ifm-footer-background-color: #f0f3fa; /* antd */
   --ifm-footer-background-color: #f9f9f9; /*vue */
-  --ifm-container-width: 1232px;
+  --ifm-container-width: 1180px;
   --ifm-container-width-xl: 1420px;
+  --ifm-table-border-color: #e4e9ec;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -42,11 +43,15 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   --ifm-color-primary-light: #29d5b0;
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);  dumi 版本*/
+  --docusaurus-highlighted-code-line-bg: #ffffff0d; /* vue 版本 */
   --ifm-font-color-base: rgba(255, 255, 255, 0.87);
+  --ifm-heading-color: rgba(255, 255, 255, 0.87);
   --ifm-background-color: #1a1a1a;
   --ifm-navbar-background-color: #1a1a1a;
   --ifm-footer-background-color: #242424;
+  --ifm-toc-link-color: rgba(235, 235, 235, 0.7);
+  --ifm-table-border-color: #303030;
 }
 
 .hero {
@@ -91,16 +96,15 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   padding-block-end: 10px;
   padding-inline-start: 16px;
   padding-inline-end: 16px;
-  border-color: #e4e9ec;
 }
 
 .markdown td {
   font-size: 14px;
 }
 
-.markdown th {
+/* .markdown th {
   background-color: #fbfcfd;
-}
+} */
 
 .markdown table {
   border-collapse: collapse;
@@ -135,4 +139,52 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   border-radius: 2px;
   border: none;
   word-break: break-word;
+}
+
+[data-theme='dark'] .markdown code:not(pre code) {
+  background: #2f2f2f;
+}
+
+/* 调整博客页布局 */
+.myblogwrapper .container > .row {
+  flex-wrap: nowrap;
+  margin: 0;
+  /* 右侧的 toc 视觉上往右偏一点. 整体跟左侧的sider 平衡一点 */
+  margin-right: calc(var(--ifm-spacing-horizontal) * -1);
+}
+
+.myblogwrapper .container > .row > aside {
+  width: 200px;
+  flex: none;
+  padding: 0;
+  max-width: none;
+}
+
+.myblogwrapper .container > .row > main {
+  flex: auto;
+  max-width: none;
+  overflow: hidden;
+  padding: 0 48px;
+}
+
+.myblogwrapper .container > .row > div {
+  width: 190px;
+  max-width: none;
+  flex: none;
+  padding: 0;
+  margin-left: 24px;
+}
+
+@media (max-width: 996px) {
+  .myblogwrapper .container > .row {
+    margin-right: 0;
+  }
+
+  .myblogwrapper .container > .row > main {
+    padding: 0;
+  }
+
+  .myblogwrapper .container > .row > div {
+    display: none;
+  }
 }

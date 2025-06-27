@@ -21,6 +21,11 @@
 .sidebarItemLink {
   color: var(--ifm-font-color-base);
   display: block;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ifm-toc-link-color);
 }
 
 .sidebarItemLink:hover {
@@ -38,6 +43,6 @@
 }
 
 .yearGroupHeading {
-  margin-top: 1.6rem;
+  margin-top: 1.3rem;
   margin-bottom: 0.4rem;
 }
