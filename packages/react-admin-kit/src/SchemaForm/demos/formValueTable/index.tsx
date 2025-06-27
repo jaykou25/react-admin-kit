@@ -1,7 +1,5 @@
 import { Table } from 'antd';
 
-import './index.less';
-
 const FormValueTable = () => {
   return (
     <Table
@@ -47,7 +45,7 @@ const FormValueTable = () => {
         {
           title: '表单实例方法',
           dataIndex: 'name',
-          render: (dom) => <span className="code">{dom}</span>,
+          render: (dom) => <code>{dom}</code>,
         },
         {
           title: '描述',

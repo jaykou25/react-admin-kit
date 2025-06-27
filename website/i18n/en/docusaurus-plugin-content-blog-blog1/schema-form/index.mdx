@@ -12,7 +12,6 @@ Generates forms through a declarative schema configuration. The schema structure
 It's a basic SchemaForm example:
 
 <Previewer
- inline
   title="Basic SchemaForm Example"
   src="@@/SchemaForm/demos/basic-en/index.tsx"
 />
@@ -342,7 +341,7 @@ Since this scenario is quite common, RAK aims to simplify the process by introdu
 
 - 👉 If dataIndex contains a comma `,`, RAK will automatically assemble an object based on the fields before and after the comma. During submission, the object will be split back. The field before the comma maps to value, and the field after maps to label.
 
-```js
+```js | {4,7}
 // Example: A user dropdown component with labelInValue enabled
 {
   title: 'User',
@@ -363,7 +362,7 @@ initialValues={{ userId: 1, userName: 'jack' }}
 // Or:
 formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
 
-// Upon submission, the form will not receive:
+// Upon submission, the form will NOT receive:
 `{'userId,userName': { value: 1, label: 'jack' }}`
 
 // Instead, it will receive:

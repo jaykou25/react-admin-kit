@@ -1,5 +1,4 @@
 import { Table } from 'antd';
-import './index.less';
 
 const FormValueTableResult = () => {
   return (
@@ -41,7 +40,7 @@ const FormValueTableResult = () => {
         {
           title: 'Form Instance Method',
           dataIndex: 'name',
-          render: (dom) => <span className="code">{dom}</span>,
+          render: (dom) => <code>{dom}</code>,
         },
         {
           title: 'Result',

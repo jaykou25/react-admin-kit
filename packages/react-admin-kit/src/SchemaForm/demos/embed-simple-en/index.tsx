@@ -29,11 +29,6 @@ const Demo = () => {
       <Card
         style={{ marginBottom: '24px' }}
         size="small"
-        styles={{
-          header: {
-            background: '#ebebeb',
-          },
-        }}
         title="Basic Information"
       >
         <SchemaForm
@@ -49,9 +44,6 @@ const Demo = () => {
         style={{ marginBottom: '12px' }}
         size="small"
         title="Business Information"
-        styles={{
-          header: { background: '#ebebeb' },
-        }}
       >
         <SchemaForm
           embed

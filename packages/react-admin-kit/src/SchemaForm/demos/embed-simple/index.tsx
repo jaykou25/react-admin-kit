@@ -26,16 +26,7 @@ const Demo = () => {
         business: { serviceName: '2' },
       }}
     >
-      <Card
-        style={{ marginBottom: '24px' }}
-        size="small"
-        styles={{
-          header: {
-            background: '#ebebeb',
-          },
-        }}
-        title="基本信息"
-      >
+      <Card style={{ marginBottom: '24px' }} size="small" title="基本信息">
         <SchemaForm
           embed
           grid={true}
@@ -45,14 +36,7 @@ const Demo = () => {
         />
       </Card>
 
-      <Card
-        style={{ marginBottom: '12px' }}
-        size="small"
-        title="业务信息"
-        styles={{
-          header: { background: '#ebebeb' },
-        }}
-      >
+      <Card style={{ marginBottom: '12px' }} size="small" title="业务信息">
         <SchemaForm
           embed
           grid={true}
