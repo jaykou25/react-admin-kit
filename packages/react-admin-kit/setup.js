@@ -1,5 +1,15 @@
 const util = require('util');
 
+// 测试 Antd Modal 时报的警告
+// Object.defineProperty(window, 'getComputedStyle', {
+//   value: () => ({
+//     getPropertyValue: () => '',
+//     display: 'none',
+//     appearance: ['-webkit-appearance'],
+//   }),
+//   writable: true,
+// });
+
 /* eslint-disable global-require */
 if (typeof window !== 'undefined') {
   global.window.resizeTo = (width, height) => {

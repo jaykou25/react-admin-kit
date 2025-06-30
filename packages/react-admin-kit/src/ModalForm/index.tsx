@@ -259,7 +259,7 @@ class ModalForm extends Component<
 
     return (
       <Modal
-        destroyOnClose
+        destroyOnHidden
         open={open ? open : this.state.visible}
         styles={this.getStylesProps()}
         {...modalRest}

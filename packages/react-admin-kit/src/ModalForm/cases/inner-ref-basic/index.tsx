@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { Button, ModalForm } from 'react-admin-kit';
+import type { ModalFormInnerRefType } from 'react-admin-kit';
 
-const Basic = () => {
-  const [open, setOpen] = useState(false);
+const Demo = () => {
+  const innerRef = useRef<ModalFormInnerRefType>();
+
+  const container = useRef(null);
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -11,15 +14,21 @@ const Basic = () => {
   return (
     <div>
       <div style={{ textAlign: 'start' }}>
-        <Button type="primary" onClick={() => setOpen(true)}>
-          打开弹窗
+        <Button
+          data-testid="open"
+          type="primary"
+          onClick={() => innerRef.current?.openModal()}
+        >
+          open
         </Button>
       </div>
 
+      <div ref={container} data-testid="dialog"></div>
+
       <ModalForm
+        innerRef={innerRef}
+        getContainer={() => container.current!}
         title={'基本表单'}
-        open={open}
-        onCancel={() => setOpen(false)}
         onFinish={onFinish}
         columns={[
           {
@@ -37,4 +46,4 @@ const Basic = () => {
   );
 };
 
-export default Basic;
+export default Demo;

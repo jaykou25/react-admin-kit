@@ -24,6 +24,7 @@ export type {
 } from './SchemaForm/types';
 export type { ActionType as ActionRefType } from '@ant-design/pro-table';
 export type { TableColumnType } from './ProTable/types';
+export type { ModalFormInnerRefType } from './ModalForm/types';
 
 // 用于捕获来自 pro-component 的告警信息 https://github.com/ant-design/pro-components/discussions/8837
 if (typeof window !== 'undefined') {
