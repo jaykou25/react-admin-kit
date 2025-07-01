@@ -22,6 +22,7 @@ const Demo = () => {
               valueType: 'select',
               fieldProps: (form, innerRef) => ({
                 open: true,
+                placement: 'topLeft',
                 options: [
                   {
                     'data-testid': 'user1',
@@ -46,6 +47,8 @@ const Demo = () => {
                   } else {
                     innerRef.current?.setData({ deptId: undefined });
                   }
+
+                  form?.setFieldsValue({ deptName: option.deptName });
                 },
               }),
             },

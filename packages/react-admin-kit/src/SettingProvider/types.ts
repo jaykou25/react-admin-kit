@@ -4,14 +4,20 @@ import { FormUploadProps } from '../FormUpload/types';
 import { MyProTableType, TableAlertOptionType } from '../ProTable/types';
 import { SchemaFormProps } from '../SchemaForm/types';
 
+// todo 待废弃
 export type SettingFormProps = Omit<SchemaFormProps, 'onFinish' | 'columns'>;
+
+export type SchemaFormSettingProps = Omit<
+  SchemaFormProps,
+  'form' | 'formRef' | 'innerRef' | 'onFinish' | 'columns'
+>;
 
 export type ProTableSetting =
   | {
       size?: 'small' | 'default' | 'middle';
       searchConfig?: SearchConfig;
       modalProps?: ModalProps;
-      formProps?: SettingFormProps;
+      formProps?: SchemaFormSettingProps;
       confirmModalType?: 'popconfirm' | 'modal';
       confirmModalProps?: any;
       tableAlertOption?: TableAlertOptionType;
@@ -24,32 +30,32 @@ export type ProTableSetting =
 export type ModalFormSetting =
   | {
       modalProps?: ModalProps;
-      formProps?: SettingFormProps;
+      formProps?: SchemaFormSettingProps;
     }
   | undefined;
 
 export type SettingProviderProps = {
   /**
    * @description       ProTable组件的设置项
-   * @default           false
+   * @default           -
    */
   proTableSetting?: ProTableSetting;
 
   /**
    * @description       ModalForm组件的设置项
-   * @default           false
+   * @default           -
    */
   modalFormSetting?: ModalFormSetting;
 
   /**
    * @description       SchemaForm组件的设置项
-   * @default           false
+   * @default           -
    */
-  schemaFormSetting?: SettingFormProps;
+  schemaFormSetting?: SchemaFormSettingProps;
 
   /**
    * @description       FormUpload组件的设置项
-   * @default           false
+   * @default           -
    */
   formUploadSetting?: Omit<FormUploadProps, 'children'>;
   children: any;

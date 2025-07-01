@@ -77,6 +77,7 @@ const ProForm = (props: ProFormType) => {
 
   const wrapForm = (form) => {
     const { setFieldsValue } = form;
+    form.from = 'proform';
 
     form.setFieldsValue = (values) => {
       const $values = transformValuesForConvention(

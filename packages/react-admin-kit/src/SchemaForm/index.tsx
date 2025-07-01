@@ -30,19 +30,36 @@ import {
   splitValues,
   transformValuesForConvention,
 } from './utils';
+import { myMergeOptions } from '../utils';
+import omit from 'omit.js';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
+  // 全局默认设置
+  const setting = useContext(SchemaFormContext) || {};
+  const safeProps = omit(props, [
+    'form',
+    'formRef',
+    'innerRef',
+    'onFinish',
+    'columns',
+  ]);
+  const mergedProps = myMergeOptions(setting, safeProps || {}, {});
+
   const {
     embed = false,
     readonly,
     submitter = false,
-    columns = [],
     valueBaseName,
     initialValues,
-    formRef: propsFormRef,
-    onFinish,
-    innerRef: propsInnerRef,
     ...rest
+  } = mergedProps;
+
+  const {
+    form: propsForm,
+    formRef: propsFormRef,
+    innerRef: propsInnerRef,
+    onFinish,
+    columns,
   } = props;
 
   // 当 innerRef 不传时提供一个内部默认值, 保证 innerRef 不为空
@@ -86,10 +103,10 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const [form] = Form.useForm();
   const formInstance = Form.useFormInstance();
   const formInstanceRef = useRef<ProFormInstance | undefined>(
-    embed ? null : wrapForm(props.form || formInstance || form),
+    embed ? null : wrapForm(propsForm || formInstance || form),
   );
 
-  const selfFormRef = useRef<ProFormInstance>();
+  const formRef = useRef<ProFormInstance>();
 
   const initialValuesRef = useRef<any>(
     transformValuesForConvention(
@@ -107,15 +124,15 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   useImperativeHandle(
     propsFormRef,
     () => {
-      if (selfFormRef.current) {
+      if (formRef.current) {
         const {
           getFieldsValue,
           validateFields,
           getFieldsFormatValue,
           validateFieldsReturnFormatValue,
-        } = selfFormRef.current;
+        } = formRef.current;
         return {
-          ...selfFormRef.current,
+          ...formRef.current,
 
           getFieldsValue: (...args) => {
             // @ts-ignore
@@ -139,13 +156,8 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         };
       }
     },
-    [selfFormRef.current],
+    [formRef.current],
   );
-
-  /**
-   * 全局默认设置
-   */
-  const setting = useContext(SchemaFormContext) || {};
 
   const handleOnFinish = async (values: any) => {
     if (onFinish) {
@@ -211,7 +223,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         // 针对只读模式, 扩展 entity
         if (render) {
           col.render = (dom, entity, ...rest) => {
-            const values = selfFormRef.current?.getFieldsFormatValue?.() || {};
+            const values = formRef.current?.getFieldsFormatValue?.() || {};
             const innerRefData = getInnerRef().current?.data || {};
 
             /** entity 中原有的 id, value 等属性会有被 values 中同名的值覆盖的可能 */
@@ -251,7 +263,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
    * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
    */
   if (embed) {
-    const { grid, rowProps, colProps, labelCol } = props;
+    const { grid, rowProps, colProps, labelCol } = mergedProps;
     const parentReadonly = useContext(ReadonlyContext);
     const activeReadonly = readonly === undefined ? parentReadonly : readonly;
 
@@ -312,14 +324,12 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
 
   return (
     <BetaSchemaForm
-      // key={updateKey}
-      {...setting}
       onFinish={handleOnFinish}
       //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
       submitter={patchSubmitter()}
       readonly={readonly}
       initialValues={initialValuesRef.current}
-      formRef={selfFormRef}
+      formRef={formRef}
       {...rest}
       // @ts-ignore
       form={formInstanceRef.current}

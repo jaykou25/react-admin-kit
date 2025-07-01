@@ -6,7 +6,6 @@ import Demo from 'react-admin-kit/SchemaForm/cases/convention-split';
 import MyForm from './components/MyForm';
 import { useEffect, useRef } from 'react';
 import { ProForm, SchemaForm, Button } from 'react-admin-kit';
-import DisplayComponent from 'react-admin-kit/SchemaForm/cases/components/DisplayComponent';
 
 const UnitTest = () => {
   const [form] = Form.useForm();
@@ -44,16 +43,7 @@ const UnitTest = () => {
 
       <ProForm form={form} initialValues={{ id: '1', name: 'Jack' }}>
         <div>
-          <SchemaForm
-            embed
-            columns={[
-              {
-                title: '姓名',
-                dataIndex: 'id,name',
-                renderFormItem: () => <DisplayComponent />,
-              },
-            ]}
-          />
+          <SchemaForm embed columns={[]} />
         </div>
         <div>
           <SchemaForm

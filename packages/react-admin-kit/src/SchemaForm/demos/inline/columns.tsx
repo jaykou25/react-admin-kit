@@ -12,6 +12,7 @@ export const columns: FormColumnType[] = [
   },
   {
     dataIndex: 'password',
+    valueType: 'password',
     fieldProps: {
       placeholder: 'Password',
       prefix: <LockOutlined />,
@@ -19,7 +20,7 @@ export const columns: FormColumnType[] = [
   },
   {
     dataIndex: 'none',
-    renderFormItem(item, config, form, innerRef) {
+    renderFormItem() {
       return (
         <Button type="primary" htmlType="submit">
           Login

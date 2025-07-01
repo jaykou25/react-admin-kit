@@ -36,7 +36,22 @@ async function pluginLibraryDevTool(
     {
       savePropValueAsString: true,
       shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => {
+      propFilter: (prop, component) => {
+        // 需要较完整的类型定义
+        if (component.name === 'SchemaFormSettingPropsType') {
+          if (prop.parent) {
+            const fileName = prop.parent.fileName;
+            // 只忽略 @types/react
+            if (
+              fileName.includes('node_modules') &&
+              fileName.includes('@types/react')
+            ) {
+              return false;
+            }
+          }
+          return true;
+        }
+
         // 过滤掉 node_modules 中的属性
         if (prop.parent) {
           return !prop.parent.fileName.includes('node_modules');

@@ -21,6 +21,12 @@ describe('ProForm 内嵌 SchemaForm innerRef 联动测试', () => {
       const deptInput = screen.getByRole('textbox', { name: /部门/i });
       expect(deptInput).toBeDisabled();
     });
+
+    // 等待并验证部门输入框的值
+    await waitFor(() => {
+      const deptInput = screen.getByRole('textbox', { name: /部门/i });
+      expect(deptInput).toHaveValue('部门A');
+    });
   });
 
   it('选择员工2时部门输入框应可用', async () => {
@@ -38,6 +44,12 @@ describe('ProForm 内嵌 SchemaForm innerRef 联动测试', () => {
     await waitFor(() => {
       const deptInput = screen.getByRole('textbox', { name: /部门/i });
       expect(deptInput).toBeEnabled();
+    });
+
+    // 等待并验证部门输入框的值
+    await waitFor(() => {
+      const deptInput = screen.getByRole('textbox', { name: /部门/i });
+      expect(deptInput).toHaveValue('部门B');
     });
   });
 });

@@ -44,6 +44,8 @@ const Demo = () => {
                   } else {
                     innerRef.current?.setData({ deptId: undefined });
                   }
+
+                  form?.setFieldsValue({ deptName: option.deptName });
                 },
               }),
             },
