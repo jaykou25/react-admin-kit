@@ -28,6 +28,7 @@ const Demo = () => {
       <ModalForm
         innerRef={innerRef}
         getContainer={() => container.current!}
+        okButtonProps={{ ['data-testid']: 'ok' }}
         title={'基本表单'}
         onFinish={onFinish}
         columns={[

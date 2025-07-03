@@ -2,7 +2,7 @@ import { Button, Space } from 'antd';
 import { useRef } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
-import { columns } from './columns';
+import { mockAddUser, mockEditUser } from './api';
 
 const OnFinishDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>();
@@ -11,13 +11,11 @@ const OnFinishDemo = () => {
     console.log({ values, formType, formData });
 
     if (formType === 'new') {
-      // 新增用户
-      // createUser(values).then() ...
+      return mockAddUser(values);
     }
 
     if (formType === 'edit') {
-      // 编辑用户
-      // editUser({...values, id: formData.id}).then() ...
+      return mockEditUser({ ...values, id: formData.id });
     }
   };
 
@@ -26,7 +24,9 @@ const OnFinishDemo = () => {
       <Space>
         <Button
           type="primary"
-          onClick={() => innerRef.current?.openModal('new')}
+          onClick={() =>
+            innerRef.current?.openModal('new', { username: '王先生' })
+          }
         >
           新增
         </Button>
@@ -36,8 +36,7 @@ const OnFinishDemo = () => {
           onClick={() =>
             innerRef.current?.openModal('edit', {
               id: '1',
-              username: '王先生',
-              phone: '15800018888',
+              username: '陈先生',
             })
           }
         >
@@ -49,7 +48,13 @@ const OnFinishDemo = () => {
         title={'基本表单'}
         innerRef={innerRef}
         onFinish={onFinish}
-        columns={columns}
+        columns={[
+          {
+            title: '用户名',
+            dataIndex: 'username',
+            required: true,
+          },
+        ]}
       />
     </div>
   );

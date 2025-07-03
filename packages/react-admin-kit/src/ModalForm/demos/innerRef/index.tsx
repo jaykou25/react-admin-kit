@@ -5,7 +5,7 @@ import { columns } from './columns';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 
 const InnerRefDemo = () => {
-  const ref = useRef<ModalFormInnerRefType>();
+  const innerRef = useRef<ModalFormInnerRefType>();
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -16,14 +16,16 @@ const InnerRefDemo = () => {
       <div style={{ textAlign: 'start' }}>
         <Button
           type="primary"
-          onClick={() => ref.current?.openModal('edit', { username: 'Jack' })}
+          onClick={() =>
+            innerRef.current?.openModal('edit', { username: 'Jack' })
+          }
         >
           打开弹窗
         </Button>
       </div>
 
       <ModalForm
-        innerRef={ref}
+        innerRef={innerRef}
         title={'基本表单非受控'}
         onFinish={onFinish}
         columns={columns}

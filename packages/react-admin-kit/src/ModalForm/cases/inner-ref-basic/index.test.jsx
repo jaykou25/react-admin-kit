@@ -40,49 +40,49 @@ describe('ModalForm InnerRef 集成测试', () => {
     expect(isModalClosing(container)).toBe(true);
 
     // 再一次验证
-    // await user.click(screen.getByTestId('open'));
-    // expect(screen.getByText('基本表单')).toBeInTheDocument();
-    // expect(isModalClosing(container)).toBe(false);
+    await user.click(screen.getByTestId('open'));
+    expect(screen.getByText('基本表单')).toBeInTheDocument();
+    expect(isModalClosing(container)).toBe(false);
   });
 
-  // it('表单验证：空表单提交时显示错误信息', async () => {
-  //   render(<Demo />);
+  it('表单验证：空表单提交时显示错误信息', async () => {
+    render(<Demo />);
 
-  //   // 打开弹窗
-  //   await user.click(screen.getByTestId('open'));
+    // 打开弹窗
+    await user.click(screen.getByTestId('open'));
 
-  //   // 点击确认按钮
-  //   await user.click(screen.getByRole('button', { name: /确认|OK|Submit/i }));
+    // 点击确认按钮
+    await user.click(screen.getByTestId('ok'));
 
-  //   // 验证错误提示出现
-  //   await waitFor(() => {
-  //     const error = document.querySelector('.ant-form-item-explain-error');
-  //     expect(error).toBeInTheDocument();
-  //   });
-  // });
+    // 验证错误提示出现
+    await waitFor(() => {
+      const error = document.querySelector('.ant-form-item-explain-error');
+      expect(error).toBeInTheDocument();
+    });
+  });
 
-  // it('表单提交：填写用户名后提交成功并关闭弹窗', async () => {
-  //   const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-  //   const { container } = render(<Demo />);
+  it('表单提交：填写用户名后提交成功并关闭弹窗', async () => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const { container } = render(<Demo />);
 
-  //   // 打开弹窗
-  //   await user.click(screen.getByTestId('open'));
+    // 打开弹窗
+    await user.click(screen.getByTestId('open'));
 
-  //   // 输入用户名
-  //   await user.type(screen.getByLabelText(/用户名/), 'testuser');
+    // 输入用户名
+    await user.type(screen.getByLabelText(/用户名/), 'testuser');
 
-  //   // 点击确认按钮
-  //   await user.click(screen.getByRole('button', { name: /确认|OK|Submit/i }));
+    // 点击确认按钮
+    await user.click(screen.getByTestId('ok'));
 
-  //   // 验证弹窗关闭
-  //   expect(isModalClosing(container)).toBe(true);
+    // 验证弹窗关闭
+    expect(isModalClosing(container)).toBe(true);
 
-  //   // 验证表单值被正确处理
-  //   expect(logSpy).toHaveBeenCalledWith(
-  //     expect.objectContaining({
-  //       values: expect.objectContaining({ username: 'testuser' }),
-  //     }),
-  //   );
-  //   logSpy.mockRestore();
-  // });
+    // 验证表单值被正确处理
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        values: expect.objectContaining({ username: 'testuser' }),
+      }),
+    );
+    logSpy.mockRestore();
+  });
 });

@@ -39,7 +39,7 @@ describe('ModalForm Basic 集成测试', () => {
     await user.click(screen.getByTestId('open'));
 
     // 点击确认按钮
-    await user.click(screen.getByRole('button', { name: /确认|OK|Submit/i }));
+    await user.click(screen.getByTestId('ok'));
 
     // 校验错误提示出现
     await waitFor(() => {
@@ -58,7 +58,7 @@ describe('ModalForm Basic 集成测试', () => {
     await user.type(screen.getByLabelText(/用户名/), 'testuser');
 
     // 点击确认按钮
-    await user.click(screen.getByRole('button', { name: /确认|OK|Submit/i }));
+    await user.click(screen.getByTestId('ok'));
 
     // 弹窗关闭
     expect(isModalClosing(container)).toBe(true);

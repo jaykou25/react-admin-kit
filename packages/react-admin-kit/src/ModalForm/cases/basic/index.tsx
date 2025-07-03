@@ -22,6 +22,7 @@ const Basic = () => {
 
       <ModalForm
         getContainer={() => container.current!}
+        okButtonProps={{ ['data-testid']: 'ok' }}
         title={'基本表单'}
         open={open}
         onCancel={() => setOpen(false)}
