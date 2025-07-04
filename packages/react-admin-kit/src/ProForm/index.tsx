@@ -8,8 +8,12 @@ import {
 } from '../SchemaForm/utils';
 
 import type { ProFormInstance, ProFormProps } from '@ant-design/pro-form';
-import type { BaseInnerRef, SchemaFormInnerRefType } from '../SchemaForm/types';
-import { CreateBaseInner } from '../context';
+
+import {
+  BaseInnerRef,
+  CreateBaseInner,
+  SchemaFormInnerRefType,
+} from '../context';
 
 type ProFormType = Omit<ProFormProps, 'onFinish' | 'submitter'> & {
   children?: React.ReactNode | React.ReactNode[];

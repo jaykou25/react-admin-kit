@@ -4,6 +4,7 @@ import type {
   ProFormProps,
   SubmitterProps,
 } from '@ant-design/pro-form';
+import { BaseInnerRef } from 'react-admin-kit/context';
 
 export type SchemaFormProps = SchemaFormSelfProps & OtherFormProps;
 
@@ -38,6 +39,7 @@ export type SchemaFormSelfProps = {
   /**
    * @zh-Hans 表单提交时的回调;
    * @en      Callback when the form is submitted;
+   * @type (values) => Promise | void
    */
   onFinish?: (values: any) => Promise<boolean | void> | void;
 
@@ -65,7 +67,7 @@ export type SchemaFormSelfProps = {
    */
   submitter?:
     | boolean
-    | (SubmitterProps & { style: React.CSSProperties; className?: string });
+    | (SubmitterProps & { style?: React.CSSProperties; className?: string });
 };
 
 export type OtherFormProps = Omit<
@@ -109,15 +111,3 @@ export type FormColumnType<T = any, ValueType = 'text'> = Omit<
    */
   [key: string]: any;
 };
-
-/**
- * 表单的 InnerRef
- */
-export type SchemaFormInnerRefType = {
-  data: any; // 用于存放一些数据
-  setData: (values: Record<string, any>) => void; // 存入数据
-};
-
-export type BaseInnerRef = React.MutableRefObject<
-  SchemaFormInnerRefType | undefined
->;

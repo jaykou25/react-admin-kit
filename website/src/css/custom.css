@@ -132,6 +132,12 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
   background-color: unset;
 }
 
+/* 修复 antd date-picker 组件样式被其它样式覆盖 */
+table.ant-picker-content {
+  display: table;
+  margin-bottom: unset;
+}
+
 .markdown code:not(pre code) {
   color: rgb(213, 97, 97);
   padding: 2px 5px;

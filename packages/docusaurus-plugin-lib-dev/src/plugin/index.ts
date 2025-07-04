@@ -36,6 +36,8 @@ async function pluginLibraryDevTool(
     {
       savePropValueAsString: true,
       shouldExtractLiteralValuesFromEnum: true,
+      shouldExtractValuesFromUnion: true,
+      shouldRemoveUndefinedFromOptional: true,
       propFilter: (prop, component) => {
         // 需要较完整的类型定义
         if (component.name === 'SchemaFormSettingPropsType') {
@@ -49,6 +51,10 @@ async function pluginLibraryDevTool(
               return false;
             }
           }
+          return true;
+        }
+
+        if (component.name === 'ModalSettingPropsType') {
           return true;
         }
 

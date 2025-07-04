@@ -11,9 +11,7 @@ import { Form, Row, type FormInstance } from 'antd';
 import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
-  BaseInnerRef,
   FormColumnType,
-  SchemaFormInnerRefType,
   SchemaFormProps,
   SchemaFormSelfProps,
 } from './types';
@@ -24,7 +22,11 @@ import {
   InnerRefContext,
   ReadonlyContext,
 } from '../ProForm';
-import { CreateBaseInner } from '../context';
+import {
+  BaseInnerRef,
+  CreateBaseInner,
+  SchemaFormInnerRefType,
+} from '../context';
 import {
   collectDataIndex,
   splitValues,

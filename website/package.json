@@ -44,7 +44,6 @@
     "prism-themes": "^1.9.0",
     "rc-tabs": "^15.6.0",
     "rc-tooltip": "^6.4.0",
-    "react-admin-kit": "workspace:1.0.0-beta.0",
     "react-copy-to-clipboard": "^5.1.0"
   },
   "devDependencies": {

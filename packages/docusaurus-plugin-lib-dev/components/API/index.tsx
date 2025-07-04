@@ -8,6 +8,8 @@ import Table from '../Table';
 
 type IProps = {
   name: string;
+  typeStyles?: React.CSSProperties;
+  defaultStyles?: React.CSSProperties;
 };
 
 type ItemProp = {
@@ -63,8 +65,8 @@ const API = (props: IProps) => {
           <tr>
             <th>{texts.property}</th>
             <th>{texts.description}</th>
-            <th>{texts.type}</th>
-            <th>{texts.default}</th>
+            <th style={props.typeStyles}>{texts.type}</th>
+            <th style={props.defaultStyles}>{texts.default}</th>
           </tr>
         </thead>
         <tbody>
