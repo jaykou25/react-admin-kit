@@ -18,10 +18,9 @@ export { default as SettingProvider } from './SettingProvider';
 
 // 类型定义
 export type { ProFormInstance } from '@ant-design/pro-form';
-export type {
-  FormColumnType,
-  SchemaFormInnerRefType,
-} from './SchemaForm/types';
+export type { FormColumnType } from './SchemaForm/types';
+export type { SchemaFormInnerRefType } from './context';
+
 export type { ActionType as ActionRefType } from '@ant-design/pro-table';
 export type { TableColumnType } from './ProTable/types';
 export type { ModalFormInnerRefType } from './ModalForm/types';

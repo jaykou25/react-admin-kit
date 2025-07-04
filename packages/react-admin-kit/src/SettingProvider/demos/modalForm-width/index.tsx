@@ -5,7 +5,14 @@ const ModalDemo = () => {
   return (
     <SettingProvider
       modalFormSetting={{
-        formProps: { layout: 'horizontal', labelCol: { span: 4 } },
+        width: {
+          xs: '100%',
+          sm: '90%',
+          md: '80%',
+          lg: '70%',
+          xl: '50%',
+          xxl: '40%',
+        },
       }}
     >
       <Example />

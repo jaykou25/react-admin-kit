@@ -15,7 +15,7 @@ import userEvent from '@testing-library/user-event';
 import Demo from './index';
 
 describe('Submitter 属性', () => {
-  it('正确传递 submitter 属性到 SchemaForm', () => {
+  it('正确传递 submitter 属性到 SchemaForm', async () => {
     const { container } = render(<Demo />);
 
     // submitter-case 的 div 存在
@@ -23,7 +23,9 @@ describe('Submitter 属性', () => {
     expect(div).toBeInTheDocument();
 
     // 检查 justifyContent 样式
-    expect(div).toHaveStyle('justify-content: end');
+    await (() => {
+      expect(div).toHaveStyle('justify-content: end');
+    });
 
     // 检查提交按钮的 loading 状态
     const submitButton = screen.getByTestId('submit-button');

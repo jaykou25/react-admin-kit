@@ -105,15 +105,13 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     await user.click(screen.getByTestId('open-btn'));
     expect(await screen.findByText('Test Modal')).toBeInTheDocument();
 
-    act(() => {
-      // ok 按钮应为 loading 状态
-      const okBtn = screen.getByTestId('ok');
-      expect(okBtn).toHaveClass('ant-btn-loading');
+    // ok 按钮应为 loading 状态
+    const okBtn = screen.getByTestId('ok');
+    expect(okBtn).toHaveClass('ant-btn-loading');
 
-      // 0.6秒后 loading 状态应关闭
-      new Promise((r) => setTimeout(r, 600)).then(() => {
-        expect(okBtn).not.toHaveClass('ant-btn-loading');
-      });
+    // 0.6秒后 loading 状态应关闭
+    new Promise((r) => setTimeout(r, 600)).then(() => {
+      expect(okBtn).not.toHaveClass('ant-btn-loading');
     });
   });
 });

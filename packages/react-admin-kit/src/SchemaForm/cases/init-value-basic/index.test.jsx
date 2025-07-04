@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-
 import {
   render,
   screen,
@@ -43,7 +42,7 @@ describe('SchemaForm 集成测试', () => {
     const { container } = render(<Demo />);
 
     // 点击赋值按钮
-    const assignButton = screen.getByRole('button', { name: '赋 值' });
+    const assignButton = screen.getByTestId('setbtn');
     await user.click(assignButton);
 
     // 验证单选按钮组状态
@@ -67,11 +66,11 @@ describe('SchemaForm 集成测试', () => {
     const { container } = render(<Demo />);
 
     // 先点击赋值按钮改变状态
-    const assignButton = screen.getByRole('button', { name: '赋 值' });
+    const assignButton = screen.getByTestId('setbtn');
     await user.click(assignButton);
 
     // 点击重置按钮
-    const resetButton = screen.getByRole('button', { name: '重 置' });
+    const resetButton = screen.getByTestId('resetbtn');
     await user.click(resetButton);
 
     // 验证表单回到初始状态

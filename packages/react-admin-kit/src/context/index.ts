@@ -3,6 +3,12 @@ type BaseInnerType = {
   setData: (values: Record<string, any>) => void;
 };
 
+export type SchemaFormInnerRefType = BaseInnerType;
+
+export type BaseInnerRef = React.MutableRefObject<
+  SchemaFormInnerRefType | undefined
+>;
+
 /** 产生一个 innerRef 的基本对象 */
 export function CreateBaseInner(): BaseInnerType {
   const base = {
