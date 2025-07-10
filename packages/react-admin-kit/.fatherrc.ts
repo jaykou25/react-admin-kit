@@ -10,7 +10,10 @@ export default defineConfig({
   },
 
   cjs: {
-    extraBabelPlugins: [[require.resolve('./scripts/replaceEs'), {}]],
+    extraBabelPlugins: [
+      ['babel-plugin-styled-components', {}, 'jj'],
+      [require.resolve('./scripts/replaceEs'), {}, 'cjs'],
+    ],
     input: 'src', // 默认编译目录
     output: 'lib',
     platform: 'browser', // 默认构建为 Node.js 环境的产物

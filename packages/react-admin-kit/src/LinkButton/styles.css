@@ -1,8 +1,0 @@
-.rak-link-btn.ant-btn {
-  height: unset;
-  padding: 0;
-}
-
-.rak-link-btn.ant-btn::before {
-  background-color: unset;
-}

@@ -1,18 +1,20 @@
 import Button from '../Button';
+import styled from 'styled-components';
 
-import './styles.css';
 import { MyLinkButtonProps } from './types';
 
-const LinkButton = (props: MyLinkButtonProps) => {
-  const { className, ...rest } = props;
+// 为了支持 ssr 服务端渲染
+const ScButton = styled(Button)`
+  height: unset;
+  padding: 0;
 
-  return (
-    <Button
-      className={'rak-link-btn ' + (className || '')}
-      {...rest}
-      type="link"
-    />
-  );
+  &:before {
+    background-color: unset;
+  }
+`;
+
+const LinkButton = (props: MyLinkButtonProps) => {
+  return <ScButton {...props} type="link" />;
 };
 
 export default LinkButton;

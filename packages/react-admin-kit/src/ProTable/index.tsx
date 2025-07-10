@@ -20,7 +20,9 @@ import ModalConfirm from './components/ModalConfirm';
 import { CreateBaseInner } from '../context';
 import { mergeOptions, myMergeBoolean, myMergeOptions } from '../utils/index';
 import { normalizeTree } from '../utils/treeUtil';
-import './styles.css';
+
+// todo: 改成支持 ssr
+// import './styles.css';
 
 /**
  * 表单类型的映射

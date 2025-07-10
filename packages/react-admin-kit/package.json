@@ -1,6 +1,6 @@
 {
   "name": "@jay.kou/rak-ssr",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "A react based UI components for admin system",
   "keywords": [
     "react-admin",
@@ -52,7 +52,8 @@
     "lodash": "^4.17.21",
     "merge-options": "^3.0.4",
     "moment": "^2.29.4",
-    "omit.js": "^2.0.2"
+    "omit.js": "^2.0.2",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -64,6 +65,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.15.29",
+    "babel-plugin-styled-components": "^2.1.4",
     "father": "^4.5.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
