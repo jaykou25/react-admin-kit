@@ -1,6 +1,6 @@
 import type { SelectProps } from 'antd';
 import { Select } from 'antd';
-import { isEqual } from 'lodash-es';
+import isEqual from 'lodash/isEqual';
 import { Component } from 'react';
 import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';

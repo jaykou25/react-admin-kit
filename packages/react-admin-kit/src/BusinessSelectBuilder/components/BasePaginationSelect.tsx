@@ -1,5 +1,6 @@
 import { Select } from 'antd';
-import { debounce, isEqual } from 'lodash-es';
+import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 import { Component } from 'react';
 import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';

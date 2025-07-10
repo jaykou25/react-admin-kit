@@ -1,5 +1,6 @@
-const _mergeOptions = require('merge-options');
-import { isBoolean } from 'lodash-es';
+// const _mergeOptions = require('merge-options');
+import _mergeOptions from 'merge-options';
+import isBoolean from 'lodash/isBoolean';
 
 /**
  * 在全局设置变量

@@ -1,4 +1,5 @@
-import { cloneDeepWith, isElement } from 'lodash-es';
+import cloneDeepWith from 'lodash/cloneDeepWith';
+import isElement from 'lodash/isElement';
 import { isValidElement } from 'react';
 
 /** jsx 元素和 element 元素不做深拷贝 */

@@ -1,3 +1,5 @@
 dist/*
 dist
+lib
+es
 coverage

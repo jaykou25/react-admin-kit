@@ -1,8 +1,10 @@
 import type { Workbook } from 'exceljs';
 import * as ExcelJs from 'exceljs';
-import { saveAs } from 'file-saver';
+import pkg from 'file-saver';
 import moment from 'moment';
 import type { TableColumnType } from '../index';
+
+const { saveAs } = pkg;
 
 // 默认的列宽
 export const DEFAULT_COLUMN_WIDTH = 20;

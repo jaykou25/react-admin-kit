@@ -10,7 +10,8 @@
  * {info: {'user,userName': {value: '1', label: 'jack'}}} => {info: {user: '1, userName: 'jack'}}
  */
 
-import { get, cloneDeep } from 'lodash-es';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { FormColumnType } from '../types';
 import React from 'react';
 
@@ -144,6 +145,7 @@ const collectDataIndexByColumn = (
       }
     }
   } else if (!!column.dataIndex || column.dataIndex === 0) {
+    // @ts-ignore
     result.push(_genDataIndex(column.dataIndex, baseName));
   }
 

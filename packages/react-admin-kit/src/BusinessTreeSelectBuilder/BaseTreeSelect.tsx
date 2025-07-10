@@ -1,6 +1,6 @@
 import type { TreeSelectProps } from 'antd';
 import { TreeSelect } from 'antd';
-import { isEqual } from 'lodash-es';
+import isEqual from 'lodash/isEqual';
 import { Component } from 'react';
 import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { normalizeTreeSelect, withDisabled } from '../utils/tree';

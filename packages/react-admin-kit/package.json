@@ -1,6 +1,6 @@
 {
-  "name": "react-admin-kit",
-  "version": "1.0.0-beta.0",
+  "name": "@jay.kou/rak-ssr",
+  "version": "1.0.11",
   "description": "A react based UI components for admin system",
   "keywords": [
     "react-admin",
@@ -22,10 +22,14 @@
   ],
   "license": "ISC",
   "author": "jay.kou@qq.com",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "lib",
+    "es"
   ],
   "scripts": {
     "build": "father build",
@@ -36,16 +40,16 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@ant-design/pro-form": "~2.25.0",
-    "@ant-design/pro-table": "~3.16.0",
-    "@ant-design/pro-utils": "~2.15.0",
+    "@ant-design/pro-form": "2.25.0",
+    "@ant-design/pro-table": "~3.20.1",
+    "@ant-design/pro-utils": "2.17.2",
     "@babel/runtime": "^7.27.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "immer": "^9.0.15",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "merge-options": "^3.0.4",
     "moment": "^2.29.4",
     "omit.js": "^2.0.2"
@@ -69,5 +73,8 @@
     "antd": ">=4.23.4",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
