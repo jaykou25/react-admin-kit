@@ -12,6 +12,7 @@
 
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isPlainObject from 'lodash/isPlainObject';
 import { FormColumnType } from '../types';
 import React from 'react';
 
@@ -98,7 +99,7 @@ export const uniqueNestedArrays = (arrays: any[]): any[] => {
 };
 
 /**
- * 收集单列的 dataIndex
+ * 收集单个列的 dataIndex
  * 用于循环
  */
 const collectDataIndexByColumn = (
@@ -145,8 +146,10 @@ const collectDataIndexByColumn = (
       }
     }
   } else if (!!column.dataIndex || column.dataIndex === 0) {
-    // @ts-ignore
-    result.push(_genDataIndex(column.dataIndex, baseName));
+    if (!isPlainObject(column.dataIndex)) {
+      // @ts-ignore dataIndex 的类型是 unknow, 理论上只能是 React.key 或 React.key[]. 这里为了安全排除了对象
+      result.push(_genDataIndex(column.dataIndex, baseName));
+    }
   }
 
   return result;
