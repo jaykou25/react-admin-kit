@@ -1,0 +1,59 @@
+{
+  "name": "docusaurus-lib-dev",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "exports": {
+    "./components": {
+      "import": "./es-components/index.js",
+      "require": "./lib-components/index.js",
+      "types": "./es-components/index.d.ts"
+    },
+    "./rehype": "./lib-rehype/index.js",
+    ".": "./lib/index.js"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "father build && npm run build-rehype && npm run build-components",
+    "build-components": "cross-env BUILD_TYPE=components father build",
+    "build-rehype": "cross-env BUILD_TYPE=rehype father build",
+    "doctor": "father doctor",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(test).js"
+    ]
+  },
+  "dependencies": {
+    "@babel/parser": "^7.27.0",
+    "@babel/runtime": "^7.27.0",
+    "@babel/traverse": "^7.27.0",
+    "@rollup/pluginutils": "^5.1.4",
+    "file-system-cache": "2.4.7",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.1",
+    "lodash": "^4.17.21",
+    "react-docgen-typescript": "^2.2.2",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0",
+    "upath": "^2.0.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-typescript": "^7.27.0",
+    "@babel/types": "^7.27.0",
+    "@types/babel__traverse": "^7.20.7",
+    "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.17",
+    "@types/node": "^22.14.1",
+    "@types/unist": "^3.0.3",
+    "cross-env": "^7.0.3",
+    "father": "^4.5.2",
+    "jest": "^29.7.0"
+  },
+  "packageManager": "pnpm@10.11.1"
+}
