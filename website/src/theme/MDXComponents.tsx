@@ -1,6 +1,6 @@
 import MDXComponents from '@theme-original/MDXComponents';
 import Previewer from '@site/src/components/Previewer';
-import { API } from 'docusaurus-plugin-lib-dev';
+import { API } from 'docusaurus-lib-dev/components';
 
 export default {
   // Re-use the default mapping

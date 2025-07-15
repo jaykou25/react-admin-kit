@@ -1,18 +1,17 @@
 import Demo from '../../../../packages/react-admin-kit/src/ModalForm/cases/on-finish';
 import Demo2 from '../../../../packages/react-admin-kit/src/SettingProvider/cases/schema-form-validate-message';
 
+import { ConfigProvider, theme } from 'antd';
+import { Button } from '@jay.kou/rak-ssr';
+
 const UnitTest = () => {
   return (
     <>
-      <Demo
-        onFinish={() =>
-          new Promise((r, reject) =>
-            setTimeout(() => reject(new Error('on')), 20000),
-          )
-        }
-        onClick={(innerRef) => innerRef.current.openModal()}
-      />
-      <Demo2 />
+      <div>
+        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+          <Button>@jay.kou/rak-ssr</Button>
+        </ConfigProvider>
+      </div>
     </>
   );
 };

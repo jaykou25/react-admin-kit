@@ -12,10 +12,10 @@ const config: Config = {
   tagline: '中后台应用的最佳伴侣',
   favicon: 'img/rak-r15.png',
 
-  // future: {
-  //   v4: true,
-  //   experimental_faster: true,
-  // },
+  future: {
+    v4: true,
+    experimental_faster: true,
+  },
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
@@ -42,7 +42,7 @@ const config: Config = {
   plugins: [
     './plugins/alias.ts',
     [
-      'docusaurus-plugin-lib-dev',
+      'docusaurus-lib-dev',
       {
         libPath: path.resolve(__dirname, '../packages/react-admin-kit/'),
       },
@@ -67,7 +67,7 @@ const config: Config = {
         onUntruncatedBlogPosts: 'warn',
         rehypePlugins: [
           [
-            require('docusaurus-plugin-lib-dev-rehype'),
+            require('docusaurus-lib-dev/rehype'),
             {
               alias: {
                 '@@': path.resolve(
@@ -111,7 +111,7 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
           rehypePlugins: [
             [
-              require('docusaurus-plugin-lib-dev-rehype'),
+              require('docusaurus-lib-dev/rehype'),
               {
                 alias: {
                   '@@': path.resolve(
@@ -129,51 +129,6 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
-    // [
-    //   'classic',
-    //   {
-    //     // id: 'case',
-    //     docs: false,
-    //     blog: {
-    //       id: 'blog2',
-    //       path: 'case',
-    //       routeBasePath: '/case',
-    //       blogSidebarCount: 'ALL',
-    //       showReadingTime: false,
-    //       showLastUpdateTime: false,
-    //       showLastUpdateAuthor: false,
-    //       sortPosts: 'ascending',
-    //       feedOptions: {
-    //         type: ['rss', 'atom'],
-    //         xslt: true,
-    //       },
-    //       onInlineTags: 'warn',
-    //       onInlineAuthors: 'warn',
-    //       onUntruncatedBlogPosts: 'warn',
-    //       rehypePlugins: [
-    //         [
-    //           require('docusaurus-plugin-lib-dev-rehype'),
-    //           {
-    //             alias: {
-    //               '@@': path.resolve(
-    //                 __dirname,
-    //                 '../packages/react-admin-kit/src',
-    //               ),
-    //             },
-    //             defaultLocale: 'zh-Hans',
-    //           },
-    //         ],
-    //       ],
-    //     },
-    //     pages: false,
-    //     debug: false,
-    //     svgr: false,
-    //     theme: {
-    //       id: 'case',
-    //       customCss: './src/css/custom.css',
-    //     },
-    //   },
-    // ],
   ],
 
   themeConfig: {

@@ -8,15 +8,10 @@
     "dev:website:en": "pnpm --filter website run start:en"
   },
   "devDependencies": {
-    "@types/react": "^18.1.0",
-    "@types/react-dom": "^18.1.0",
-    "antd": "^5.25.4",
     "eslint": "^8.23.0",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
-    "prettier-plugin-packagejson": "^2.2.18",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "prettier-plugin-packagejson": "^2.2.18"
   },
   "packageManager": "pnpm@10.11.1",
   "publishConfig": {
