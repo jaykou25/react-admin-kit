@@ -16,6 +16,10 @@ export default async function myPlugin(context, opts) {
               __dirname,
               '../../packages/react-admin-kit/src',
             ),
+            'docusaurus-lib-dev-components': path.resolve(
+              __dirname,
+              '../../packages/docusaurus-lib-dev/src/components',
+            ),
           },
         },
         // cache: false,
