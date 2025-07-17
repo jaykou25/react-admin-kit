@@ -98,9 +98,12 @@ export interface PreviewerProps {
   title?: string;
   /** 描述信息 */
   description?: string;
-  isBrowser: boolean;
-  tooltipRender: (show: boolean) => string;
-  colorMode: string;
+  /** 是否在浏览器环境 */
+  isBrowser?: boolean;
+  /** 提示文本渲染函数 */
+  tooltipRender?: (show: boolean) => string;
+  /** 颜色模式 */
+  colorMode?: string;
 }
 
 /**
@@ -113,34 +116,10 @@ export interface PreviewerActionsProps {
   forceShowCode?: boolean;
   /** 默认是否显示代码 */
   defaultShowCode?: boolean;
-
-  tooltipRender: (show: boolean) => string;
-  colorMode: string;
-}
-
-/**
- * SourceCode 组件属性
- */
-export interface SourceCodeProps {
-  /** 代码内容 */
-  children: string;
-  /** 语言类型 */
-  lang: string;
-  /** 高亮行号 */
-  highlightLines?: number[];
-  /** 额外内容 */
-  extra?: React.ReactNode;
-  /** 标题 */
-  title?: string;
-}
-
-/**
- * 错误展示组件属性
- */
-export interface ErrorDisplayProps {
-  error: Error;
-  onRetry?: () => void;
-  showRetry?: boolean;
+  /** 提示文本渲染函数 */
+  tooltipRender?: (show: boolean) => string;
+  /** 颜色模式 */
+  colorMode?: string;
 }
 
 const Previewer: React.FC<PreviewerProps> = (props) => {
@@ -153,7 +132,9 @@ const Previewer: React.FC<PreviewerProps> = (props) => {
     background,
     title,
     description,
-    isBrowser,
+    isBrowser = typeof window !== 'undefined',
+    tooltipRender = (show) => (show ? '收起代码' : '展开代码'),
+    colorMode = 'light',
   } = props;
 
   const link = `#${componentInfo.id}`;
@@ -222,8 +203,8 @@ const Previewer: React.FC<PreviewerProps> = (props) => {
           </div>
         )}
         <PreviewerActions
-          colorMode={props.colorMode}
-          tooltipRender={props.tooltipRender}
+          colorMode={colorMode}
+          tooltipRender={tooltipRender}
           dependencies={componentInfo.dependencies}
         />
       </div>

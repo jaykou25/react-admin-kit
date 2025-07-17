@@ -1,3 +1,3 @@
-const Test = () => <div>Test</div>;
+const Test = () => <div>{3.good()}</div>;
 
 export default Test;

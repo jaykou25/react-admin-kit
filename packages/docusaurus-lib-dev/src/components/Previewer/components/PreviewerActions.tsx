@@ -15,15 +15,20 @@ const IconCodeExpand: FC = () => (
     <path d="M59.688 2.578c-3.438-3.437-8.438-3.437-11.563 0L3.75 48.516c-5 5.937-5 14.062 0 19.062l44.063 45.938c1.562 1.562 4.062 2.5 5.937 2.5s4.063-.938 5.938-2.5c3.437-3.438 3.437-8.438 0-11.563l-42.5-43.437 42.5-44.063c3.437-3.437 3.437-8.437 0-11.875Zm135.937 45.938L151.25 2.578c-3.438-3.437-8.438-3.437-11.563 0-3.125 3.438-3.437 8.438 0 11.563l42.5 44.375-42.5 44.062c-3.437 3.438-3.437 8.438 0 11.563 1.563 1.562 3.438 2.5 5.938 2.5 2.5 0 4.063-.938 5.938-2.5l44.062-45.938c5.625-5.625 5.625-13.75 0-19.687Z" />
   </svg>
 );
+
 const PreviewerActions: React.FC<PreviewerActionsProps> = (props) => {
-  const [showCode, setShowCode] = useState(
-    props.forceShowCode || props.defaultShowCode || false,
-  );
+  const {
+    dependencies = [],
+    forceShowCode = false,
+    defaultShowCode = false,
+    tooltipRender = (show) => (show ? '收起代码' : '展开代码'),
+    colorMode = 'light',
+  } = props;
+
+  const [showCode, setShowCode] = useState(forceShowCode || defaultShowCode);
   const [activeKey, setActiveKey] = useState(0);
 
-  const files = (props.dependencies || []).filter(
-    ({ type }) => type === 'FILE',
-  );
+  const files = dependencies.filter(({ type }) => type === 'FILE');
   const isSingleFile = files.length === 1;
 
   return (
@@ -33,12 +38,13 @@ const PreviewerActions: React.FC<PreviewerActionsProps> = (props) => {
           className="dumi-default-previewer-action-btn"
           type="button"
           onClick={() => setShowCode((prev) => !prev)}
-          data-dumi-tooltip={props.tooltipRender(showCode)}
+          title={tooltipRender(showCode)}
+          data-dumi-tooltip={tooltipRender(showCode)}
         >
           {showCode ? <IconCodeExpand /> : <IconCode />}
         </button>
       </div>
-      {showCode && (
+      {showCode && files.length > 0 && (
         <>
           <div className="dumi-default-previewer-sources">
             <Tabs
@@ -53,7 +59,7 @@ const PreviewerActions: React.FC<PreviewerActionsProps> = (props) => {
                 // remove leading ./ prefix
                 label: resolvedSource.replace(/^\.\//, ''),
                 children: (
-                  <SourceCode colorMode={props.colorMode} lang={ext}>
+                  <SourceCode colorMode={colorMode} lang={ext}>
                     {files[activeKey].value.trim()}
                   </SourceCode>
                 ),

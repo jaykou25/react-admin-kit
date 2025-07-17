@@ -31,25 +31,10 @@
       "ts",
       "tsx"
     ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
     "testEnvironment": "jsdom",
     "testMatch": [
       "**/?(*.)+(test).js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": [
-        "@babel/preset-typescript",
-        {
-          "presets": [
-            "@babel/preset-env",
-            "@babel/preset-react",
-            "@babel/preset-typescript"
-          ]
-        }
-      ]
-    }
+    ]
   },
   "dependencies": {
     "@ant-design/icons-svg": "^4.4.2",
