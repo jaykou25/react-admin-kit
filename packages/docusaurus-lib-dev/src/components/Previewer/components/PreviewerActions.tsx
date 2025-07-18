@@ -29,6 +29,7 @@ const PreviewerActions: React.FC<PreviewerActionsProps> = (props) => {
   const [activeKey, setActiveKey] = useState(0);
 
   const files = dependencies.filter(({ type }) => type === 'FILE');
+  console.log('日志 preview actions', { dependencies, files });
   const isSingleFile = files.length === 1;
 
   return (

@@ -1,6 +1,5 @@
 import throttle from 'lodash/throttle';
 import { useEffect, useRef, useState, type FC, type ReactNode } from 'react';
-import './index.less';
 
 const Table: FC<{ children: ReactNode }> = ({ children, ...props }) => {
   const container = useRef<HTMLDivElement>(null);

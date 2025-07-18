@@ -5,6 +5,4 @@ export type {
   ComponentInfo,
   DependencyInfo,
   PreviewerActionsProps,
-  SourceCodeProps,
-  ErrorDisplayProps,
 } from './Previewer';

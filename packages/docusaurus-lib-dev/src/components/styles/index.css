@@ -646,3 +646,57 @@
 .dumi-default-tabs-tabpane-hidden {
   display: none;
 }
+.dumi-default-table {
+  margin: 24px 0 32px;
+  transform: translate(0, 0);
+}
+.dumi-default-table-content {
+  overflow: auto;
+}
+.dumi-default-table-content::before,
+.dumi-default-table-content::after {
+  content: '';
+  display: block;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  pointer-events: none;
+}
+.dumi-default-table-content[data-left-folded]::before {
+  left: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+[data-prefers-color="dark"] .dumi-default-table-content[data-left-folded]::before {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+.dumi-default-table-content[data-right-folded]::after {
+  right: 0;
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+[data-prefers-color="dark"] .dumi-default-table-content[data-right-folded]::after {
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+.dumi-default-table-content > table > thead > tr > th,
+.dumi-default-table-content > table > tr > th {
+  white-space: nowrap;
+}
+.dumi-default-table-content td {
+  font-size: 14px;
+}
+.dumi-default-table-content td:first-child {
+  min-width: 58px;
+  font-size: 14px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.dumi-default-table-content td:nth-child(2) {
+  font-size: 14px;
+}
+.dumi-default-table-content td:last-child {
+  min-width: 95px;
+}
+.dumi-default-table-content td code {
+  font-size: 14px;
+}

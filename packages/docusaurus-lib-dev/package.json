@@ -1,10 +1,23 @@
 {
   "name": "docusaurus-lib-dev",
-  "version": "1.0.2",
-  "description": "",
-  "keywords": [],
-  "license": "ISC",
-  "author": "",
+  "version": "1.0.0-beta.0",
+  "description": "A Docusaurus plugin for live component demos with rehype processing and interactive code previews",
+  "keywords": [
+    "docusaurus",
+    "plugin",
+    "rehype",
+    "component",
+    "demo",
+    "preview",
+    "react",
+    "mdx",
+    "documentation"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "jay.kou",
+    "email": "jay.kou@qq.com"
+  },
   "exports": {
     "./components": {
       "import": "./es-components/index.js",
@@ -16,6 +29,17 @@
     ".": "./lib/index.js"
   },
   "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "lib-components",
+    "es-components",
+    "lib-rehype",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "father build && npm run build-rehype && npm run build-components",
     "build-components": "cross-env BUILD_TYPE=components father build",
@@ -52,7 +76,8 @@
     "react-docgen-typescript": "^2.2.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
-    "upath": "^2.0.1"
+    "upath": "^2.0.1",
+    "vfile": "^6.0.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.26.9",
@@ -77,5 +102,24 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },
-  "packageManager": "pnpm@10.11.1"
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "react-dom": {
+      "optional": false
+    }
+  },
+  "packageManager": "pnpm@10.11.1",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

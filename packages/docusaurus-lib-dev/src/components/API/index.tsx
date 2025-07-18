@@ -4,7 +4,7 @@ import useGlobalData from '@docusaurus/useGlobalData';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // @ts-ignore
 import { translate } from '@docusaurus/Translate';
-import Table from '../Table';
+import Table from './components/Table';
 
 type IProps = {
   name: string;
