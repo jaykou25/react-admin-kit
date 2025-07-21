@@ -80,11 +80,6 @@ export interface CacheEntry {
   timestamp: number; // 缓存时间戳
 }
 
-// 缓存索引
-export interface CacheIndex {
-  [filePath: string]: CacheEntry;
-}
-
 // 文件选项
 export interface FileOptions {
   extensions?: string[];

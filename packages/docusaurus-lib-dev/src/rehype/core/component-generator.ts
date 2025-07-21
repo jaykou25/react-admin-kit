@@ -21,12 +21,8 @@ export class ComponentGenerator {
    * 创建组件生成器实例
    *
    * @param cacheDir 缓存目录路径
-   * @param alias 别名配置，用于解析路径中的别名（如 @@/）
    */
-  constructor(
-    private cacheDir: string,
-    private alias?: Record<string, string>,
-  ) {
+  constructor(private cacheDir: string) {
     this.componentsDir = path.join(cacheDir, 'components');
   }
 
@@ -254,23 +250,5 @@ export default function ${componentInfo.componentName}() {
     );
 
     return `import DemoComponent from '${toUnixPath(importPath)}';`;
-  }
-
-  /**
-   * 解析别名路径
-   * @param srcPath 源路径
-   * @returns 解析后的路径
-   */
-  private resolveAliasPath(srcPath: string): string {
-    if (!this.alias) return srcPath;
-
-    // 处理别名路径（如 @@/xxx）
-    for (const [aliasKey, aliasValue] of Object.entries(this.alias)) {
-      if (srcPath.startsWith(aliasKey + '/')) {
-        return srcPath.replace(aliasKey, aliasValue);
-      }
-    }
-
-    return srcPath;
   }
 }
