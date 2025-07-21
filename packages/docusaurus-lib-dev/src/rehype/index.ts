@@ -52,8 +52,16 @@ const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
     }
 
     try {
-      const result = processor.process(tree, file);
-      console.log(`处理完成，生成了 ${result.components.length} 个组件`);
+      const { components } = processor.process(tree, file);
+      console.log(
+        `处理完成，生成了 ${components.length} 个组件，${
+          components.filter((c) => c.fromCache).length
+        } 个来自缓存，${
+          components.filter((c) => c.createType === 'new').length
+        } 个新增，${
+          components.filter((c) => c.createType === 'update').length
+        } 个更新`,
+      );
     } catch (error) {
       console.error('插件处理失败:', error);
       // 可以选择抛出错误或者继续处理

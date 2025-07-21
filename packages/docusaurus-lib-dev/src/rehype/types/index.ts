@@ -43,8 +43,9 @@ export interface ComponentOptions {
   inline?: boolean;
   componentId: string;
   mdxFilePath: string;
+  fromCache: boolean;
+  createType?: 'new' | 'update';
   demoPath: string; // MDX 文档中的 src 路径解析出来的绝对路径
-  srcPath?: string; // todo: 可删， MDX 文档中的 src 路径，可选参数以保持向后兼容性
 }
 
 // 组件信息
@@ -53,9 +54,10 @@ export interface ComponentInfo {
   filePath: string;
   componentName: string;
   inline: boolean;
+  fromCache: boolean;
+  createType?: 'new' | 'update';
   demoInfo: DemoInfo;
   demoPath: string; // MDX 文档中的 src 路径解析出来的绝对路径
-  srcPath?: string; // todo: 可删，MDX 文档中的 src 路径
 }
 
 // 导入语句

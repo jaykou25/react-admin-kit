@@ -30,7 +30,7 @@ export class PreviewerProcessor {
   process(tree: Node, file: VFile): ProcessResult {
     const imports: ImportStatement[] = [];
     const components: ComponentInfo[] = [];
-    const allDemos: Record<string, DemoInfo> = {};
+
     let nodeIndex = 0;
 
     visit(tree, 'mdxJsxFlowElement', (node: any) => {
@@ -50,16 +50,11 @@ export class PreviewerProcessor {
                 componentInfo,
                 file.path || '',
               );
+
             imports.push(importStatement);
 
             // 替换节点
             this.replacePreviewerWithComponent(node, componentInfo);
-
-            // 收集所有 demo 信息（用于兼容现有格式）
-            const demoPath = this.pathResolver.toUnixPath(
-              componentInfo.filePath,
-            );
-            allDemos[demoPath] = componentInfo.demoInfo;
           }
         } catch (error) {
           console.error('处理 Previewer 节点失败:', error);
@@ -71,11 +66,6 @@ export class PreviewerProcessor {
     // 注入导入语句到文件顶部
     if (imports.length > 0) {
       this.injectImports(tree, imports);
-    }
-
-    // 生成缓存文件（兼容现有格式）
-    if (Object.keys(allDemos).length > 0) {
-      this.cacheManager.generateCacheFiles(allDemos);
     }
 
     return { imports, components };
@@ -114,11 +104,20 @@ export class PreviewerProcessor {
       // 检查缓存
       const contentHash = this.fileHandler.calculateFileHash(resolvedPath);
       let demoInfo = this.cacheManager.getCachedDemo(resolvedPath);
+      let fromCache = true;
+      let createType: 'new' | 'update' | undefined;
 
       if (
         !demoInfo ||
         !this.cacheManager.isCacheValid(resolvedPath, contentHash)
       ) {
+        fromCache = false;
+        if (!demoInfo) {
+          createType = 'new';
+        } else {
+          createType = 'update';
+        }
+
         // 处理文件并更新缓存
         demoInfo = this.fileHandler.processDemo(resolvedPath);
         this.cacheManager.setCachedDemo(resolvedPath, demoInfo, contentHash);
@@ -139,6 +138,8 @@ export class PreviewerProcessor {
           componentId,
           mdxFilePath: basePath,
           demoPath: resolvedPath,
+          fromCache,
+          createType,
         },
       );
 

@@ -1,37 +1,48 @@
-import fs from 'fs';
-import path from 'path';
-import upath from 'upath';
-import type { CacheIndex, CacheEntry, DemoInfo } from '../types';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as upath from 'upath';
+import { FileSystemCache } from 'file-system-cache';
+import type { CacheEntry, DemoInfo } from '../types';
 
 export class CacheManager {
-  private cacheIndexPath: string;
-  private cacheEntriesDir: string;
-  private cacheIndex: CacheIndex = {};
+  private cache: FileSystemCache;
 
   constructor(private cacheDir: string) {
-    this.cacheIndexPath = path.join(cacheDir, 'index.json');
-    this.cacheEntriesDir = path.join(cacheDir, 'entries');
-    this.loadCacheIndex();
+    this.cache = new FileSystemCache({
+      basePath: path.join(cacheDir, 'entries'),
+    });
+  }
+
+  /**
+   * 生成缓存键
+   */
+  private generateCacheKey(filePath: string): string {
+    return upath.normalize(filePath);
   }
 
   /**
    * 检查缓存是否有效
    */
   isCacheValid(filePath: string, contentHash: string): boolean {
-    const normalizedPath = upath.normalize(filePath);
-    const entry = this.cacheIndex[normalizedPath];
+    try {
+      const cacheKey = this.generateCacheKey(filePath);
+      const entry = this.cache.getSync(cacheKey) as CacheEntry | undefined;
 
-    if (!entry) {
+      if (!entry) {
+        return false;
+      }
+
+      // 检查主文件哈希
+      if (entry.contentHash !== contentHash) {
+        return false;
+      }
+
+      // 检查依赖文件哈希
+      return this.validateDependencyHashes(entry);
+    } catch (error) {
+      console.warn('检查缓存有效性失败:', error);
       return false;
     }
-
-    // 检查主文件哈希
-    if (entry.contentHash !== contentHash) {
-      return false;
-    }
-
-    // 检查依赖文件哈希
-    return this.validateDependencyHashes(entry);
   }
 
   /**
@@ -74,14 +85,19 @@ export class CacheManager {
    * 获取缓存的组件信息
    */
   getCachedDemo(filePath: string): DemoInfo | null {
-    const normalizedPath = upath.normalize(filePath);
-    const entry = this.cacheIndex[normalizedPath];
+    try {
+      const cacheKey = this.generateCacheKey(filePath);
+      const entry = this.cache.getSync(cacheKey) as CacheEntry | undefined;
 
-    if (!entry) {
+      if (!entry) {
+        return null;
+      }
+
+      return entry.demoInfo;
+    } catch (error) {
+      console.warn('获取缓存组件信息失败:', error);
       return null;
     }
-
-    return entry.demoInfo;
   }
 
   /**
@@ -92,21 +108,26 @@ export class CacheManager {
     demoInfo: DemoInfo,
     contentHash: string,
   ): void {
-    const normalizedPath = upath.normalize(filePath);
+    try {
+      const cacheKey = this.generateCacheKey(filePath);
 
-    // 计算依赖文件哈希
-    const dependencyHashes = this.calculateDependencyHashes(demoInfo, filePath);
+      // 计算依赖文件哈希
+      const dependencyHashes = this.calculateDependencyHashes(
+        demoInfo,
+        filePath,
+      );
 
-    const entry: CacheEntry = {
-      contentHash,
-      dependencyHashes,
-      demoInfo,
-      timestamp: Date.now(),
-    };
+      const entry: CacheEntry = {
+        contentHash,
+        dependencyHashes,
+        demoInfo,
+        timestamp: Date.now(),
+      };
 
-    this.cacheIndex[normalizedPath] = entry;
-    this.saveCacheEntry(normalizedPath, entry);
-    this.saveCacheIndex();
+      this.cache.setSync(cacheKey, entry);
+    } catch (error) {
+      console.error('保存缓存组件信息失败:', error);
+    }
   }
 
   /**
@@ -149,70 +170,49 @@ export class CacheManager {
   }
 
   /**
-   * 生成最终的缓存文件（兼容现有格式）
-   */
-  generateCacheFiles(allDemos: Record<string, DemoInfo>): void {
-    // 确保缓存目录存在
-    fs.mkdirSync(this.cacheDir, { recursive: true });
-
-    // 生成 result.json（兼容现有格式）
-    const resultPath = path.join(this.cacheDir, 'result.json');
-    fs.writeFileSync(resultPath, JSON.stringify(allDemos, null, 2));
-
-    // 生成 demos.ts（兼容现有格式）
-    const demosPath = path.join(this.cacheDir, 'demos.ts');
-    const innerContent = Object.keys(allDemos)
-      .map((demoPath) => {
-        const demoRelRawPath = path.relative(this.cacheDir, demoPath);
-        const demoRelPath = upath.normalize(demoRelRawPath);
-        return `"${demoPath}": React.lazy(() => import("${demoRelPath}"))`;
-      })
-      .join(',\n');
-
-    const tsContent = `
-import React from 'react';
-export const demos = {
-${innerContent}
-};
-`;
-
-    fs.writeFileSync(demosPath, tsContent);
-  }
-
-  /**
    * 清理过期的缓存条目
    */
   cleanupExpiredCache(maxAge: number = 7 * 24 * 60 * 60 * 1000): void {
-    const now = Date.now();
-    const expiredEntries: string[] = [];
+    try {
+      const now = Date.now();
+      let expiredCount = 0;
 
-    for (const [filePath, entry] of Object.entries(this.cacheIndex)) {
-      if (now - entry.timestamp > maxAge) {
-        expiredEntries.push(filePath);
-      }
-    }
+      // 由于当前版本的 file-system-cache 没有 keys() 方法，
+      // 我们需要通过文件系统直接扫描缓存目录
+      if (fs.existsSync(this.cacheDir)) {
+        const files = fs.readdirSync(this.cacheDir);
 
-    // 删除过期条目
-    expiredEntries.forEach((filePath) => {
-      const entry = this.cacheIndex[filePath];
-      if (entry) {
-        // 删除缓存文件
-        const entryPath = path.join(
-          this.cacheEntriesDir,
-          `${entry.demoInfo.id}.json`,
-        );
-        if (fs.existsSync(entryPath)) {
-          fs.unlinkSync(entryPath);
+        for (const file of files) {
+          if (file.endsWith('.json')) {
+            const filePath = path.join(this.cacheDir, file);
+            try {
+              const content = fs.readFileSync(filePath, 'utf-8');
+              const entry = JSON.parse(content) as CacheEntry;
+
+              if (now - entry.timestamp > maxAge) {
+                // 删除过期文件
+                fs.unlinkSync(filePath);
+                expiredCount++;
+              }
+            } catch (error) {
+              console.warn(`处理缓存文件 ${file} 失败:`, error);
+              // 如果文件损坏，也删除它
+              try {
+                fs.unlinkSync(filePath);
+                expiredCount++;
+              } catch (deleteError) {
+                console.warn(`删除损坏的缓存文件 ${file} 失败:`, deleteError);
+              }
+            }
+          }
         }
-
-        // 从索引中删除
-        delete this.cacheIndex[filePath];
       }
-    });
 
-    if (expiredEntries.length > 0) {
-      console.log(`清理了 ${expiredEntries.length} 个过期缓存条目`);
-      this.saveCacheIndex();
+      if (expiredCount > 0) {
+        console.log(`清理了 ${expiredCount} 个过期缓存条目`);
+      }
+    } catch (error) {
+      console.error('清理过期缓存失败:', error);
     }
   }
 
@@ -225,10 +225,53 @@ ${innerContent}
     oldestEntry: number;
     newestEntry: number;
   } {
-    const entries = Object.values(this.cacheIndex);
-    const totalEntries = entries.length;
+    try {
+      let totalEntries = 0;
+      const timestamps: number[] = [];
 
-    if (totalEntries === 0) {
+      // 由于当前版本的 file-system-cache 没有 keys() 方法，
+      // 我们需要通过文件系统直接扫描缓存目录
+      if (fs.existsSync(this.cacheDir)) {
+        const files = fs.readdirSync(this.cacheDir);
+
+        for (const file of files) {
+          if (file.endsWith('.json')) {
+            totalEntries++;
+            const filePath = path.join(this.cacheDir, file);
+            try {
+              const content = fs.readFileSync(filePath, 'utf-8');
+              const entry = JSON.parse(content) as CacheEntry;
+              timestamps.push(entry.timestamp);
+            } catch (error) {
+              console.warn(`读取缓存文件 ${file} 失败:`, error);
+            }
+          }
+        }
+      }
+
+      if (totalEntries === 0) {
+        return {
+          totalEntries: 0,
+          totalSize: 0,
+          oldestEntry: 0,
+          newestEntry: 0,
+        };
+      }
+
+      const oldestEntry = timestamps.length > 0 ? Math.min(...timestamps) : 0;
+      const newestEntry = timestamps.length > 0 ? Math.max(...timestamps) : 0;
+
+      // 计算缓存目录大小
+      const totalSize = this.calculateCacheSize();
+
+      return {
+        totalEntries,
+        totalSize,
+        oldestEntry,
+        newestEntry,
+      };
+    } catch (error) {
+      console.warn('获取缓存统计信息失败:', error);
       return {
         totalEntries: 0,
         totalSize: 0,
@@ -236,12 +279,12 @@ ${innerContent}
         newestEntry: 0,
       };
     }
+  }
 
-    const timestamps = entries.map((entry) => entry.timestamp);
-    const oldestEntry = Math.min(...timestamps);
-    const newestEntry = Math.max(...timestamps);
-
-    // 计算缓存目录大小
+  /**
+   * 计算缓存大小
+   */
+  private calculateCacheSize(): number {
     let totalSize = 0;
     try {
       if (fs.existsSync(this.cacheDir)) {
@@ -264,13 +307,7 @@ ${innerContent}
     } catch (error) {
       console.warn('计算缓存大小失败:', error);
     }
-
-    return {
-      totalEntries,
-      totalSize,
-      oldestEntry,
-      newestEntry,
-    };
+    return totalSize;
   }
 
   /**
@@ -278,63 +315,10 @@ ${innerContent}
    */
   clearAllCache(): void {
     try {
-      // 删除缓存目录
-      if (fs.existsSync(this.cacheDir)) {
-        fs.rmSync(this.cacheDir, { recursive: true, force: true });
-      }
-
-      // 重置缓存索引
-      this.cacheIndex = {};
-
+      this.cache.clear();
       console.log('已清空所有缓存');
     } catch (error) {
       console.error('清空缓存失败:', error);
-    }
-  }
-
-  /**
-   * 加载缓存索引
-   */
-  private loadCacheIndex(): void {
-    try {
-      if (fs.existsSync(this.cacheIndexPath)) {
-        const content = fs.readFileSync(this.cacheIndexPath, 'utf-8');
-        this.cacheIndex = JSON.parse(content);
-      }
-    } catch (error) {
-      console.warn('加载缓存索引失败，将创建新的缓存:', error);
-      this.cacheIndex = {};
-    }
-  }
-
-  /**
-   * 保存缓存索引
-   */
-  private saveCacheIndex(): void {
-    try {
-      fs.mkdirSync(path.dirname(this.cacheIndexPath), { recursive: true });
-      fs.writeFileSync(
-        this.cacheIndexPath,
-        JSON.stringify(this.cacheIndex, null, 2),
-      );
-    } catch (error) {
-      console.error('保存缓存索引失败:', error);
-    }
-  }
-
-  /**
-   * 保存单个缓存条目
-   */
-  private saveCacheEntry(filePath: string, entry: CacheEntry): void {
-    try {
-      fs.mkdirSync(this.cacheEntriesDir, { recursive: true });
-      const entryPath = path.join(
-        this.cacheEntriesDir,
-        `${entry.demoInfo.id}.json`,
-      );
-      fs.writeFileSync(entryPath, JSON.stringify(entry, null, 2));
-    } catch (error) {
-      console.error('保存缓存条目失败:', error);
     }
   }
 }

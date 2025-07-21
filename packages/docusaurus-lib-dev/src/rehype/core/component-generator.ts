@@ -41,7 +41,14 @@ export class ComponentGenerator {
     demoInfo: DemoInfo,
     options: ComponentOptions,
   ): ComponentInfo {
-    const { inline = false, componentId, mdxFilePath, demoPath } = options;
+    const {
+      inline = false,
+      componentId,
+      mdxFilePath,
+      demoPath,
+      fromCache,
+      createType,
+    } = options;
 
     // 生成组件名称
     const componentName = this.generateComponentName(componentId, mdxFilePath);
@@ -57,6 +64,8 @@ export class ComponentGenerator {
       inline,
       demoInfo,
       demoPath,
+      fromCache,
+      createType,
     };
 
     return componentInfo;
@@ -129,7 +138,7 @@ export class ComponentGenerator {
     const hash = generateShortHash(componentId + mdxFilePath, 6);
 
     const safeName = componentId.replace(/[^a-zA-Z0-9_]/g, '_');
-    return `Previewer${safeName}_${hash}`;
+    return `P_${safeName}_${hash}`;
   }
 
   /**

@@ -27,7 +27,7 @@ async function pluginLibraryDevTool(
 ): Promise<any> {
   const { libPath, pattern = '**/index.tsx' } = opts;
 
-  const cacheBaseDir = '.docusaurus-previewer-cache';
+  const cacheBaseDir = '.docusaurus-lib-dev-cache';
   const cacheDir = path.join(context.siteDir, cacheBaseDir, 'docgen-files');
   const cacheFilePath = path.join(context.siteDir, cacheBaseDir, 'docgen.json');
 
@@ -127,15 +127,6 @@ async function pluginLibraryDevTool(
       await fs.writeJSON(cacheFilePath, docsData, { spaces: 2 });
 
       return docsData;
-    },
-
-    // 配置 webpack，忽略缓存目录
-    configureWebpack(config: any) {
-      return {
-        watchOptions: {
-          ignored: /\.docusaurus-previewer-cache/,
-        },
-      };
     },
 
     // 暴露数据给其他插件和主题使用
