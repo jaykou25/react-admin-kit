@@ -1,0 +1,31 @@
+import { useRef } from 'react';
+import type { ModalFormInnerRefType } from 'react-admin-kit';
+import { Button, ModalForm } from 'react-admin-kit';
+import { columns } from './columns';
+
+const LongForm = () => {
+  const innerRef = useRef<ModalFormInnerRefType>();
+
+  const onFinish = (values: any) => {
+    console.log({ values });
+  };
+
+  return (
+    <div>
+      <div style={{ textAlign: 'start' }}>
+        <Button type="primary" onClick={() => innerRef.current?.openModal()}>
+          Open Modal
+        </Button>
+      </div>
+
+      <ModalForm
+        title={'Long Form Validation'}
+        innerRef={innerRef}
+        onFinish={onFinish}
+        columns={columns}
+      />
+    </div>
+  );
+};
+
+export default LongForm;

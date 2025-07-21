@@ -21,7 +21,8 @@ export type ModalFormFormPropsType = Omit<
 
 export type ModalFormSelfProps = {
   /**
-   * @description 非受控模式(推荐); 在open没传的情况下可以通过innerRef来打开弹窗;
+   * @zh-Hans 非受控模式(推荐); 在open没传的情况下可以通过innerRef来打开弹窗;
+   * @en      Uncontrolled mode (recommended); when open is not passed, you can open the modal through innerRef;
    * @type React.MutableRefObject<ModalFormInnerRefType>
    */
   innerRef?: React.MutableRefObject<ModalFormInnerRefType | undefined>;
@@ -36,12 +37,14 @@ export type ModalFormSelfProps = {
     | React.RefObject<ProFormInstance<any> | undefined>;
 
   /**
-   * @description 表单项的配置描述;
+   * @zh-Hans 表单项的配置描述;
+   * @en      Configuration description for form items;
    */
   columns: FormColumnType[];
 
   /**
-   * @description 点击弹窗确定按钮后的回调;
+   * @zh-Hans 点击弹窗确定按钮后的回调;
+   * @en      Callback after clicking the modal confirm button;
    * @type (values, formType, formData) => Promise | void
    */
   onFinish?: (
@@ -51,7 +54,8 @@ export type ModalFormSelfProps = {
   ) => Promise<any> | void;
 
   /**
-   * @description 打开弹框后的回调, 可以在这里请求数据;
+   * @zh-Hans 打开弹框后的回调, 可以在这里请求数据;
+   * @en      Callback after opening the modal, you can request data here;
    * @type (formType, formRef, formData) => Promise | void
    */
   onOpen?: (
@@ -61,13 +65,15 @@ export type ModalFormSelfProps = {
   ) => Promise<any> | void;
 
   /**
-   * @description 传递给表单的参数, 请参考SchemaForm组件的api
+   * @zh-Hans 传递给表单的参数, 请参考SchemaForm组件的api
+   * @en      Parameters passed to the form, please refer to the SchemaForm component API
    * @type Omit<SchemaFormProps, 'innerRef' | 'formRef' | 'onFinish' | 'columns' | 'form'>
    */
   formProps?: ModalFormFormPropsType;
 
   /**
-   * @description 关闭弹窗提醒, 当表单项发生改动时会弹出确认框
+   * @zh-Hans 关闭弹窗提醒, 当表单项发生改动时会弹出确认框
+   * @en      Close modal confirmation, a confirmation dialog will appear when form items are modified
    * @default { title: '确认关闭', content: '表单项内容未保存, 是否确认关闭?' }
    * @type boolean | { title?: string; content?: string }
    */
