@@ -28,7 +28,7 @@ const OnFinishDemo = () => {
             innerRef.current?.openModal('new', { username: 'Mr. Wang' })
           }
         >
-          Create
+          New
         </Button>
 
         <Button

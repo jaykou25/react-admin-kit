@@ -5,9 +5,10 @@ import './index.less';
 
 const Basic = () => {
   const [visible, setVisible] = useState(true);
+
   return (
     <div>
-      <Button onClick={() => setVisible(!visible)}>切换</Button>
+      <Button onClick={() => setVisible(!visible)}>切换显示</Button>
 
       <div style={{ marginTop: '20px' }}>
         <Space>

@@ -156,12 +156,12 @@ Grid mode utilizes Ant Design's [Grid](https://ant-design.antgroup.com/component
   columns={[
     {
       title: 'name',
-      colProps: {} // Higher priority
+      colProps: {}, // Higher priority
     },
     {
       title: 'age',
-      colProps: {} // Higher priority
-    }
+      colProps: {}, // Higher priority
+    },
   ]}
 />
 ```
@@ -199,11 +199,17 @@ In horizontal grid mode, label widths may vary:
 
 Solutions include setting minimum widths:
 
-<Previewer title="Minimum Label Width" src="@@/SchemaForm/demos/gridHorizontalMinWidth-en/index.tsx" />
+<Previewer
+  title="Minimum Label Width"
+  src="@@/SchemaForm/demos/gridHorizontalMinWidth-en/index.tsx"
+/>
 
 Or specifying individual widths:
 
-<Previewer title="Custom Label Widths" src="@@/SchemaForm/demos/gridHorizontal-en/index.tsx" />
+<Previewer
+  title="Custom Label Widths"
+  src="@@/SchemaForm/demos/gridHorizontal-en/index.tsx"
+/>
 
 > `labelCol` is an Antd Form prop that accepts Col props like `{span: 8}` or `{flex: '0 0 30%'}`.
 >
@@ -414,23 +420,14 @@ import { ProForm, SchemaForm } from 'react-admin-kit';
 import { Card } from 'antd';
 
 <ProForm>
-  <SchemaForm 
-    embed 
-    valueBaseName="one" 
-  />
+  <SchemaForm embed valueBaseName="one" />
 
   <div>
-    <SchemaForm 
-      embed 
-      valueBaseName="two" 
-    />
+    <SchemaForm embed valueBaseName="two" />
   </div>
 
   <Card>
-    <SchemaForm 
-      embed 
-      valueBaseName="three" 
-    />
+    <SchemaForm embed valueBaseName="three" />
   </Card>
 </ProForm>;
 
@@ -451,7 +448,8 @@ import { Card } from 'antd';
 >
 > ```js
 > { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
-> 
+>
+> ```
 
 ### Group Layout
 
@@ -471,9 +469,15 @@ The group layout operates at two levels:
 
 Accordingly, `colProps` configurations must be specified separately for each level.
 
-<Previewer title='Group Grid Layout' src="@@/SchemaForm/demos/groupGrid-en/index.tsx" />
+<Previewer
+  title="Group Grid Layout"
+  src="@@/SchemaForm/demos/groupGrid-en/index.tsx"
+/>
 
-<Previewer title='Horizontal Group Grid Layout' src="@@/SchemaForm/demos/groupGridHorizontal-en/index.tsx" />
+<Previewer
+  title="Horizontal Group Grid Layout"
+  src="@@/SchemaForm/demos/groupGridHorizontal-en/index.tsx"
+/>
 
 ## Form Array
 
@@ -509,14 +513,13 @@ You can further customize the styling and action buttons using the `itemRender` 
 
 For more properties, please refer to [ProForm](https://procomponents.ant.design/en-US/components/form#proform) and [Antd Form](https://ant.design/components/form/#api). Below are some commonly used ones:
 
-
 | Property | Description | Type | <div style={{width: '65px'}}>Default</div> |
 | --- | --- | --- | --- |
 | layout | Form layout | `horizontal` \| `vertical` \| `inline` | `vertical` |
 | grid | Enable grid mode. See the examples above. When grid is enabled, you can use rowProps and colProps to adjust the layout of any form item | `Boolean` | `false` |
 | rowProps | Props passed to `Row` when grid mode is enabled. For example, `{gutter: [16, 0]}` | [RowProps](https://ant.design/components/grid/#row) | `{ gutter: 8 }` |
 | colProps | Props passed to all form items when grid mode is enabled. For example, `{span: 8}` means three items per row. You can also specify colProps individually in columns, which will override the global colProps | [ColProps](https://ant.design/components/grid/#col) | `--` |
-| labelCol | Props passed to the label of a form item, e.g. `{span: 3}`. Like colProps above, this can also be specified individually in columns via formItemProps, e.g. `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid/#col) | `--`|
+| labelCol | Props passed to the label of a form item, e.g. `{span: 3}`. Like colProps above, this can also be specified individually in columns via formItemProps, e.g. `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid/#col) | `--` |
 
 ### InnerRef
 

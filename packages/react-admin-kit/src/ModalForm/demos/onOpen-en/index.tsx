@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
 
-const TitleMap = { new: 'Create', edit: 'Edit', read: 'View' };
+const TitleMap = { new: 'New', edit: 'Edit', read: 'Read' };
 
 const OnOpenDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>();
@@ -45,7 +45,7 @@ const OnOpenDemo = () => {
             innerRef.current?.openModal('new', null, reRender);
           }}
         >
-          Create
+          New
         </Button>
 
         <Button
@@ -63,7 +63,7 @@ const OnOpenDemo = () => {
             innerRef.current?.openModal('read', {}, reRender);
           }}
         >
-          View
+          Read
         </Button>
       </Space>
 

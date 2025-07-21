@@ -41,7 +41,7 @@ const Demo = () => {
             })
           }
         >
-          Read Only
+          Read
         </Button>
       </Space>
 

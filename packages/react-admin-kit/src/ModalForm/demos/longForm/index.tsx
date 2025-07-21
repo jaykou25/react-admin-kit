@@ -20,6 +20,9 @@ const LongForm = () => {
 
       <ModalForm
         title={'长表单验证'}
+        styles={{
+          body: { maxHeight: '300px' },
+        }}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={columns}

@@ -20,6 +20,9 @@ const LongForm = () => {
 
       <ModalForm
         title={'Long Form Validation'}
+        styles={{
+          body: { maxHeight: '300px' },
+        }}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={columns}

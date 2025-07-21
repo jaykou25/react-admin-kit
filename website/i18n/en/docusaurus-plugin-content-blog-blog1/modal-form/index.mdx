@@ -13,31 +13,31 @@ This component combines [Modal](https://ant-design.antgroup.com/components/modal
 
 ### Basic Usage
 
-<Previewer src="@@/ModalForm/demos/basic-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/basic-en/index.tsx" />
 
 ### Uncontrolled Mode (Recommended)
 
 Using RAK's [innerRef](/components/modal-form#innerref), you can control the modal without defining an additional open variable, making it more concise. The following examples use this approach by default.
 
-<Previewer src="@@/ModalForm/demos/innerRef-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/innerRef-en/index.tsx" />
 
-### Form Types1
+### Form Types
 
 The opened form has three types: `new`, `edit`, and `read`. You can also pass initial values.
 
-<Previewer src="@@/ModalForm/demos/form-type-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/form-type-en/index.tsx" />
 
 ### onFinish
 
-In the onFinish function, you can call different APIs based on the form type.
+In the `onFinish` callback function, you can implement different business logic based on the form type.
 
-<Previewer src="@@/ModalForm/demos/onFinish-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/onFinish-en/index.tsx" />
 
 ### onOpen
 
-Use `onOpen` to make API requests when the modal opens.
+Use the `onOpen` callback to trigger API requests or perform other initialization tasks when the modal opens.
 
-<Previewer src="@@/ModalForm/demos/onOpen-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/onOpen-en/index.tsx" />
 
 ## Layout
 
@@ -45,11 +45,11 @@ Pass [SchemaForm](/components/schema-form#schemaform) component APIs through the
 
 ### Multiple Columns
 
-<Previewer src="@@/ModalForm/demos/multipleCol-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/multipleCol-en/index.tsx" />
 
 ### Scroll to Error Field in Long Forms
 
-<Previewer src="@@/ModalForm/demos/longForm-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/longForm-en/index.tsx" />
 
 ## Form Operations
 
@@ -57,7 +57,7 @@ Pass [SchemaForm](/components/schema-form#schemaform) component APIs through the
 
 Use `valueType=dependency` for show/hide functionality.
 
-<Previewer src="@@/ModalForm/demos/initValue-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/initValue-en/index.tsx" />
 
 ## Form Data
 
@@ -67,27 +67,27 @@ For form data, please refer to [SchemaForm](/components/schema-form#form-data)
 
 Like [SchemaForm](/components/schema-form#convention-based), ModalForm also supports convention-based data processing.
 
-<Previewer src="@@/ModalForm/demos/convention-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/convention-en/index.tsx" />
 
 ### Store Additional Information with innerRef
 
 Like [SchemaForm](/components/schema-form#store-additional-information-with-innerref), ModalForm can also store additional data using innerRef.
 
-<Previewer src="@@/ModalForm/demos/innerRefData-en/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/innerRefData-en/index.tsx" />
 
 ## API
 
 ### ModalForm
 
-<API  name='ModalFormType' typeStyles={{minWidth: '180px'}} />
+<API name="ModalFormType" typeStyles={{ minWidth: '180px' }} />
 
 ### InnerRef
 
-| Parameter | Description                                                                                                                        | Type                                                                  | <div style={{width: '65px'}}>Default</div> |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------ |
-| openModal | Used to open the modal; formType can be used to determine the form type in onFinish; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | -      |
-| formType  | Current form type                                                                                                              | `'new' \| 'edit' \| 'read'`                                           | `new`  |
-| data      | Can store additional data in the form                                                                                                    | `Record<string, any>`                                                 | `{}`   |
-| setData   | Store data; setData works like React's setState, you only need to pass the fields you care about, it won't overwrite other fields.                                | `(Record<string, any>) => void`                                       | `--`   |
+| Parameter | Description | Type | <div style={{width: '65px'}}>Default</div> |
+| --- | --- | --- | --- |
+| openModal | Used to open the modal; formType can be used to determine the form type in onFinish; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | - |
+| formType | Current form type | `'new' \| 'edit' \| 'read'` | `new` |
+| data | Can store additional data in the form | `Record<string, any>` | `{}` |
+| setData | Store data; setData works like React's setState, you only need to pass the fields you care about, it won't overwrite other fields. | `(Record<string, any>) => void` | `--` |
 
 For more Modal properties, please refer to [Antd Modal Documentation](https://ant.design/components/modal/#api)
