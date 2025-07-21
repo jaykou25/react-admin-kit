@@ -16,7 +16,7 @@ const plugin: Plugin<[PreviewerOptions]> = (options: PreviewerOptions = {}) => {
   const {
     include = /\.mdx?$/,
     exclude,
-    cacheDir = path.join(process.cwd(), '.docusaurus-previewer-cache'),
+    cacheDir = path.join(process.cwd(), '.docusaurus-lib-dev-cache'),
     elementName = 'Previewer',
     alias = {},
   } = options;

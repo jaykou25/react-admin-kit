@@ -8,6 +8,7 @@
 .docusaurus
 .cache-loader
 .docusaurus-previewer-cache
+.docusaurus-lib-dev-cache
 
 # Misc
 .DS_Store
