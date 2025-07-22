@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-lib-dev",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.10",
   "description": "A Docusaurus plugin for live component demos with rehype processing and interactive code previews",
   "keywords": [
     "docusaurus",
@@ -41,7 +41,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "father build && npm run build-rehype && npm run build-components",
+    "build": "father build && npm run complie-less && npm run build-rehype && npm run build-components",
     "build-components": "cross-env BUILD_TYPE=components father build",
     "build-rehype": "cross-env BUILD_TYPE=rehype father build",
     "complie-less": "lessc ./src/components/styles/index.less ./src/components/styles/index.css",

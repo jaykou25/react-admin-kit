@@ -83,11 +83,15 @@ Like [SchemaForm](/components/schema-form#store-additional-information-with-inne
 
 ### InnerRef
 
+<table className="dumi-default-table-content">
+
 | Parameter | Description | Type | <div style={{width: '65px'}}>Default</div> |
 | --- | --- | --- | --- |
 | openModal | Used to open the modal; formType can be used to determine the form type in onFinish; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | - |
 | formType | Current form type | `'new' \| 'edit' \| 'read'` | `new` |
 | data | Can store additional data in the form | `Record<string, any>` | `{}` |
 | setData | Store data; setData works like React's setState, you only need to pass the fields you care about, it won't overwrite other fields. | `(Record<string, any>) => void` | `--` |
+
+</table>
 
 For more Modal properties, please refer to [Antd Modal Documentation](https://ant.design/components/modal/#api)

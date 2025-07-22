@@ -170,7 +170,10 @@ const Previewer: React.FC<PreviewerProps> = (props) => {
   // 如果是内联模式，直接渲染组件
   if (isInlineMode) {
     return (
-      <div style={style}>
+      <div
+        className={classnames('dumi-default-previewer-inline', className)}
+        style={style}
+      >
         <ErrorBoundary onError={handleError}>{Component}</ErrorBoundary>
       </div>
     );

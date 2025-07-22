@@ -2,8 +2,6 @@ import Test from './components/Test';
 import { Previewer } from 'docusaurus-lib-dev-components';
 import { translate } from '@docusaurus/Translate';
 
-import 'docusaurus-lib-dev/styles';
-
 const UnitTest = () => {
   return (
     <>

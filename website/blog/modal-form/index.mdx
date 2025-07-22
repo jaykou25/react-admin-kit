@@ -13,32 +13,31 @@ sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
 
 ### 基本的使用方法
 
-<Previewer src="@@/ModalForm/demos/basic/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/basic/index.tsx" />
 
 ### 非受控模式 (推荐)
 
 利用 RAK 提供的 [innerRef](/components/modal-form#innerref)，无需额外定义 open 变量就能控制弹窗，用更加简洁。后面的用例默认使用该方式。
 
-<Previewer src="@@/ModalForm/demos/innerRef/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/innerRef/index.tsx" />
 
 ### 表单类型
 
 打开的表单有三种类型：新增，编辑，只读。还能传入初始值。
 
-<Previewer src="@@/ModalForm/demos/form-type/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/form-type/index.tsx" />
 
 ### onFinish
 
 在 onFinish 函数里可以根据表单类型来调不同的接口。
 
-<Previewer src="@@/ModalForm/demos/onFinish/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/onFinish/index.tsx" />
 
 ### onOpen
 
-利用 `onOpen` 在弹窗打开时请求接口。 
+利用 `onOpen` 在弹窗打开时请求接口。
 
-<Previewer src="@@/ModalForm/demos/onOpen/index.tsx"/>
-
+<Previewer src="@@/ModalForm/demos/onOpen/index.tsx" />
 
 ## 布局
 
@@ -46,11 +45,11 @@ sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
 
 ### 多列排布
 
-<Previewer src="@@/ModalForm/demos/multipleCol/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/multipleCol/index.tsx" />
 
 ### 长表单校验时滚动到所在项
 
-<Previewer src="@@/ModalForm/demos/longForm/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/longForm/index.tsx" />
 
 ## 表单操作
 
@@ -58,7 +57,7 @@ sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
 
 使用 `valueType=dependency` 来做显示与隐藏。
 
-<Previewer src="@@/ModalForm/demos/initValue/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/initValue/index.tsx" />
 
 ## 表单数据
 
@@ -68,27 +67,31 @@ sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
 
 与 [SchemaForm](/components/schema-form#约定式) 一样，ModalForm 同样支持约定式数据处理.
 
-<Previewer src="@@/ModalForm/demos/convention/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/convention/index.tsx" />
 
 ### 利用 innerRef 存储额外信息
 
 与 [SchemaForm](/components/schema-form#利用-innerref-存储额外信息) 一样，ModalForm 也能利用 innerRef 存储额外数据.
 
-<Previewer src="@@/ModalForm/demos/innerRefData/index.tsx"/>
+<Previewer src="@@/ModalForm/demos/innerRefData/index.tsx" />
 
 ## API
 
 ### ModalForm
 
-<API  name='ModalFormType' typeStyles={{minWidth: '180px'}} />
+<API name="ModalFormType" typeStyles={{ minWidth: '180px' }} />
 
 ### InnerRef
 
-| 参数      | 说明                                                                                                                        | 类型                                                                  | <div style={{width: '65px'}}>默认值</div> |
-| --------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------ |
-| openModal | 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | -      |
-| formType  | 当前的表单类型                                                                                                              | `'new' \| 'edit' \| 'read'`                                           | `new`  |
-| data      | 可以存储表单中的额外数据                                                                                                    | `Record<string, any>`                                                 | `{}`   |
-| setData   | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.                                | `(Record<string, any>) => void`                                       | `--`   |
+<table className="dumi-default-table-content">
+
+| 参数 | 说明 | 类型 | <div style={{width: '65px'}}>默认值</div> |
+| --- | --- | --- | --- |
+| openModal | 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | - |
+| formType | 当前的表单类型 | `'new' \| 'edit' \| 'read'` | `new` |
+| data | 可以存储表单中的额外数据 | `Record<string, any>` | `{}` |
+| setData | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段. | `(Record<string, any>) => void` | `--` |
+
+</table>
 
 更多 Modal 属性请参考 [Antd Modal 文档](https://ant.design/components/modal-cn/#api)

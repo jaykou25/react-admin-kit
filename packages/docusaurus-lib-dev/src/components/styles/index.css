@@ -26,7 +26,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
-[data-prefers-color="dark"] [data-dumi-tooltip]::before {
+[data-theme="dark"] [data-dumi-tooltip]::before {
   background-color: #222;
 }
 [data-dumi-tooltip]::after {
@@ -36,7 +36,7 @@
   border: 4px solid transparent;
   border-top-color: #000;
 }
-[data-prefers-color="dark"] [data-dumi-tooltip]::after {
+[data-theme="dark"] [data-dumi-tooltip]::after {
   border-top-color: #222;
 }
 [data-dumi-tooltip]:not(:hover)::before,
@@ -57,8 +57,51 @@
   border-top-color: transparent;
   border-bottom-color: #000;
 }
-[data-prefers-color="dark"] [data-dumi-tooltip][data-dumi-tooltip-bottom]::after {
+[data-theme="dark"] [data-dumi-tooltip][data-dumi-tooltip-bottom]::after {
   border-bottom-color: #222;
+}
+/* 恢复预览组件中的样式。避免有些样式被 docusaurus 默认样式影响 */
+.dumi-default-previewer table,
+.dumi-default-previewer-inline .ant-table table {
+  display: table;
+  margin-bottom: unset;
+}
+.dumi-default-previewer table th,
+.dumi-default-previewer-inline .ant-table table th,
+.dumi-default-previewer table td,
+.dumi-default-previewer-inline .ant-table table td {
+  border-left: unset;
+  border-top: unset;
+  border-inline-end: unset;
+}
+.dumi-default-previewer table tr,
+.dumi-default-previewer-inline .ant-table table tr {
+  border-top: unset;
+}
+.dumi-default-previewer table tr:nth-child(2n),
+.dumi-default-previewer-inline .ant-table table tr:nth-child(2n) {
+  background-color: unset;
+}
+/* 恢复预览组件中 date-picker 的样式。避免被 docusaurus 默认样式影响 */
+table.ant-picker-content {
+  display: table;
+  margin-bottom: unset;
+}
+table.ant-picker-content thead {
+  background-color: unset;
+}
+table.ant-picker-content thead > tr {
+  border-bottom: unset;
+}
+table.ant-picker-content th,
+table.ant-picker-content td {
+  border: unset;
+}
+table.ant-picker-content tr {
+  border-top: unset;
+}
+table.ant-picker-content tr:nth-child(2n) {
+  background-color: unset;
 }
 .dumi-default-previewer {
   margin: 24px 0 32px;
@@ -66,7 +109,7 @@
   border-radius: 4px;
   background-color: inherit;
 }
-[data-prefers-color="dark"] .dumi-default-previewer {
+[data-theme="dark"] .dumi-default-previewer {
   border-color: #2a353c;
 }
 [data-dumi-demo-grid] .dumi-default-previewer {
@@ -95,7 +138,7 @@
   border-top: 24px solid #e4e9ec;
   box-sizing: border-box;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-demo[data-iframe] {
+[data-theme="dark"] .dumi-default-previewer-demo[data-iframe] {
   border-top-color: #2a353c;
 }
 .dumi-default-previewer-demo[data-iframe]::after {
@@ -142,7 +185,7 @@
   animation: dumi-previewer-loading 1s infinite;
   transform: translate(-50%, -50%);
 }
-[data-prefers-color="dark"] .dumi-default-previewer-demo[data-loading]::before {
+[data-theme="dark"] .dumi-default-previewer-demo[data-loading]::before {
   border-color: #0053c8 transparent;
 }
 @keyframes dumi-previewer-loading {
@@ -167,11 +210,11 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-demo-error {
+[data-theme="dark"] .dumi-default-previewer-demo-error {
   color: #c6414e;
   background: #2a060a;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-demo-error > svg {
+[data-theme="dark"] .dumi-default-previewer-demo-error > svg {
   fill: #c6414e;
 }
 .dumi-default-previewer-demo-error > svg {
@@ -183,7 +226,7 @@
 .dumi-default-previewer-meta {
   border-top: 1px solid #e4e9ec;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-meta {
+[data-theme="dark"] .dumi-default-previewer-meta {
   border-top-color: #2a353c;
 }
 .dumi-default-previewer-desc {
@@ -193,7 +236,7 @@
   padding: 14px 24px;
   border-bottom: 1px dashed #e4e9ec;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-desc > .markdown {
+[data-theme="dark"] .dumi-default-previewer-desc > .markdown {
   border-bottom-color: #2a353c;
 }
 .dumi-default-previewer-desc > h5 {
@@ -208,13 +251,13 @@
   font-weight: bold;
   background: linear-gradient(to top, #ffffff, #ffffff 50%, rgba(255, 255, 255, 0)) 100%;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-desc > h5 {
+[data-theme="dark"] .dumi-default-previewer-desc > h5 {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 0)) 100%;
 }
 .dumi-default-previewer-desc > h5 > a {
   color: #30363f;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-desc > h5 > a {
+[data-theme="dark"] .dumi-default-previewer-desc > h5 > a {
   color: #c6c9cd;
 }
 .dumi-default-previewer-desc > h5 > a:not(:hover) {
@@ -227,27 +270,27 @@
   font-size: 12px;
   line-height: 15px;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-desc > h5 > a > strong {
+[data-theme="dark"] .dumi-default-previewer-desc > h5 > a > strong {
   color: #895e00;
 }
 .dumi-default-previewer[data-active] {
   box-shadow: 0 0 0 4px rgba(22, 119, 255, 0.1);
   border-color: #7cb3ff;
 }
-[data-prefers-color="dark"] .dumi-default-previewer[data-active] {
+[data-theme="dark"] .dumi-default-previewer[data-active] {
   box-shadow: 0 0 0 4px rgba(0, 83, 200, 0.1);
   border-color: #002962;
 }
 .dumi-default-previewer[data-debug] {
   border-color: #ffc23c;
 }
-[data-prefers-color="dark"] .dumi-default-previewer[data-debug] {
+[data-theme="dark"] .dumi-default-previewer[data-debug] {
   border-color: #231800;
 }
 .dumi-default-previewer[data-debug][data-active] {
   box-shadow: 0 0 0 4px rgba(213, 146, 0, 0.1);
 }
-[data-prefers-color="dark"] .dumi-default-previewer[data-debug][data-active] {
+[data-theme="dark"] .dumi-default-previewer[data-debug][data-active] {
   box-shadow: 0 0 0 4px rgba(137, 94, 0, 0.1);
 }
 .dumi-default-previewer-actions {
@@ -259,7 +302,7 @@
 .dumi-default-previewer-actions:not(:last-child) {
   border-bottom: 1px dashed #e4e9ec;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-actions:not(:last-child) {
+[data-theme="dark"] .dumi-default-previewer-actions:not(:last-child) {
   border-bottom-color: #2a353c;
 }
 .dumi-default-previewer-action-btn {
@@ -278,13 +321,13 @@
   fill: #98a3aa;
   transition: fill 0.2s;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-action-btn > svg {
+[data-theme="dark"] .dumi-default-previewer-action-btn > svg {
   fill: #4a545a;
 }
 .dumi-default-previewer-action-btn:hover > svg {
   fill: #7c8a93;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-action-btn:hover > svg {
+[data-theme="dark"] .dumi-default-previewer-action-btn:hover > svg {
   fill: #616e75;
 }
 .dumi-default-previewer-action-btn:not(:last-child) {
@@ -320,7 +363,7 @@
   width: 16px;
   fill: #98a3aa;
 }
-[data-prefers-color="dark"] .dumi-default-previewer-editor-tip-btn > svg {
+[data-theme="dark"] .dumi-default-previewer-editor-tip-btn > svg {
   fill: #4a545a;
 }
 .dumi-default-previewer-editor-tip-btn[data-readonly] > span {
@@ -370,19 +413,19 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
-[data-prefers-color="dark"] .dumi-theme-default-tooltip-content {
+[data-theme="dark"] .dumi-theme-default-tooltip-content {
   background-color: #222;
 }
-[data-prefers-color="dark"] .token.doctype,
-[data-prefers-color="dark"] .token.punctuation,
-[data-prefers-color="dark"] .token.entity,
-[data-prefers-color="dark"] code[class*='language-'],
-[data-prefers-color="dark"] pre[class*='language-'] {
+[data-theme="dark"] .token.doctype,
+[data-theme="dark"] .token.punctuation,
+[data-theme="dark"] .token.entity,
+[data-theme="dark"] code[class*='language-'],
+[data-theme="dark"] pre[class*='language-'] {
   color: #8590a0;
 }
-[data-prefers-color="dark"] .token.comment,
-[data-prefers-color="dark"] .token.prolog,
-[data-prefers-color="dark"] .token.cdata {
+[data-theme="dark"] .token.comment,
+[data-theme="dark"] .token.prolog,
+[data-theme="dark"] .token.cdata {
   color: #616d7f;
 }
 .dumi-default-source-code {
@@ -491,38 +534,38 @@
   fill: #98a3aa;
   transition: fill 0.2s;
 }
-[data-prefers-color="dark"] .dumi-default-source-code-copy > svg {
+[data-theme="dark"] .dumi-default-source-code-copy > svg {
   fill: #4a545a;
 }
 .dumi-default-source-code-copy:hover > svg {
   fill: #7c8a93;
 }
-[data-prefers-color="dark"] .dumi-default-source-code-copy:hover > svg {
+[data-theme="dark"] .dumi-default-source-code-copy:hover > svg {
   fill: #616e75;
 }
 .dumi-default-source-code-copy[data-copied] > svg {
   fill: #208a41;
 }
-[data-prefers-color="dark"] .dumi-default-source-code-copy[data-copied] > svg {
+[data-theme="dark"] .dumi-default-source-code-copy[data-copied] > svg {
   fill: #124c24;
 }
 .dumi-default-source-code:not(:hover) .dumi-default-source-code-copy {
   opacity: 0;
   visibility: hidden;
 }
-[data-prefers-color="dark"] .dumi-default-source-code {
+[data-theme="dark"] .dumi-default-source-code {
   background-color: #020305;
 }
-[data-prefers-color="dark"] .dumi-default-source-code-copy {
+[data-theme="dark"] .dumi-default-source-code-copy {
   background-color: rgba(2, 3, 5, 0.2);
 }
-[data-prefers-color="dark"] .dumi-default-source-code > pre.prism-code > .highlighted {
+[data-theme="dark"] .dumi-default-source-code > pre.prism-code > .highlighted {
   background-color: #1c1d1e;
 }
-[data-prefers-color="dark"] .dumi-default-source-code > pre.prism-code > .highlighted::after {
+[data-theme="dark"] .dumi-default-source-code > pre.prism-code > .highlighted::after {
   background-color: #1c1d1e;
 }
-[data-prefers-color="dark"] .dumi-default-source-code > pre.prism-code > .highlighted .line-cell::after {
+[data-theme="dark"] .dumi-default-source-code > pre.prism-code > .highlighted .line-cell::after {
   background-color: #1c1d1e;
 }
 .dumi-default-tabs-nav {
@@ -539,7 +582,7 @@
   height: 0;
   border-bottom: 1px dashed #e4e9ec;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-nav::after {
+[data-theme="dark"] .dumi-default-tabs-nav::after {
   border-bottom-color: #2a353c;
 }
 .dumi-default-tabs-nav-wrap {
@@ -582,19 +625,19 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-tab-btn {
+[data-theme="dark"] .dumi-default-tabs-tab-btn {
   color: #8590a0;
 }
 .dumi-default-tabs-tab-btn:hover {
   color: #30363f;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-tab-btn:hover {
+[data-theme="dark"] .dumi-default-tabs-tab-btn:hover {
   color: #c6c9cd;
 }
 .dumi-default-tabs-tab-active .dumi-default-tabs-tab-btn {
   color: #30363f;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-tab-active .dumi-default-tabs-tab-btn {
+[data-theme="dark"] .dumi-default-tabs-tab-active .dumi-default-tabs-tab-btn {
   color: #c6c9cd;
 }
 .dumi-default-tabs-ink-bar {
@@ -605,7 +648,7 @@
   pointer-events: none;
   bottom: 0;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-ink-bar {
+[data-theme="dark"] .dumi-default-tabs-ink-bar {
   background: #0053c8;
 }
 .dumi-default-tabs-dropdown {
@@ -615,7 +658,7 @@
   max-height: 200px;
   overflow: auto;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-dropdown {
+[data-theme="dark"] .dumi-default-tabs-dropdown {
   border-color: #1c2022;
 }
 .dumi-default-tabs-dropdown > ul {
@@ -631,13 +674,13 @@
 .dumi-default-tabs-dropdown > ul > li:hover {
   color: #1677ff;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-dropdown > ul > li:hover {
+[data-theme="dark"] .dumi-default-tabs-dropdown > ul > li:hover {
   color: #0053c8;
 }
 .dumi-default-tabs-dropdown > ul > li:not(:last-child) {
   border-bottom: 1px dashed #d0d5d8;
 }
-[data-prefers-color="dark"] .dumi-default-tabs-dropdown > ul > li:not(:last-child) {
+[data-theme="dark"] .dumi-default-tabs-dropdown > ul > li:not(:last-child) {
   border-bottom-color: #1c2022;
 }
 .dumi-default-tabs-dropdown-hidden {
@@ -668,22 +711,33 @@
   left: 0;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
 }
-[data-prefers-color="dark"] .dumi-default-table-content[data-left-folded]::before {
+[data-theme="dark"] .dumi-default-table-content[data-left-folded]::before {
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 .dumi-default-table-content[data-right-folded]::after {
   right: 0;
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
 }
-[data-prefers-color="dark"] .dumi-default-table-content[data-right-folded]::after {
+[data-theme="dark"] .dumi-default-table-content[data-right-folded]::after {
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+.dumi-default-table-content > table > thead > tr {
+  border-bottom: none;
 }
 .dumi-default-table-content > table > thead > tr > th,
 .dumi-default-table-content > table > tr > th {
   white-space: nowrap;
+  padding-block-start: 10px;
+  padding-block-end: 10px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
 }
 .dumi-default-table-content td {
   font-size: 14px;
+  padding-block-start: 10px;
+  padding-block-end: 10px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
 }
 .dumi-default-table-content td:first-child {
   min-width: 58px;

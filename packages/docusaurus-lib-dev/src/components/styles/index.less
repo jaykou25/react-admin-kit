@@ -1,6 +1,58 @@
 @import (reference) './variables.less';
 @import './utils.less';
 
+/* 恢复预览组件中的样式。避免有些样式被 docusaurus 默认样式影响 */
+.@{prefix}-previewer,
+.@{prefix}-previewer-inline .ant-table {
+  table {
+    display: table;
+    margin-bottom: unset;
+
+    th,
+    td {
+      border-left: unset;
+      border-top: unset;
+      border-inline-end: unset;
+    }
+
+    tr {
+      border-top: unset;
+    }
+
+    tr:nth-child(2n) {
+      background-color: unset;
+    }
+  }
+}
+
+/* 恢复预览组件中 date-picker 的样式。避免被 docusaurus 默认样式影响 */
+// date-picker 弹窗默认在 body 下面
+table.ant-picker-content {
+  display: table;
+  margin-bottom: unset;
+
+  thead {
+    background-color: unset;
+  }
+
+  thead > tr {
+    border-bottom: unset;
+  }
+
+  th,
+  td {
+    border: unset;
+  }
+
+  tr {
+    border-top: unset;
+  }
+
+  tr:nth-child(2n) {
+    background-color: unset;
+  }
+}
+
 .@{prefix}-previewer {
   @error-bar-height: 30px;
 
@@ -801,13 +853,25 @@
       }
     }
 
+    > table > thead > tr {
+      border-bottom: none;
+    }
+
     > table > thead > tr > th,
     > table > tr > th {
       white-space: nowrap;
+      padding-block-start: 10px;
+      padding-block-end: 10px;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
     }
 
     td {
       font-size: 14px;
+      padding-block-start: 10px;
+      padding-block-end: 10px;
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
     }
 
     td:first-child {

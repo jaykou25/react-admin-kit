@@ -513,6 +513,8 @@ You can further customize the styling and action buttons using the `itemRender` 
 
 For more properties, please refer to [ProForm](https://procomponents.ant.design/en-US/components/form#proform) and [Antd Form](https://ant.design/components/form/#api). Below are some commonly used ones:
 
+<table className="dumi-default-table-content">
+
 | Property | Description | Type | <div style={{width: '65px'}}>Default</div> |
 | --- | --- | --- | --- |
 | layout | Form layout | `horizontal` \| `vertical` \| `inline` | `vertical` |
@@ -521,14 +523,22 @@ For more properties, please refer to [ProForm](https://procomponents.ant.design/
 | colProps | Props passed to all form items when grid mode is enabled. For example, `{span: 8}` means three items per row. You can also specify colProps individually in columns, which will override the global colProps | [ColProps](https://ant.design/components/grid/#col) | `--` |
 | labelCol | Props passed to the label of a form item, e.g. `{span: 3}`. Like colProps above, this can also be specified individually in columns via formItemProps, e.g. `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid/#col) | `--` |
 
+</table>
+
 ### InnerRef
+
+<table className="dumi-default-table-content">
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
 | data | Can be used to store extra data in the form | `Record<string, any>` | `{}` |
 | setData | Store data; setData works like React's setState, you only need to pass the fields you care about, and it will not overwrite other fields. | `(Record<string, any>) => void` | `--` |
 
+</table>
+
 ### Column
+
+<table className="dumi-default-table-content">
 
 | Field Name | Description | Type |
 | --- | --- | --- |
@@ -547,3 +557,5 @@ For more properties, please refer to [ProForm](https://procomponents.ant.design/
 | rowProps | Passed to Row when `grid` mode is enabled | [RowProps](https://ant.design/components/grid/#row) |
 | colProps | Passed to Col when `grid` mode is enabled | [ColProps](https://ant.design/components/grid/#col) |
 | required | Whether the field is required |
+
+</table>

@@ -142,20 +142,11 @@ valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 
 
 ### 传统布局
 
-<Previewer
-  title="Horizontal"
-  src="@@/SchemaForm/demos/horizontal/index.tsx"
-/>
+<Previewer title="Horizontal" src="@@/SchemaForm/demos/horizontal/index.tsx" />
 
-<Previewer
-  title="Vertical"
-  src="@@/SchemaForm/demos/vertical/index.tsx"
-/>
+<Previewer title="Vertical" src="@@/SchemaForm/demos/vertical/index.tsx" />
 
-<Previewer
-  title="Inline"
-  src="@@/SchemaForm/demos/inline/index.tsx"
-/>
+<Previewer title="Inline" src="@@/SchemaForm/demos/inline/index.tsx" />
 
 ### grid 栅格模式
 
@@ -291,10 +282,7 @@ SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFini
 
 下面列举了几个常用的取值方法:
 
-<Previewer
-  inline
-  src="@@/SchemaForm/demos/formValueTable/index.tsx"
-/>
+<Previewer inline src="@@/SchemaForm/demos/formValueTable/index.tsx" />
 
 这几个方法在取值上有细微的差异，主要的差异点在时间格式的处理，transform 转化等场景下。
 
@@ -302,10 +290,7 @@ SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFini
 
 <Previewer src="@@/SchemaForm/demos/formValue/index.tsx" />
 
-<Previewer
-  inline
-  src="@@/SchemaForm/demos/formValueTableResult/index.tsx"
-/>
+<Previewer inline src="@@/SchemaForm/demos/formValueTableResult/index.tsx" />
 
 ### ConvertValue 和 Transform
 
@@ -448,23 +433,14 @@ import { ProForm, SchemaForm } from 'react-admin-kit';
 import { Card } from 'antd';
 
 <ProForm>
-  <SchemaForm 
-    embed 
-    valueBaseName="one" 
-  />
+  <SchemaForm embed valueBaseName="one" />
 
   <div>
-    <SchemaForm 
-      embed 
-      valueBaseName="two" 
-    />
+    <SchemaForm embed valueBaseName="two" />
   </div>
 
   <Card>
-    <SchemaForm 
-      embed 
-      valueBaseName="three" 
-    />
+    <SchemaForm embed valueBaseName="three" />
   </Card>
 </ProForm>;
 
@@ -499,9 +475,12 @@ import { Card } from 'antd';
 
 group 的布局分为两层，外层（区块标题）和内层（columns 里的表单项），所以 colProps 的设置也要分两层设置。
 
-<Previewer title='分组 grid' src="@@/SchemaForm/demos/groupGrid/index.tsx" />
+<Previewer title="分组 grid" src="@@/SchemaForm/demos/groupGrid/index.tsx" />
 
-<Previewer title='分组 grid 左右布局' src="@@/SchemaForm/demos/groupGridHorizontal/index.tsx" />
+<Previewer
+  title="分组 grid 左右布局"
+  src="@@/SchemaForm/demos/groupGridHorizontal/index.tsx"
+/>
 
 ## 表单数组 FormList
 
@@ -537,6 +516,7 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 
 更多属性请参考 [ProForm](https://procomponents.ant.design/components/form#proform) 以及 [Antd Form](https://ant.design/components/form-cn/#api), 以下列取一些常用的:
 
+<table className="dumi-default-table-content">
 
 | 参数 | 说明 | 类型 | <div style={{width: '65px'}}>默认值</div> |
 | --- | --- | --- | --- |
@@ -546,14 +526,22 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 | colProps | 开启 `grid` 模式后传递给全局表单项的属性. 例如 `{span: 8}` 代表每行三项. 同时在 columns 里也可以单独指定 colProps, columns 里的 colProps 会覆盖 form 上的 colProps | [ColProps](https://ant.design/components/grid-cn/#col) | `--` |
 | labelCol | 传递给表单项中 label 的属性. 如 `{span: 3}`. 同上面的 colProps, 该属性也可以在 columns 里的 formItemProps 里单独指定. 如 `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid-cn/#col) | `--` |
 
+</table>
+
 ### InnerRef
+
+<table className="dumi-default-table-content">
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | data | 可以存储表单中的额外数据 | `Record<string, any>` | `{}` |
 | setData | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段. | `(Record<string, any>) => void` | `--` |
 
+</table>
+
 ### Column
+
+<table className="dumi-default-table-content">
 
 | 字段名称 | 说明 | 类型 |
 | --- | --- | --- |
@@ -572,3 +560,5 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 | rowProps | 在开启 `grid` 模式时传递给 Row | [RowProps](https://ant.design/components/grid/#row) |
 | colProps | 在开启 `grid` 模式时传递给 Col | [ColProps](https://ant.design/components/grid/#col) |
 | required | 表单是否必选 | `boolean` |
+
+</table>
