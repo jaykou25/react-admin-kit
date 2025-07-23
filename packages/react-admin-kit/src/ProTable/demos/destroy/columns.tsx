@@ -4,14 +4,7 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: '用户名',
     dataIndex: 'name',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '用户名为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '电话',
@@ -25,7 +18,6 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: '性别',
     dataIndex: 'sex',
-    formItemProps: {},
     valueEnum: {
       男: { text: '男' },
       女: { text: '女' },

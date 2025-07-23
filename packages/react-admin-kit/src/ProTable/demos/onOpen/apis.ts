@@ -16,6 +16,6 @@ export const mockRequest = (): Promise<any> => {
 export const requestExtra = (id) => {
   console.log('request detail for id', id);
   return new Promise((resolve) => {
-    setTimeout(() => resolve(8888), 500);
+    setTimeout(() => resolve(8888), 1000);
   });
 };

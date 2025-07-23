@@ -7,8 +7,8 @@ import { message } from 'antd';
 import { getColumns } from './columns';
 
 const Update = () => {
-  const innerRef = useRef<InnerRefType>(null);
-  const actionRef = useRef<ActionRefType>(null);
+  const innerRef = useRef<InnerRefType>();
+  const actionRef = useRef<ActionRefType>();
 
   return (
     <ProTable

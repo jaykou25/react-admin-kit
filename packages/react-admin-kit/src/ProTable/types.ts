@@ -12,6 +12,7 @@ import type { ReactElement, ReactNode } from 'react';
 import {
   FormType,
   ModalFormInnerRefType,
+  ModalFormProps,
   ModalFormSelfProps,
 } from '../ModalForm/types';
 import type { FormColumnType } from '../SchemaForm/types';
@@ -26,8 +27,6 @@ export type InnerRefType = {
   params?: any; // 查询参数
   total?: number; // 总条数
   dataSource?: any; // 表格数据
-  data?: any; // 其它数据
-  setData?: (vals: Record<string, any>) => void;
 } & ModalFormInnerRefType;
 
 type InnerRef = React.MutableRefObject<InnerRefType | undefined>;
@@ -42,12 +41,7 @@ export type TableAlertOptionType = {
 
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
-  | 'columns'
-  | 'name'
-  | 'onFinish'
-  | 'tableAlertOptionRender'
-  | 'editable'
-  | 'search'
+  'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'search'
 > & {
   columns: TableColumnType[];
   name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
@@ -77,19 +71,13 @@ export type MyProTableType = Omit<
   tableAlertOption?: TableAlertOptionType;
   // 操作列的space间距
   optionColSpaceSize?: 'small';
-  editable?: boolean;
-  modalProps?: ModalProps;
-  formProps?: SettingFormProps;
+  modalFormProps?: ModalFormProps;
   noPadding?: boolean;
   confirmModelType?: 'popconfirm' | 'modal';
   confirmModalProps?: any;
   search?: false | (SearchConfig & { labelWrap?: boolean });
   optionColumnSpaceProps?: SpaceProps;
   defaultHideInSearch?: boolean;
-};
-
-export type FetchOptionType = {
-  needLoading?: boolean;
 };
 
 type EnableDeleteType = {
@@ -124,12 +112,15 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
    * 给 render 方法注入 innerRef
    */
   render?: (
-    text: string | number,
+    dom: ReactNode,
     record: Record,
     index: number,
     action: ActionType,
     innerRef: InnerRef,
   ) => any;
+  type?: 'form' | 'table' | 'search';
+  children?: TableColumnType<Record, ValueType>[];
+  valueType?: MyFieldType | ValueType;
 };
 
 /**
@@ -148,8 +139,4 @@ export type TableColumnType<Record = any, ValueType = 'text'> = OmitIndex<
   FormColumnType<Record, ValueType>,
   'render'
 > &
-  TableColumnTypeBase<Record, ValueType> & {
-    type?: 'form' | 'table' | 'search';
-    children?: TableColumnType<Record, ValueType>[];
-    valueType?: MyFieldType | ValueType;
-  };
+  TableColumnTypeBase<Record, ValueType>;

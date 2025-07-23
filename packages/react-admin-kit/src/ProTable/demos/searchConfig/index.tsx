@@ -3,12 +3,6 @@ import { mockRequest } from './apis';
 
 import { getColumns } from './columns';
 
-export const FORM_TYPE_MAP = {
-  new: '新增',
-  edit: '编辑',
-  read: '查看',
-};
-
 const SearchConfig = () => {
   return (
     <ProTable

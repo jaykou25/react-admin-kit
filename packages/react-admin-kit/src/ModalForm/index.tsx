@@ -17,11 +17,18 @@ import { SchemaFormInnerRefType } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
 import { SchemaFormProps } from 'react-admin-kit/SchemaForm/types';
+import type { ModalFormSettingProps } from '../SettingProvider/types';
 
 const ModalForm = (props: ModalFormProps) => {
   // 全局默认设置
   const setting = useContext(ModalFormContext) || {};
-  const safeProps = Omit(props, ['formRef', 'innerRef', 'onFinish', 'columns']);
+  const safeProps: ModalFormSettingProps = Omit(props, [
+    'formRef',
+    'innerRef',
+    'onFinish',
+    'columns',
+    'forceRender',
+  ]);
   const mergedProps: ModalFormProps = mergeOptions(
     setting,
     safeProps || {},
@@ -206,7 +213,8 @@ const ModalForm = (props: ModalFormProps) => {
   return (
     <>
       <Modal
-        destroyOnHidden // 默认值
+        forceRender={true} // 一定要设 true 因为 schemaForm 的 innerRef 需要传给父组件
+        destroyOnHidden
         open={open ?? visible}
         styles={getStylesProps()}
         onCancel={handleOnCancel}

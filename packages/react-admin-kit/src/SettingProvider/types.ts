@@ -15,7 +15,12 @@ export type SchemaFormSettingProps = Omit<
 
 export type ModalFormSettingProps = Omit<
   ModalFormProps,
-  'innerRef' | 'formRef' | 'onFinish' | 'columns' | 'onOk'
+  'innerRef' | 'formRef' | 'onFinish' | 'columns' | 'onOk' | 'forceRender'
+>;
+
+export type ProTableSettingProps = Omit<
+  MyProTableType,
+  'request' | 'columns' | 'formColumns' | 'onFinish' | 'innerRef'
 >;
 
 export type ModalSettingProps = Omit<ModalProps, 'onOk'>;
@@ -52,7 +57,7 @@ export type SettingProviderProps = {
    * @description       ProTable组件的设置项
    * @default           -
    */
-  proTableSetting?: ProTableSetting;
+  proTableSetting?: ProTableSettingProps;
 
   /**
    * @description       FormUpload组件的设置项
