@@ -1,6 +1,7 @@
 // const _mergeOptions = require('merge-options');
 import _mergeOptions from 'merge-options';
 import isBoolean from 'lodash/isBoolean';
+import { normalizeTree } from './treeUtil';
 
 /**
  * 在全局设置变量
@@ -135,3 +136,5 @@ export const myMergeBoolean = (
     return defaultValue;
   }
 };
+
+export { normalizeTree };

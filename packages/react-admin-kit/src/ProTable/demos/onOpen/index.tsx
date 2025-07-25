@@ -49,7 +49,7 @@ const OnOpenDemo = () => {
         onOpen={(formType, formRef, formData) => {
           if (formType === 'edit') {
             return requestExtra(formData.id).then((res) => {
-              formRef.current?.setFields([
+              formRef?.current?.setFields([
                 { name: 'extra', value: res, touched: false },
               ]);
             });

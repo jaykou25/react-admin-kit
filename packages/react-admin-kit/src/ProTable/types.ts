@@ -16,6 +16,7 @@ import {
   ModalFormSelfProps,
 } from '../ModalForm/types';
 import type { FormColumnType } from '../SchemaForm/types';
+import { LocaleType } from 'react-admin-kit/locale';
 
 export type ToolbarType = {
   title?: string | false;
@@ -38,13 +39,44 @@ export type TableAlertOptionType = {
   exportName?: string;
 };
 
+// 这几个属性已提取到 ProTable 上。
+// forceRender 不可更改，强制为 true
+export type ModalFormPropsForProTable = Omit<
+  ModalFormProps,
+  'innerRef' | 'onFinish' | 'onOpen' | 'columns' | 'forceRender'
+>;
+
 export type MyProTableType = Omit<
   ProTableProps<any, any>,
   'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'search'
 > & {
+  /**
+   * @zh-Hans 表格或表单的配置描述;
+   * @en      Configuration description of table or form items;
+   */
   columns: TableColumnType[];
-  name?: string; // 这个值用于table的headerTitle, 还有弹出框的title
-  formColumns?: FormColumnType[]; // 弹框中的表单项, 这个值不传就拿columns中的值
+
+  /**
+   * @zh-Hans 用于 table 的 headerTitle 的显示, 还有弹出框的 title 显示; 可以配合 locale 修改文案。
+   *
+   */
+  name?: string;
+
+  /**
+   * @zh-Hans 用于修改 headerTitle 的后缀文案和 formType 对应的文案。
+   *
+   * @default zh_CH
+   *
+   */
+  locale?: LocaleType;
+
+  /**
+   * @zh-Hans 弹框中的表单项。
+   *
+   * @default columns
+   *
+   */
+  formColumns?: FormColumnType[];
   onFinish?: (
     values: any,
     formType: FormType,
@@ -70,7 +102,11 @@ export type MyProTableType = Omit<
   tableAlertOption?: TableAlertOptionType;
   // 操作列的space间距
   optionColSpaceSize?: 'small';
-  modalFormProps?: ModalFormProps;
+  /**
+   * @zh-Hans 传递给 ModalForm 组件的属性。
+   *
+   */
+  modalFormProps?: ModalFormPropsForProTable;
   noPadding?: boolean;
   confirmModelType?: 'popconfirm' | 'modal';
   confirmModalProps?: any;

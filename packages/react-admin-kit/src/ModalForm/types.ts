@@ -1,4 +1,4 @@
-import type { FormInstance, ModalProps } from 'antd';
+import type { ModalProps } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import type { FormColumnType, SchemaFormInnerRefType } from 'react-admin-kit';
 import type { SchemaFormProps } from '../SchemaForm/types';
@@ -61,7 +61,7 @@ export type ModalFormSelfProps = {
   onOpen?: (
     formType: FormType,
     formRef: ModalFormSelfProps['formRef'],
-    formData: object,
+    formData: Record<string | number, any>,
   ) => Promise<any> | void;
 
   /**
