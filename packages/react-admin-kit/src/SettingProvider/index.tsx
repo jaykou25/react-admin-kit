@@ -5,7 +5,8 @@ import {
   SchemaFormContext,
 } from './context';
 import {
-  ModalSettingProps,
+  ModalFormSettingProps,
+  ProTableSettingProps,
   SchemaFormSettingProps,
   SettingProviderProps,
 } from './types';
@@ -44,6 +45,14 @@ export const SchemaFormSettingPropsType: React.FC<
 
 // 用于生成api文档
 /* istanbul ignore next */
-export const ModalSettingPropsType: React.FC<ModalSettingProps> = () => {
+export const ModalFormSettingPropsType: React.FC<
+  ModalFormSettingProps
+> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const ProTableSettingPropsType: React.FC<ProTableSettingProps> = () => {
   return null;
 };

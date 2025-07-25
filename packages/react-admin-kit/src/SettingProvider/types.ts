@@ -1,12 +1,7 @@
-import { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
-import type { ModalProps, SpaceProps } from 'antd';
 import { FormUploadProps } from '../FormUpload/types';
-import { MyProTableType, TableAlertOptionType } from '../ProTable/types';
+import { MyProTableType } from '../ProTable/types';
 import type { SchemaFormProps } from '../SchemaForm/types';
 import type { ModalFormProps } from '../ModalForm/types';
-
-// todo 待废弃
-export type SettingFormProps = Omit<SchemaFormProps, 'onFinish' | 'columns'>;
 
 export type SchemaFormSettingProps = Omit<
   SchemaFormProps,
@@ -20,30 +15,35 @@ export type ModalFormSettingProps = Omit<
 
 export type ProTableSettingProps = Omit<
   MyProTableType,
-  'request' | 'columns' | 'formColumns' | 'onFinish' | 'innerRef'
+  | 'request'
+  | 'columns'
+  | 'formColumns'
+  | 'onFinish'
+  | 'innerRef'
+  | 'actionRef'
+  // 以下是 procomponent-protable 中的属性
+  | 'form'
+  | 'onSubmit'
+  | 'expandedRowKeys'
+  | 'defaultExpandedRowKeys'
+  | 'expandedRowRender'
+  | 'expandRowByClick'
+  | 'expandIcon'
+  | 'onExpand'
+  | 'onExpandedRowsChange'
+  | 'defaultExpandAllRows'
+  | 'expandIconColumnIndex'
+  | 'expandedRowClassName'
+  | 'childrenColumnName'
+  | 'tailor'
+  | 'getContainerWidth'
 >;
-
-export type ModalSettingProps = Omit<ModalProps, 'onOk'>;
-
-export type ProTableSetting =
-  | {
-      size?: 'small' | 'default' | 'middle';
-      searchConfig?: SearchConfig;
-      modalProps?: ModalProps;
-      formProps?: SchemaFormSettingProps;
-      confirmModalType?: 'popconfirm' | 'modal';
-      confirmModalProps?: any;
-      tableAlertOption?: TableAlertOptionType;
-      optionColumnSpaceProps?: SpaceProps;
-      options?: MyProTableType['options'];
-      defaultHideInSearch?: boolean;
-    }
-  | undefined;
 
 export type SettingProviderProps = {
   /**
    * @description       SchemaForm组件的设置项
    * @default           -
+   * @type SchemaFormSettingProps
    */
   schemaFormSetting?: SchemaFormSettingProps;
 

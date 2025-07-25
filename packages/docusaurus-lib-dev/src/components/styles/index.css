@@ -721,6 +721,10 @@ table.ant-picker-content tr:nth-child(2n) {
 [data-theme="dark"] .dumi-default-table-content[data-right-folded]::after {
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
+.dumi-default-table-content > table {
+  width: 100%;
+  display: table;
+}
 .dumi-default-table-content > table > thead > tr {
   border-bottom: none;
 }

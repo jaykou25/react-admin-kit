@@ -2,11 +2,13 @@ import React from 'react';
 import { FormUploadProps } from '../FormUpload/types';
 import {
   ModalFormSettingProps,
-  ProTableSetting,
+  ProTableSettingProps,
   SchemaFormSettingProps,
 } from './types';
 
-export const ProTableContext = React.createContext<ProTableSetting>(undefined);
+export const ProTableContext = React.createContext<
+  ProTableSettingProps | undefined
+>(undefined);
 
 export const ModalFormContext = React.createContext<
   ModalFormSettingProps | undefined

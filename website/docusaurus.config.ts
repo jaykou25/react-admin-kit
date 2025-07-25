@@ -45,6 +45,23 @@ const config: Config = {
       'docusaurus-lib-dev',
       {
         libPath: path.resolve(__dirname, '../packages/react-admin-kit/'),
+        ignore: ['node_modules/*', 'dist/*', '**/demos/**/*', '**/cases/**/*'], // 忽略文件
+        docgenParseOptions: {
+          propFilter: (prop, component) => {
+            if (prop.parent) {
+              const fileName = prop.parent.fileName;
+              // 只忽略 @types/react
+              if (
+                fileName.includes('node_modules') &&
+                fileName.includes('@types/react')
+              ) {
+                return false;
+              }
+            }
+
+            return true;
+          },
+        },
       },
     ],
     [

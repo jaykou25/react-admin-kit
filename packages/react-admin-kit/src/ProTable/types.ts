@@ -16,7 +16,6 @@ import {
   ModalFormSelfProps,
 } from '../ModalForm/types';
 import type { FormColumnType } from '../SchemaForm/types';
-import { SettingFormProps } from '../SettingProvider/types';
 
 export type ToolbarType = {
   title?: string | false;

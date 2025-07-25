@@ -11,6 +11,7 @@ import upath from 'upath';
 import fs from 'fs-extra';
 import { glob } from 'glob';
 import { withCustomConfig } from 'react-docgen-typescript';
+import type { ParserOptions } from 'react-docgen-typescript';
 import FileSystemCache from 'file-system-cache';
 
 interface PluginOptions {
@@ -18,52 +19,42 @@ interface PluginOptions {
   libPath: string;
   // 要扫描的文件匹配模式
   pattern?: string;
-  alias?: Record<string, string>;
+  // 忽略的文件
+  ignore?: string[];
+  docgenParseOptions?: ParserOptions;
 }
 
 async function pluginLibraryDevTool(
   context: any,
   opts: PluginOptions,
 ): Promise<any> {
-  const { libPath, pattern = '**/index.tsx' } = opts;
+  const {
+    libPath,
+    pattern = '**/index.tsx',
+    docgenParseOptions = {},
+    ignore = ['node_modules/*'],
+  } = opts;
 
   const cacheBaseDir = '.docusaurus-lib-dev-cache';
   const cacheDir = path.join(context.siteDir, cacheBaseDir, 'docgen-files');
   const cacheFilePath = path.join(context.siteDir, cacheBaseDir, 'docgen.json');
 
+  const {
+    savePropValueAsString = true,
+    shouldExtractLiteralValuesFromEnum = true,
+    shouldExtractValuesFromUnion = true,
+    shouldRemoveUndefinedFromOptional = true,
+    ...rest
+  } = docgenParseOptions;
+
   const docgenParser = withCustomConfig(
     path.resolve(libPath, 'tsconfig.json'),
     {
-      savePropValueAsString: true,
-      shouldExtractLiteralValuesFromEnum: true,
-      shouldExtractValuesFromUnion: true,
-      shouldRemoveUndefinedFromOptional: true,
-      propFilter: (prop, component) => {
-        // 需要较完整的类型定义
-        if (component.name === 'SchemaFormSettingPropsType') {
-          if (prop.parent) {
-            const fileName = prop.parent.fileName;
-            // 只忽略 @types/react
-            if (
-              fileName.includes('node_modules') &&
-              fileName.includes('@types/react')
-            ) {
-              return false;
-            }
-          }
-          return true;
-        }
-
-        if (component.name === 'ModalSettingPropsType') {
-          return true;
-        }
-
-        // 过滤掉 node_modules 中的属性
-        if (prop.parent) {
-          return !prop.parent.fileName.includes('node_modules');
-        }
-        return true;
-      },
+      savePropValueAsString,
+      shouldExtractLiteralValuesFromEnum,
+      shouldExtractValuesFromUnion,
+      shouldRemoveUndefinedFromOptional,
+      ...rest,
     },
   );
 
@@ -71,10 +62,10 @@ async function pluginLibraryDevTool(
     basePath: cacheDir,
   });
 
-  console.log('插件启动docusaurus-plugin-lib-dev');
+  console.log('插件启动docusaurus-lib-dev');
 
   return {
-    name: 'docusaurus-plugin-library-dev-tool',
+    name: 'docusaurus-lib-dev',
 
     // 在构建开始前执行文档解析
     async loadContent() {
@@ -83,7 +74,7 @@ async function pluginLibraryDevTool(
       // 扫描所有组件文件
       const files = await glob(pattern, {
         cwd: libPath,
-        ignore: ['node_modules/*', 'dist/*', '**/demos/**/*', '**/cases/**/*'], // 忽略文件
+        ignore, // 忽略文件
       });
 
       console.log('插件日志', 'tsx 文件数', files.length);

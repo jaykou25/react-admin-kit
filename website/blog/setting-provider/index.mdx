@@ -5,7 +5,7 @@ sidebar_label: SettingProvider - 默认设置:0:默认设置:2
 
 # SettingProvider - 组件默认设置
 
-为组件提供统一的默认设置，用外围包裹一次即可全局生效。
+为组件提供统一的默认设置，在外围包裹一次即可全局生效。
 
 ## SchemaForm
 
@@ -23,6 +23,20 @@ sidebar_label: SettingProvider - 默认设置:0:默认设置:2
 
 <Previewer src="@@/SettingProvider/demos/modalForm-width" />
 
+## ProTable
+
+比如可以统一配置分页选项。
+
+<Previewer src="@@/SettingProvider/demos/protable-pagination" />
+
+或者统一配置搜索区域。
+
+<Previewer src="@@/SettingProvider/demos/protable-search" />
+
+或者统一配置表格大小。
+
+<Previewer src="@@/SettingProvider/demos/protable-size" />
+
 ## API
 
 ### SettingProvider
@@ -33,6 +47,10 @@ sidebar_label: SettingProvider - 默认设置:0:默认设置:2
 
 <API name="SchemaFormSettingPropsType" />
 
-### ModalSettingProps
+### ModalFormSettingProps
 
-<API name="ModalSettingPropsType" />
+<API name="ModalFormSettingPropsType" />
+
+### ProTableSettingProps
+
+<API name="ProTableSettingPropsType" />

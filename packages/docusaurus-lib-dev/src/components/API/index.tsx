@@ -29,8 +29,7 @@ const API = (props: IProps) => {
   } = i18n;
 
   const globalData = useGlobalData();
-  const docGen =
-    globalData['docusaurus-plugin-library-dev-tool']['default'] || [];
+  const docGen = globalData['docusaurus-lib-dev']['default'] || [];
   const item = docGen.find((doc: any) => doc.displayName === name);
 
   const texts = {
@@ -58,6 +57,11 @@ const API = (props: IProps) => {
     return targetDesc || firstDesc || '--';
   };
 
+  const getTypeName = (row: any) => {
+    const typeObj = row.type || {};
+    return typeObj.raw || typeObj.name;
+  };
+
   return (
     <div className="markdown">
       <Table>
@@ -75,7 +79,7 @@ const API = (props: IProps) => {
               <td>{row.name}</td>
               <td>{getDesc(row.description)}</td>
               <td>
-                <code>{row.type?.name}</code>
+                <code>{getTypeName(row)}</code>
               </td>
               <td>
                 <code>
