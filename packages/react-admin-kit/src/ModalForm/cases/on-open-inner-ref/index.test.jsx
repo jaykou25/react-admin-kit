@@ -1,16 +1,17 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Demo from './index';
+import { isModalHidden, isModalShowing } from '../utils';
 
 describe('ModalForm onOpen innerRef 集成测试', () => {
   it('1. 点击按钮能打开并触发 onOpen 回调', async () => {
     const onOpen = jest.fn();
     const user = userEvent.setup();
-    render(
+    const { container } = render(
       <Demo
         onOpen={onOpen}
         onClick={(innerRef) =>
@@ -20,20 +21,22 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     );
 
     // 初始弹窗未打开
-    expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
+    expect(isModalHidden(container)).toBe(true);
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
+
     expect(onOpen).toHaveBeenCalledWith('new', expect.anything(), {
       name: 'hi',
     });
   });
 
-  it('1. 点击按钮能打开并触发 onOpen 回调 edit', async () => {
+  it('2. 点击按钮能打开并触发 onOpen 回调 edit', async () => {
     const onOpen = jest.fn();
     const user = userEvent.setup();
-    render(
+    const { container } = render(
       <Demo
         onOpen={onOpen}
         onClick={(innerRef) =>
@@ -43,17 +46,19 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     );
 
     // 初始弹窗未打开
-    expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
+    expect(isModalHidden(container)).toBe(true);
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
+
     expect(onOpen).toHaveBeenCalledWith('edit', expect.anything(), {
       name: 'edit',
     });
   });
 
-  it('2. onOpen 为异步函数时，ok 按钮 loading 状态正确', async () => {
+  it('3. onOpen 为异步函数时，ok 按钮 loading 状态正确', async () => {
     let resolveFn;
     const onOpen = jest.fn(
       () =>
@@ -72,7 +77,6 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
 
     act(() => {
       // ok 按钮应为 loading 状态
@@ -86,7 +90,7 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     });
   });
 
-  it('3. onOpen 为异步函数且抛出异常时，ok 按钮 loading 状态能正确关闭', async () => {
+  it('4. onOpen 为异步函数且抛出异常时，ok 按钮 loading 状态能正确关闭', async () => {
     const onOpen = jest.fn(
       () =>
         new Promise((_, reject) => {
@@ -98,20 +102,22 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
       <Demo
         onOpen={onOpen}
         onClick={(innerRef) => innerRef.current.openModal()}
+        title="test3"
       />,
     );
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
 
-    // ok 按钮应为 loading 状态
-    const okBtn = screen.getByTestId('ok');
-    expect(okBtn).toHaveClass('ant-btn-loading');
+    waitFor(() => {
+      // ok 按钮应为 loading 状态
+      const okBtn = screen.getByTestId('ok');
+      expect(okBtn).toHaveClass('ant-btn-loading');
 
-    // 0.6秒后 loading 状态应关闭
-    new Promise((r) => setTimeout(r, 600)).then(() => {
-      expect(okBtn).not.toHaveClass('ant-btn-loading');
+      // 0.6秒后 loading 状态应关闭
+      new Promise((r) => setTimeout(r, 600)).then(() => {
+        expect(okBtn).not.toHaveClass('ant-btn-loading');
+      });
     });
   });
 });

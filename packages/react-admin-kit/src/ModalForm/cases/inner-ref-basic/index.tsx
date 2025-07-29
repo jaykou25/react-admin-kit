@@ -2,14 +2,10 @@ import { useRef } from 'react';
 import { Button, ModalForm } from 'react-admin-kit';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 
-const Demo = () => {
+const Demo = ({ onFinish }) => {
   const innerRef = useRef<ModalFormInnerRefType>();
 
   const container = useRef(null);
-
-  const onFinish = (values: any) => {
-    console.log({ values });
-  };
 
   return (
     <div>

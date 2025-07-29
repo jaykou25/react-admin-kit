@@ -1,14 +1,10 @@
 import { useRef, useState } from 'react';
 import { Button, ModalForm } from 'react-admin-kit';
 
-const Basic = () => {
+const Basic = ({ onFinish }) => {
   const [open, setOpen] = useState(false);
 
   const container = useRef(null);
-
-  const onFinish = (values: any) => {
-    console.log({ values });
-  };
 
   return (
     <div>

@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from 'antd';
 import ModalForm from '../../index';
 
-const OnOpenControlDemo = ({ onOpen }) => {
+const OnOpenControlDemo = ({ onOpen, title = 'Test Modal' }) => {
   const [open, setOpen] = useState(false);
+
+  const container = useRef(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -18,10 +20,12 @@ const OnOpenControlDemo = ({ onOpen }) => {
       <Button data-testid="open-btn" onClick={handleOpen}>
         Open Modal
       </Button>
+      <div ref={container} data-testid="dialog"></div>
       <ModalForm
+        getContainer={() => container.current!}
         open={open}
         onOpen={onOpen}
-        title="Test Modal"
+        title={title}
         columns={[
           {
             title: 'Username',

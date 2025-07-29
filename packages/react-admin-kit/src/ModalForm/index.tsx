@@ -16,7 +16,6 @@ import { ModalFormContext } from '../SettingProvider/context';
 import { SchemaFormInnerRefType } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
-import { SchemaFormProps } from 'react-admin-kit/SchemaForm/types';
 import type { ModalFormSettingProps } from '../SettingProvider/types';
 
 const ModalForm = (props: ModalFormProps) => {
@@ -27,7 +26,6 @@ const ModalForm = (props: ModalFormProps) => {
     'innerRef',
     'onFinish',
     'columns',
-    'forceRender',
   ]);
   const mergedProps: ModalFormProps = mergeOptions(
     setting,
@@ -65,6 +63,8 @@ const ModalForm = (props: ModalFormProps) => {
 
   const [modal, contextHolder] = Modal.useModal();
 
+  const [form] = Form.useForm();
+
   useEffect(() => {
     if (open || visible) {
       if (mergedProps.onOpen) {
@@ -79,6 +79,16 @@ const ModalForm = (props: ModalFormProps) => {
       }
     }
   }, [open, visible]);
+
+  useEffect(() => {
+    // @ts-ignore
+    const { setInitialValues } = form.getInternalHooks(
+      'RC_FORM_INTERNAL_HOOKS',
+    );
+
+    setInitialValues(formData);
+    form.resetFields();
+  }, [formData]);
 
   const getStylesProps = () => {
     return mergeOptions(
@@ -213,16 +223,15 @@ const ModalForm = (props: ModalFormProps) => {
   return (
     <>
       <Modal
-        forceRender={true} // 一定要设 true 因为 schemaForm 的 innerRef 需要传给父组件
-        destroyOnHidden
         open={open ?? visible}
         styles={getStylesProps()}
         onCancel={handleOnCancel}
         onOk={handleOnOk}
         confirmLoading={propsConfirmLoading ?? confirmLoading}
         {...modalRest}
+        forceRender={true} // 一定要设 true 因为 schemaForm 的 innerRef 需要传给父组件
       >
-        <ModalContent
+        <SchemaForm
           scrollToFirstError // 默认值
           autoFocusFirstInput // 默认值
           isKeyPressSubmit // 默认值
@@ -233,21 +242,11 @@ const ModalForm = (props: ModalFormProps) => {
           innerRef={innerRef}
           initialValues={formData}
           {...formRest}
+          form={form}
         />
       </Modal>
       {contextHolder}
     </>
-  );
-};
-
-const ModalContent = (props: SchemaFormProps) => {
-  const [form] = Form.useForm(); // 弹窗每次关闭需要重新生成实例
-
-  return (
-    <SchemaForm
-      {...props}
-      form={form} // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
-    />
   );
 };
 

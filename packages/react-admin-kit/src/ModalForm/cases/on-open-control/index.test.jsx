@@ -1,23 +1,26 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import OnOpenControlDemo from './index';
+import { isModalHidden, isModalShowing } from '../utils';
 
 describe('ModalForm onOpen 控制集成测试', () => {
   it('1. 点击按钮能打开并触发 onOpen 回调', async () => {
     const onOpen = jest.fn();
     const user = userEvent.setup();
-    render(<OnOpenControlDemo onOpen={onOpen} />);
+    const { container } = render(<OnOpenControlDemo onOpen={onOpen} />);
 
     // 初始弹窗未打开
-    expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
+    expect(screen.getByText('Test Modal')).toBeInTheDocument();
+    expect(isModalHidden(container)).toBe(true);
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
+
     expect(onOpen).toHaveBeenCalledWith(
       'new',
       expect.anything(),
@@ -35,11 +38,15 @@ describe('ModalForm onOpen 控制集成测试', () => {
         }),
     );
     const user = userEvent.setup();
-    render(<OnOpenControlDemo onOpen={onOpen} />);
+    const { container } = render(
+      <OnOpenControlDemo onOpen={onOpen} title="Test2" />,
+    );
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
+
+    expect(screen.getByText('Test2')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
 
     act(() => {
       // ok 按钮应为 loading 状态
@@ -61,11 +68,15 @@ describe('ModalForm onOpen 控制集成测试', () => {
         }),
     );
     const user = userEvent.setup();
-    render(<OnOpenControlDemo onOpen={onOpen} />);
+    const { container } = render(
+      <OnOpenControlDemo onOpen={onOpen} title="Test3" />,
+    );
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(await screen.findByText('Test Modal')).toBeInTheDocument();
+
+    expect(screen.getByText('Test3')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
 
     // ok 按钮应为 loading 状态
     const okBtn = screen.getByTestId('ok');

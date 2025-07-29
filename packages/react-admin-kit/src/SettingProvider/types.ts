@@ -10,7 +10,7 @@ export type SchemaFormSettingProps = Omit<
 
 export type ModalFormSettingProps = Omit<
   ModalFormProps,
-  'innerRef' | 'formRef' | 'onFinish' | 'columns' | 'onOk' | 'forceRender'
+  'innerRef' | 'formRef' | 'onFinish' | 'columns' | 'onOk'
 >;
 
 export type ProTableSettingProps = Omit<

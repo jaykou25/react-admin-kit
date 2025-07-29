@@ -80,4 +80,9 @@ export type ModalFormSelfProps = {
   confirmOnClose?: boolean | { title?: string; content?: string };
 };
 
-export type ModalFormProps = ModalProps & ModalFormSelfProps;
+export type ModalFormProps = Omit<
+  ModalProps,
+  // ModalForm 的 forceRender 需要强制为 true。因为需要把 innerRef 传递给父组件，如 ProTable
+  'forceRender' | 'destroyOnClose' | 'destroyOnHidden'
+> &
+  ModalFormSelfProps;

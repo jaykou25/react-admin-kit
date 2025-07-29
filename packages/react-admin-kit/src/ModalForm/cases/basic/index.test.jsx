@@ -5,22 +5,25 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Basic from './index';
-import { isModalClosing } from '../utils';
+import { isModalClosing, isModalHidden, isModalShowing } from '../utils';
 
 describe('ModalForm Basic 集成测试', () => {
   const user = userEvent.setup();
 
   it('0. 初始状态', () => {
-    render(<Basic />);
+    const { container } = render(<Basic />);
 
-    expect(screen.queryByText('基本表单')).not.toBeInTheDocument();
+    expect(screen.queryByText('基本表单')).toBeInTheDocument();
+    expect(isModalHidden(container)).toBe(true);
   });
 
   it('1. 能正常打开弹窗，关闭弹窗，再次打开弹窗', async () => {
     const { container } = render(<Basic />);
+
     // 打开弹窗
     await user.click(screen.getByTestId('open'));
-    expect(screen.getByText('基本表单')).toBeInTheDocument();
+    expect(screen.queryByText('基本表单')).toBeInTheDocument();
+    expect(isModalShowing(container)).toBe(true);
 
     // 关闭弹窗
     await user.click(container.querySelector('button.ant-modal-close'));
@@ -29,8 +32,7 @@ describe('ModalForm Basic 集成测试', () => {
 
     // 再次打开弹窗
     await user.click(screen.getByTestId('open'));
-    expect(screen.getByText('基本表单')).toBeInTheDocument();
-    expect(isModalClosing(container)).toBe(false);
+    expect(isModalShowing(container)).toBe(true);
   });
 
   it('2. 打开弹窗，什么都不输入，点确认触发表单校验', async () => {
@@ -49,8 +51,8 @@ describe('ModalForm Basic 集成测试', () => {
   });
 
   it('3. 输入用户名后点确认，弹窗关闭并收到表单值', async () => {
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    const { container } = render(<Basic />);
+    const onFinish = jest.fn();
+    const { container } = render(<Basic onFinish={onFinish} />);
 
     await user.click(screen.getByTestId('open'));
 
@@ -64,11 +66,6 @@ describe('ModalForm Basic 集成测试', () => {
     expect(isModalClosing(container)).toBe(true);
 
     // 表单值被打印
-    expect(logSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        values: expect.objectContaining({ username: 'testuser' }),
-      }),
-    );
-    logSpy.mockRestore();
+    expect(onFinish).toHaveBeenCalledWith({ username: 'testuser' }, 'new', {});
   });
 });
