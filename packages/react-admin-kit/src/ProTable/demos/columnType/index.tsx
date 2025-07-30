@@ -64,6 +64,12 @@ const Demo = () => {
           }, 1000);
         });
       }}
+      // 仅用于在文档示例中区分 name
+      modalFormProps={{
+        formProps: {
+          name: 'column-type',
+        },
+      }}
     />
   );
 };

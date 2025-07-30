@@ -16,7 +16,14 @@ const Readonly = () => {
         innerRef={innerRef}
         request={mockRequest}
         bordered
-        formProps={{ layout: 'horizontal', labelCol: { span: 5 } }}
+        modalFormProps={{
+          formProps: {
+            layout: 'horizontal',
+            labelCol: { span: 5 },
+            // 仅用于在文档示例中区分 name
+            name: 'protable-readonly',
+          },
+        }}
       />
     </div>
   );

@@ -23,11 +23,22 @@
   "license": "ISC",
   "author": "jay.kou@qq.com",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./es/index.d.ts",
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
+    },
+    "./utils": {
+      "types": "./es/utils/index.d.ts",
+      "import": "./es/utils/index.js",
+      "require": "./lib/utils/index.js"
+    }
+  },
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "files": [
-    "dist",
     "lib",
     "es"
   ],
@@ -36,7 +47,7 @@
     "coverage:open": "start coverage/index.html",
     "doctor": "father doctor",
     "prepublishOnly": "npm run build",
-    "test": "set DEBUG_PRINT_LIMIT=10&& jest --coverage=false --noStackTrace",
+    "test": "set DEBUG_PRINT_LIMIT=1000&& jest --coverage=false ",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {

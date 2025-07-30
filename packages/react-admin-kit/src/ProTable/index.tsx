@@ -8,6 +8,8 @@ import { mergeOptions } from '../utils';
 import type { ProTableSettingProps } from '../SettingProvider/types';
 import { FormType } from '../ModalForm/types';
 import zh_CN from '../locale/zh_CN';
+import { patchHideInSearch } from './utils/patch-hide-in-search';
+import { patchRender } from './utils/patch-render';
 
 export const FORM_TYPE_LOCALE = {
   new: 'formTypeNew',
@@ -27,6 +29,7 @@ const ProTable = (props: MyProTableType) => {
     'formColumns',
     'onFinish',
     'innerRef',
+    'actionRef',
   ]);
 
   const mergedProps: ProTableSettingProps = mergeOptions(
@@ -35,9 +38,22 @@ const ProTable = (props: MyProTableType) => {
     {},
   );
 
-  const { innerRef: propsInnerRef, columns, formColumns, request } = props;
+  const {
+    actionRef,
+    innerRef: propsInnerRef,
+    columns,
+    formColumns,
+    request,
+  } = props;
 
-  const { onOpen, modalFormProps = {}, ...rest } = mergedProps;
+  const {
+    rowKey = 'id',
+    onOpen,
+    defaultHideInSearch = false,
+    optionColumnSpaceProps = { size: 'small' },
+    modalFormProps = {},
+    ...restTableProps
+  } = mergedProps;
 
   const getModalTitle = () => {
     const { name = '', locale = zh_CN } = mergedProps;
@@ -90,7 +106,16 @@ const ProTable = (props: MyProTableType) => {
 
   return (
     <>
-      <AntProTable columns={columns} request={patchRequest()} {...rest} />
+      <AntProTable
+        rowKey={rowKey}
+        actionRef={actionRef}
+        columns={patchRender(patchHideInSearch(columns, defaultHideInSearch), {
+          innerRef,
+          spaceProps: optionColumnSpaceProps,
+        }).filter((col) => col.type !== 'form')}
+        request={patchRequest()}
+        {...restTableProps}
+      />
       <ModalForm
         title
         innerRef={innerRef}

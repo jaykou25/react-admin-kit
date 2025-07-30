@@ -112,6 +112,12 @@ export type MyProTableType = Omit<
   confirmModalProps?: any;
   search?: false | (SearchConfig & { labelWrap?: boolean });
   optionColumnSpaceProps?: SpaceProps;
+
+  /**
+   * @zh-Hans columns 中的列是否默认在搜索区域里隐藏。
+   *
+   * @default false
+   */
   defaultHideInSearch?: boolean;
 };
 

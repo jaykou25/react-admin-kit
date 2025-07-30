@@ -5,44 +5,17 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: '额外信息',
     dataIndex: 'extra',
-    hideInTable: true,
+    type: 'form',
   },
   {
     title: '用户名',
     dataIndex: 'name',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '用户名为必填项',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: '电话',
     dataIndex: 'phone',
   },
-  {
-    title: '昵称',
-    dataIndex: 'nickName',
-    hideInSearch: true,
-  },
-  {
-    title: '性别',
-    dataIndex: 'sex',
-    formItemProps: {},
-    valueEnum: {
-      男: { text: '男' },
-      女: { text: '女' },
-    },
-  },
-  {
-    title: '身份证号',
-    dataIndex: 'idNumber',
-    hideInSearch: true,
-  },
-
   {
     title: '操作',
     valueType: 'option',

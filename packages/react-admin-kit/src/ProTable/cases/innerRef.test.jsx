@@ -1,10 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import React, { useRef, useEffect } from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { useRef, useEffect } from 'react';
+import { render, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ProTable from '../index';
+import { Button } from 'antd';
 
 // Mock data
 const mockData = [
@@ -33,18 +35,29 @@ const columns = [
     valueType: 'text',
   },
   {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
     type: 'form',
-    valueType: 'digit',
-  },
-  {
-    title: '邮箱',
-    dataIndex: 'email',
-    key: 'email',
-    type: 'form',
-    valueType: 'text',
+    title: 'nameinput',
+    dataIndex: 'userId',
+    valueType: 'select',
+    fieldProps: (form, _innerRef) => {
+      return {
+        open: true,
+        options: [
+          {
+            'data-testid': 'userOption1',
+            label: '员工1',
+            value: 'user1',
+          },
+          {
+            label: '员工2',
+            value: 'user2',
+          },
+        ],
+        onChange: () => {
+          fieldPropsFn(_innerRef?.current?.data);
+        },
+      };
+    },
   },
   {
     title: '操作',
@@ -58,6 +71,8 @@ describe('ProTable innerRef 集成测试', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
+  const user = userEvent.setup();
 
   test('应该正确初始化 innerRef', async () => {
     const TestComponent = () => {
@@ -170,41 +185,108 @@ describe('ProTable innerRef 集成测试', () => {
   });
 
   test('应该能够通过 setData 方法设置数据', async () => {
-    let capturedInnerRef;
-
-    const TestComponent = () => {
+    const TestComponent = ({ onSet, fieldPropsFn }) => {
       const innerRef = useRef();
 
-      useEffect(() => {
-        const timer = setTimeout(() => {
-          capturedInnerRef = innerRef.current;
-        }, 1000);
-        return () => clearTimeout(timer);
-      }, []);
-
       return (
-        <ProTable
-          innerRef={innerRef}
-          columns={columns}
-          request={mockRequest}
-          rowKey="id"
-          search={false}
-        />
+        <>
+          <Button data-testid="set-btn" onClick={() => onSet(innerRef)}>
+            set
+          </Button>
+          <Button
+            data-testid="open-btn"
+            onClick={() => innerRef.current.openModal()}
+          >
+            open
+          </Button>
+          <ProTable
+            innerRef={innerRef}
+            columns={[
+              {
+                title: 'ID',
+                dataIndex: 'id',
+                key: 'id',
+              },
+              {
+                title: '姓名',
+                dataIndex: 'name',
+                key: 'name',
+                type: 'form',
+                valueType: 'text',
+              },
+              {
+                type: 'form',
+                title: 'nameinput',
+                dataIndex: 'userId',
+                valueType: 'select',
+                fieldProps: (form, _innerRef) => {
+                  return {
+                    open: true,
+                    options: [
+                      {
+                        'data-testid': 'userOption1',
+                        label: '员工1',
+                        value: 'user1',
+                      },
+                      {
+                        label: '员工2',
+                        value: 'user2',
+                      },
+                    ],
+                    onChange: () => {
+                      fieldPropsFn(_innerRef?.current?.data);
+                    },
+                  };
+                },
+              },
+              {
+                title: '操作',
+                valueType: 'option',
+                key: 'option',
+                render: () => [
+                  <a key="edit">编辑</a>,
+                  <a key="delete">删除</a>,
+                ],
+              },
+            ]}
+            request={mockRequest}
+            rowKey="id"
+            search={false}
+          />
+        </>
       );
     };
 
-    render(<TestComponent />);
-
-    await waitFor(
-      () => {
-        const testData = { testKey: 'testValue', anotherKey: 123 };
-        capturedInnerRef.setData(testData);
-
-        expect(capturedInnerRef.data.testKey).toBe('testValue');
-        expect(capturedInnerRef.data.anotherKey).toBe(123);
-      },
-      { timeout: 2000 },
+    const fieldPropsFn = jest.fn();
+    const testData = { testKey: 'testValue', anotherKey: 123 };
+    render(
+      <TestComponent
+        onSet={(innerRef) => innerRef.current.setData(testData)}
+        fieldPropsFn={fieldPropsFn}
+      />,
     );
+
+    await user.click(screen.getByTestId('set-btn'));
+    await user.click(screen.getByTestId('open-btn'));
+
+    const userOption1 = await screen.findByTestId('userOption1');
+    await user.click(userOption1);
+
+    expect(fieldPropsFn).toHaveBeenCalledWith({
+      testKey: 'testValue',
+      anotherKey: 123,
+    });
+
+    // await waitFor(
+    //   () => {
+    //     const testData = { testKey: 'testValue', anotherKey: 123 };
+    //     capturedInnerRef.setData(testData);
+
+    //     expect(capturedInnerRef.data.testKey).toBe('testValue');
+    //     expect(capturedInnerRef.data.anotherKey).toBe(123);
+    //   },
+    //   { timeout: 2000 },
+    // );
   });
 
   test('应该在不同的请求参数下正确更新 params', async () => {
