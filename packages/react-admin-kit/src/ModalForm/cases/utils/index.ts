@@ -1,6 +1,6 @@
 /**
  * 在测试 antd Modal 组件弹窗开启并闭时，由于开启关闭有 css 动画, 导制测试不稳定。
- * 在 ModalForm 组件中，由于功能需要，forceRender 是设为 true 的。以下是行为方式：
+ * 在 ModalForm 组件中，当 forceRender 设为 true 时。以下是行为方式：
  *
  * 遮罩层：
  * 1. 开启
@@ -12,6 +12,22 @@
  * modal 层：
  * 1. 开启
  * .ant-modal(display: none) -> .ant-modal.ant-zoom.ant-zoom-enter.ant-zoom-enter-active -> .ant-modal
+ *
+ * 2. 关闭
+ * .ant-modal -> .ant-modal.ant-zoom.ant-zoom-leave.ant-zoom-leave-active -> .ant-modal(display: none)
+ *
+ *
+ * 当 forceRender 设为 false 时。以下是行为方式：
+ * 遮罩层：
+ * 1. 开启
+ *
+ *
+ * 2. 关闭
+ * .ant-modal-mask -> .ant-modal-mask.ant-fade.ant-fade-leave.ant-fade-leave-active -> .ant-modal-wrap(display: none)
+ *
+ * modal 层：
+ * 1. 开启
+ *
  *
  * 2. 关闭
  * .ant-modal -> .ant-modal.ant-zoom.ant-zoom-leave.ant-zoom-leave-active -> .ant-modal(display: none)
@@ -30,6 +46,7 @@ export function isModalClosing(container) {
   return maskIsLeaving && modalIsLeaving;
 }
 
+// forceRender 为 true 时用
 export function isModalShowing(container) {
   // 检查遮罩层是否处于离开状态
   const maskShowing = !!container.querySelector(
@@ -44,6 +61,7 @@ export function isModalShowing(container) {
 }
 
 // 判断 modal 关闭状态
+// forceRender 为 true 时用
 export function isModalHidden(container) {
   const wrap = container.querySelector('.ant-modal-wrap');
   const warpHidden = !!wrap && wrap.style.display === 'none';

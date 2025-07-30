@@ -5,16 +5,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Basic from './index';
-import { isModalClosing, isModalHidden, isModalShowing } from '../utils';
+import { isModalClosing, isModalShowing } from '../utils';
 
 describe('ModalForm Basic 集成测试', () => {
   const user = userEvent.setup();
 
   it('0. 初始状态', () => {
-    const { container } = render(<Basic />);
+    render(<Basic />);
 
-    expect(screen.queryByText('基本表单')).toBeInTheDocument();
-    expect(isModalHidden(container)).toBe(true);
+    expect(screen.queryByText('基本表单')).not.toBeInTheDocument();
   });
 
   it('1. 能正常打开弹窗，关闭弹窗，再次打开弹窗', async () => {
@@ -23,7 +22,6 @@ describe('ModalForm Basic 集成测试', () => {
     // 打开弹窗
     await user.click(screen.getByTestId('open'));
     expect(screen.queryByText('基本表单')).toBeInTheDocument();
-    expect(isModalShowing(container)).toBe(true);
 
     // 关闭弹窗
     await user.click(container.querySelector('button.ant-modal-close'));

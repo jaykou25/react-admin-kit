@@ -5,16 +5,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Demo from './index';
-import { isModalClosing, isModalHidden, isModalShowing } from '../utils';
+import { isModalClosing, isModalShowing } from '../utils';
 
 describe('ModalForm InnerRef 集成测试', () => {
   const user = userEvent.setup();
 
   it('1. 初始状态下Modal不可见', () => {
-    const { container } = render(<Demo />);
+    render(<Demo />);
 
-    expect(screen.queryByText('基本表单')).toBeInTheDocument();
-    expect(isModalHidden(container)).toBe(true);
+    expect(screen.queryByText('基本表单')).not.toBeInTheDocument();
   });
 
   it('2. 通过innerRef打开弹窗', async () => {
@@ -24,7 +23,7 @@ describe('ModalForm InnerRef 集成测试', () => {
     await user.click(screen.getByTestId('open'));
 
     // 验证弹窗已打开
-    expect(isModalShowing(container)).toBe(true);
+    expect(screen.queryByText('基本表单')).toBeInTheDocument();
   });
 
   it('3. 打开弹窗后，点击关闭按钮可以关闭弹窗', async () => {
@@ -33,7 +32,8 @@ describe('ModalForm InnerRef 集成测试', () => {
     // 打开弹窗
     await user.click(screen.getByTestId('open'));
 
-    expect(isModalShowing(container)).toBe(true);
+    // 验证弹窗已打开
+    expect(screen.queryByText('基本表单')).toBeInTheDocument();
 
     // 点击关闭按钮
     await user.click(container.querySelector('button.ant-modal-close'));

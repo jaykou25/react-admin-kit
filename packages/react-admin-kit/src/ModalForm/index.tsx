@@ -13,10 +13,11 @@ import { mergeOptions } from '../utils';
 import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
 
 import { ModalFormContext } from '../SettingProvider/context';
-import { SchemaFormInnerRefType } from '../context';
+import { CreateBaseInner, SchemaFormInnerRefType } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
 import type { ModalFormSettingProps } from '../SettingProvider/types';
+import { InnerRefContext } from '../ProForm';
 
 const ModalForm = (props: ModalFormProps) => {
   // 全局默认设置
@@ -52,7 +53,7 @@ const ModalForm = (props: ModalFormProps) => {
     formProps || {};
 
   // 这是传给 SchemaForm 组件的
-  const innerRef = useRef<SchemaFormInnerRefType>();
+  const innerRef = useRef<SchemaFormInnerRefType>(CreateBaseInner());
 
   const formRef = useRef<ProFormInstance>();
 
@@ -222,29 +223,30 @@ const ModalForm = (props: ModalFormProps) => {
 
   return (
     <>
-      <Modal
-        open={open ?? visible}
-        styles={getStylesProps()}
-        onCancel={handleOnCancel}
-        onOk={handleOnOk}
-        confirmLoading={propsConfirmLoading ?? confirmLoading}
-        {...modalRest}
-        forceRender={true} // 一定要设 true 因为 schemaForm 的 innerRef 需要传给父组件
-      >
-        <SchemaForm
-          scrollToFirstError // 默认值
-          autoFocusFirstInput // 默认值
-          isKeyPressSubmit // 默认值
-          readonly={formType === 'read'}
-          columns={getColumns()}
-          onFinish={handleOnFinish}
-          formRef={getFormRef()}
-          innerRef={innerRef}
-          initialValues={formData}
-          {...formRest}
-          form={form}
-        />
-      </Modal>
+      <InnerRefContext.Provider value={innerRef}>
+        <Modal
+          open={open ?? visible}
+          styles={getStylesProps()}
+          onCancel={handleOnCancel}
+          onOk={handleOnOk}
+          confirmLoading={propsConfirmLoading ?? confirmLoading}
+          {...modalRest}
+        >
+          <SchemaForm
+            scrollToFirstError // 默认值
+            autoFocusFirstInput // 默认值
+            isKeyPressSubmit // 默认值
+            readonly={formType === 'read'}
+            columns={getColumns()}
+            onFinish={handleOnFinish}
+            formRef={getFormRef()}
+            innerRef={innerRef}
+            initialValues={formData}
+            {...formRest}
+            form={form} // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
+          />
+        </Modal>
+      </InnerRefContext.Provider>
       {contextHolder}
     </>
   );

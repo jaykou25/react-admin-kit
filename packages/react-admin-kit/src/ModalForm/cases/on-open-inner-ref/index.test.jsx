@@ -5,13 +5,12 @@ import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Demo from './index';
-import { isModalHidden, isModalShowing } from '../utils';
 
 describe('ModalForm onOpen innerRef 集成测试', () => {
   it('1. 点击按钮能打开并触发 onOpen 回调', async () => {
     const onOpen = jest.fn();
     const user = userEvent.setup();
-    const { container } = render(
+    render(
       <Demo
         onOpen={onOpen}
         onClick={(innerRef) =>
@@ -21,12 +20,11 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     );
 
     // 初始弹窗未打开
-    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
-    expect(isModalHidden(container)).toBe(true);
+    expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(isModalShowing(container)).toBe(true);
+    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
 
     expect(onOpen).toHaveBeenCalledWith('new', expect.anything(), {
       name: 'hi',
@@ -36,7 +34,7 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
   it('2. 点击按钮能打开并触发 onOpen 回调 edit', async () => {
     const onOpen = jest.fn();
     const user = userEvent.setup();
-    const { container } = render(
+    render(
       <Demo
         onOpen={onOpen}
         onClick={(innerRef) =>
@@ -46,12 +44,11 @@ describe('ModalForm onOpen innerRef 集成测试', () => {
     );
 
     // 初始弹窗未打开
-    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
-    expect(isModalHidden(container)).toBe(true);
+    expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
 
     // 打开弹窗
     await user.click(screen.getByTestId('open-btn'));
-    expect(isModalShowing(container)).toBe(true);
+    expect(screen.queryByText('Test Modal')).toBeInTheDocument();
 
     expect(onOpen).toHaveBeenCalledWith('edit', expect.anything(), {
       name: 'edit',

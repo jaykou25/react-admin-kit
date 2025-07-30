@@ -70,6 +70,9 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const parentInnerRef = useContext(InnerRefContext);
 
   const getInnerRef = (): BaseInnerRef => {
+    // 以最近的 InnerRefContext 为优先
+    // ProForm -> SchemaForm
+    //         -> ModalForm  -> SchemaForm
     return parentInnerRef || innerRef;
   };
 
