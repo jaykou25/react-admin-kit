@@ -17,6 +17,9 @@ const config: Config = {
     experimental_faster: true,
   },
 
+  // 客户端模块，用于在浏览器中执行代码
+  clientModules: [require.resolve('./src/clientModules/globalUtils.js')],
+
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
   // Set the /<baseUrl>/ pathname under which your site is served

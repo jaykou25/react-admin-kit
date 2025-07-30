@@ -15,14 +15,73 @@ import { normalizeTree } from 'react-admin-kit/utils';
 
 ## normalizeTree
 
-处理树形数据，返回一个新的树形数据。
+标准化树形数据结构，通过传入的 patch 函数对每个节点进行处理。
 
 ```tsx
-
+function normalizeTree(
+  data: any[] = [],
+  patchFunction?: (item: any) => Record<string, any> | undefined,
+  options?: { replace: boolean },
+): any[];
 ```
 
-**例子**
+**参数**
+
+- `data` - 树形数据数组
+- `patchFunction` - 用于处理每个节点的函数，返回要合并或替换的属性对象
+- `options.replace` - 是否用 patch 结果完全替换原节点，默认为 false（合并模式）
+
+**基础用法**
 
 ```js
+// 为每个节点添加 disabled 属性
+const data = [
+  { id: 1, name: 'Node 1', children: [{ id: 2, name: 'Node 2' }] },
+  { id: 3, name: 'Node 3' },
+];
 
+const result = normalizeTree(data, (item) => ({ disabled: true }));
+// 结果：每个节点都会添加 disabled: true 属性
+```
+
+**条件处理**
+
+```js
+// 根据节点属性动态添加样式
+const menuData = [
+  { key: 'home', title: '首页', type: 'page' },
+  {
+    key: 'users',
+    title: '用户管理',
+    type: 'menu',
+    children: [{ key: 'user-list', title: '用户列表', type: 'page' }],
+  },
+];
+
+const normalizedMenu = normalizeTree(menuData, (item) => {
+  if (item.type === 'menu') {
+    return { icon: 'folder', expandable: true };
+  }
+  if (item.type === 'page') {
+    return { icon: 'file', clickable: true };
+  }
+});
+```
+
+**替换模式**
+
+```js
+// 完全重构节点结构
+const rawData = [{ id: 1, label: 'Item 1', sub: [{ id: 2, label: 'Item 2' }] }];
+
+const transformed = normalizeTree(
+  rawData,
+  (item) => ({
+    value: item.id,
+    title: item.label,
+    children: item.sub,
+  }),
+  { replace: true },
+);
+// 结果：节点结构被完全替换为新的格式
 ```
