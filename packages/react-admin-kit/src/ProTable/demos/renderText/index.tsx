@@ -33,7 +33,7 @@ const RenderText = () => {
     <ProTable
       search={false}
       pagination={false}
-      noPadding
+      cardProps={false}
       columns={columns}
       request={mockRequestForRenderText}
       bordered

@@ -47,10 +47,12 @@ const FormLayout = () => {
       }}
       rowSelection={{}}
       delFunction={delelteRecord}
-      formProps={{
-        grid: true,
-        rowProps: { gutter: [24, 0] },
-        colProps: { span: 12 },
+      modalFormProps={{
+        formProps: {
+          grid: true,
+          rowProps: { gutter: [24, 0] },
+          colProps: { span: 12 },
+        },
       }}
     />
   );

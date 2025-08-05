@@ -3,6 +3,7 @@ import { ProTable } from 'react-admin-kit';
 import { mockAdd, mockRequest, mockUpdate } from './apis';
 
 import { getColumns } from './columns';
+import { message } from 'antd';
 
 const OnFinishDemo = () => {
   const innerRef = useRef<any>();
@@ -25,6 +26,8 @@ const OnFinishDemo = () => {
 
           if (formType === 'edit') {
             await mockUpdate({ ...values, id: formData.id });
+
+            message.success(`编辑成功，id 为 ${formData.id}`);
           }
 
           actionRef.current.reload();

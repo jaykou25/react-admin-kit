@@ -33,7 +33,6 @@ export const getColumns = (): TableColumnType[] => [
     valueType: 'option', // valueType 设为 option 代表是操作列
     enableDelete: () => ({
       danger: true,
-      btnText: '关闭',
     }),
     render: (text, record, index, actionRef, innerRef) => [
       <LinkButton

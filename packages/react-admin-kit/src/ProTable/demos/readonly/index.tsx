@@ -12,6 +12,7 @@ const Readonly = () => {
       <ProTable
         name="用户"
         search={false}
+        cardProps={false}
         columns={getColumns()}
         innerRef={innerRef}
         request={mockRequest}

@@ -35,7 +35,7 @@ export const getColumns = (handleDel: any): TableColumnType[] => [
   {
     title: '操作',
     valueType: 'option',
-    enableDelete: true,
+    enableDelete: () => ({ danger: true }),
     render: (text, record, index, actionRef, innerRef) => [
       <LinkButton
         key={1}
@@ -43,13 +43,6 @@ export const getColumns = (handleDel: any): TableColumnType[] => [
       >
         编辑
       </LinkButton>,
-      <Popconfirm
-        key={2}
-        title="确认删除吗?"
-        onConfirm={() => handleDel(record.id)}
-      >
-        <LinkButton danger>删除</LinkButton>
-      </Popconfirm>,
     ],
   },
 ];

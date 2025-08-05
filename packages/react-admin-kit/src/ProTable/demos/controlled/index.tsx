@@ -44,6 +44,7 @@ const Controlled = () => {
         </Button>
       </div>
       <ProTable
+        name="受控"
         columns={getColumns(handleDel)}
         dataSource={dataSource}
         innerRef={innerRef}
@@ -51,7 +52,9 @@ const Controlled = () => {
         bordered
         search={false}
         pagination={false}
-        noPadding
+        cardProps={false}
+        delFunction={(ids) => handleDel(ids[0])}
+        delSuccessProps={false}
       />
     </div>
   );

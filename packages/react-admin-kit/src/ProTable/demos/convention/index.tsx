@@ -40,9 +40,11 @@ const ConventionDemo = () => {
         bordered
         search={false}
         pagination={false}
-        formProps={{
-          layout: 'horizontal',
-          labelCol: { span: 4 },
+        modalFormProps={{
+          formProps: {
+            layout: 'horizontal',
+            labelCol: { span: 4 },
+          },
         }}
       />
     </div>

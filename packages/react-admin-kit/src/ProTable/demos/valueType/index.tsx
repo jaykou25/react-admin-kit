@@ -6,6 +6,7 @@ import { getColumns } from './columns';
 const ValueType = () => {
   return (
     <ProTable
+      cardProps={false}
       columns={getColumns()}
       request={mockRequest}
       search={false}
