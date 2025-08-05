@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-lib-dev",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.16",
   "description": "A Docusaurus plugin for live component demos with rehype processing and interactive code previews",
   "keywords": [
     "docusaurus",

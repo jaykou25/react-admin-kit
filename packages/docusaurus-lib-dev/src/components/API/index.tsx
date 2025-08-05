@@ -5,9 +5,12 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // @ts-ignore
 import { translate } from '@docusaurus/Translate';
 import Table from './components/Table';
+import MarkdownLink from './components/MarkdownLink';
 
 type IProps = {
   name: string;
+  nameStyles?: React.CSSProperties;
+  descriptionStyles?: React.CSSProperties;
   typeStyles?: React.CSSProperties;
   defaultStyles?: React.CSSProperties;
 };
@@ -57,9 +60,43 @@ const API = (props: IProps) => {
     return targetDesc || firstDesc || '--';
   };
 
+  /**
+   * 解析到的类型可能是这样的
+   * {
+      "defaultHideInSearch": {
+        "type": {
+          "name": "enum",
+          "raw": "boolean",
+          "value": [
+            {
+              "value": "false"
+            },
+            {
+              "value": "true"
+            }
+          ]
+        }
+      },
+
+      如果是 @type 指定的会是这样的
+      "optionColumnSpaceProps": {
+        "type": {
+          "name": "[hi] (https://www.baidu.com)"
+        }
+      }
+    }
+   *
+   */
   const getTypeName = (row: any) => {
     const typeObj = row.type || {};
-    return typeObj.raw || typeObj.name;
+    const text = typeObj.raw || typeObj.name;
+
+    if (/\[(.*?)\]\s*\((.*?)\)/g.exec(text)) {
+      // 兼容 markdown 链接标识
+      return <MarkdownLink text={text} />;
+    }
+
+    return <code>{text}</code>;
   };
 
   return (
@@ -67,8 +104,8 @@ const API = (props: IProps) => {
       <Table>
         <thead>
           <tr>
-            <th>{texts.property}</th>
-            <th>{texts.description}</th>
+            <th style={props.nameStyles}>{texts.property}</th>
+            <th style={props.descriptionStyles}>{texts.description}</th>
             <th style={props.typeStyles}>{texts.type}</th>
             <th style={props.defaultStyles}>{texts.default}</th>
           </tr>
@@ -78,9 +115,7 @@ const API = (props: IProps) => {
             <tr key={row.name}>
               <td>{row.name}</td>
               <td>{getDesc(row.description)}</td>
-              <td>
-                <code>{getTypeName(row)}</code>
-              </td>
+              <td>{getTypeName(row)}</td>
               <td>
                 <code>
                   {row.defaultValue?.value ||
