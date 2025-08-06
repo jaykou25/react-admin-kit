@@ -512,23 +512,17 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 
 ### SchemaForm
 
-<API filePath="src/SchemaForm/index.tsx" name="SchemaFormType" />
+SchemaForm 类型是 [SchemaFormSelfType](/components/schema-form#schemaformselftype) 和 [SchemaFormOriginType](/components/schema-form#schemaformorigintype) 的结合。
 
-更多属性请参考 [ProForm](https://procomponents.ant.design/components/form#proform) 以及 [Antd Form](https://ant.design/components/form-cn/#api), 以下列取一些常用的:
+#### SchemaFormSelfType
 
-<table className="dumi-default-table-content">
+<API name="SchemaFormSelfType" />
 
-| 参数 | 说明 | 类型 | <div style={{width: '65px'}}>默认值</div> |
-| --- | --- | --- | --- |
-| layout | 表单布局 | `horizontal` \| `vertical` \| `inline` | `vertical` |
-| grid | 开启 grid 模式(推荐), 可参考上面的例子. 开启了 grid 后可以通过 rowProps 和 colProps 对任意表单项调整布局 | `Boolean` | `false` |
-| rowProps | 开启 `grid` 模式后传递给 `Row`的属性. 例如 `{gutter: [16, 0]}` | [RowProps](https://ant.design/components/grid-cn/#row) | `{ gutter: 8 }` |
-| colProps | 开启 `grid` 模式后传递给全局表单项的属性. 例如 `{span: 8}` 代表每行三项. 同时在 columns 里也可以单独指定 colProps, columns 里的 colProps 会覆盖 form 上的 colProps | [ColProps](https://ant.design/components/grid-cn/#col) | `--` |
-| labelCol | 传递给表单项中 label 的属性. 如 `{span: 3}`. 同上面的 colProps, 该属性也可以在 columns 里的 formItemProps 里单独指定. 如 `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid-cn/#col) | `--` |
+#### SchemaFormOriginType
 
-</table>
+<API name="SchemaFormOriginType" />
 
-### InnerRef
+### SchemaFormInnerRefType
 
 <table className="dumi-default-table-content">
 
@@ -539,26 +533,6 @@ formList 实际上是一个组件, [api](https://procomponents.ant.design/compon
 
 </table>
 
-### Column
+### FormColumnType
 
-<table className="dumi-default-table-content">
-
-| 字段名称 | 说明 | 类型 |
-| --- | --- | --- |
-| key | 确定这个列的唯一值, 一般用于 dataIndex 重复的情况 | `React.key` |
-| dataIndex | 可使用约定模式自动处理值: userId, userName 或 userId, userName_id, name; 可参考[约定式例子](/components/schema-form#约定式) | `string` |
-| valueType | 数据的渲渲染方式，我们自带了一部分，你也可以自定义 valueType | `ProFieldValueType` |
-| title | 标题的内容，在 form 中是 label | `ReactNode` \| `(props,type,dom)=> ReactNode` |
-| tooltip | 会在 title 旁边展示一个 icon，鼠标浮动之后展示 | `string` |
-| valueEnum | 支持 object 和 Map，Map 是支持其他基础类型作为 key | `(Entity)=> ValueEnum` \| `ValueEnum` |
-| fieldProps | 传给渲染的组件的 props，自定义的时候也会传递 | `(form,config)=>fieldProps` \| `fieldProps` |
-| formItemProps | 传递给 Form. Item 的配置 | `(form,config)=>formItemProps` \| `formItemProps` |
-| readonly | 只读模式; 优先级更高 | `boolean` |
-| render | 只读模式下自定义显示. `render` 方法只管理只读模式，编辑模式需要使用 `renderFormItem` | `(dom,record,index, action, schema) => React.ReactNode` |
-| renderFormItem | 自定义编辑模式, 返回一个 ReactNode，会自动包裹 value 和 onChange | `(schema,config,form) => React.ReactNode` |
-| hideInForm | 在 Form 中隐藏 | `boolean` |
-| rowProps | 在开启 `grid` 模式时传递给 Row | [RowProps](https://ant.design/components/grid/#row) |
-| colProps | 在开启 `grid` 模式时传递给 Col | [ColProps](https://ant.design/components/grid/#col) |
-| required | 表单是否必选 | `boolean` |
-
-</table>
+<API name="FormColumnTypeComponent" />
