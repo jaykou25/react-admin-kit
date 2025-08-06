@@ -23,6 +23,8 @@ module.exports = {
     '!src/**/genItems.tsx', // 排除辅助文件
     '!src/index.ts', // 排除入口文件
     '!src/setupTests.ts', // 排除测试工具文件
+    '!src/utils/setupGlobalErrorHandling.ts',
+    '!src/locale/*',
   ],
   coverageThreshold: {
     global: {

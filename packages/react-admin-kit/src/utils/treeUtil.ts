@@ -32,7 +32,7 @@ function normalizeTreeItem(item, patchItem?: PatchFunctionType, options?: any) {
   };
 }
 
-type PatchFunctionType = (item: any) => Record<string, any> | undefined;
+type PatchFunctionType = (item: any) => Record<string, any> | undefined | void;
 /**
  * 利用一个 patchItem 方法来处理 tree item
  * @param data
