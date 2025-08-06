@@ -26,6 +26,7 @@ const Basic = () => {
         innerRef={innerRef}
         actionRef={actionRef}
         toolbar={{
+          tooltip: "it's a tooltip",
           actions: [
             <Button
               key={1}

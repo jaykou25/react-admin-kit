@@ -57,12 +57,9 @@
     "@babel/runtime": "^7.27.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
-    "exceljs": "^4.3.0",
-    "file-saver": "^2.0.5",
     "immer": "^9.0.15",
     "lodash": "^4.17.21",
     "merge-options": "^3.0.4",
-    "moment": "^2.29.4",
     "omit.js": "^2.0.2",
     "styled-components": "^6.1.19"
   },

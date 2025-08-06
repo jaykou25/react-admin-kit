@@ -6,6 +6,7 @@ const locale: LocaleType = {
   formTypeNew: 'Create ',
   formTypeEdit: 'Edit ',
   formTypeRead: 'View ',
+  exportFilename: 'Export List',
 };
 
 export default locale;

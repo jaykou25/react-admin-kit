@@ -6,8 +6,10 @@ import { normalizeTree } from '../../utils';
  * 理论上在 table 里是不能有 form 相关的列的（除了一些共通属性以外），
  * 像 valueType: dependency 这种是 form 独有的，这样的列只能出现在搜索区域。
  */
+/* istanbul ignore next */
 export const patchHideInSearch = (columns, defaultHideInSearch: boolean) => {
-  return normalizeTree(columns, (item) => {
+  return normalizeTree(columns, (_item) => {
+    const item = { ..._item }; // 不修改原对象
     if (item.hideInSearch === undefined) {
       item.hideInSearch = defaultHideInSearch;
     }

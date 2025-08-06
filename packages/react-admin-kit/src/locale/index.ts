@@ -1,6 +1,7 @@
 export type LocaleType = {
-  tableTitleAfter: string;
-  formTypeNew: string;
-  formTypeEdit: string;
-  formTypeRead: string;
+  tableTitleAfter?: string;
+  formTypeNew?: string;
+  formTypeEdit?: string;
+  formTypeRead?: string;
+  exportFilename?: string;
 };

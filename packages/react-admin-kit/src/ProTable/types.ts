@@ -6,7 +6,13 @@ import type {
   ProTableProps,
 } from '@ant-design/pro-table';
 import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender';
-import type { ModalProps, SpaceProps } from 'antd';
+import type {
+  MessageArgsProps,
+  ModalFuncProps,
+  ModalProps,
+  PopconfirmProps,
+  SpaceProps,
+} from 'antd';
 import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import {
@@ -24,37 +30,137 @@ export type ToolbarType = {
 };
 
 export type InnerRefType = {
+  /**
+   * @zh-Hans 查询参数。
+   *
+   *
+   */
   params?: any; // 查询参数
+
+  /**
+   * @zh-Hans 总条数。
+   *
+   *
+   */
   total?: number; // 总条数
+
+  /**
+   * @zh-Hans 表格数据。
+   *
+   *
+   */
   dataSource?: any; // 表格数据
+
+  /**
+   * @zh-Hans 导出表格数据。
+   *
+   *
+   */
+  export: (
+    /**
+     * @zh-Hans 要导出的数据。 可以传 dataSource 或者 selectedRows
+     */
+    rows,
+    /**
+     * @zh-Hans exceljs 对象
+     */
+    ExcelJS,
+    options?: {
+      /**
+       * @zh-Hans 导出前的回调函数，可以对 worksheet 进行修改。
+       */
+      beforeExport?: (worksheet) => void;
+      /**
+       * @zh-Hans 导出文件名。
+       */
+      filename?: string;
+    },
+  ) => void;
 } & ModalFormInnerRefType;
 
 type InnerRef = React.MutableRefObject<InnerRefType | undefined>;
 
 export type TableAlertOptionType = {
-  hideDelete?: boolean; // 默认是false
-  deleteProps?: { btnText?: string; title?: (num) => string } | any; // 可以传入popconfirm 或 modal.confirm的属性
-  enableExport?: boolean; // 默认是false
-  actions?: ReactNode[];
-  exportName?: string;
+  /**
+   * @description 是否开启 alert 上的删除
+   *
+   * @default true
+   */
+  enableDelete?:
+    | boolean
+    | ((
+        selectedRowKeys: any[],
+        selectedRows: any[],
+      ) => EnableDeleteType | boolean);
+
+  /**
+   * @zh-Hans 传给 alert 上删除确认框的属性。title 和 description 可以是函数;
+   *
+   *
+   */
+  delPopconfirmProps?: Omit<PopconfirmProps, 'title' | 'description'> & {
+    title?:
+      | ReactNode
+      | ((selectedRowKeys: any[], selectedRows: any[]) => ReactNode);
+    description?:
+      | ReactNode
+      | ((selectedRowKeys: any[], selectedRows: any[]) => ReactNode);
+  };
+
+  /**
+   * @zh-Hans 传给 alert 上删除确认框的属性。title 和 content 可以是函数;
+   *
+   *
+   */
+  delModalConfirmProps?: Omit<ModalFuncProps, 'title' | 'content'> & {
+    title?:
+      | ReactNode
+      | ((selectedRowKeys: any[], selectedRows: any[]) => ReactNode);
+    content?:
+      | ReactNode
+      | ((selectedRowKeys: any[], selectedRows: any[]) => ReactNode);
+  };
+
+  /**
+   * @zh-Hans 传递给 alert 中包裹各按钮的 Space 组件的属性。
+   *
+   * @type [Space](https://ant-design.antgroup.com/components/space-cn#api)
+   * @default {size: 'middle'}
+   */
+  spaceProps?: SpaceProps;
 };
 
 // 这几个属性已提取到 ProTable 上。
-// forceRender 不可更改，强制为 true
 export type ModalFormPropsForProTable = Omit<
   ModalFormProps,
-  'innerRef' | 'onFinish' | 'onOpen' | 'columns' | 'forceRender'
+  'innerRef' | 'onFinish' | 'onOpen' | 'columns'
 >;
 
-export type MyProTableType = Omit<
-  ProTableProps<any, any>,
-  'columns' | 'name' | 'onFinish' | 'tableAlertOptionRender' | 'search'
-> & {
+export type MyProTableSelfType = {
   /**
    * @zh-Hans 表格或表单的配置描述;
    * @en      Configuration description of table or form items;
+   * @type [TableColumnType](/components/protable#tablecolumntype)[]
    */
   columns: TableColumnType[];
+
+  /**
+   * @zh-Hans 获取 dataSource 的方法;
+   */
+  request?: ProTableProps<any, any>['request'];
+
+  /**
+   * @zh-Hans 用于手动触发 table 的一些操作，比如 reload, reset 等;
+   *
+   * @type [ActionType](https://procomponents.ant.design/components/table#actionref-%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91)
+   */
+  actionRef?: ProTableProps<any, any>['actionRef'];
+
+  /**
+   * @zh-Hans 一个工具类 ref，包含了一些方法和属性;
+   * @type [InnerRefType](/components/protable#innerreftype)
+   */
+  innerRef?: InnerRef;
 
   /**
    * @zh-Hans 用于 table 的 headerTitle 的显示, 还有弹出框的 title 显示; 可以配合 locale 修改文案。
@@ -63,7 +169,141 @@ export type MyProTableType = Omit<
   name?: string;
 
   /**
-   * @zh-Hans 用于修改 headerTitle 的后缀文案和 formType 对应的文案。
+   * @zh-Hans 点击弹窗确定按钮后的回调;
+   * @en      Callback after clicking the modal confirm button;
+   * @type (values, formType, formData) => Promise | void
+   */
+  onFinish?: (
+    values: any,
+    formType: FormType,
+    formData: any,
+  ) => Promise<any> | void;
+
+  /**
+   * @zh-Hans 打开弹框后的回调, 可以在这里请求数据;
+   * @en      Callback after opening the modal, you can request data here;
+   * @type (formType, formRef, formData) => Promise | void
+   */
+  onOpen?: ModalFormSelfProps['onOpen'];
+
+  /**
+   * @zh-Hans 传入的删除函数;
+   *
+   */
+  delFunction?: (
+    /**
+     * @zh-Hans 所选行的 ids 数组;
+     */
+    selectedIds: (string | number)[],
+    /**
+     * @zh-Hans 所选行的数据; 如果是多选的，record 是空对象;
+     */
+    record,
+  ) => Promise<any> | void;
+
+  /**
+   * @zh-Hans 是否有删除权限; 不传默认为有;
+   *
+   */
+  delPermission?: () => boolean;
+
+  /**
+   * @zh-Hans 多选删除功能的选项;
+   *
+   * @type [TableAlertOptionType](/components/protable#tablealertoptiontype)
+   */
+  tableAlertOption?: TableAlertOptionType;
+
+  /**
+   * @zh-Hans 自定义 table alert 右侧区域;
+   */
+  tableAlertOptionRender?:
+    | false
+    | ((
+        option: {
+          selectedRowKeys: any[];
+          selectedRows: any[];
+          onCleanSelected: () => void;
+        },
+        doms: {
+          delDom?: ReactNode;
+          cancelDom: ReactNode;
+        },
+      ) => ReactNode);
+
+  /**
+   * @zh-Hans 传递给 ModalForm 组件的属性。
+   *
+   * @type Omit<[ModalFormProps](/components/setting-provider#modalformsettingprops), 'innerRef' | 'onFinish' | 'onOpen' | 'columns'>
+   */
+  modalFormProps?: ModalFormPropsForProTable;
+
+  /**
+   * @zh-Hans 移除 Card 包裹的 padding; 已废弃; 用 cardStyle = false 替代;
+   * @deprecated 用 cardStyle = false 替代
+   *
+   */
+  noPadding?: boolean;
+
+  /**
+   * @zh-Hans 删除的确认弹框类型。
+   *
+   * @default popconfirm
+   */
+  delConfirmType?: 'popconfirm' | 'modal';
+
+  /**
+   * @zh-Hans 传给删除确认框的属性。title 和 description 可以是函数;
+   *
+   *
+   */
+  delPopconfirmProps?: Omit<PopconfirmProps, 'title' | 'description'> & {
+    title?: ReactNode | ((record: any, index: any) => ReactNode);
+    description?: ReactNode | ((record: any, index: any) => ReactNode);
+  };
+
+  /**
+   * @zh-Hans 传给删除确认框的属性。title 和 content 可以是函数;
+   *
+   *
+   */
+  delModalConfirmProps?: Omit<ModalFuncProps, 'title' | 'content'> & {
+    title?: ReactNode | ((record: any, index: any) => ReactNode);
+    content?: ReactNode | ((record: any, index: any) => ReactNode);
+  };
+
+  /**
+   * @zh-Hans 删除成功后的提示属性（传递给 Message 的属性）。false 关闭提示。
+   *
+   * @type false | [MessageConfig](https://ant-design.antgroup.com/components/message-cn#messageconfig)
+   * @default {content: "删除成功", type: "success"}
+   */
+  delSuccessProps?: Partial<MessageArgsProps> | false;
+
+  /**
+   * @zh-Hans 搜索区域的选项;
+   *
+   * @type false | {labelWrap?: boolean} & [SearchConfig](https://procomponents.ant.design/components/table#search-%E6%90%9C%E7%B4%A2%E8%A1%A8%E5%8D%95)
+   */
+  search?: false | (SearchConfig & { labelWrap?: boolean });
+
+  /**
+   * @zh-Hans 传给操作列中包裹各按钮的 Space 组件的属性。
+   *
+   * @type [Space](https://ant-design.antgroup.com/components/space-cn#api)
+   * @default {size: 'small'}
+   */
+  optionColumnSpaceProps?: SpaceProps;
+
+  /**
+   * @zh-Hans columns 中的列是否默认在搜索区域里隐藏。
+   *
+   * @default false
+   */
+  defaultHideInSearch?: boolean;
+
+  /**
+   * @zh-Hans 用于修改 headerTitle 的后缀文案和 formType 等对应的文案。
    *
    * @default zh_CH
    *
@@ -77,80 +317,91 @@ export type MyProTableType = Omit<
    *
    */
   formColumns?: FormColumnType[];
-  onFinish?: (
-    values: any,
-    formType: FormType,
-    formData: any,
-  ) => Promise<any> | void;
-  onOpen?: ModalFormSelfProps['onOpen'];
-  innerRef?: InnerRef;
-  /**
-   * 传入这个函数, 组件就会自动集成多选删除功能.
-   * 如果点击的是行上的删除, record是该行的数据, selectedIds是该行的id; 如果是多选后的删除, record是空对象
-   * 同时在columns中, 对于valueType为option的那一列, 如果声明了enableDelete, 操作列就会自动加入删除按钮
-   */
-  delFunction?: (
-    selectedIds: (string | number)[],
-    record,
-    callback?,
-  ) => Promise<any>;
-  delPermission?: () => boolean; // 是否有删除权限
-  /**
-   * 移除了原来ProTable中的tableAlertOptionRender接口而用tableAlertOptions来替代.
-   * 是因为在tableAlert中封装了多选删除的功能
-   */
-  tableAlertOption?: TableAlertOptionType;
-  // 操作列的space间距
-  optionColSpaceSize?: 'small';
-  /**
-   * @zh-Hans 传递给 ModalForm 组件的属性。
-   *
-   */
-  modalFormProps?: ModalFormPropsForProTable;
-  noPadding?: boolean;
-  confirmModelType?: 'popconfirm' | 'modal';
-  confirmModalProps?: any;
-  search?: false | (SearchConfig & { labelWrap?: boolean });
-  optionColumnSpaceProps?: SpaceProps;
-
-  /**
-   * @zh-Hans columns 中的列是否默认在搜索区域里隐藏。
-   *
-   * @default false
-   */
-  defaultHideInSearch?: boolean;
 };
 
-type EnableDeleteType = {
+export type MyProTableOriginType = Omit<
+  ProTableProps<any, any>,
+  | 'columns'
+  | 'name'
+  | 'onFinish'
+  | 'tableAlertOptionRender'
+  | 'search'
+  | 'request'
+  | 'actionRef'
+  // 以下是 procomponent-protable 中的不要的属性
+  | 'form'
+  | 'onSubmit'
+  | 'expandedRowKeys'
+  | 'defaultExpandedRowKeys'
+  | 'expandedRowRender'
+  | 'expandRowByClick'
+  | 'expandIcon'
+  | 'onExpand'
+  | 'onExpandedRowsChange'
+  | 'defaultExpandAllRows'
+  | 'expandIconColumnIndex'
+  | 'expandedRowClassName'
+  | 'childrenColumnName'
+  | 'tailor'
+  | 'getContainerWidth'
+>;
+
+export type MyProTableType = MyProTableOriginType & MyProTableSelfType;
+
+export type EnableDeleteType = {
+  /**
+   * @zh-Hans 操作列中的删除按钮是否禁用。
+   */
   disabled?: boolean;
+
+  /**
+   * @zh-Hans 操作列中的删除按钮是否可见。
+   */
   visible?: boolean;
+
+  /**
+   * @zh-Hans 操作列中的删除按钮的 danger 属性。
+   */
   danger?: boolean;
+
+  /**
+   * @zh-Hans 操作列中的删除按钮的文字。
+   */
   btnText?: string;
 };
 
-export type selfColumnsValueType = 'export';
-
 export type MyFieldType = ProColumnsValueType | FormFieldType;
 
-/**
- * Table 类型的 column 定义
- * 在 @ant-design/pro-table 的 type { ProColumns } 上修改某些属性
- */
-type TableColumnTypeBase<Record, ValueType> = Omit<
+export type TableColumnOriginType<Record, ValueType> = Omit<
   ProColumns<Record, ValueType>,
-  'renderFormItem' | 'render' | 'fieldProps' | 'editable' | 'valueType'
-> & {
+  | 'renderFormItem'
+  | 'render'
+  | 'fieldProps'
+  | 'editable'
+  // 移除掉一些废用的属性
+  | 'filterDropdownOpen'
+  | 'onFilterDropdownOpenChange'
+  | 'filterDropdownVisible'
+  | 'onFilterDropdownVisibleChange'
+>;
+
+export type TableColumnSelfType<Record, ValueType> = {
   /**
    * @description 是否开启操作列上的删除
    */
-  enableDelete?: boolean | ((record: any, index: number) => EnableDeleteType);
+  enableDelete?:
+    | boolean
+    | ((
+        record: any,
+        index: number,
+      ) => (EnableDeleteType & { btnIndex?: number }) | boolean);
   /**
-   * 定义导出
+   * @zh-Hans 定义导出
    */
   renderExport?: (text: string | number, record: Record) => string | number;
 
   /**
-   * 给 render 方法注入 innerRef
+   * @zh-Hans 给 render 方法注入 innerRef
    */
   render?: (
     dom: ReactNode,
@@ -159,10 +410,27 @@ type TableColumnTypeBase<Record, ValueType> = Omit<
     action: ActionType,
     innerRef: InnerRef,
   ) => any;
+
+  /**
+   * @zh-Hans 用于指定该 schema 是被用于表单还是表格
+   */
   type?: 'form' | 'table' | 'search';
+
+  /**
+   * @zh-Hans 套嵌表格
+   */
   children?: TableColumnType<Record, ValueType>[];
-  valueType?: MyFieldType | ValueType;
 };
+
+/**
+ * Table 类型的 column 定义
+ * 在 @ant-design/pro-table 的 type { ProColumns } 上修改某些属性
+ */
+export type TableColumnTypeBase<Record, ValueType> = TableColumnOriginType<
+  Record,
+  ValueType
+> &
+  TableColumnSelfType<Record, ValueType>;
 
 /**
  * 被继承的基础接口类型中如果含有 [key: string]: any, 在用 Omit 时会有问题
