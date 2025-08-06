@@ -12,6 +12,7 @@ import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
   FormColumnType,
+  OtherFormProps,
   SchemaFormProps,
   SchemaFormSelfProps,
 } from './types';
@@ -348,6 +349,18 @@ export default SchemaForm;
 
 // 用于生成api文档
 /* istanbul ignore next */
-export const SchemaFormType: React.FC<SchemaFormSelfProps> = () => {
+export const SchemaFormSelfType: React.FC<SchemaFormSelfProps> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const SchemaFormOriginType: React.FC<OtherFormProps> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const FormColumnTypeComponent: React.FC<FormColumnType> = () => {
   return null;
 };

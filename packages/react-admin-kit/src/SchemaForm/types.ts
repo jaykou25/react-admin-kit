@@ -33,6 +33,7 @@ export type SchemaFormSelfProps = {
   /**
    * @zh-Hans 表单项的配置描述;
    * @en      Configuration description of form items;
+   * @type [FormColumnType](/components/schema-form#formcolumntype)[]
    */
   columns: FormColumnType[];
 
@@ -55,7 +56,7 @@ export type SchemaFormSelfProps = {
   /**
    * @zh-Hans RAK特有的ref, 用于存放一些工具类函数和数据.
    * @en      RAK specific ref, used to store some utility functions and data.
-   * @type    RefObject<SchemaFormInnerRefType>
+   * @type    [SchemaFormInnerRefType](/components/schema-form#schemaforminnerreftype)
    */
   innerRef?: BaseInnerRef;
 
@@ -78,36 +79,50 @@ export type OtherFormProps = Omit<
 /**
  * 表单的 schema 定义
  */
-export type FormColumnType<T = any, ValueType = 'text'> = Omit<
-  ProFormColumnsType<T, ValueType>,
-  'editable' | 'fieldProps' | 'renderFormItem' | 'columns'
-> & {
+export type FormColumnType<T = any, ValueType = 'text'> = {
   /**
-   * 给 fieldProps 方法注入 innerRef
+   * @zh-Hans 给 fieldProps 方法注入 innerRef
    */
   fieldProps?:
     | object
     | ((form: ProFormInstance, innerRef: BaseInnerRef, config: any) => object);
 
   /**
-   * 给 renderFormItem 方法注入 innerRef
+   * @zh-Hans 给 renderFormItem 方法注入 innerRef
    */
   renderFormItem?: (item, config, form, innerRef: BaseInnerRef) => any;
 
   /**
-   * 重新定义 columns 类型
+   * @zh-Hans 重新定义 columns 类型
    */
   columns?:
     | FormColumnType<T, ValueType>[]
     | ((values: any) => FormColumnType<T, ValueType>[]);
 
   /**
-   * formItemProps: {rules: [{required: true}]} 的简写
+   * @zh-Hans 是否必选; formItemProps: { rules: [{ required: true }] } 的简写
    */
   required?: boolean;
+
+  /**
+   * @zh-Hans 可使用约定式自动处理值: userId, userName 或 userId, userName_id, name;
+   */
+  dataIndex?: string;
 
   /**
    * 可以自定义任意的字段
    */
   [key: string]: any;
-};
+} & Omit<
+  ProFormColumnsType<T, ValueType>,
+  | 'editable'
+  | 'fieldProps'
+  | 'renderFormItem'
+  | 'columns'
+  | 'dataIndex'
+  // 移除掉一些不需要的
+  | 'hideInDescriptions'
+  | 'hideInTable'
+  | 'hideInSearch'
+  | 'proFieldProps'
+>;

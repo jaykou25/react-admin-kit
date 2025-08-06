@@ -64,6 +64,12 @@ describe('mergeOption', () => {
     expect(mergeOptions(undefined, undefined)).toEqual({});
   });
 
+  test('mergeOption - 两个对象', () => {
+    expect(mergeOptions({ hide: true }, { hide: false })).toEqual({
+      hide: false,
+    });
+  });
+
   test('mergeOption - 套嵌', () => {
     expect(
       mergeOptions(
@@ -85,33 +91,31 @@ describe('mergeOption', () => {
  * 用于合并全局属性和组件属性
  */
 describe('myMergeOptions', () => {
-  test('myMergeOption - 内部是 false, 外部是对象', () => {
+  test('myMergeOption - 组件级是 false, 全局是对象', () => {
     expect(myMergeOptions({ full: true }, false)).toBe(false);
   });
 
-  test('myMergeOption - 内部是 undefined, 外部是对象', () => {
+  test('myMergeOption - 组件级是 undefined, 全局是对象', () => {
     expect(myMergeOptions({ full: true }, undefined)).toEqual({ full: true });
   });
 
-  test('myMergeOption - 内部是对象, 外部是false', () => {
+  test('myMergeOption - 组件级是对象, 全局是 false', () => {
     expect(myMergeOptions(false, { full: true })).toEqual({ full: true });
   });
 
-  test('myMergeOption - 内部是对象, 外部是undefined', () => {
+  test('myMergeOption - 组件级是对象, 全局是 undefined', () => {
     expect(myMergeOptions(undefined, { full: true })).toEqual({ full: true });
   });
 
-  test('myMergeOption - 内部是对象, 外部是对象', () => {
+  test('myMergeOption - 组件级是对象, 全局是对象', () => {
     expect(
       myMergeOptions({ full: 1, name: 2 }, { full: true, title: 3 }),
     ).toEqual({ full: true, name: 2, title: 3 });
   });
 
-  test('myMergeOption - 内外部都没给，走默认', () => {
+  test('myMergeOption - 组件级是 undefined，全局也是 undefined，走默认', () => {
     expect(myMergeOptions(undefined, undefined, false)).toBe(false);
-  });
 
-  test('myMergeOption - 内外部都没给，走默认2', () => {
     expect(myMergeOptions(undefined, undefined, { full: true })).toEqual({
       full: true,
     });
@@ -144,6 +148,79 @@ describe('myMergeOptions', () => {
         hideOnSinglePage: false,
       },
       body: { fontSize: '10px' },
+    });
+  });
+});
+
+describe('myMergeOptions 默认值的合并处理', () => {
+  test('myMergeOption - 组件级是 false, 全局是对象', () => {
+    expect(myMergeOptions({ full: true }, false, { color: 'red' })).toBe(false);
+    expect(myMergeOptions(false, undefined, { color: 'red' })).toBe(false);
+  });
+
+  test('myMergeOption - 组件级是 undefined, 全局是对象', () => {
+    expect(
+      myMergeOptions({ full: true }, undefined, { full: false, color: 'red' }),
+    ).toEqual({ full: true, color: 'red' });
+  });
+
+  test('myMergeOption - 组件级是对象, 全局是 false', () => {
+    expect(
+      myMergeOptions(false, { full: true }, { full: true, color: 'red' }),
+    ).toEqual({ full: true, color: 'red' });
+  });
+
+  test('myMergeOption - 组件级是对象, 全局是 undefined', () => {
+    expect(
+      myMergeOptions(undefined, { full: true }, { full: false, color: 'red' }),
+    ).toEqual({ full: true, color: 'red' });
+  });
+
+  test('myMergeOption - 组件级是对象, 全局是对象', () => {
+    expect(
+      myMergeOptions(
+        { full: 1, name: 2, hide: false },
+        { full: true, title: 3, hide: false },
+        { name: 1, color: 'red', hide: true },
+      ),
+    ).toEqual({ full: true, name: 2, title: 3, color: 'red', hide: false });
+  });
+
+  test('一层套嵌对象', () => {
+    expect(
+      myMergeOptions(
+        {
+          pagination: {
+            defaultPageSize: 10,
+            showSizeChanger: true,
+            pageSizeOptions: [10, 20, 50],
+            hideOnSinglePage: true,
+          },
+        },
+        {
+          pagination: {
+            pageSizeOptions: [60, 70, 80],
+            hideOnSinglePage: false,
+          },
+          body: { fontSize: '10px' },
+        },
+        {
+          pagination: {
+            defaultPageSize: 20,
+            showSizeChanger: false,
+          },
+          color: 'red',
+        },
+      ),
+    ).toEqual({
+      pagination: {
+        defaultPageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: [60, 70, 80],
+        hideOnSinglePage: false,
+      },
+      body: { fontSize: '10px' },
+      color: 'red',
     });
   });
 });

@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import SchemaForm from '../SchemaForm';
-import { mergeOptions } from '../utils';
+import { myMergeOptions } from '../utils';
 
 import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
 
@@ -28,10 +28,21 @@ const ModalForm = (props: ModalFormProps) => {
     'onFinish',
     'columns',
   ]);
-  const mergedProps: ModalFormProps = mergeOptions(
+  const mergedProps: ModalFormProps = myMergeOptions(
     setting,
     safeProps || {},
-    {},
+    // 默认值给到这里，特别是对象类的值
+    {
+      styles: {
+        body: {
+          maxHeight: 'calc(100vh - 240px)',
+          overflow: 'auto',
+          // 让滚动条贴边
+          marginRight: '-20px',
+          paddingRight: '20px',
+        },
+      },
+    },
   );
   const {
     formRef: propsFormRef,
@@ -39,6 +50,7 @@ const ModalForm = (props: ModalFormProps) => {
     onFinish,
     columns,
   } = props;
+
   const {
     open,
     styles, // 设一个默认最大高度
@@ -90,21 +102,6 @@ const ModalForm = (props: ModalFormProps) => {
     setInitialValues(formData);
     form.resetFields();
   }, [formData]);
-
-  const getStylesProps = () => {
-    return mergeOptions(
-      {
-        body: {
-          maxHeight: 'calc(100vh - 240px)',
-          overflow: 'auto',
-          // 让滚动条贴边
-          marginRight: '-20px',
-          paddingRight: '20px',
-        },
-      },
-      styles,
-    );
-  };
 
   const getFormRef = (): ModalFormProps['formRef'] => {
     return propsFormRef || formRef;
@@ -226,7 +223,7 @@ const ModalForm = (props: ModalFormProps) => {
       <InnerRefContext.Provider value={innerRef}>
         <Modal
           open={open ?? visible}
-          styles={getStylesProps()}
+          styles={styles}
           onCancel={handleOnCancel}
           onOk={handleOnOk}
           confirmLoading={propsConfirmLoading ?? confirmLoading}
@@ -243,6 +240,7 @@ const ModalForm = (props: ModalFormProps) => {
             innerRef={innerRef}
             initialValues={formData}
             {...formRest}
+            //@ts-ignore
             form={form} // 当外部没传 form 时使用自身的 form, 防止当 ModalForm 嵌在 ProForm 里时被它的 form 覆盖
           />
         </Modal>

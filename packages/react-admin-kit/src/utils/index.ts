@@ -97,26 +97,28 @@ function isPlainObject(value) {
  * 3. 组件属性为对象时，全局属性不是对象时， 不用管全局属性
  * 4. 组件属性为对象时，与全局属性合并
  */
-export const myMergeOptions = (globalOption, option, defaultValue) => {
-  const _globalOption = globalOption || defaultValue;
+export const myMergeOptions = (globalOption, option, defaultValue?: any) => {
+  /**
+   * 内部调用
+   * 只合并两个值（本地和全局）
+   * 本地为 false 即为 false
+   * 本地为 undefined 走全局
+   * 本地为对象，而全局不是对象，不用管全局
+   * 两边都是对象，合并两边
+   */
+  const _innerMerge = (globalOption, localOption) => {
+    if (localOption === false) return false;
 
-  if (option === false) {
-    return false;
-  }
+    if (localOption === undefined) return globalOption;
 
-  if (option === undefined) {
-    return globalOption || defaultValue;
-  }
+    if (isPlainObject(localOption) && !isPlainObject(globalOption)) {
+      return localOption;
+    }
 
-  // 全局属性是非对象的时候不管全局属性
-  if (isPlainObject(option) && !isPlainObject(_globalOption)) {
-    return option;
-  }
+    return mergeOptions(globalOption, localOption);
+  };
 
-  // 全局属性是对象的时候合并全局属性
-  if (isPlainObject(option) && isPlainObject(_globalOption)) {
-    return mergeOptions(_globalOption, option);
-  }
+  return _innerMerge(defaultValue, _innerMerge(globalOption, option));
 };
 
 /**

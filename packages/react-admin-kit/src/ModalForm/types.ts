@@ -6,11 +6,19 @@ import type { SchemaFormProps } from '../SchemaForm/types';
 export type FormType = 'new' | 'edit' | 'read';
 
 export type ModalFormInnerRefType = {
+  /**
+   * @zh-Hans 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型;
+   *
+   */
   openModal: (
     formType?: FormType,
     initialValues?: object | null,
     cb?: () => void,
   ) => void;
+
+  /**
+   * @zh-Hans 当前的表单类型
+   */
   formType?: FormType;
 } & SchemaFormInnerRefType;
 

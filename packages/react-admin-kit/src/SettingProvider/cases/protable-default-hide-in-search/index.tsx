@@ -29,8 +29,8 @@ const basicColumns = [
 ];
 
 // 全局 pagination 配置
-const globalPaginationSetting = {
-  pagination: {
+const globalSetting = {
+  defaultHideInSearch: {
     pageSize: 3,
     showSizeChanger: true,
     showQuickJumper: true,
@@ -40,7 +40,7 @@ const globalPaginationSetting = {
 
 const Demo = ({ pagination }: PaginationTestProps) => {
   return (
-    <SettingProvider proTableSetting={globalPaginationSetting}>
+    <SettingProvider proTableSetting={globalSetting}>
       <ProTable
         request={mockRequest}
         columns={basicColumns}
