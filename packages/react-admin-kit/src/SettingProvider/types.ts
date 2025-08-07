@@ -21,22 +21,7 @@ export type ProTableSettingProps = Omit<
   | 'onFinish'
   | 'innerRef'
   | 'actionRef'
-  // 以下是 procomponent-protable 中的属性
-  | 'form'
-  | 'onSubmit'
-  | 'expandedRowKeys'
-  | 'defaultExpandedRowKeys'
-  | 'expandedRowRender'
-  | 'expandRowByClick'
-  | 'expandIcon'
-  | 'onExpand'
-  | 'onExpandedRowsChange'
-  | 'defaultExpandAllRows'
-  | 'expandIconColumnIndex'
-  | 'expandedRowClassName'
-  | 'childrenColumnName'
-  | 'tailor'
-  | 'getContainerWidth'
+  
 >;
 
 export type SettingProviderProps = {

@@ -1,5 +1,28 @@
-import { SchemaForm } from 'react-admin-kit';
-import BusinessSelect from '../BusinessSelect';
+import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
+import { queryBrand, queryColor, queryGroup } from '../apis';
+
+type SelectType = 'color' | 'brand' | 'user' | 'group'; // 定义 type 类型
+export const BusinessSelect = BusinessSelectBuilder<SelectType>({
+  apis: [
+    {
+      api: queryColor,
+      type: 'color',
+      pagination: false,
+    },
+    {
+      api: queryBrand,
+      type: 'brand',
+      pagination: true,
+    },
+    {
+      type: 'group',
+      api: queryGroup,
+    },
+  ],
+  defaultProps: {
+    placeholder: 'please choose',
+  },
+});
 
 const Basic = () => {
   return (
@@ -11,12 +34,10 @@ const Basic = () => {
       submitter
       columns={[
         {
-          title: 'Country',
-          dataIndex: 'country',
+          title: 'Color',
+          dataIndex: 'color',
           renderFormItem: () => {
-            return (
-              <BusinessSelect type="country" placeholder="choose a country" />
-            );
+            return <BusinessSelect type="color" placeholder="choose a color" />;
           },
         },
         {
@@ -34,7 +55,7 @@ const Basic = () => {
           title: 'Staff',
           dataIndex: 'staff',
           renderFormItem: () => {
-            return <BusinessSelect type="staff" />;
+            return <BusinessSelect type="user" />;
           },
         },
       ]}

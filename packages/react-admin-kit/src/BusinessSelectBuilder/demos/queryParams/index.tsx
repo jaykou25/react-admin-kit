@@ -1,5 +1,18 @@
-import { SchemaForm } from 'react-admin-kit';
-import BusinessSelect from '../BusinessSelect';
+import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
+import { queryUser } from '../apis';
+
+const BusinessSelect = BusinessSelectBuilder<'user'>({
+  apis: [
+    {
+      api: queryUser,
+      type: 'user',
+      pagination: false,
+    },
+  ],
+  defaultProps: {
+    placeholder: '请选择',
+  },
+});
 
 const QueryParams = () => {
   return (

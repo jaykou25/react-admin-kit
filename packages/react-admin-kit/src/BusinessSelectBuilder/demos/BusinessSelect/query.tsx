@@ -17,13 +17,13 @@ export const queryCountry = (): Promise<any> => {
 export const queryBrand = (params): Promise<any> => {
   console.log('qeryBrand', { params });
   const data: any = [];
-  const brands = ['Apple', 'Google', 'Huawei', 'Xiaomi', 'Ant Group'];
+  const brands = ['Apple', 'Google', 'Huawei', 'Xiaomi', 'Ant Group', 'DJI'];
 
   if (params.searchValue) {
     data.push({ name: params.searchValue, id: -Math.random() });
   } else {
     for (let i = 0; i < 10; i++) {
-      const index = i % 5;
+      const index = i % 6;
       data.push({ name: brands[index], id: Math.random() });
     }
   }
@@ -32,9 +32,9 @@ export const queryBrand = (params): Promise<any> => {
     setTimeout(() => {
       resolve({
         data,
-        total: 30,
+        total: 300,
       });
-    }, 500);
+    }, 800);
   });
 };
 

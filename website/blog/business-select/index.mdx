@@ -5,8 +5,6 @@ sidebar_label: BusinessSelect - 业务下拉:0:衍生组件:1
 
 # BusinessSelect - 业务下拉
 
-背景：
-
 在表单中我们常常会用到**通过接口**获取选项的下拉组件（在这里称之为业务下拉）。传统的实现方式是直接在页面中请求接口，处理选项数据。但如果页面中有多个业务下拉时就会带来以下问题：
 
 1. 相似代码过多（请求、处理、赋值）
@@ -14,8 +12,6 @@ sidebar_label: BusinessSelect - 业务下拉:0:衍生组件:1
 2. 有些下拉需要滚动分页，需求难以统一处理
 
 3. 跨页面复用性差
-
-解决方案：
 
 是不是可以把这些组件集中在一起管理呢？简单来说就是把所有的业务下拉合并成**一个**组件，通过 `type` 区分不同的类型，实现：
 
@@ -56,19 +52,19 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 >
 > 其中 data 为一个对象数组，组件默认读取 `name` 作为文本显示，`id` 作为下拉取值。
 >
-> 注意 antd Select 组件是使用的 `label` 和 `value` 作为文本和下拉取值字段. 本组件使用 `name` 和 `id` 来取值是因为后端返回的数据中这两个值更为通用. 当然你可以通过 `labelKey` 和 `valueKey` 这两个 api 来更改取值字段。
+> 注意 antd Select 组件是使用的 `label` 和 `value` 作为文本和下拉取值字段. 本组件使用 `name` 和 `id` 来取值是因为后端返回的数据中这两个值更为通用. 当然你可以通过 `fieldNames` api 来更改取值字段。
 
 ## 基本的使用方法
 
-`BusinessSelect`是 [antd Select](https://ant.design/components/select-cn#select-props) 的封装，因此组件可以接受 antd Select 的所有属性。
+`BusinessSelect`是 [Antd Select](https://ant.design/components/select-cn#select-props) 的封装，因此组件可以接受 antd Select 的所有属性。
 
-<Previewer src="@@/BusinessSelectBuilder/demos/basic/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/basic/index.tsx" />
 
 ## 多次引用只会请求一次接口
 
 下拉数据默认会自动缓存
 
-<Previewer src="@@/BusinessSelectBuilder/demos/oneQuery/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/oneQuery/index.tsx" />
 
 ## 请求接口带查询参数 queryParams
 
@@ -86,7 +82,7 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 
 > 当 queryParams 传入值时，该下拉将不缓存数据
 
-<Previewer src="@@/BusinessSelectBuilder/demos/queryParams/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/queryParams/index.tsx" />
 
 ## 分页下拉及其搜索
 
@@ -101,20 +97,23 @@ const BusinessSelect = BusinessSelectBiulder<SelectType>({
 }
 ```
 
-<Previewer src="@@/BusinessSelectBuilder/demos/search/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/search/index.tsx" />
 
 ## 清除缓存
 
 使用 `clearSelectCache(type: string)` 方法清除缓存。 type 不传清除所有类型的缓存。
 
-<Previewer src="@@/BusinessSelectBuilder/demos/clearCache/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/clearCache/index.tsx" />
 
-## 定义 labelKey 和 valueKey
+## 定义下拉取值字段
 
-下拉的 label 默认取值是 `name` 字段，value 的默认取值是 `id`。如果要更改取值字段，可通过 `labelKey` 和 `valueKey` 属性来更改。
+下拉的 label 默认取值是 `name` 字段，value 的默认取值是 `id`。如果要更改取值字段，可通过 `fieldNames` 属性来更改。
 
 ```js
-<BusinessSelect type="user" labelKey="userName" valueKey="userId" />
+<BusinessSelect
+  type="user"
+  fieldNames={{ value: 'userId', label: 'userName' }}
+/>
 ```
 
 除了可以在 BusinessSelect 上设置以外，还可以在 BusinessSelectBuilder 上设置：
@@ -125,8 +124,9 @@ BusinessSelectBuilder({
     {
       type: 'user'
       defaultProps: {
-        labelKey: 'userName',
-        valueKey: 'userId'
+        fieldNames: {
+          value: 'userId', label: 'userName'
+        }
       }
     }
   ]
@@ -137,22 +137,22 @@ BusinessSelectBuilder({
 
 当下拉数据加载完成后会触发 onLoad 事件。这个事件对于某些场景非常有用，例如可以用它实现默认选中第一条数据。
 
-<Previewer src="@@/BusinessSelectBuilder/demos/onLoad/index.tsx"></Previewer>
+<Previewer src="@@/BusinessSelectBuilder/demos/onLoad/index.tsx" />
 
 ## API
 
 ### BusinessSelectBuilder
 
-<API
-  filePath="src/BusinessSelectBuilder/index.tsx"
-  name="BusinessSelectBuilder"
-></API>
+<API name="BusinessSelectBuilder" />
 
 ### ApiType
 
-<API name="BizApi"></API>
+<API name="BizApi" />
 
 ### BusinessSelect
 
-<API name="BusinessSelectSelf"></API>
-更多属性查看 [antd Select](https://ant.design/components/select-cn#select-props)
+BusinessSelect 类型是 [BusinessSelectSelfType](/components/business-select#businessselectselftype) 和 <Link src='https://ant.design/components/select-cn#select-props'>SelectProps</Link> 的结合。
+
+#### BusinessSelectSelfType
+
+<API name="BusinessSelectSelf" />

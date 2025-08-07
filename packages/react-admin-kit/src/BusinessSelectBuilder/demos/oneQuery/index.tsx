@@ -1,5 +1,18 @@
-import { SchemaForm } from 'react-admin-kit';
-import BusinessSelect from '../BusinessSelect';
+import { BusinessSelectBuilder, SchemaForm } from 'react-admin-kit';
+import { queryCountry } from '../apis';
+
+const BusinessSelect = BusinessSelectBuilder<'country'>({
+  apis: [
+    {
+      api: queryCountry,
+      type: 'country',
+      pagination: false,
+    },
+  ],
+  defaultProps: {
+    placeholder: '请选择',
+  },
+});
 
 const OneQuery = () => {
   return (

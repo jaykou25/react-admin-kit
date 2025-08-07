@@ -29,6 +29,7 @@ export type ApiType = {
    * @en               default props (higher priority than Builder-level settings)
    * @zh-Hans          默认属性, 比 Builder 上的优先级更高
    * @default           '-'
+   * @type            [SelectProps](https://ant.design/components/select-cn#select-props)
    */
   defaultProps?: Omit<BusinessSelectProps<string>, 'type'>;
 };
@@ -38,6 +39,7 @@ export type BusinessSelectBuilderProps = {
    * @en            define the business select
    * @zh-Hans       定义所有的业务下拉;
    * @default           '-'
+   * @type [ApiType](/components/business-select#apitype)[]
    */
   apis: ApiType[];
 
@@ -45,6 +47,8 @@ export type BusinessSelectBuilderProps = {
    * @en            default props
    * @zh-Hans       默认属性;
    * @default           '-'
+   * @type            [SelectProps](https://ant.design/components/select-cn#select-props)
+   *
    */
   defaultProps?: Omit<BusinessSelectProps<string>, 'type'>;
 };
@@ -56,30 +60,13 @@ export interface BusinessSelectSelfProps<Type> {
    * @default           -
    */
   type: Type;
-  /**
-   * @en               customize fields as display text (higher priority)
-   * @zh-Hans          label的读取字段. 优先级高于builder中的labelKey
-   * @default           name
-   */
-  labelKey?: string;
-  /**
-   * @en               customize fields as value (higher priority)
-   * @zh-Hans          value的读取字段. 优先级高于builder中的valueKey
-   * @default           id
-   */
-  valueKey?: string;
+
   /**
    * @en             pass params to api request. see demo.
    * @zh-Hans        给查询接口传递参数. 用法见示例
    */
   queryParams?: Record<string, any>;
-  /**
-   * @en                customize option display text
-   * @description       自定义选项的文本显示
-   * @default           -
-   */
-  renderLabel?: (node: any) => any;
-  onChange?: (val, option) => void;
+
   /**
    * @en              disable cache (higher priority)
    * @zh-Hans         不缓存数据(优先级更高)
@@ -103,4 +90,4 @@ export interface BusinessSelectSelfProps<Type> {
 }
 
 export type BusinessSelectProps<Type> = BusinessSelectSelfProps<Type> &
-  Omit<SelectProps, 'onChange'>;
+  SelectProps;

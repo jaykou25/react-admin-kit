@@ -4,14 +4,10 @@ import isEqual from 'lodash/isEqual';
 import { Component } from 'react';
 import { getGlobal, setGlobal } from 'react-admin-kit/utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';
-import { normalizeSelect } from '../../utils/tree';
 
 export interface BaseSelectProps extends SelectProps<any> {
   type: string;
   loadFunction: (params?: any) => Promise<any>;
-  valueKey?: string;
-  labelKey?: string;
-  renderLabel?: (node: any) => string;
   queryParams?: Record<string, any>;
   noCache?: boolean;
   onLoad?: (options, total?: number) => void;
@@ -137,71 +133,43 @@ class BaseSelect extends Component<BaseSelectProps, any> {
       });
   };
 
-  handleOnChange = (val) => {
-    const { onChange, valueKey = 'id', labelInValue } = this.props;
-
-    // 如果是点的clear
-    if (!val) {
-      if (onChange) {
-        // @ts-ignore
-        onChange(val, {});
-      }
-      return;
-    }
-
-    if (onChange) {
-      onChange(
-        val,
-        this.state.dataSource.find((row) => {
-          if (labelInValue) {
-            return row[valueKey] === val?.value;
-          }
-          return row[valueKey] === val;
-        }),
-      );
-    }
-  };
-
   render() {
     const {
       type,
       loadFunction,
-      labelKey = 'name',
-      valueKey = 'id',
-      renderLabel,
-      onChange,
       queryParams,
       noCache,
-      showSearch,
-      optionFilterProp,
-      allowClear,
+      showSearch = true,
+      optionFilterProp = 'label',
+      filterOption = (inputValue, option) => {
+        const { value = 'value', label = 'label' } =
+          this.props.fieldNames || {};
+
+        if (option) {
+          const valueStr = (option[value] || '').toString().toLowerCase();
+          const labelStr = (option[label] || '').toString().toLowerCase();
+          return (
+            valueStr.includes(inputValue.toLowerCase()) ||
+            labelStr.includes(inputValue.toLowerCase())
+          );
+        } else {
+          return false;
+        }
+      },
+      allowClear = true,
       ...rest
     } = this.props;
-
-    // 默认值
-    const _showSearch = showSearch !== undefined ? showSearch : true;
-    const _optionFilterProp =
-      optionFilterProp !== undefined ? optionFilterProp : 'label';
-    const _allowClear = allowClear !== undefined ? allowClear : true;
 
     return (
       <Select
         {...rest}
         loading={this.state.loading}
-        /**
-         * antd的options除了label和value以外不能传入其它的值, 否则会有警告
-         * 通过覆写onChange, 把数据源中的整行信息都赋给option. onChange(val, option)
-         */
-        onChange={this.handleOnChange}
-        options={normalizeSelect(this.state.dataSource, {
-          labelKey,
-          valueKey,
-          renderLabel,
-        })}
+        options={this.state.dataSource}
         // 搜索部分
-        showSearch={_showSearch}
-        optionFilterProp={_optionFilterProp}
-        allowClear={_allowClear}
+        showSearch={showSearch}
+        optionFilterProp={optionFilterProp}
+        filterOption={filterOption}
+        allowClear={allowClear}
       />
     );
   }

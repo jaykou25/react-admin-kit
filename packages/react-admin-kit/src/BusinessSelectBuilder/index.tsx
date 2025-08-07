@@ -1,4 +1,4 @@
-import { delGlobal } from 'react-admin-kit/utils';
+import { delGlobal, myMergeOptions } from 'react-admin-kit/utils';
 import BasePaginationSelect from './components/BasePaginationSelect';
 import BaseSelect from './components/BaseSelect';
 import {
@@ -26,12 +26,22 @@ function BusinessSelectBuilder<Type extends string>({
 
     if (!target) return null;
 
+    const mergedProps = myMergeOptions(
+      defaultProps,
+      target.defaultProps || {},
+      {
+        fieldNames: {
+          value: 'id',
+          label: 'name',
+        },
+      },
+    );
+
     if (target.pagination) {
       return (
         <BasePaginationSelect
           type={type}
-          {...defaultProps}
-          {...(target.defaultProps || {})}
+          {...mergedProps}
           loadFunction={target.api}
           {...rest}
         />
@@ -41,8 +51,7 @@ function BusinessSelectBuilder<Type extends string>({
     return (
       <BaseSelect
         type={type}
-        {...defaultProps}
-        {...(target.defaultProps || {})}
+        {...mergedProps}
         loadFunction={target.api}
         {...rest}
       />
@@ -65,11 +74,13 @@ export const clearSelectCache = (type?: string) => {
 };
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const BizApi: React.FC<ApiType> = () => {
   return null;
 };
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const BusinessSelectSelf: React.FC<
   BusinessSelectSelfProps<string>
 > = () => {

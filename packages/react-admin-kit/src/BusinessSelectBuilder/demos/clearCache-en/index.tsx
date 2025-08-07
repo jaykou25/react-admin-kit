@@ -1,9 +1,24 @@
 import { message } from 'antd';
 import { useRef } from 'react';
-import { Button, ModalForm, clearSelectCache } from 'react-admin-kit';
-import BusinessSelect from '../BusinessSelect';
+import {
+  BusinessSelectBuilder,
+  Button,
+  ModalForm,
+  clearSelectCache,
+} from 'react-admin-kit';
+import { queryUser } from '../apis';
 
-const QueryParams = () => {
+const BusinessSelect = BusinessSelectBuilder<'user'>({
+  apis: [
+    {
+      api: queryUser,
+      type: 'user',
+      pagination: false,
+    },
+  ],
+});
+
+const Demo = () => {
   const innerRef = useRef<any>();
   return (
     <div>
@@ -38,4 +53,4 @@ const QueryParams = () => {
   );
 };
 
-export default QueryParams;
+export default Demo;

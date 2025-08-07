@@ -163,16 +163,15 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     }
   };
 
-  handleOnChange = (val) => {
-    const { onChange, valueKey = 'id', labelInValue } = this.props;
+  handleOnChange = (val, option) => {
+    const { onChange } = this.props;
 
     // 如果是点的clear
     if (!val) {
       this.reset();
 
       if (onChange) {
-        // @ts-ignore
-        onChange(val, {});
+        onChange(val, option);
       }
       return;
     }
@@ -187,15 +186,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     }
 
     if (onChange) {
-      onChange(
-        val,
-        this.state.dataSource.find((row) => {
-          if (labelInValue) {
-            return row[valueKey] === val?.value;
-          }
-          return row[valueKey] === val;
-        }),
-      );
+      onChange(val, option);
     }
   };
 
@@ -280,9 +271,6 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
     const {
       type,
       loadFunction,
-      labelKey = 'name',
-      valueKey = 'id',
-      renderLabel,
       onChange,
       queryParams,
       noCache,
@@ -302,11 +290,7 @@ class BasePaginationSelect extends Component<BaseSelectProps, any> {
         {...rest}
         loading={this.state.loading}
         onChange={this.handleOnChange}
-        options={normalizeSelect(this.state.dataSource, {
-          labelKey,
-          valueKey,
-          renderLabel,
-        })}
+        options={this.state.dataSource}
         // 搜索部分
         showSearch={_showSearch}
         allowClear={_allowClear && !this.state.loading}
