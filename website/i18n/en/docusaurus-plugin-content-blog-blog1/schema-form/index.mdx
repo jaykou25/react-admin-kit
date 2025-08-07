@@ -3,16 +3,16 @@ date: 2025-01-01
 sidebar_label: SchemaForm:0:Core Components:0
 ---
 
-# SchemaForm - JSON Form Generator
+# SchemaForm - JSON Form
 
 Generates forms through a declarative schema configuration. The schema structure closely resembles Antd Table's columns.
 
-## Core Concepts
+## Basic Concepts
 
-It's a basic SchemaForm example:
+A basic Schema form:
 
 <Previewer
-  title="Basic SchemaForm Example"
+  title="A basic Schema form"
   src="@@/SchemaForm/demos/basic-en/index.tsx"
 />
 
@@ -59,14 +59,14 @@ import { Form, Input } from 'antd';
 </Form>;
 ```
 
-Key mappings in schema:
+It's clear that in the schema:
 
-- `title` maps to Form.Item's `label`.
-- `dataIndex` maps to Form.Item's `name`.
-- `formItemProps` are passed to the Form.Item component.
-- `fieldProps` are passed to the wrapped component (Input in this case).
+- `title` corresponds to Form.Item's `label`.
+- `dataIndex` corresponds to Form.Item's `name`.
+- `formItemProps` values are passed to the Form.Item component.
+- `fieldProps` values are passed to the component wrapped by Form.Item (Input in this example).
 
-Now examine the second schema:
+Let's look at the second schema:
 
 ```js | {4}
 {
@@ -83,34 +83,36 @@ Now examine the second schema:
 };
 ```
 
-The key difference is the `valueType` field. SchemaForm renders different components based on `valueType` - here 'radio' maps to a Radio.Group component, with options passed via `fieldProps`.
+The difference from the first schema is the additional `valueType` field. Obviously, SchemaForm renders different components based on the `valueType` field. In this example, valueType: 'radio' corresponds to a Radio.Group component, with options passed through fieldProps.
 
-This demonstrates SchemaForm's advantage: most common components can be rendered through valueType.
+This is one of the advantages of using SchemaForm - most commonly used components can be rendered through `valueType`.
 
-Now let's examine **FormInstance**.
+The **schema** part is now covered. Let's look at the **FormInstance**.
 
-The [FormInstance](https://ant-design.antgroup.com/components/form#forminstance) is a core Antd Form concept, providing methods for form operations like submission, reset, and value assignment.
+The [FormInstance](https://ant-design.antgroup.com/components/form#forminstance) is an important concept in Antd Form. Through the methods in the instance, we can perform many operations, such as: submitting forms, resetting forms, assigning values to forms, etc.
 
-In SchemaForm, we access the form instance through the `formRef` prop:
+In SchemaForm, we get the _form instance_ through the `formRef` property.
 
 ```js | {4}
 import { useRef } from 'react';
 import { ProFormInstance, SchemaForm } from 'react-admin-kit';
 
-const formRef = useRef<ProFormInstance>(); // Note: Uses ProFormInstance which extends Antd's form instance
+const formRef = useRef<ProFormInstance>() // Note: The type definition used here is ProFormInstance. It extends some methods based on antd form instance
 
-<SchemaForm formRef={formRef} />
+<SchemaForm
+  formRef={formRef}
+>
 
-formRef.current?.submit(); // Submit
-formRef.current?.resetFields(); // Reset
-formRef.current?.setFieldsValue(); // Set values
+formRef.current?.submit() // Submit
+formRef.current?.resetFields() // Reset
+formRef.current?.setFieldsValue() // Set values
 ```
 
-We'll explore more form instance methods later.
+Other methods in the _form instance_ will be introduced in detail later.
 
-These are SchemaForm's fundamental concepts - you're now ready to create basic forms ✨.
+These are the basic concepts of SchemaForm. After reading this, you can already start writing some simple forms ✨.
 
-As you progress, consult the examples below to master SchemaForm's advanced features.
+As you continue to use it, you can keep checking the various examples below to learn about other properties of SchemaForm. I believe you will become more and more proficient.
 
 ### valueType
 
@@ -509,23 +511,17 @@ You can further customize the styling and action buttons using the `itemRender` 
 
 ### SchemaForm
 
-<API name="SchemaFormType" />
+SchemaForm type is a combination of [SchemaFormSelfType](/components/schema-form#schemaformselftype) and [SchemaFormOriginType](/components/schema-form#schemaformorigintype).
 
-For more properties, please refer to [ProForm](https://procomponents.ant.design/en-US/components/form#proform) and [Antd Form](https://ant.design/components/form/#api). Below are some commonly used ones:
+#### SchemaFormSelfType
 
-<table className="dumi-default-table-content">
+<API name="SchemaFormSelfType" />
 
-| Property | Description | Type | <div style={{width: '65px'}}>Default</div> |
-| --- | --- | --- | --- |
-| layout | Form layout | `horizontal` \| `vertical` \| `inline` | `vertical` |
-| grid | Enable grid mode. See the examples above. When grid is enabled, you can use rowProps and colProps to adjust the layout of any form item | `Boolean` | `false` |
-| rowProps | Props passed to `Row` when grid mode is enabled. For example, `{gutter: [16, 0]}` | [RowProps](https://ant.design/components/grid/#row) | `{ gutter: 8 }` |
-| colProps | Props passed to all form items when grid mode is enabled. For example, `{span: 8}` means three items per row. You can also specify colProps individually in columns, which will override the global colProps | [ColProps](https://ant.design/components/grid/#col) | `--` |
-| labelCol | Props passed to the label of a form item, e.g. `{span: 3}`. Like colProps above, this can also be specified individually in columns via formItemProps, e.g. `{formItemProps: {labelCol: {span: 3}}}` | [LabelColProps](https://ant.design/components/grid/#col) | `--` |
+#### SchemaFormOriginType
 
-</table>
+<API name="SchemaFormOriginType" />
 
-### InnerRef
+### SchemaFormInnerRefType
 
 <table className="dumi-default-table-content">
 
@@ -536,26 +532,6 @@ For more properties, please refer to [ProForm](https://procomponents.ant.design/
 
 </table>
 
-### Column
+### FormColumnType
 
-<table className="dumi-default-table-content">
-
-| Field Name | Description | Type |
-| --- | --- | --- |
-| key | Unique value for this column, generally used when dataIndex is duplicated | `React.key` |
-| dataIndex | You can use convention mode to automatically handle values,see [Convention Example](/components/schema-form#convention-handling) | `string` |
-| valueType | How the data is rendered. We provide some built-in types, and you can also customize valueType | `ProFieldValueType` |
-| title | The content of the title, which is the label in the form | `ReactNode` \| `(props,type,dom)=> ReactNode` |
-| tooltip | An icon will be displayed next to the title, and a tooltip will appear on hover | `string` |
-| valueEnum | Supports object and Map. Map allows other basic types as keys | `(Entity)=> ValueEnum` \| `ValueEnum` |
-| fieldProps | Props passed to the rendered component; also passed when customizing | `(form,config)=>fieldProps` \| `fieldProps` |
-| formItemProps | Props passed to Form.Item | `(form,config)=>formItemProps` \| `formItemProps` |
-| readonly | Readonly mode; has higher priority | `boolean` |
-| render | Custom display in readonly mode. The `render` method only manages readonly mode; use `renderFormItem` for edit mode | `(dom,record,index, action, schema) => React.ReactNode` |
-| renderFormItem | Custom edit mode, returns a ReactNode, value and onChange will be wrapped automatically | `(schema,config,form) => React.ReactNode` |
-| hideInForm | Hide in Form | `boolean` |
-| rowProps | Passed to Row when `grid` mode is enabled | [RowProps](https://ant.design/components/grid/#row) |
-| colProps | Passed to Col when `grid` mode is enabled | [ColProps](https://ant.design/components/grid/#col) |
-| required | Whether the field is required |
-
-</table>
+<API name="FormColumnTypeComponent" />
