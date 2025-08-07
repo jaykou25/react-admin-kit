@@ -77,11 +77,13 @@ export type OtherFormProps = Omit<
 >;
 
 /**
- * 表单的 schema 定义
+ * @zh-Hans 表单的 schema 定义
+ * @en      Schema definition for the form
  */
 export type FormColumnType<T = any, ValueType = 'text'> = {
   /**
    * @zh-Hans 给 fieldProps 方法注入 innerRef
+   * @en      Inject innerRef into the fieldProps method
    */
   fieldProps?:
     | object
@@ -89,11 +91,14 @@ export type FormColumnType<T = any, ValueType = 'text'> = {
 
   /**
    * @zh-Hans 给 renderFormItem 方法注入 innerRef
+   * @en      Inject innerRef into the renderFormItem method
    */
   renderFormItem?: (item, config, form, innerRef: BaseInnerRef) => any;
 
   /**
    * @zh-Hans 重新定义 columns 类型
+   * @en      Redefine the columns type
+   *
    */
   columns?:
     | FormColumnType<T, ValueType>[]
@@ -101,16 +106,19 @@ export type FormColumnType<T = any, ValueType = 'text'> = {
 
   /**
    * @zh-Hans 是否必选; formItemProps: { rules: [{ required: true }] } 的简写
+   * @en      Whether it is required; shorthand for formItemProps: { rules: [{ required: true }] }
    */
   required?: boolean;
 
   /**
    * @zh-Hans 可使用约定式自动处理值: userId, userName 或 userId, userName_id, name;
+   * @en      Can use conventional automatic value processing: userId, userName or userId, userName_id, name;
    */
   dataIndex?: string;
 
   /**
-   * 可以自定义任意的字段
+   * @zh-Hans 可以自定义任意的字段
+   * @en      Can customize any field
    */
   [key: string]: any;
 } & Omit<
@@ -120,7 +128,8 @@ export type FormColumnType<T = any, ValueType = 'text'> = {
   | 'renderFormItem'
   | 'columns'
   | 'dataIndex'
-  // 移除掉一些不需要的
+  // @zh-Hans 移除掉一些不需要的
+  // @en      Remove some unnecessary properties
   | 'hideInDescriptions'
   | 'hideInTable'
   | 'hideInSearch'
