@@ -1,3 +1,6 @@
+// @ts-ignore
+import Link from '@docusaurus/Link';
+
 const MarkdownLink = ({ text }: { text: string }) => {
   const markdownLinkRegex = /\[(.*?)\]\s*\((.*?)\)/g;
 
@@ -17,10 +20,13 @@ const MarkdownLink = ({ text }: { text: string }) => {
     const target = isInternalLink ? '_self' : '_blank';
     const rel = isInternalLink ? undefined : 'noopener noreferrer';
 
-    parts.push(
-      <a key={match.index} href={url} target={target} rel={rel}>
-        {linkText}
-        {!isInternalLink && (
+    if (isInternalLink) {
+      parts.push(<Link to={url}>{linkText}</Link>);
+    } else {
+      parts.push(
+        <a key={match.index} href={url} target={target} rel={rel}>
+          {linkText}
+
           <svg
             style={{ verticalAlign: '-1px' }}
             viewBox="0 0 1024 1024"
@@ -36,9 +42,9 @@ const MarkdownLink = ({ text }: { text: string }) => {
               p-id="4501"
             ></path>
           </svg>
-        )}
-      </a>,
-    );
+        </a>,
+      );
+    }
 
     lastIndex = match.index + match[0].length;
   }

@@ -55,7 +55,7 @@ const Basic = () => {
           title: 'Staff',
           dataIndex: 'staff',
           renderFormItem: () => {
-            return <BusinessSelect type="user" />;
+            return <BusinessSelect type="group" />;
           },
         },
       ]}

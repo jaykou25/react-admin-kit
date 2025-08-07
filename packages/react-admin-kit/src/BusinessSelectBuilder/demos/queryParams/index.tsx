@@ -10,7 +10,7 @@ const BusinessSelect = BusinessSelectBuilder<'user'>({
     },
   ],
   defaultProps: {
-    placeholder: '请选择',
+    placeholder: 'please choose',
   },
 });
 

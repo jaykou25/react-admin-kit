@@ -10,7 +10,7 @@ export const BusinessSelect = BusinessSelectBuilder<'brand'>({
     },
   ],
   defaultProps: {
-    placeholder: '请搜索或选择',
+    placeholder: 'please choose or search',
   },
 });
 

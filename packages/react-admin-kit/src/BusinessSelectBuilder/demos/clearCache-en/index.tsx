@@ -16,6 +16,9 @@ const BusinessSelect = BusinessSelectBuilder<'user'>({
       pagination: false,
     },
   ],
+  defaultProps: {
+    placeholder: 'please choose',
+  },
 });
 
 const Demo = () => {
@@ -40,6 +43,7 @@ const Demo = () => {
       </Button>
 
       <ModalForm
+        destroyOnHidden
         innerRef={innerRef}
         columns={[
           {
