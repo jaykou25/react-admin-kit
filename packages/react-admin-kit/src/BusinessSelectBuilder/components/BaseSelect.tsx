@@ -2,7 +2,7 @@ import type { SelectProps } from 'antd';
 import { Select } from 'antd';
 import isEqual from 'lodash/isEqual';
 import { Component } from 'react';
-import { getGlobal, setGlobal } from 'react-admin-kit/utils';
+import { getGlobal, setGlobal } from '../../utils';
 import { SelectName, SelectStatusName, SelectTotalName } from '..';
 
 export interface BaseSelectProps extends SelectProps<any> {
@@ -98,10 +98,6 @@ class BaseSelect extends Component<BaseSelectProps, any> {
       .then((res) => {
         setGlobal(SelectName, { [type]: res.data });
         setGlobal(SelectTotalName, { [type]: res.total });
-
-        if (onLoad) {
-          onLoad(res.data, res.total);
-        }
 
         const event = new CustomEvent('selectGlobalUpdate', {
           detail: { type },

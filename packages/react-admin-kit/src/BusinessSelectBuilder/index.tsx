@@ -1,4 +1,4 @@
-import { delGlobal, myMergeOptions } from 'react-admin-kit/utils';
+import { delGlobal, myMergeOptions } from '../utils';
 import BasePaginationSelect from './components/BasePaginationSelect';
 import BaseSelect from './components/BaseSelect';
 import {
@@ -14,6 +14,7 @@ import {
 export const SelectName = '@@selectData';
 export const SelectStatusName = '@@selectDataIsStart';
 export const SelectTotalName = '@@selectDataTotal';
+export const SelectCurrentName = '@@selectDataCurrent';
 
 function BusinessSelectBuilder<Type extends string>({
   apis = [],
@@ -66,10 +67,12 @@ export const clearSelectCache = (type?: string) => {
     delGlobal(SelectName, type);
     delGlobal(SelectStatusName, type);
     delGlobal(SelectTotalName, type);
+    delGlobal(SelectCurrentName, type);
   } else {
     delGlobal(SelectName);
     delGlobal(SelectStatusName);
     delGlobal(SelectTotalName);
+    delGlobal(SelectCurrentName);
   }
 };
 
