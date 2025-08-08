@@ -4,11 +4,9 @@ import { MyButtonProps, MyButtonSelfProps } from './types';
 const Button = (props: MyButtonProps) => {
   const { visible = true, ...restProps } = props;
 
-  if (typeof visible === 'function') {
-    if (!visible()) return null;
-  }
+  const ret = typeof visible === 'function' ? visible() : visible;
 
-  if (!visible) {
+  if (!ret) {
     return null;
   }
 
@@ -18,6 +16,7 @@ const Button = (props: MyButtonProps) => {
 export default Button;
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const ButtonSelf: React.FC<MyButtonSelfProps> = () => {
   return null;
 };
