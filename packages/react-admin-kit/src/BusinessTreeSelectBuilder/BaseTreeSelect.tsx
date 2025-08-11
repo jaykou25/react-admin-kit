@@ -93,10 +93,6 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
           [type]: res,
         });
 
-        if (onLoad) {
-          onLoad(res);
-        }
-
         const event = new CustomEvent('treeSelectGlobalUpdate', {
           detail: { type },
         });
@@ -131,21 +127,41 @@ class BaseTreeSelect extends Component<BaseTreeSelectProps, any> {
       type,
       loadFunction,
       nodeDisabled,
+      queryParams,
+      noCache,
       style = {},
       value,
       onChange,
-      queryParams,
-      noCache,
+      showSearch = true,
+      treeNodeFilterProp = 'title',
+      filterTreeNode = (inputValue, option) => {
+        const { value = 'value', label = 'label' } =
+          this.props.fieldNames || {};
+
+        if (option) {
+          const valueStr = (option[value] || '').toString().toLowerCase();
+          const labelStr = (option[label] || '').toString().toLowerCase();
+          return (
+            valueStr.includes(inputValue.toLowerCase()) ||
+            labelStr.includes(inputValue.toLowerCase())
+          );
+        } else {
+          return false;
+        }
+      },
+      allowClear = true,
+      placeholder = '请选择',
       ...rest
     } = this.props;
 
     return (
       <TreeSelect
-        showSearch
-        treeNodeFilterProp="title"
-        allowClear
-        placeholder="请选择"
         {...rest}
+        showSearch={showSearch}
+        treeNodeFilterProp={treeNodeFilterProp}
+        filterTreeNode={filterTreeNode}
+        allowClear={allowClear}
+        placeholder={placeholder}
         style={{ width: '100%', ...style }}
         loading={this.state.loading}
         value={value}
