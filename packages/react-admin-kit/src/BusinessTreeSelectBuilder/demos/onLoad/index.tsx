@@ -1,6 +1,16 @@
 import { Space } from 'antd';
 import { useState } from 'react';
-import BusinessTreeSelect from '../BusinessTreeSelect';
+import { queryCompany } from '../apis';
+import { BusinessTreeSelectBuilder } from 'react-admin-kit';
+
+const BusinessTreeSelect = BusinessTreeSelectBuilder<'company'>({
+  apis: [
+    {
+      api: queryCompany,
+      type: 'company',
+    },
+  ],
+});
 
 const OnLoad = () => {
   const [companyId, setCompanyId] = useState();
@@ -11,6 +21,7 @@ const OnLoad = () => {
         style={{ width: '150px' }}
         type="company"
         value={companyId}
+        onChange={setCompanyId}
         onLoad={(options) => {
           console.log('tree onload options', options);
           setCompanyId(options[0]?.id);

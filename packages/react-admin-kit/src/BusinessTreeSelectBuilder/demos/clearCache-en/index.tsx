@@ -1,7 +1,24 @@
 import { message } from 'antd';
 import { useRef } from 'react';
-import { Button, ModalForm, clearTreeSelectCache } from 'react-admin-kit';
-import BusinessTreeSelect from '../BusinessTreeSelect-en';
+import {
+  Button,
+  ModalForm,
+  BusinessTreeSelectBuilder,
+  clearTreeSelectCache,
+} from 'react-admin-kit';
+import { queryCompany } from '../apis/index-en';
+
+const BusinessTreeSelect = BusinessTreeSelectBuilder<'company'>({
+  apis: [
+    {
+      api: queryCompany,
+      type: 'company',
+    },
+  ],
+  defaultProps: {
+    placeholder: 'please choose',
+  },
+});
 
 const ClearCacheDemo = () => {
   const innerRef = useRef<any>();

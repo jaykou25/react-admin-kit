@@ -1,5 +1,18 @@
-import { SchemaForm } from 'react-admin-kit';
-import BusinessTreeSelect from '../BusinessTreeSelect';
+import { SchemaForm, BusinessTreeSelectBuilder } from 'react-admin-kit';
+import { queryCompany, queryDept } from '../apis';
+
+const BusinessTreeSelect = BusinessTreeSelectBuilder<'company' | 'dept'>({
+  apis: [
+    {
+      api: queryCompany,
+      type: 'company',
+    },
+    {
+      api: queryDept,
+      type: 'dept',
+    },
+  ],
+});
 
 const Demo = () => {
   return (

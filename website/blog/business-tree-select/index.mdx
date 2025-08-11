@@ -35,9 +35,9 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 ## 基本的使用方法
 
-`BusinessTreeSelect`是 [antd TreeSelect](https://ant.design/components/tree-select-cn#api) 的封装，因此组件可以接受 antd TreeSelect 的所有属性。
+`BusinessTreeSelect` 是 <Link src='https://ant.design/components/tree-select-cn#api'>Antd TreeSelect</Link> 的封装，因此组件可以接受 Antd TreeSelect 的所有属性。
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic/index.tsx" />
 
 ## 级联
 
@@ -45,31 +45,34 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 
 - 可以使用 `queryParams` 传参数给请求接口。
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams/index.tsx" />
 
 ## 清除缓存
 
-使用`clearTreeSelectCache(type: string)`方法清除缓存. type 不传清除所有类型的缓存.
+使用`clearTreeSelectCache(type: string)`方法清除缓存。type 不传时清除所有类型的缓存。
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache/index.tsx" />
 
 ## onLoad 事件
-当下拉数据加载完成后会触发 onLoad 事件. 这个事件对于某些场景非常有用, 例如可以用它实现默认选中第一条数据.
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad/index.tsx"></Previewer>
+当下拉数据加载完成后会触发 onLoad 事件。这个事件对于某些场景非常有用，例如可以用它实现默认选中第一条数据。
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad/index.tsx" />
 
 ## API
 
 ### BusinessTreeSelectBuilder
 
-<API filePath='src/BusinessTreeSelectBuilder/index.tsx' name='BusinessTreeSelectBuilder' ></API>
+<API name="BusinessTreeSelectBuilder" />
 
 ### ApiType
 
-<API name='BizTreeApi' ></API>
+<API name="BizTreeApi" />
 
 ### BusinessTreeSelect
 
-<API name='BusinessTreeSelectSelf'></API>
+BusinessTreeSelect 类型是 [BusinessTreeSelectSelfType](/components/business-tree-select#businesstreeselectselftype) 和 <Link src='https://ant.design/components/tree-select-cn#api'>TreeSelectProps</Link> 的结合。
 
-更多属性查看 [antd TreeSelect](https://ant.design/components/tree-select-cn#api)
+#### BusinessTreeSelectSelfType
+
+<API name="BusinessTreeSelectSelf" />

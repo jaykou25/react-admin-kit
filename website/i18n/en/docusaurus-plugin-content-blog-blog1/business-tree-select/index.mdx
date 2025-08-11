@@ -9,7 +9,7 @@ Provides the same functionality as BusinessSelect, but works with **tree** data 
 
 Define once, use conveniently across your entire application.
 
-Initialization example:
+Here's the component initialization example:
 
 ```js
 import { BusinessTreeSelectBuilder } from 'react-admin-kit';
@@ -31,49 +31,48 @@ const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
 <BusinessTreeSelect type="org" />;
 ```
 
-> Since it processes tree data, pagination is not needed. The API should return an array of objects, with name as display text and id as value by default.
+> Since it processes tree data, pagination is not needed. The API should return an array of objects directly, with `name` as display text and `id` as value by default.
 
 ## Basic Usage
 
-`BusinessTreeSelect` extends [antd TreeSelect](https://ant.design/components/tree-select#api), supporting all its props.
+`BusinessTreeSelect` is a wrapper around <Link src='https://ant.design/components/tree-select#api'>Antd TreeSelect</Link>, so it accepts all Antd TreeSelect properties.
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic-en/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic-en/index.tsx" />
 
-## Cascading Relationships
+## Cascading
 
-- This example shows department options cascading from company selection.
+- This example shows department options cascading based on company selection.
 
-- Use queryParams to pass parameters to the API.
+- Use `queryParams` to pass parameters to the API.
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams-en/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams-en/index.tsx" />
 
 ## Clear Cache
 
-Use `clearTreeSelectCache(type?: string)` to clear cache. Omitting `type` clears all caches.
+Use `clearTreeSelectCache(type: string)` to clear cache. Omitting `type` clears all type caches.
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache-en/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache-en/index.tsx" />
 
 ## onLoad Event
 
-Triggered when tree data finishes loading. Useful for scenarios like auto-selecting the first item.
+Triggered when dropdown data finishes loading. This event is useful for certain scenarios, such as auto-selecting the first item.
 
-<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad-en/index.tsx"></Previewer>
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad-en/index.tsx" />
 
 ## API
 
 ### BusinessTreeSelectBuilder
 
-<API
-  filePath="src/BusinessTreeSelectBuilder/index.tsx"
-  name="BusinessTreeSelectBuilder"
-></API>
+<API name="BusinessTreeSelectBuilder" />
 
 ### ApiType
 
-<API name="BizTreeApi"></API>
+<API name="BizTreeApi" />
 
 ### BusinessTreeSelect
 
-<API name="BusinessTreeSelectSelf"></API>
+BusinessTreeSelect type is a combination of [BusinessTreeSelectSelfType](/components/business-tree-select#businesstreeselectselftype) and <Link src='https://ant.design/components/tree-select#api'>TreeSelectProps</Link>.
 
-[See additional properties](https://ant.design/components/tree-select#api)
+#### BusinessTreeSelectSelfType
+
+<API name="BusinessTreeSelectSelf" />

@@ -1,4 +1,4 @@
-import { delGlobal } from 'react-admin-kit/utils';
+import { delGlobal, myMergeOptions } from '../utils';
 import BaseTreeSelect from './BaseTreeSelect';
 import {
   ApiType,
@@ -24,11 +24,21 @@ function BusinessTreeSelectBuilder<Type extends string>({
 
     if (!target) return null;
 
+    const mergedProps = myMergeOptions(
+      defaultProps,
+      target.defaultProps || {},
+      {
+        fieldNames: {
+          value: 'id',
+          label: 'name',
+        },
+      },
+    );
+
     return (
       <BaseTreeSelect
         type={type}
-        {...defaultProps}
-        {...(target.defaultProps || {})}
+        {...mergedProps}
         loadFunction={target.api}
         {...rest}
       />
@@ -49,11 +59,13 @@ export const clearTreeSelectCache = (type?: string) => {
 };
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const BizTreeApi: React.FC<ApiType> = () => {
   return null;
 };
 
 // 用于生成api文档
+/* istanbul ignore next */
 export const BusinessTreeSelectSelf: React.FC<
   BusinessTreeSelectSelfProps<string>
 > = () => {
