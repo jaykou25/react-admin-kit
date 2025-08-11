@@ -15,3 +15,5 @@ pnpm-lock.yaml
 /.vscode
 /.idea
 
+.kiro/settings/*
+
