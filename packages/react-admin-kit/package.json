@@ -61,6 +61,7 @@
     "lodash": "^4.17.21",
     "merge-options": "^3.0.4",
     "omit.js": "^2.0.2",
+    "rc-field-form": "^2.7.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {

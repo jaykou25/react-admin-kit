@@ -1,44 +1,29 @@
 import { TableColumnType } from '../types';
 import dayjs from 'dayjs';
+import { FormStore } from 'rc-field-form/lib/useForm';
 
 /**
- * 处理ProTable request中的参数, 将sort转化成符合后端排序的格式
+ * 根据 dataIndex 获取嵌套对象的值
+ * @param record 数据记录
+ * @param dataIndex 字段索引，可以是字符串或字符串数组
+ * @returns 对应的值
  */
-export const handleRequestParams = (params, sort) => {
-  // sort对象是{createdTime: 'ascend'}, 要转成{sort: 'createdTime,asc'}
-
-  if (Object.keys(sort).length < 1) {
-    return params;
+export function _getValueByDataIndex(
+  record: Record<string, any>,
+  dataIndex: string | string[],
+): any {
+  if (typeof dataIndex === 'string') {
+    return record[dataIndex];
   }
 
-  const sortMap = { ascend: 'asc', descend: 'desc' };
+  if (Array.isArray(dataIndex)) {
+    return dataIndex.reduce((obj, key) => {
+      return obj != null ? obj[key] : undefined;
+    }, record);
+  }
 
-  const sortKey = Object.keys(sort)[0];
-  const sortParams = { sort: `${sortKey},${sortMap[sort[sortKey]]}` };
-
-  return { ...params, ...sortParams };
-};
-
-/**
- * ProTable Columns中的排序属性
- */
-export const withSorter = (
-  dataIndex: string,
-  defaultSorter: 'desc' | 'asc' = 'asc',
-): any => {
-  const orderMap = { asc: 'ascend', desc: 'descend' };
-
-  const directions =
-    defaultSorter === 'asc'
-      ? ['ascend', 'descend', 'ascend']
-      : ['descend', 'ascend', 'descend'];
-
-  return {
-    defaultSortOrder: orderMap[defaultSorter],
-    sortDirections: directions,
-    sorter: true,
-  };
-};
+  return undefined;
+}
 
 /**
  * 过滤出供导出用的columns
@@ -65,32 +50,49 @@ export const filteFormCols = (columns) => {
     });
 };
 
-function formatDateTypeData(text, format) {
+export function _formatDateTypeData(text, format?: string) {
   if (!text) return '';
 
   if (typeof text === 'string') {
     return text;
   } else {
-    return dayjs(text).format(format);
+    return dayjs(text).format(format || 'YYYY-MM-DD');
   }
 }
 
-function getTextByOptions(text, col: TableColumnType) {
+export function _getTextByOptions(text, _col: TableColumnType) {
+  const findOption = (options, text) => {
+    return options.find((option: any) => {
+      if (option.value === text) return true;
+
+      const optionValue =
+        typeof option.value === 'number'
+          ? option.value.toString()
+          : option.value;
+      const textValue = typeof text === 'number' ? text.toString() : text;
+
+      return optionValue === textValue;
+    });
+  };
+
+  const col = _col || {};
+
   if (col.valueEnum) {
     return col.valueEnum[text]?.text;
   }
 
   if (col.fieldProps) {
     if (typeof col.fieldProps === 'function') {
-      // @ts-ignore
-      const options = col.fieldProps({}, { current: {} }, col)?.options || [];
-      // eslint-disable-next-line eqeqeq
-      return options.find((option: any) => option.value == text)?.label;
+      const options =
+        // @ts-ignore
+        col.fieldProps(new FormStore(() => ''), { current: {} }, col)
+          ?.options || [];
+      return findOption(options, text)?.label;
     } else {
       // @ts-ignore
       const options = col.fieldProps?.options || [];
-      // eslint-disable-next-line eqeqeq
-      return options.find((option: any) => option.value == text)?.label;
+
+      return findOption(options, text)?.label;
     }
   }
 }
@@ -98,12 +100,15 @@ function getTextByOptions(text, col: TableColumnType) {
 /**
  * 获取导出的值
  */
-export function getExportValue(
+export function _getExportValue(
   record: Record<string, any>,
   col: TableColumnType,
   index: number = 0,
 ) {
-  const text = typeof col.dataIndex === 'string' ? record[col.dataIndex] : ''; // dataIndex 如果是 react node 就不导出
+  const text =
+    typeof col.dataIndex === 'string' || Array.isArray(col.dataIndex)
+      ? _getValueByDataIndex(record, col.dataIndex)
+      : ''; // dataIndex 如果是 react node 就不导出
 
   if (col.renderExport) {
     return col.renderExport(text, record);
@@ -122,22 +127,22 @@ export function getExportValue(
   if (
     ['select', 'radio', 'radioButton', 'checkbox'].includes(col.valueType || '')
   ) {
-    return getTextByOptions(text, col);
+    return _getTextByOptions(text, col);
   }
 
   if (col.valueType === 'date') {
-    return formatDateTypeData(text, 'YYYY-MM-DD');
+    return _formatDateTypeData(text, 'YYYY-MM-DD');
   }
 
   if (col.valueType === 'dateTime') {
-    return formatDateTypeData(text, 'YYYY-MM-DD HH:mm:ss');
+    return _formatDateTypeData(text, 'YYYY-MM-DD HH:mm:ss');
   }
 
   if (col.valueType === 'dateRange') {
     if (text) {
       return text
         .map((itemDate) => {
-          return formatDateTypeData(itemDate, 'YYYY-MM-DD');
+          return _formatDateTypeData(itemDate, 'YYYY-MM-DD');
         })
         .join(' - ');
     }
@@ -147,7 +152,7 @@ export function getExportValue(
     if (text) {
       return text
         .map((itemDate) => {
-          return formatDateTypeData(itemDate, 'YYYY-MM-DD HH:mm:ss');
+          return _formatDateTypeData(itemDate, 'YYYY-MM-DD HH:mm:ss');
         })
         .join(' - ');
     }
@@ -166,6 +171,7 @@ export function getExportValue(
   return text;
 }
 
+/* istanbul ignore next */
 export const exportTable = async (exportColumns, rows, ExcelJS, options) => {
   const workbook = new ExcelJS.Workbook();
 
@@ -184,7 +190,7 @@ export const exportTable = async (exportColumns, rows, ExcelJS, options) => {
   // 处理行
   const rowsData = (rows || []).map((record, index) => {
     return exportColumns.map((col) => {
-      return getExportValue(record, col, index);
+      return _getExportValue(record, col, index);
     });
   });
 
