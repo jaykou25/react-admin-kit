@@ -18,6 +18,11 @@ export type ProTableSettingProps = Omit<
   'request' | 'columns' | 'formColumns' | 'onFinish' | 'innerRef' | 'actionRef'
 >;
 
+export type FormUploadSettingProps = Omit<
+  FormUploadProps,
+  'value' | 'onChange'
+>;
+
 export type SettingProviderProps = {
   /**
    * @description       SchemaForm组件的设置项
@@ -42,6 +47,6 @@ export type SettingProviderProps = {
    * @description       FormUpload组件的设置项
    * @default           -
    */
-  formUploadSetting?: Omit<FormUploadProps, 'value' | 'onChange'>;
+  formUploadSetting?: FormUploadSettingProps;
   children: any;
 };

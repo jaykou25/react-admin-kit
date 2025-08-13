@@ -5,6 +5,7 @@ import {
   SchemaFormContext,
 } from './context';
 import {
+  FormUploadSettingProps,
   ModalFormSettingProps,
   ProTableSettingProps,
   SchemaFormSettingProps,
@@ -54,5 +55,13 @@ export const ModalFormSettingPropsType: React.FC<
 // 用于生成api文档
 /* istanbul ignore next */
 export const ProTableSettingPropsType: React.FC<ProTableSettingProps> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const FormUploadSettingPropsType: React.FC<
+  FormUploadSettingProps
+> = () => {
   return null;
 };
