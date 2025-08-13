@@ -1,3 +1,5 @@
+// 仅用于外部链接跳转
+
 const Link = ({ src, children }: { src: string; children }) => {
   const isInternalLink = src.startsWith('/');
   const target = isInternalLink ? '_self' : '_blank';
