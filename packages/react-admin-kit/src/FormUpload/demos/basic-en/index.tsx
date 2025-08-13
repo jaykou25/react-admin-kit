@@ -14,6 +14,11 @@ const Basic = () => {
         action: 'https://mock.apifox.cn/m1/1864670-0-default/mockUpload',
         headers: { Authorization: 'myToken' },
         responseToFileList: (res) => ({ id: res?.data.id }), // Merge API response into file object
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? 'uploading...' : 'upload'}
+          </LinkButton>
+        ),
       }}
     >
       <SchemaForm
@@ -22,13 +27,7 @@ const Basic = () => {
           {
             title: 'attachment',
             dataIndex: 'files',
-            renderFormItem: () => (
-              <FormUpload>
-                {({ loading }) => (
-                  <LinkButton>{loading ? 'uploading...' : 'upload'}</LinkButton>
-                )}
-              </FormUpload>
-            ),
+            renderFormItem: () => <FormUpload />,
           },
         ]}
         submitter

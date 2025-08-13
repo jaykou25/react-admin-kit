@@ -40,7 +40,11 @@ const Import = () => {
                 setValue([]);
               }}
             >
-              <Button type="primary">import</Button>
+              {({ loading }) => (
+                <Button loading={loading} type="primary">
+                  import
+                </Button>
+              )}
             </FormUpload>,
           ],
         }}

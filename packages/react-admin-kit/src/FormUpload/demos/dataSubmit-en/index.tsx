@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { FormUpload, LinkButton, SchemaForm } from 'react-admin-kit';
+import {
+  FormUpload,
+  LinkButton,
+  SchemaForm,
+  SettingProvider,
+} from 'react-admin-kit';
 
 const DataSubmit = () => {
   const formRef = useRef<any>();
-
-  const onFinish = (values) => {
-    console.log({ values });
-  };
 
   useEffect(() => {
     // mock backend response
@@ -31,41 +32,46 @@ const DataSubmit = () => {
   }, []);
 
   return (
-    <SchemaForm
-      formRef={formRef}
-      columns={[
-        {
-          title: 'attachment',
-          dataIndex: 'fileList',
-          convertValue: (vals) => {
-            // processes initial values
-            if (vals) {
-              return vals.map((val) => ({
-                ...val,
-                name: val.fileName,
-                url: val.filePath,
-              }));
-            }
+    <SettingProvider
+      formUploadSetting={{
+        action: 'https://mock.apifox.cn/m1/1864670-0-default/mockUpload',
+        headers: { Authorization: 'myToken' },
+        responseToFileList: (res) => ({ id: res?.data.id }), // Merge API response into file object
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? 'uploading...' : 'upload'}
+          </LinkButton>
+        ),
+      }}
+    >
+      <SchemaForm
+        formRef={formRef}
+        columns={[
+          {
+            title: 'attachment',
+            dataIndex: 'fileList',
+            convertValue: (vals) => {
+              // processes initial values
+              if (vals) {
+                return vals.map((val) => ({
+                  ...val,
+                  name: val.fileName,
+                  url: val.filePath,
+                }));
+              }
 
-            return vals;
+              return vals;
+            },
+            transform: (files) => ({
+              fileIds: files.map((file) => file.id).join(','),
+            }),
+            renderFormItem: () => <FormUpload listType="picture-card" />,
           },
-          transform: (files) => ({
-            fileIds: files.map((file) => file.id).join(','),
-          }),
-          renderFormItem: () => (
-            <FormUpload
-              action="https://mock.apifox.cn/m1/1864670-0-default/mockUpload"
-              responseToFileList={(res) => res.data}
-              listType="picture-card"
-            >
-              <LinkButton>upload</LinkButton>
-            </FormUpload>
-          ),
-        },
-      ]}
-      submitter
-      onFinish={onFinish}
-    />
+        ]}
+        submitter
+        onFinish={console.log}
+      />
+    </SettingProvider>
   );
 };
 

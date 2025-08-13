@@ -53,5 +53,5 @@ export type FormUploadSelfProps = {
   children?: any | [(childrenProp: { loading: boolean }) => any];
 };
 
-export type FormUploadProps = Omit<UploadProps, 'children'> &
+export type FormUploadProps = Omit<UploadProps, 'children' | 'fileList'> &
   FormUploadSelfProps;

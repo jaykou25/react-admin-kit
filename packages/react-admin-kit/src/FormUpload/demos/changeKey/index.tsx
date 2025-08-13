@@ -36,6 +36,11 @@ const ChangeKey = () => {
         responseToFileList: (res) => res.data,
         nameKey: 'fileName',
         urlKey: 'filePath',
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? '上传中...' : '上传附件'}
+          </LinkButton>
+        ),
       }}
     >
       <SchemaForm
@@ -47,11 +52,7 @@ const ChangeKey = () => {
             transform: (files) => ({
               fileIds: files.map((file) => file.id).join(','),
             }),
-            renderFormItem: () => (
-              <FormUpload>
-                <LinkButton>上传附件</LinkButton>
-              </FormUpload>
-            ),
+            renderFormItem: () => <FormUpload />,
           },
         ]}
         submitter

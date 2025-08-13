@@ -14,8 +14,8 @@ const Import = () => {
       }}
     >
       <ProTable
-        noPadding
         search={false}
+        cardProps={false}
         toolbar={{
           actions: [
             <FormUpload
@@ -40,7 +40,11 @@ const Import = () => {
                 setValue([]);
               }}
             >
-              <Button type="primary">导入</Button>
+              {({ loading }) => (
+                <Button loading={loading} type="primary">
+                  导入
+                </Button>
+              )}
             </FormUpload>,
           ],
         }}

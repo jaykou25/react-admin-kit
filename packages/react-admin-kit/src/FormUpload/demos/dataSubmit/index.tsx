@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { FormUpload, LinkButton, SchemaForm } from 'react-admin-kit';
+import {
+  FormUpload,
+  LinkButton,
+  SchemaForm,
+  SettingProvider,
+} from 'react-admin-kit';
 
 const DataSubmit = () => {
   const formRef = useRef<any>();
-
-  const onFinish = (values) => {
-    console.log({ values });
-  };
 
   useEffect(() => {
     // 模拟后端返回
@@ -31,43 +32,47 @@ const DataSubmit = () => {
   }, []);
 
   return (
-    <SchemaForm
-      formRef={formRef}
-      columns={[
-        {
-          title: '附件',
-          dataIndex: 'fileList',
-          convertValue: (vals) => {
-            // 数据转化
-            if (vals) {
-              return vals.map((val) => ({
-                ...val,
-                name: val.fileName,
-                url: val.filePath,
-              }));
-            }
+    <SettingProvider
+      formUploadSetting={{
+        action: 'https://mock.apifox.cn/m1/1864670-0-default/mockUpload',
+        headers: { Authorization: 'myToken' },
+        responseToFileList: (res) => ({ id: res?.data.id }), // 将后台返回值合并进file对象
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? '上传中...' : '上传附件'}
+          </LinkButton>
+        ),
+      }}
+    >
+      <SchemaForm
+        formRef={formRef}
+        columns={[
+          {
+            title: '附件',
+            dataIndex: 'fileList',
+            convertValue: (vals) => {
+              // 数据转化
+              if (vals) {
+                return vals.map((val) => ({
+                  ...val,
+                  name: val.fileName,
+                  url: val.filePath,
+                }));
+              }
 
-            return vals;
+              return vals;
+            },
+            transform: (files) => ({
+              // 提交给后端的转化
+              fileIds: files.map((file) => file.id).join(','),
+            }),
+            renderFormItem: () => <FormUpload listType="picture-card" />,
           },
-          transform: (files) => ({
-            // 提交给后端的转化
-            fileIds: files.map((file) => file.id).join(','),
-          }),
-          renderFormItem: () => (
-            <FormUpload
-              action="https://mock.apifox.cn/m1/1864670-0-default/mockUpload"
-              // 仅用于示范, 一般在全局设置. 可将服务端返回值合并进文件列表
-              responseToFileList={(res) => res.data}
-              listType="picture-card"
-            >
-              <LinkButton>上传附件</LinkButton>
-            </FormUpload>
-          ),
-        },
-      ]}
-      submitter
-      onFinish={onFinish}
-    />
+        ]}
+        submitter
+        onFinish={console.log}
+      />
+    </SettingProvider>
   );
 };
 

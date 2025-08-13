@@ -15,13 +15,7 @@ export type ModalFormSettingProps = Omit<
 
 export type ProTableSettingProps = Omit<
   MyProTableType,
-  | 'request'
-  | 'columns'
-  | 'formColumns'
-  | 'onFinish'
-  | 'innerRef'
-  | 'actionRef'
-  
+  'request' | 'columns' | 'formColumns' | 'onFinish' | 'innerRef' | 'actionRef'
 >;
 
 export type SettingProviderProps = {
@@ -48,6 +42,6 @@ export type SettingProviderProps = {
    * @description       FormUpload组件的设置项
    * @default           -
    */
-  formUploadSetting?: Omit<FormUploadProps, 'children'>;
+  formUploadSetting?: Omit<FormUploadProps, 'value' | 'onChange'>;
   children: any;
 };

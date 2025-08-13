@@ -16,6 +16,11 @@ const ErrorHandle = () => {
         errorHandle: (res) => {
           message.error('上传失败 ' + res?.message || '');
         },
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? '上传中...' : '上传附件'}
+          </LinkButton>
+        ),
       }}
     >
       <SchemaForm
@@ -23,14 +28,8 @@ const ErrorHandle = () => {
           {
             title: '附件',
             dataIndex: 'files',
-            formItemProps: {
-              rules: [{ required: true, message: '请上传附件' }],
-            },
-            renderFormItem: () => (
-              <FormUpload>
-                <LinkButton>上传</LinkButton>
-              </FormUpload>
-            ),
+            required: true,
+            renderFormItem: () => <FormUpload />,
           },
         ]}
         submitter

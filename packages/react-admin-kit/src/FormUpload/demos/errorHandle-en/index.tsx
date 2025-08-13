@@ -16,6 +16,11 @@ const ErrorHandle = () => {
         errorHandle: (res) => {
           message.error('upload failed ' + res?.message || '');
         },
+        children: ({ loading }) => (
+          <LinkButton disabled={loading}>
+            {loading ? 'uploading...' : 'upload'}
+          </LinkButton>
+        ),
       }}
     >
       <SchemaForm
@@ -23,14 +28,8 @@ const ErrorHandle = () => {
           {
             title: 'attachment',
             dataIndex: 'files',
-            formItemProps: {
-              rules: [{ required: true, message: 'attachment required' }],
-            },
-            renderFormItem: () => (
-              <FormUpload>
-                <LinkButton>upload</LinkButton>
-              </FormUpload>
-            ),
+            required: true,
+            renderFormItem: () => <FormUpload />,
           },
         ]}
         submitter
