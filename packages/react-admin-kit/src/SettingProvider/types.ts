@@ -25,27 +25,34 @@ export type FormUploadSettingProps = Omit<
 
 export type SettingProviderProps = {
   /**
-   * @description       SchemaForm组件的设置项
+   * @zh-Hans SchemaForm组件的设置项
+   * @en Settings for SchemaForm component
    * @default           -
-   * @type SchemaFormSettingProps
+   * @type [SchemaFormSettingProps](/components/setting-provider#schemaformsettingprops)
    */
   schemaFormSetting?: SchemaFormSettingProps;
 
   /**
-   * @description       ModalForm 组件的设置项
+   * @zh-Hans ModalForm 组件的设置项
+   * @en Settings for ModalForm component
    * @default           -
+   * @type [ModalFormSettingProps](/components/setting-provider#modalformsettingprops)
    */
   modalFormSetting?: ModalFormSettingProps;
 
   /**
-   * @description       ProTable组件的设置项
+   * @zh-Hans ProTable组件的设置项
+   * @en Settings for ProTable component
    * @default           -
+   * @type [ProTableSettingProps](/components/setting-provider#protablesettingprops)
    */
   proTableSetting?: ProTableSettingProps;
 
   /**
-   * @description       FormUpload组件的设置项
+   * @zh-Hans FormUpload组件的设置项
+   * @en Settings for FormUpload component
    * @default           -
+   * @type [FormUploadSettingProps](/components/setting-provider#formuploadsettingprops)
    */
   formUploadSetting?: FormUploadSettingProps;
   children: any;
