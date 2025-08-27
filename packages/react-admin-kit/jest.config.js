@@ -17,6 +17,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/demos/**/*', // 排除 demos
+    '!src/**/remain/**/*', // 排除 remain
     '!src/**/cases/**/*', // 排除 cases
     '!src/**/*.d.ts', // 排除类型声明文件
     '!src/**/types.ts', // 排除类型声明文件
