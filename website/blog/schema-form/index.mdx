@@ -236,7 +236,15 @@ grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://an
 
 > 💡 Rakjs 扩展了只读模式下 render 函数的第二个参数 record. 这个 record 里包含了表单里的所有值, 提高了实用性.
 
-<Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
+<Previewer
+  title="readonlyType 默认是 form"
+  src="@@/SchemaForm/demos/readonly-basic/index.tsx"
+/>
+
+<Previewer
+  title="readonlyType 为 description"
+  src="@@/SchemaForm/demos/readonly-basic-description/index.tsx"
+/>
 
 ### 表单项联动
 
@@ -267,6 +275,11 @@ submitter 属性默认为 false. 开启后可自动生成提交按钮.
 **1. 模拟一个表单页的回显**
 
 <Previewer src="@@/SchemaForm/demos/readonly-form/index.tsx" />
+
+<Previewer
+  title="readonlyType 为 descriptions"
+  src="@@/SchemaForm/demos/readonly-form-descriptions/index.tsx"
+/>
 
 **2. 只读表单项的依赖显示**
 

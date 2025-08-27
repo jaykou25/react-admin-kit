@@ -31,6 +31,13 @@ export type SchemaFormSelfProps = {
   readonly?: boolean;
 
   /**
+   * @zh-Hans 只读时的展示形式。可选 form 或 descriptions
+   * @en      Display type when readonly. Options: form or descriptions
+   * @default form
+   */
+  readonlyType?: 'form' | 'descriptions';
+
+  /**
    * @zh-Hans 表单项的配置描述;
    * @en      Configuration description of form items;
    * @type [FormColumnType](/components/schema-form#formcolumntype)[]
@@ -69,6 +76,16 @@ export type SchemaFormSelfProps = {
   submitter?:
     | boolean
     | (SubmitterProps & { style?: React.CSSProperties; className?: string });
+
+  /**
+   * @zh-Hans 描述模式下的表格样式配置
+   * @en      Table style configuration in descriptions mode
+   */
+  descriptionsProps?: {
+    className?: string;
+    style?: React.CSSProperties;
+    bordered?: boolean;
+  };
 };
 
 export type OtherFormProps = Omit<

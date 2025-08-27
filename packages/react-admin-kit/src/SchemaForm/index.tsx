@@ -6,8 +6,9 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react';
+import './descriptionTable.css';
 
-import { Form, Row, type FormInstance } from 'antd';
+import { Descriptions, Form, Row, type FormInstance } from 'antd';
 import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
@@ -35,6 +36,7 @@ import {
 } from './utils';
 import { myMergeOptions } from '../utils';
 import omit from 'omit.js';
+import { useDescriptionsTable } from './descriptionTable';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   // 全局默认设置
@@ -51,9 +53,11 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const {
     embed = false,
     readonly,
+    readonlyType = 'form',
     submitter = false,
     valueBaseName,
     initialValues,
+    descriptionsProps,
     ...rest
   } = mergedProps;
 
@@ -78,6 +82,16 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   };
 
   const embedColumnsRef = useContext(EmbedColumnContext);
+
+  const formContainerRef = useRef<HTMLDivElement>(null);
+  const readonlyDescriptionsContainerRef = useRef<HTMLDivElement>(null);
+
+  // 描述表格 Hook
+  const { generateTable, clearTable } = useDescriptionsTable({
+    formContainerRef,
+    readonlyDescriptionsContainerRef,
+    descriptionsProps,
+  });
 
   useImperativeHandle(
     propsInnerRef,
@@ -126,6 +140,23 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       embedColumnsRef.current.push({ columns, baseName: valueBaseName });
     }
   }, [embed]);
+
+  // 处理描述表格的生成和清理
+  useEffect(() => {
+    if (readonlyType === 'descriptions') {
+      // 延迟执行，确保 DOM 已渲染
+      const timer = setTimeout(() => {
+        generateTable();
+      }, 0);
+
+      return () => {
+        clearTimeout(timer);
+        clearTable();
+      };
+    } else {
+      clearTable();
+    }
+  }, [readonlyType, columns, initialValues, generateTable, clearTable]);
 
   useImperativeHandle(
     propsFormRef,
@@ -266,36 +297,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   };
 
   /**
-   * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
-   */
-  if (embed) {
-    const { grid, rowProps, colProps, labelCol } = mergedProps;
-    const parentReadonly = useContext(ReadonlyContext);
-    const activeReadonly = readonly === undefined ? parentReadonly : readonly;
-
-    if (grid) {
-      return (
-        <GridContext.Provider value={{ grid: true, colProps }}>
-          <Row {...rowProps}>
-            {genItems(patchColumn(columns), 'form', formInstance, {
-              labelCol,
-              valueBaseName,
-              colProps,
-              readonly: activeReadonly,
-            })}
-          </Row>
-        </GridContext.Provider>
-      );
-    }
-
-    return genItems(patchColumn(columns), 'form', formInstance, {
-      labelCol,
-      valueBaseName,
-      readonly: activeReadonly,
-    });
-  }
-
-  /**
    * 在原来的 submitter dom 上增加一层 div, 方便在 div 上增加样式
    */
   const patchSubmitter = () => {
@@ -328,20 +329,84 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     return submitter;
   };
 
+  /**
+   * embed模式下只是用来生成formItem项, 所以不需要传任何Form的属性
+   */
+  if (embed) {
+    const { grid, rowProps, colProps, labelCol } = mergedProps;
+    const parentReadonly = useContext(ReadonlyContext);
+    const activeReadonly = readonly === undefined ? parentReadonly : readonly;
+
+    if (grid) {
+      return (
+        <GridContext.Provider value={{ grid: true, colProps }}>
+          <Row {...rowProps}>
+            {genItems(patchColumn(columns), 'form', formInstance, {
+              labelCol,
+              valueBaseName,
+              colProps,
+              readonly: activeReadonly,
+            })}
+          </Row>
+        </GridContext.Provider>
+      );
+    }
+
+    return genItems(patchColumn(columns), 'form', formInstance, {
+      labelCol,
+      valueBaseName,
+      readonly: activeReadonly,
+    });
+  }
+
   return (
-    <BetaSchemaForm
-      onFinish={handleOnFinish}
-      //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
-      submitter={patchSubmitter()}
-      readonly={readonly}
-      initialValues={initialValuesRef.current}
-      formRef={formRef}
-      {...rest}
-      // @ts-ignore
-      form={formInstanceRef.current}
-      columns={patchColumn(columns)}
-      layoutType={'Form'}
-    />
+    <>
+      <div
+        ref={formContainerRef}
+        style={{
+          display:
+            readonly && readonlyType === 'descriptions' ? 'none' : 'block',
+        }}
+      >
+        <BetaSchemaForm
+          onFinish={handleOnFinish}
+          //@ts-ignore 说不能传true, 但是试了下 true 是可以给的
+          submitter={patchSubmitter()}
+          readonly={readonly}
+          initialValues={initialValuesRef.current}
+          formRef={formRef}
+          {...rest}
+          // @ts-ignore
+          form={formInstanceRef.current}
+          columns={patchColumn(columns)}
+          layoutType={'Form'}
+        />
+      </div>
+
+      <div
+        className="ant-descriptions"
+        style={{
+          display:
+            readonly && readonlyType === 'descriptions' ? 'block' : 'none',
+        }}
+      >
+        <div
+          ref={readonlyDescriptionsContainerRef}
+          className="ant-descriptions-view"
+        ></div>
+      </div>
+
+      <div style={{ padding: '20px' }}>
+        <Descriptions
+          style={{ marginTop: '20px' }}
+          items={[
+            { label: 'hi', children: '88' },
+            { label: 'hi2', children: '888' },
+          ]}
+          bordered
+        />
+      </div>
+    </>
   );
 };
 

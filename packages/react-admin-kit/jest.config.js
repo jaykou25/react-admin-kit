@@ -1,6 +1,7 @@
 // jest.config.js
 /** @type {import('jest').Config} */
 module.exports = {
+  testEnvironment: 'jsdom',
   setupFiles: ['./setup.js'],
   transformIgnorePatterns: [
     // 'node_modules/(?!(lodash-es|uuid)/)', // for yarn or npm
