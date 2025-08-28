@@ -125,7 +125,9 @@ export function _getExportValue(
   }
 
   if (
-    ['select', 'radio', 'radioButton', 'checkbox'].includes(col.valueType || '')
+    ['select', 'radio', 'radioButton', 'checkbox'].includes(
+      typeof col.valueType === 'string' ? col.valueType || '' : '',
+    )
   ) {
     return _getTextByOptions(text, col);
   }

@@ -49,15 +49,19 @@ exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配�
         class="ant-modal-body"
         style="max-height: calc(100vh - 240px); overflow: auto; margin-right: -20px; padding-right: 20px;"
       >
-        <form
-          autocomplete="off"
-          class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+        <div
+          style="display: block;"
         >
-          <input
-            style="display: none;"
-            type="text"
-          />
-        </form>
+          <form
+            autocomplete="off"
+            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+          >
+            <input
+              style="display: none;"
+              type="text"
+            />
+          </form>
+        </div>
       </div>
       <div
         class="ant-modal-footer"
@@ -137,15 +141,19 @@ exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义�
         class="ant-modal-body"
         style="max-height: calc(100vh - 240px); overflow: auto; margin-right: -20px; padding-right: 20px;"
       >
-        <form
-          autocomplete="off"
-          class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+        <div
+          style="display: block;"
         >
-          <input
-            style="display: none;"
-            type="text"
-          />
-        </form>
+          <form
+            autocomplete="off"
+            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+          >
+            <input
+              style="display: none;"
+              type="text"
+            />
+          </form>
+        </div>
       </div>
       <div
         class="ant-modal-footer"
@@ -225,15 +233,19 @@ exports[`SettingProvider modalFormSetting.width 集成测试 3. 传入自定义�
         class="ant-modal-body"
         style="max-height: calc(100vh - 240px); overflow: auto; margin-right: -20px; padding-right: 20px;"
       >
-        <form
-          autocomplete="off"
-          class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+        <div
+          style="display: block;"
         >
-          <input
-            style="display: none;"
-            type="text"
-          />
-        </form>
+          <form
+            autocomplete="off"
+            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+          >
+            <input
+              style="display: none;"
+              type="text"
+            />
+          </form>
+        </div>
       </div>
       <div
         class="ant-modal-footer"

@@ -8,23 +8,8 @@ const mockData = [
 ];
 
 const OnOpenAsyncDemo = ({ onOpen, title = 'Test Modal' }) => {
-  const innerRef = useRef();
+  const innerRef = useRef<any>();
   const [visible, setVisible] = useState(false);
-
-  const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-      valueType: 'text',
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-      valueType: 'digit',
-    },
-  ];
 
   const handleOpenNew = () => {
     setVisible(true);
@@ -52,7 +37,19 @@ const OnOpenAsyncDemo = ({ onOpen, title = 'Test Modal' }) => {
         innerRef={innerRef}
         open={visible}
         title={title}
-        columns={columns}
+        columns={[
+          {
+            title: '姓名',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          {
+            title: '年龄',
+            dataIndex: 'age',
+            key: 'age',
+            valueType: 'digit',
+          },
+        ]}
         onOpen={onOpen}
         onCancel={handleClose}
         forceRender={true}

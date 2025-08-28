@@ -32,6 +32,7 @@ const globalSizeSetting = {
 
 const Demo = ({ size }: SizeTestProps) => {
   return (
+    // @ts-ignore todo
     <SettingProvider proTableSetting={globalSizeSetting}>
       <ProTable
         request={mockRequest}

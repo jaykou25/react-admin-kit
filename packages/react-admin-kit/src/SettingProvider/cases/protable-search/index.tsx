@@ -36,6 +36,7 @@ const globalSearchSetting = {
 
 const Demo = ({ search }: SearchTestProps) => {
   return (
+    // @ts-ignore
     <SettingProvider proTableSetting={globalSearchSetting}>
       <ProTable
         request={mockRequest}

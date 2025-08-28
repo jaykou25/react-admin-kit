@@ -123,6 +123,7 @@ const collectDataIndexByColumn = (
   } else if (column.valueType === 'formList') {
     // todo: 对于 formList 暂不考虑额外 baseName 前缀, formList 本身就是一个前缀
     const dataIndex = column.dataIndex;
+    // @ts-ignore dataIndex 可能是 number
     if (!!dataIndex || dataIndex === 0) {
       // result.push(_genDataIndex(dataIndex));
 
@@ -145,6 +146,7 @@ const collectDataIndexByColumn = (
         result = result.concat(uniqueNestedArrays(listResult));
       }
     }
+    // @ts-ignore dataIndex 可能是 number
   } else if (!!column.dataIndex || column.dataIndex === 0) {
     if (!isPlainObject(column.dataIndex)) {
       // @ts-ignore dataIndex 的类型是 unknow, 理论上只能是 React.key 或 React.key[]. 这里为了安全排除了对象
