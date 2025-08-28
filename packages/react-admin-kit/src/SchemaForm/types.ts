@@ -4,6 +4,7 @@ import type {
   ProFormProps,
   SubmitterProps,
 } from '@ant-design/pro-form';
+import type { DescriptionsProps } from 'antd';
 import { BaseInnerRef } from 'react-admin-kit/context';
 
 export type SchemaFormProps = SchemaFormSelfProps & OtherFormProps;
@@ -81,11 +82,7 @@ export type SchemaFormSelfProps = {
    * @zh-Hans 描述模式下的表格样式配置
    * @en      Table style configuration in descriptions mode
    */
-  descriptionsProps?: {
-    className?: string;
-    style?: React.CSSProperties;
-    bordered?: boolean;
-  };
+  descriptionsProps?: Omit<DescriptionsProps, 'items'>;
 };
 
 export type OtherFormProps = Omit<

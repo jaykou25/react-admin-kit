@@ -13,6 +13,10 @@ const Readonly = () => {
       columns={columns}
       readonly={true}
       readonlyType="descriptions"
+      descriptionsProps={{
+        bordered: true,
+        size: 'small',
+      }}
       initialValues={{
         id: 1,
         a1: 'a1',

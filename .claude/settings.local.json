@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run typecheck)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run test)",
+      "Bash(npm test:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "D:\\d D:\\personal-projects\\react-admin-kit-docusaurus\\packages"
+    ]
+  }
+}

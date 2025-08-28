@@ -6,9 +6,8 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react';
-import './descriptionTable.css';
 
-import { Descriptions, Form, Row, type FormInstance } from 'antd';
+import { Form, Row, type FormInstance } from 'antd';
 import { SchemaFormContext } from '../SettingProvider/context';
 import { genItems } from './genItems';
 import type {
@@ -36,7 +35,7 @@ import {
 } from './utils';
 import { myMergeOptions } from '../utils';
 import omit from 'omit.js';
-import { useDescriptionsTable } from './descriptionTable';
+import DescriptionsTable from './DescriptionsTable';
 
 const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   // 全局默认设置
@@ -84,14 +83,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
   const embedColumnsRef = useContext(EmbedColumnContext);
 
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const readonlyDescriptionsContainerRef = useRef<HTMLDivElement>(null);
-
-  // 描述表格 Hook
-  const { generateTable, clearTable } = useDescriptionsTable({
-    formContainerRef,
-    readonlyDescriptionsContainerRef,
-    descriptionsProps,
-  });
 
   useImperativeHandle(
     propsInnerRef,
@@ -140,23 +131,6 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
       embedColumnsRef.current.push({ columns, baseName: valueBaseName });
     }
   }, [embed]);
-
-  // 处理描述表格的生成和清理
-  useEffect(() => {
-    if (readonlyType === 'descriptions') {
-      // 延迟执行，确保 DOM 已渲染
-      const timer = setTimeout(() => {
-        generateTable();
-      }, 0);
-
-      return () => {
-        clearTimeout(timer);
-        clearTable();
-      };
-    } else {
-      clearTable();
-    }
-  }, [readonlyType, columns, initialValues, generateTable, clearTable]);
 
   useImperativeHandle(
     propsFormRef,
@@ -383,29 +357,13 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
         />
       </div>
 
-      <div
-        className="ant-descriptions"
-        style={{
-          display:
-            readonly && readonlyType === 'descriptions' ? 'block' : 'none',
-        }}
-      >
-        <div
-          ref={readonlyDescriptionsContainerRef}
-          className="ant-descriptions-view"
-        ></div>
-      </div>
-
-      <div style={{ padding: '20px' }}>
-        <Descriptions
-          style={{ marginTop: '20px' }}
-          items={[
-            { label: 'hi', children: '88' },
-            { label: 'hi2', children: '888' },
-          ]}
-          bordered
+      {readonly && readonlyType === 'descriptions' && (
+        <DescriptionsTable
+          formContainerRef={formContainerRef}
+          grid={mergedProps.grid}
+          descriptionsProps={descriptionsProps}
         />
-      </div>
+      )}
     </>
   );
 };

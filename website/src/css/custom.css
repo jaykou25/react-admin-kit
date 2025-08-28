@@ -146,3 +146,9 @@ vue官网 字体颜色 rgba(255, 255, 255, 0.87)
     display: none;
   }
 }
+
+/* 在 Antd Descriptions 组件 bordered 开启时覆盖 docusaurus 样式 */
+.ant-descriptions table th,
+.ant-descriptions table td {
+  border: unset;
+}
