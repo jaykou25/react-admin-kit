@@ -16,7 +16,7 @@ const Demo = () => {
             setReadonly(false);
           }}
         >
-          0. 初始状态
+          0. Initial State
         </Button>
         <Button
           onClick={() =>
@@ -27,9 +27,9 @@ const Demo = () => {
             })
           }
         >
-          1. 请求接口赋值
+          1. Set Value from API
         </Button>
-        <Button onClick={() => setReadonly(true)}>2. 设为只读</Button>
+        <Button onClick={() => setReadonly(true)}>2. Set Readonly</Button>
       </Space>
 
       <SchemaForm
@@ -37,17 +37,14 @@ const Demo = () => {
         style={{ marginTop: '20px' }}
         layout="horizontal"
         grid={true}
-        rowProps={{ gutter: [0, 0] }} // 不再需要了
+        rowProps={{ gutter: [0, 0] }} // not needed
         colProps={{ span: 8 }}
-        labelCol={{ span: 9 }} // 不再需要了
+        labelCol={{ span: 9 }} // not needed
         formRef={formRef}
         columns={columns}
         readonly={readonly}
         readonlyType="descriptions"
-        descriptionsProps={{
-          bordered: true,
-          size: 'small',
-        }}
+        descriptionsProps={{ bordered: true, size: 'small' }}
         autoFocusFirstInput={false}
       />
     </div>

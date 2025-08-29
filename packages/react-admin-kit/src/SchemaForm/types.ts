@@ -81,6 +81,7 @@ export type SchemaFormSelfProps = {
   /**
    * @zh-Hans 描述模式下的表格样式配置
    * @en      Table style configuration in descriptions mode
+   * @type    Omit<[DescriptionsProps](https://ant-design.antgroup.com/components/descriptions-cn#descriptions), 'items'>
    */
   descriptionsProps?: Omit<DescriptionsProps, 'items'>;
 };

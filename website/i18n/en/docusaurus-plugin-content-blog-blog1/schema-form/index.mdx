@@ -236,6 +236,13 @@ Enable via `readonly` prop or schema's `readonly`. Key notes:
 
 <Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
 
+Readonly mode can also be transformed into a table-like format, similar to the <Link src={'https://ant-design.antgroup.com/components/descriptions#api'}>Antd Descriptions</Link> component.
+
+<Previewer
+  title="readonlyType as description"
+  src="@@/SchemaForm/demos/readonly-basic-description/index.tsx"
+/>
+
 ### Field Dependencies
 
 <Previewer src="@@/SchemaForm/demos/dependency-en/index.tsx" />
@@ -267,6 +274,11 @@ Practical scenarios:
 **1. Form Display Simulation**
 
 <Previewer src="@@/SchemaForm/demos/readonly-form-en/index.tsx" />
+
+<Previewer
+  title="readonlyType as descriptions"
+  src="@@/SchemaForm/demos/readonly-form-descriptions-en/index.tsx"
+/>
 
 **2. Dependent Field Display in Readonly Mode**
 
@@ -437,6 +449,11 @@ import { Card } from 'antd';
 ```
 
 <Previewer src="@@/SchemaForm/demos/embed-simple-en/index.tsx" />
+
+<Previewer
+  title="readonlyType as descriptions in embed mode"
+  src="@@/SchemaForm/demos/embed-simple-descriptions-en/index.tsx"
+/>
 
 > 👉 Important note: In embed mode, the `valueBaseName` implementation simply converts the schema's dataIndex into an array format. See this Ant Design [example](https://ant.design/components/form/#components-form-demo-nest-messages).
 >
