@@ -1,5 +1,5 @@
 import { ProForm as AntProForm } from '@ant-design/pro-form';
-import { Form } from 'antd';
+import { DescriptionsProps, Form } from 'antd';
 import { createContext, useEffect, useImperativeHandle, useRef } from 'react';
 import {
   collectDataIndex,
@@ -24,6 +24,10 @@ type ProFormType = Omit<ProFormProps, 'onFinish' | 'submitter'> & {
   onFinish?: (values: any) => Promise<boolean | void> | void;
 
   submitter?: boolean | ProFormProps['submitter'];
+
+  readonlyType?: 'form' | 'descriptions';
+
+  descriptionsProps?: Omit<DescriptionsProps, 'items'>;
 };
 
 export const InnerRefContext = createContext<BaseInnerRef | undefined>(
@@ -31,6 +35,12 @@ export const InnerRefContext = createContext<BaseInnerRef | undefined>(
 );
 
 export const ReadonlyContext = createContext<boolean>(false);
+export const ReadonlyTypeContext = createContext<'form' | 'descriptions'>(
+  'form',
+);
+export const DescriptionsPropsContext = createContext<
+  Omit<DescriptionsProps, 'items'>
+>({});
 
 export const EmbedColumnContext = createContext<any>({});
 
@@ -41,7 +51,9 @@ const ProForm = (props: ProFormType) => {
     initialValues,
     children,
     innerRef: propsInnerRef,
-    submitter,
+    submitter = false,
+    readonlyType = 'form',
+    descriptionsProps = {},
     ...rest
   } = props;
 
@@ -165,18 +177,22 @@ const ProForm = (props: ProFormType) => {
   return (
     <InnerRefContext.Provider value={innerRef}>
       <ReadonlyContext.Provider value={props.readonly || false}>
-        <EmbedColumnContext.Provider value={embedColumnsRef}>
-          <AntProForm
-            onFinish={handleOnFinish}
-            initialValues={initialValuesRef.current}
-            formRef={selfFormRef}
-            submitter={submitter === true ? {} : submitter}
-            {...rest}
-            form={formInstanceRef.current}
-          >
-            {children}
-          </AntProForm>
-        </EmbedColumnContext.Provider>
+        <ReadonlyTypeContext.Provider value={readonlyType}>
+          <DescriptionsPropsContext.Provider value={descriptionsProps}>
+            <EmbedColumnContext.Provider value={embedColumnsRef}>
+              <AntProForm
+                onFinish={handleOnFinish}
+                initialValues={initialValuesRef.current}
+                formRef={selfFormRef}
+                submitter={submitter === true ? {} : submitter}
+                {...rest}
+                form={formInstanceRef.current}
+              >
+                {children}
+              </AntProForm>
+            </EmbedColumnContext.Provider>
+          </DescriptionsPropsContext.Provider>
+        </ReadonlyTypeContext.Provider>
       </ReadonlyContext.Provider>
     </InnerRefContext.Provider>
   );

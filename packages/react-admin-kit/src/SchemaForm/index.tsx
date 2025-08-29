@@ -22,6 +22,8 @@ import {
   EmbedColumnContext,
   InnerRefContext,
   ReadonlyContext,
+  ReadonlyTypeContext,
+  DescriptionsPropsContext,
 } from '../ProForm';
 import {
   BaseInnerRef,
@@ -310,27 +312,56 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     const { grid, rowProps, colProps, labelCol } = mergedProps;
     const parentReadonly = useContext(ReadonlyContext);
     const activeReadonly = readonly === undefined ? parentReadonly : readonly;
+    const activeReadonlyType =
+      props.readonlyType === undefined
+        ? useContext(ReadonlyTypeContext)
+        : readonlyType;
+    const activeDescriptionsProps =
+      descriptionsProps === undefined
+        ? useContext(DescriptionsPropsContext)
+        : descriptionsProps;
 
-    if (grid) {
-      return (
-        <GridContext.Provider value={{ grid: true, colProps }}>
-          <Row {...rowProps}>
-            {genItems(patchColumn(columns), 'form', formInstance, {
+    return (
+      <>
+        <div
+          className="form-item-wrapper"
+          ref={formContainerRef}
+          style={{
+            display:
+              activeReadonly && activeReadonlyType === 'descriptions'
+                ? 'none'
+                : 'block',
+          }}
+        >
+          {grid ? (
+            <GridContext.Provider value={{ grid: true, colProps }}>
+              <Row {...rowProps}>
+                {genItems(patchColumn(columns), 'form', formInstance, {
+                  labelCol,
+                  valueBaseName,
+                  colProps,
+                  readonly: activeReadonly,
+                })}
+              </Row>
+            </GridContext.Provider>
+          ) : (
+            genItems(patchColumn(columns), 'form', formInstance, {
               labelCol,
               valueBaseName,
-              colProps,
               readonly: activeReadonly,
-            })}
-          </Row>
-        </GridContext.Provider>
-      );
-    }
-
-    return genItems(patchColumn(columns), 'form', formInstance, {
-      labelCol,
-      valueBaseName,
-      readonly: activeReadonly,
-    });
+            })
+          )}
+        </div>
+        {activeReadonly && activeReadonlyType === 'descriptions' && (
+          <DescriptionsTable
+            formContainerRef={formContainerRef}
+            grid={grid}
+            embed
+            descriptionsProps={activeDescriptionsProps}
+          />
+        )}
+      </>
+    );
   }
 
   return (

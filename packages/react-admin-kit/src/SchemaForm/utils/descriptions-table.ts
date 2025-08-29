@@ -92,17 +92,24 @@ export const extractSpanFromClassName = (
 export const scanFormItems = (
   container: HTMLElement,
   grid?: boolean,
+  embed?: boolean,
 ): FormItemInfo[] => {
   return safeExecute(
     () => {
       const formItems: FormItemInfo[] = [];
-      let antCols;
+      let selector;
 
-      if (grid) {
-        antCols = container.querySelectorAll('form > .ant-row > .ant-col');
+      if (embed) {
+        selector = grid
+          ? '.form-item-wrapper > .ant-row > .ant-col'
+          : '.form-item-wrapper > .ant-form-item';
       } else {
-        antCols = container.querySelectorAll('form > .ant-form-item');
+        selector = grid
+          ? 'form > .ant-row > .ant-col'
+          : 'form > .ant-form-item';
       }
+
+      const antCols = container.querySelectorAll(selector);
 
       antCols.forEach((col) => {
         const colElement = col as HTMLElement;

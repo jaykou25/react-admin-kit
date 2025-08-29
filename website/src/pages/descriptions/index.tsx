@@ -1,13 +1,10 @@
-import Demo from '../../../../packages/react-admin-kit/src/SchemaForm/demos/readonly-basic-description';
+// import Demo from '../../../../packages/react-admin-kit/src/SchemaForm/demos/readonly-basic-description';
+import Demo from '../../../../packages/react-admin-kit/src/SchemaForm/demos/embed-simple-descriptions';
 import Demo2 from '../../../../packages/react-admin-kit/src/SchemaForm/demos/readonly-form-descriptions';
 import { SchemaForm } from 'react-admin-kit';
 import { Grid } from 'antd';
 
-const { useBreakpoint } = Grid;
-
 const Page = () => {
-  const screens = useBreakpoint();
-  console.log('screens', screens);
   return (
     <div style={{ padding: '20px' }}>
       <Demo />

@@ -44,6 +44,10 @@ const Demo = () => {
         columns={columns}
         readonly={readonly}
         readonlyType="descriptions"
+        descriptionsProps={{
+          bordered: true,
+          size: 'small',
+        }}
         autoFocusFirstInput={false}
       />
     </div>

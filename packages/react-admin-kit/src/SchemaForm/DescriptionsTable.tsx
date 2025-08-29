@@ -12,12 +12,14 @@ const { useBreakpoint } = Grid;
 export interface DescriptionsTableProps {
   formContainerRef: React.RefObject<HTMLDivElement>;
   grid?: boolean;
+  embed?: boolean;
   descriptionsProps?: DescriptionsProps;
 }
 
 const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
   formContainerRef,
   grid,
+  embed,
   descriptionsProps = {},
 }) => {
   const screens = useBreakpoint();
@@ -29,7 +31,7 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
       return;
     }
 
-    const scannedItems = scanFormItems(formContainerRef.current, grid);
+    const scannedItems = scanFormItems(formContainerRef.current, grid, embed);
     setFormItems(scannedItems);
   }, [formContainerRef]);
 
