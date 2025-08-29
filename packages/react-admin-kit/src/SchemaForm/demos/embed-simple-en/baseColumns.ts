@@ -7,9 +7,6 @@ export const getBaseColumns = (): FormColumnType[] => {
       dataIndex: 'username',
       colProps: { span: 24 },
       required: true,
-      formItemProps: {
-        labelCol: { span: 3 },
-      },
     },
     {
       valueType: 'dependency',

@@ -34,6 +34,7 @@ export const InnerRefContext = createContext<BaseInnerRef | undefined>(
   undefined,
 );
 
+export const LayoutContext = createContext<ProFormProps['layout']>('vertical');
 export const ReadonlyContext = createContext<boolean>(false);
 export const ReadonlyTypeContext = createContext<'form' | 'descriptions'>(
   'form',
@@ -176,24 +177,26 @@ const ProForm = (props: ProFormType) => {
 
   return (
     <InnerRefContext.Provider value={innerRef}>
-      <ReadonlyContext.Provider value={props.readonly || false}>
-        <ReadonlyTypeContext.Provider value={readonlyType}>
-          <DescriptionsPropsContext.Provider value={descriptionsProps}>
-            <EmbedColumnContext.Provider value={embedColumnsRef}>
-              <AntProForm
-                onFinish={handleOnFinish}
-                initialValues={initialValuesRef.current}
-                formRef={selfFormRef}
-                submitter={submitter === true ? {} : submitter}
-                {...rest}
-                form={formInstanceRef.current}
-              >
-                {children}
-              </AntProForm>
-            </EmbedColumnContext.Provider>
-          </DescriptionsPropsContext.Provider>
-        </ReadonlyTypeContext.Provider>
-      </ReadonlyContext.Provider>
+      <LayoutContext.Provider value={props.layout}>
+        <ReadonlyContext.Provider value={props.readonly || false}>
+          <ReadonlyTypeContext.Provider value={readonlyType}>
+            <DescriptionsPropsContext.Provider value={descriptionsProps}>
+              <EmbedColumnContext.Provider value={embedColumnsRef}>
+                <AntProForm
+                  onFinish={handleOnFinish}
+                  initialValues={initialValuesRef.current}
+                  formRef={selfFormRef}
+                  submitter={submitter === true ? {} : submitter}
+                  {...rest}
+                  form={formInstanceRef.current}
+                >
+                  {children}
+                </AntProForm>
+              </EmbedColumnContext.Provider>
+            </DescriptionsPropsContext.Provider>
+          </ReadonlyTypeContext.Provider>
+        </ReadonlyContext.Provider>
+      </LayoutContext.Provider>
     </InnerRefContext.Provider>
   );
 };

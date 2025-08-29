@@ -13,6 +13,7 @@ export interface DescriptionsTableProps {
   formContainerRef: React.RefObject<HTMLDivElement>;
   grid?: boolean;
   embed?: boolean;
+  layout?: 'vertical' | 'horizontal';
   descriptionsProps?: DescriptionsProps;
 }
 
@@ -20,6 +21,7 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
   formContainerRef,
   grid,
   embed,
+  layout,
   descriptionsProps = {},
 }) => {
   const screens = useBreakpoint();
@@ -44,6 +46,7 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
       return;
     }
 
+    /* istanbul ignore next */
     const observer = new MutationObserver((mutations) => {
       // 检查是否有相关的 DOM 变化
       const shouldUpdate = mutations.some((mutation) => {
@@ -138,6 +141,7 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
   return (
     <Descriptions
       column={column}
+      layout={layout}
       {...descriptionsProps}
       items={descriptionItems}
     />

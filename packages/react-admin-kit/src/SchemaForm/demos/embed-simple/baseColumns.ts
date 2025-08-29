@@ -6,15 +6,7 @@ export const getBaseColumns = (): FormColumnType[] => {
       title: '用户名',
       dataIndex: 'username',
       colProps: { span: 24 },
-      formItemProps: {
-        labelCol: { span: 3 },
-        rules: [
-          {
-            required: true,
-            message: '用户名为必填项',
-          },
-        ],
-      },
+      required: true,
     },
     {
       valueType: 'dependency',

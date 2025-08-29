@@ -24,6 +24,7 @@ import {
   ReadonlyContext,
   ReadonlyTypeContext,
   DescriptionsPropsContext,
+  LayoutContext,
 } from '../ProForm';
 import {
   BaseInnerRef,
@@ -358,6 +359,11 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
             grid={grid}
             embed
             descriptionsProps={activeDescriptionsProps}
+            layout={
+              useContext(LayoutContext) === 'horizontal'
+                ? 'horizontal'
+                : 'vertical' // 保持与 ProForm 的默认 layout 一致
+            }
           />
         )}
       </>
@@ -393,6 +399,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
           formContainerRef={formContainerRef}
           grid={mergedProps.grid}
           descriptionsProps={descriptionsProps}
+          layout={mergedProps.layout || 'vertical'} // SchemaForm 的 layout 默认是 vertical
         />
       )}
     </>
