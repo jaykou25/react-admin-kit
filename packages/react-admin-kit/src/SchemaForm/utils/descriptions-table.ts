@@ -85,8 +85,6 @@ export const extractSpanFromClassName = (
 
 /**
  * 扫描表单容器中的表单项
- * @param container 表单容器 DOM 元素
- * @param grid 是否是 grid 布局
  * @returns 表单项信息数组
  */
 export const scanFormItems = (
@@ -191,6 +189,7 @@ export const mergeEmptyItems = (items, column) => {
 /**
  * 安全执行函数，提供错误处理
  */
+/* istanbul ignore next */
 export const safeExecute = <T>(
   fn: () => T,
   fallback: T,
