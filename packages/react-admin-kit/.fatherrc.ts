@@ -7,6 +7,7 @@ export default defineConfig({
     extraBabelPlugins: [[require.resolve('./scripts/replaceLib'), {}]],
     platform: 'browser', // 默认构建为 Browser 环境的产物
     transformer: 'babel', // 默认使用 babel 以提供更好的兼容性
+    ignores: ['**/cases/**/*'],
   },
 
   cjs: {
@@ -18,5 +19,6 @@ export default defineConfig({
     output: 'lib',
     platform: 'browser', // 默认构建为 Node.js 环境的产物
     transformer: 'babel', // 默认使用 esbuild 以获得更快的构建速度
+    ignores: ['**/cases/**/*'],
   },
 });
