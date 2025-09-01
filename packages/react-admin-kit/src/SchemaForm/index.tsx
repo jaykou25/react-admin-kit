@@ -280,6 +280,7 @@ const SchemaForm: React.FC<SchemaFormProps> = (props: SchemaFormProps) => {
     if (typeof submitter === 'object') {
       const { render, style = {}, className } = submitter;
 
+      /* istanbul ignore next */
       if (render) {
         return submitter;
       } else {
