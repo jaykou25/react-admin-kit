@@ -207,14 +207,8 @@ const ProTable = (props: MyProTableType) => {
     }
   };
 
-  const getRowKey = (record: any) => {
-    return typeof rowKey === 'function' ? rowKey(record) : rowKey;
-  };
-
   const getRecordKey = (record: any) => {
-    const key = getRowKey(record);
-    // @ts-ignore
-    return record[key];
+    return typeof rowKey === 'function' ? rowKey(record) : record[rowKey];
   };
 
   // 分受控和非受控
