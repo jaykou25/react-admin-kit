@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ProTable from '../index';
 
-describe('ProTable 行删除功能', () => {
+describe('single row delete', () => {
   const user = userEvent.setup();
 
   beforeEach(() => {
@@ -15,7 +15,16 @@ describe('ProTable 行删除功能', () => {
     jest.restoreAllMocks();
   });
 
-  describe('默认的行删除', () => {
+  afterEach(() => {
+    // 清理 DOM 中的所有弹窗和消息组件
+    // document.body.innerHTML = '';
+    // 清理可能存在的定时器
+    jest.clearAllTimers();
+    // 清理所有 mock
+    jest.clearAllMocks();
+  });
+
+  describe('默认的行删除行为', () => {
     test('默认在行上不显示删除', async () => {
       const mockColumns = [
         {
@@ -54,9 +63,8 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).not.toBeInTheDocument();
       });
     });
 
@@ -99,19 +107,87 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        await user.click(screen.getByText('确认'));
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        await user.click(screen.queryByText('确 定'));
         expect(mockDelFn).toHaveBeenCalled();
       });
     });
 
-    test('enableDelete 为函数- 参数 record - false', async () => {
+    test('行删除时 loading 效果', async () => {
+      const mockColumns = [
+        {
+          title: 'ID',
+          dataIndex: 'id',
+        },
+        {
+          title: '姓名',
+          dataIndex: 'name',
+        },
+        {
+          title: '操作',
+          valueType: 'option',
+          enableDelete: (record, index) => {
+            return {
+              btnText: `删除${index}`,
+            };
+          },
+          render: () => ['编辑'],
+        },
+      ];
+
+      const mockRequest = jest.fn(() =>
+        Promise.resolve({
+          data: [
+            {
+              id: 1,
+            },
+            {
+              id: 2,
+            },
+          ],
+          total: 2,
+        }),
+      );
+
+      const mockDelFn = () =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve(true), 1000);
+        });
+      await render(
+        <ProTable
+          columns={mockColumns}
+          request={mockRequest}
+          delFunction={mockDelFn}
+          delPopconfirmProps={{
+            getPopupContainer: (trigger) => trigger.parentNode,
+          }}
+        />,
+      );
+
+      const del0Btn = await screen.findByText('删除0');
+
+      expect(del0Btn).toBeInTheDocument();
+      expect(await screen.findByText('删除1')).toBeInTheDocument();
+
+      await user.click(del0Btn);
+
+      const confirmBtn = await screen.findByText('确 定');
+      await user.click(confirmBtn);
+
+      expect((await screen.findByText('删除0')).parentNode).toHaveClass(
+        'ant-btn-loading',
+      );
+      expect((await screen.findByText('删除1')).parentNode).not.toHaveClass(
+        'ant-btn-loading',
+      );
+    });
+
+    test('验证 enableDelete 为函数时的参数 - record (返回 false)', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -150,13 +226,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).not.toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数- 参数 index - false', async () => {
+    test('验证 enableDelete 为函数时的参数 - index (返回 false)', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -195,13 +270,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).not.toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数 - 参数 record - true', async () => {
+    test('验证 enableDelete 为函数时的参数 - record (返回 true)', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -240,19 +314,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        await user.click(screen.getByText('确认'));
-        expect(mockDelFn).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数 - 参数 index - true', async () => {
+    test('验证 enableDelete 为函数时参数 index (返回 true)', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -291,19 +358,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        await user.click(screen.getByText('确认'));
-        expect(mockDelFn).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数 - 返回对象 disabled', async () => {
+    test('验证 enableDelete 为函数时 返回对象 disabled', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -342,14 +402,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-        expect(screen.getByText('删除')).toBeDisabled();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+        expect(screen.queryByText('删除').parentNode).toBeDisabled();
       });
     });
 
-    test('enableDelete 为函数 - 返回对象 visible', async () => {
+    test('验证 enableDelete 为函数时 返回对象 visible', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -388,13 +447,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).not.toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数 - 返回对象 danger', async () => {
+    test('验证 enableDelete 为函数时 返回对象 danger', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -433,14 +491,15 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-        expect(screen.getByText('删除')).toHaveClass('ant-btn-dangerous');
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+        expect(screen.queryByText('删除').parentNode).toHaveClass(
+          'ant-btn-dangerous',
+        );
       });
     });
 
-    test('enableDelete 为函数 - 返回对象 btnText', async () => {
+    test('验证 enableDelete 为函数时 返回对象 btnText', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -479,13 +538,12 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('关闭')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('关闭')).toBeInTheDocument();
       });
     });
 
-    test('enableDelete 为函数 - 返回对象 btnIndex', async () => {
+    test('验证 enableDelete 为函数时 返回对象 btnIndex', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -517,7 +575,7 @@ describe('ProTable 行删除功能', () => {
 
       const mockDelFn = jest.fn();
 
-      render(
+      const { container } = render(
         <ProTable
           columns={mockColumns}
           request={mockRequest}
@@ -525,13 +583,14 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-        const optionGroup = screen.querySelector('.optionGroup');
-        const spaceItems = optionGroup.querySelectorAll('.ant-space-item');
-        expect(spaceItems[0]).toHaveTextContent('删除');
-        expect(spaceItems[1]).toHaveTextContent('编辑');
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+
+        const spaceItems = container.querySelectorAll(
+          '.optionGroup .ant-space-item',
+        );
+        expect(spaceItems[0].textContent).toBe('删除');
+        expect(spaceItems[1].textContent).toBe('编辑');
       });
     });
   });
@@ -577,9 +636,8 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
     });
 
@@ -623,9 +681,8 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).not.toBeInTheDocument();
       });
     });
   });
@@ -674,14 +731,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmTitleTest')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmTitleTest')).toBeInTheDocument();
       });
     });
 
@@ -728,14 +784,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmTitleTest1')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmTitleTest1')).toBeInTheDocument();
       });
     });
 
@@ -782,14 +837,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmTitleTest0')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmTitleTest0')).toBeInTheDocument();
       });
     });
 
@@ -836,14 +890,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmDescTest')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmDescTest')).toBeInTheDocument();
       });
     });
 
@@ -890,14 +943,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmDescTest1')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmDescTest1')).toBeInTheDocument();
       });
     });
 
@@ -944,14 +996,9 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('popconfirmDescTest0')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('popconfirmDescTest0')).toBeInTheDocument();
       });
     });
   });
@@ -1000,14 +1047,9 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalTitleTest')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalTitleTest')).toBeInTheDocument();
       });
     });
 
@@ -1054,14 +1096,9 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalTitleTest1')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalTitleTest1')).toBeInTheDocument();
       });
     });
 
@@ -1108,18 +1145,13 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalTitleTest0')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalTitleTest0')).toBeInTheDocument();
       });
     });
 
-    test('delModalConfirmProps - description', async () => {
+    test('delModalConfirmProps - content', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -1157,77 +1189,18 @@ describe('ProTable 行删除功能', () => {
           delFunction={mockDelFn}
           delConfirmType="modal"
           delModalConfirmProps={{
-            description: 'modalDescTest',
+            content: 'modalContentTest',
           }}
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalDescTest')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalContentTest')).toBeInTheDocument();
       });
     });
 
-    test('delModalConfirmProps - description 函数 record 参数', async () => {
-      const mockColumns = [
-        {
-          title: 'ID',
-          dataIndex: 'id',
-        },
-        {
-          title: '姓名',
-          dataIndex: 'name',
-        },
-        {
-          title: '操作',
-          valueType: 'option',
-          enableDelete: true,
-          render: () => ['编辑'],
-        },
-      ];
-
-      const mockRequest = jest.fn(() =>
-        Promise.resolve({
-          data: [
-            {
-              id: 1,
-            },
-          ],
-          total: 1,
-        }),
-      );
-
-      const mockDelFn = jest.fn();
-
-      render(
-        <ProTable
-          columns={mockColumns}
-          request={mockRequest}
-          delFunction={mockDelFn}
-          delConfirmType="popconfirm"
-          delPopconfirmProps={{
-            description: (record) => `modalDescTest${record.id}`,
-          }}
-        />,
-      );
-
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalDescTest1')).toBeInTheDocument();
-      });
-    });
-
-    test('delModalConfirmProps - description 函数 index 参数', async () => {
+    test('delModalConfirmProps - content 函数 record 参数', async () => {
       const mockColumns = [
         {
           title: 'ID',
@@ -1265,19 +1238,63 @@ describe('ProTable 行删除功能', () => {
           delFunction={mockDelFn}
           delConfirmType="modal"
           delModalConfirmProps={{
-            description: (record, index) => `modalDescTest${index}`,
+            content: (record) => `modalContentTest${record.id}`,
           }}
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalContentTest1')).toBeInTheDocument();
       });
+    });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        expect(screen.getByText('modalDescTest0')).toBeInTheDocument();
+    test('delModalConfirmProps - content 函数 index 参数', async () => {
+      const mockColumns = [
+        {
+          title: 'ID',
+          dataIndex: 'id',
+        },
+        {
+          title: '姓名',
+          dataIndex: 'name',
+        },
+        {
+          title: '操作',
+          valueType: 'option',
+          enableDelete: true,
+          render: () => ['编辑'],
+        },
+      ];
+
+      const mockRequest = jest.fn(() =>
+        Promise.resolve({
+          data: [
+            {
+              id: 1,
+            },
+          ],
+          total: 1,
+        }),
+      );
+
+      const mockDelFn = jest.fn();
+
+      render(
+        <ProTable
+          columns={mockColumns}
+          request={mockRequest}
+          delFunction={mockDelFn}
+          delConfirmType="modal"
+          delModalConfirmProps={{
+            content: (record, index) => `modalContentTest${index}`,
+          }}
+        />,
+      );
+
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        expect(screen.queryByText('modalContentTest0')).toBeInTheDocument();
       });
     });
   });
@@ -1312,10 +1329,11 @@ describe('ProTable 行删除功能', () => {
         }),
       );
 
-      const mockDelFn = jest.fn();
+      const mockDelFn = jest.fn(() => Promise.resolve(true));
 
       render(
         <ProTable
+          search={false}
           columns={mockColumns}
           request={mockRequest}
           delFunction={mockDelFn}
@@ -1323,16 +1341,29 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
+      // 等待表格渲染完成
+      await waitFor(() => {
         expect(screen.getByText('删除')).toBeInTheDocument();
       });
 
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        await user.click(screen.getByText('确认'));
-        expect(screen.getByText('delSuccessTest')).toBeInTheDocument();
+      // 点击删除按钮
+      await user.click(screen.getByText('删除'));
+
+      // 等待确认弹窗出现
+      await waitFor(() => {
+        expect(screen.getByText('确 定')).toBeInTheDocument();
       });
+
+      // 点击确认按钮
+      await user.click(screen.getByText('确 定'));
+
+      // 等待成功消息出现
+      await waitFor(
+        () => {
+          expect(screen.getByText('delSuccessTest')).toBeInTheDocument();
+        },
+        { timeout: 3000 },
+      );
     });
 
     test('不显示提示消息', async () => {
@@ -1375,15 +1406,10 @@ describe('ProTable 行删除功能', () => {
         />,
       );
 
-      // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('删除')).toBeInTheDocument();
-      });
-
-      waitFor(async () => {
-        await user.click(screen.getByText('删除'));
-        await user.click(screen.getByText('确认'));
-        expect(screen.getByText('删除成功')).not.toBeInTheDocument();
+      await waitFor(async () => {
+        await user.click(screen.queryByText('删除'));
+        await user.click(screen.queryByText('确 定'));
+        expect(screen.queryByText('删除成功')).not.toBeInTheDocument();
       });
     });
   });

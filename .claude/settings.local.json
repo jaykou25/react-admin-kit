@@ -4,7 +4,17 @@
       "Bash(npm run typecheck)",
       "Bash(npx tsc:*)",
       "Bash(npm run test)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable\\cases/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable\\cases/**)",
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit/**)"
     ],
     "deny": [],
     "ask": [],

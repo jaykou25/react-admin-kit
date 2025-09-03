@@ -15,6 +15,15 @@ describe('多行删除功能集成测试', () => {
     jest.restoreAllMocks();
   });
 
+  afterEach(() => {
+    // 清理 DOM 中的所有弹窗和消息组件
+    // document.body.innerHTML = '';
+    // 清理可能存在的定时器
+    jest.clearAllTimers();
+    // 清理所有 mock
+    jest.clearAllMocks();
+  });
+
   describe('开启多行删除', () => {
     it('通过 rowSelection 开启', async () => {
       const mockColumns = [
@@ -48,6 +57,7 @@ describe('多行删除功能集成测试', () => {
 
       render(
         <ProTable
+          search={false}
           rowSelection={{}}
           columns={mockColumns}
           request={mockRequest}
@@ -55,15 +65,13 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
-        await user.click(screen.getByLabelText('Select all'));
+      expect(await screen.findByLabelText('Select all')).toBeInTheDocument();
 
-        expect(screen.getByText('批量删除')).toBeInTheDocument();
-
-        await user.click(screen.getByText('批量删除删除'));
-        await user.click(screen.getByText('确认'));
-        expect(mockDelFn).toHaveBeenCalled();
-      });
+      await user.click(await screen.findByLabelText('Select all'));
+      expect(await screen.findByText('批量删除')).toBeInTheDocument();
+      await user.click(screen.queryByText('批量删除'));
+      await user.click(screen.queryByText('确 定'));
+      expect(mockDelFn).toHaveBeenCalled();
     });
   });
 
@@ -105,10 +113,10 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('批量删除')).not.toBeInTheDocument();
+        expect(screen.queryByText('批量删除')).not.toBeInTheDocument();
       });
     });
 
@@ -149,10 +157,10 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('批量删除')).not.toBeInTheDocument();
+        expect(screen.queryByText('批量删除')).not.toBeInTheDocument();
       });
     });
 
@@ -193,11 +201,11 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('批量删除')).toBeInTheDocument();
-        expect(screen.getByText('批量删除')).toBeDisabled();
+        expect(screen.queryByText('批量删除')).toBeInTheDocument();
+        expect(screen.queryByText('批量删除').parentNode).toBeDisabled();
       });
     });
 
@@ -238,10 +246,10 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('批量删除')).not.toBeInTheDocument();
+        expect(screen.queryByText('批量删除')).not.toBeInTheDocument();
       });
     });
 
@@ -282,11 +290,13 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('批量删除')).toBeInTheDocument();
-        expect(screen.getByText('批量删除')).toHaveClass('ant-btn-dangerous');
+        expect(screen.queryByText('批量删除')).toBeInTheDocument();
+        expect(screen.queryByText('批量删除').parentNode).toHaveClass(
+          'ant-btn-dangerous',
+        );
       });
     });
 
@@ -327,10 +337,10 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
-        expect(screen.getByText('multiDelTest')).toBeInTheDocument();
+        expect(screen.queryByText('multiDelTest')).toBeInTheDocument();
       });
     });
 
@@ -372,7 +382,7 @@ describe('多行删除功能集成测试', () => {
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
 
         expect(enableDeleteFn).toHaveBeenCalledWith([1], [{ id: 1 }]);
@@ -406,22 +416,27 @@ describe('多行删除功能集成测试', () => {
 
       render(
         <ProTable
+          search={false}
+          rowSelection={{}}
           columns={mockColumns}
           request={mockRequest}
           delFunction={mockDelFn}
           tableAlertOption={{
             delPopconfirmProps: {
               title: 'popconfirmTitleTest',
+              getPopupContainer: (node) => node.parentNode,
             },
           }}
           delConfirmType="popconfirm"
         />,
       );
 
-      waitFor(async () => {
+      await waitFor(async () => {
         await user.click(screen.getByLabelText('Select all'));
-        await user.click(screen.getByText('批量删除'));
-        expect(screen.getByText('popconfirmTitleTest')).toBeInTheDocument();
+
+        expect(screen.queryByText('批量删除')).toBeInTheDocument();
+        await user.click(screen.queryByText('批量删除'));
+        expect(screen.queryByText('popconfirmTitleTest')).toBeInTheDocument();
       });
     });
   });

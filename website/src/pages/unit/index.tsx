@@ -54,7 +54,7 @@ export const mockColumns: TableColumnType[] = [
   {
     title: '操作',
     valueType: 'option',
-    enableDelete: (record, index) => index === 1,
+    enableDelete: (record, index) => ({ btnText: `删除${index}` }),
     className: 'optionGroup',
     render: () => ['编辑'],
   },
@@ -69,8 +69,19 @@ const UnitTest = () => {
           rowSelection={{}}
           columns={mockColumns}
           request={() => Promise.resolve({ data: [{ id: 1 }, { id: 2 }] })}
-          delFunction={() => {
-            console.log('hi');
+          rowKey={(record) => record.id + 'hi'}
+          // rowKey={'id'}
+          delFunction={() =>
+            new Promise((re) => {
+              setTimeout(() => {
+                re(true);
+              }, 4000);
+            })
+          }
+          tableAlertOption={{
+            delPopconfirmProps: {
+              title: 'popconfirmTitleTest',
+            },
           }}
         />
       </div>
