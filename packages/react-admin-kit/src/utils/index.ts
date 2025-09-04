@@ -37,7 +37,7 @@ export function getGlobal(...names: string[]): any {
   for (let i = 0; i < names.length; i++) {
     const name = names[i];
 
-    if (!obj[name]) {
+    if (obj[name] === undefined) {
       return;
     }
 
@@ -59,7 +59,7 @@ export function delGlobal(...names: string[]) {
   for (let i = 0; i < names.length; i++) {
     const name = names[i];
 
-    if (!obj[name]) {
+    if (obj[name] === undefined) {
       return;
     }
 
