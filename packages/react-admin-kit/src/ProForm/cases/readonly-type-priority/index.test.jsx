@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { ProForm, SchemaForm } from 'react-admin-kit';
 
 describe('ProForm with embedded SchemaForm - readonlyType priority', () => {
-  test('SchemaForm readonlyType should override ProForm readonlyType  when both are set', () => {
+  test('SchemaForm readonlyType should override ProForm readonlyType  when both are set', async () => {
     const { container } = render(
       <ProForm readonlyType="descriptions" readonly>
         <SchemaForm
@@ -22,12 +22,14 @@ describe('ProForm with embedded SchemaForm - readonlyType priority', () => {
     );
 
     expect(container.querySelector('.ant-descriptions-view')).toBeNull();
-    waitFor(() => {
-      expect(screen.getByText('Name')).toBeVisible();
+    await waitFor(() => {
+      expect(container.querySelector('.form-item-wrapper').style.display).toBe(
+        'block',
+      );
     });
   });
 
-  test('SchemaForm readonlyType should work when ProForm readonlyType is set', () => {
+  test('SchemaForm readonlyType should work when ProForm readonlyType is set', async () => {
     const { container } = render(
       <ProForm readonly readonlyType="descriptions">
         <SchemaForm
@@ -47,7 +49,7 @@ describe('ProForm with embedded SchemaForm - readonlyType priority', () => {
       container.querySelector('.ant-descriptions-view'),
     ).toBeInTheDocument();
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(container.querySelector('.form-item-wrapper')).not.toBeVisible();
     });
   });

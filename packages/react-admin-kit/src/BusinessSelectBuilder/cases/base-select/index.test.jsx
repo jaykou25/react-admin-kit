@@ -258,7 +258,7 @@ describe('BaseSelect Component', () => {
     expect(screen.queryByText('Option 2')).toBeInTheDocument();
   });
 
-  it('onLoad call once', () => {
+  it('onLoad call once', async () => {
     const onLoad = jest.fn();
     const mock = jest.fn(async () => {
       return new Promise((resolve) => {
@@ -286,7 +286,7 @@ describe('BaseSelect Component', () => {
       />,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(onLoad).toHaveBeenCalledTimes(1);
     });
   });

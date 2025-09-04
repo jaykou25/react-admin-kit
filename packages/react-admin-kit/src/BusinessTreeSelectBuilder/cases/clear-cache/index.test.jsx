@@ -45,7 +45,7 @@ describe('BusinessTreeSelectBuilder ClearCache', () => {
     const clearSpecificButton = screen.getByTestId('clear-specific');
     await user.click(clearSpecificButton);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(global['@@treeSelectData'].cached).toBe(undefined);
 
       expect(global['@@treeSelectDataIsStart'].cached).toBe(undefined);

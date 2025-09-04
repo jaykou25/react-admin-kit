@@ -96,7 +96,7 @@ describe('ProTable 基础渲染测试', () => {
     test('应该使用最少属性正确渲染', async () => {
       const { container } = render(<ProTable columns={mockColumns} />);
 
-      waitFor(() => {
+      await waitFor(() => {
         // 验证表格容器存在
         expect(container.querySelector('.ant-pro-table')).toBeInTheDocument();
 
@@ -104,13 +104,13 @@ describe('ProTable 基础渲染测试', () => {
         expect(container.querySelector('.ant-table-thead')).toBeInTheDocument();
 
         // 验证列标题正确显示
-        expect(screen.getByText('ID')).toBeInTheDocument();
-        expect(screen.getByText('姓名')).toBeInTheDocument();
-        expect(screen.getByText('年龄')).toBeInTheDocument();
-        expect(screen.getByText('邮箱')).toBeInTheDocument();
-        expect(screen.getByText('状态')).toBeInTheDocument();
-        expect(screen.getByText('创建时间')).toBeInTheDocument();
-        expect(screen.getByText('操作')).toBeInTheDocument();
+        expect(screen.queryAllByText('ID')).toHaveLength(2);
+        expect(screen.queryAllByText('姓名')).toHaveLength(2);
+        expect(screen.queryAllByText('年龄')).toHaveLength(2);
+        expect(screen.queryAllByText('邮箱')).toHaveLength(2);
+        expect(screen.queryAllByText('状态')).toHaveLength(2);
+        expect(screen.queryAllByText('创建时间')).toHaveLength(2);
+        expect(screen.queryByText('操作')).toBeInTheDocument();
       });
     });
 
@@ -124,13 +124,13 @@ describe('ProTable 基础渲染测试', () => {
 
       render(<ProTable columns={mockColumns} request={mockRequest} />);
 
-      waitFor(() => {
+      await waitFor(() => {
         expect(mockRequest).toHaveBeenCalled();
       });
 
       // 验证空状态显示
-      waitFor(() => {
-        expect(screen.getByText('暂无数据')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryAllByText('暂无数据')).toHaveLength(2);
       });
     });
   });
@@ -175,12 +175,12 @@ describe('ProTable 基础渲染测试', () => {
         <ProTable columns={mockColumns} request={mockRequest} rowKey="id" />,
       );
 
-      waitFor(() => {
+      await waitFor(() => {
         expect(mockRequest).toHaveBeenCalled();
       });
 
       // 验证数据行存在且有正确的 key
-      waitFor(() => {
+      await waitFor(() => {
         const rows = container.querySelectorAll('.ant-table-tbody tr');
         expect(rows.length).toBeGreaterThan(0);
 
@@ -206,11 +206,7 @@ describe('ProTable 基础渲染测试', () => {
         />,
       );
 
-      waitFor(() => {
-        expect(mockRequest).toHaveBeenCalled();
-      });
-
-      waitFor(() => {
+      await waitFor(() => {
         const rows = container.querySelectorAll('.ant-table-tbody tr');
         expect(rows.length).toBeGreaterThan(0);
 
@@ -228,7 +224,7 @@ describe('ProTable 基础渲染测试', () => {
       render(<ProTable columns={mockColumns} name="用户管理" />);
 
       // 验证标题显示
-      expect(screen.getByText('用户管理列表')).toBeInTheDocument();
+      expect(screen.queryByText('用户管理列表')).toBeInTheDocument();
     });
 
     test('应该在没有 name 时不显示默认标题', async () => {
@@ -251,7 +247,7 @@ describe('ProTable 基础渲染测试', () => {
         />,
       );
 
-      expect(screen.getByText('自定义标题')).toBeInTheDocument();
+      expect(screen.queryByText('自定义标题')).toBeInTheDocument();
     });
   });
 });

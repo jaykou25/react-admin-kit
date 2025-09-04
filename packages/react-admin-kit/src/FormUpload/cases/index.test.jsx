@@ -110,9 +110,12 @@ describe('FormUpload Integration Tests', () => {
   describe('2. File Upload Process', () => {
     describe('Upload State Management', () => {
       it('should set uploading state to true during upload', async () => {
-        mock.post('/upload', {
-          status: 201,
-          body: '{"data":{"id":"abc-123"}}',
+        mock.post('/upload', (req, res) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(res.status(201).body('{"data":{"id":"abc-123"}}'));
+            }, 1000);
+          });
         });
 
         const { container } = render(
@@ -131,7 +134,7 @@ describe('FormUpload Integration Tests', () => {
           fireEvent.change(fileInput, { target: { files: [file] } });
         });
 
-        waitFor(() => {
+        await waitFor(() => {
           expect(screen.getByText('Uploading...')).toBeInTheDocument();
         });
       });

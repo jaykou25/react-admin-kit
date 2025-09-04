@@ -4,6 +4,8 @@ import {
   FormUpload,
   SchemaForm,
   ProTable,
+  BusinessSelectBuilder,
+  ProForm,
 } from 'react-admin-kit';
 
 import type { TableColumnType } from 'react-admin-kit';
@@ -60,30 +62,57 @@ export const mockColumns: TableColumnType[] = [
   },
 ];
 
+const mockApi = async () => {
+  return {
+    data: [
+      { id: 1, name: 'Cached Option 1' },
+      { id: 2, name: 'Cached Option 2' },
+    ],
+    total: 2,
+  };
+};
+
+const BusinessSelect = BusinessSelectBuilder({
+  apis: [
+    {
+      type: 'type1',
+      api: mockApi,
+    },
+  ],
+});
+
 const UnitTest = () => {
-  const [files, setFiles] = useState([]);
+  const [toggle, setToggle] = useState(true);
   return (
     <>
       <div>
-        <ProTable
-          rowSelection={{}}
-          columns={mockColumns}
-          request={() => Promise.resolve({ data: [{ id: 1 }, { id: 2 }] })}
-          rowKey={(record) => record.id + 'hi'}
-          // rowKey={'id'}
-          delFunction={() =>
-            new Promise((re) => {
-              setTimeout(() => {
-                re(true);
-              }, 4000);
-            })
-          }
-          tableAlertOption={{
-            delPopconfirmProps: {
-              title: 'popconfirmTitleTest',
-            },
-          }}
-        />
+        <ProForm submitter>
+          <SchemaForm
+            embed
+            columns={[
+              {
+                title: 'Name',
+                dataIndex: 'name',
+              },
+              {
+                title: 'Hobby',
+                dataIndex: '',
+                valueType: 'select',
+                fieldProps: {
+                  open: true,
+                  labelInValue: true,
+                  options: [
+                    {
+                      ['data-testid']: 'testOption1',
+                      label: 'Music',
+                      value: '8',
+                    },
+                  ],
+                },
+              },
+            ]}
+          />
+        </ProForm>
       </div>
     </>
   );

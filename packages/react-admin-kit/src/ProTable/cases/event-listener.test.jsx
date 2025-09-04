@@ -1,9 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { render, act, waitFor } from '@testing-library/react';
+import { render, act, waitFor, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProTable from '../index';
+import { afterEach } from 'node:test';
 
 // Mock data
 const mockData = [
@@ -35,9 +36,11 @@ describe('ProTable 事件监听器测试', () => {
     jest.clearAllMocks();
   });
 
-  test('应该注册和移除 @proTableReload 事件监听器', async () => {
-    const reloadSpy = jest.fn();
+  afterEach(() => {
+    cleanup();
+  });
 
+  test('应该注册和移除 @proTableReload 事件监听器', async () => {
     const TestComponent = () => {
       return (
         <ProTable
@@ -51,28 +54,30 @@ describe('ProTable 事件监听器测试', () => {
 
     const { unmount } = render(<TestComponent />);
 
-    // 验证事件监听器已注册
-    const event = new CustomEvent('@proTableReload');
+    await waitFor(() => {
+      expect(mockRequest).toHaveBeenCalledTimes(1);
+    });
 
     // 模拟事件触发
     act(() => {
+      const event = new CustomEvent('@proTableReload');
       document.dispatchEvent(event);
     });
 
-    waitFor(() => {
-      expect(mockRequest).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(mockRequest).toHaveBeenCalledTimes(2);
     });
 
     // 卸载组件，验证事件监听器被移除
     unmount();
 
-    // 再次触发事件，应该不会调用任何处理函数
     act(() => {
+      const event = new CustomEvent('@proTableReload');
       document.dispatchEvent(event);
     });
 
-    waitFor(() => {
-      expect(mockRequest).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(mockRequest).toHaveBeenCalledTimes(2);
     });
   });
 });

@@ -52,6 +52,15 @@ test('delGlobal - 多字段', () => {
   expect(getGlobal('my', 'num')).toBe(undefined);
 });
 
+test('delGlobal - 多字段2', () => {
+  setGlobal('selectData', { type1: [] });
+  setGlobal('selectDataIsStart', { type1: false });
+  delGlobal('selectData', 'type1');
+  delGlobal('selectDataIsStart', 'type1');
+  expect(getGlobal('selectData', 'type1')).toBe(undefined);
+  expect(getGlobal('selectDataIsStart', 'type1')).toBe(undefined);
+});
+
 /**
  * 测试mergeOption 方法
  */
