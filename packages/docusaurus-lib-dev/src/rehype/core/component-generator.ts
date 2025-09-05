@@ -39,6 +39,7 @@ export class ComponentGenerator {
   ): ComponentInfo {
     const {
       inline = false,
+      title,
       componentId,
       mdxFilePath,
       demoPath,
@@ -58,6 +59,7 @@ export class ComponentGenerator {
       filePath: componentFilePath,
       componentName,
       inline,
+      title,
       demoInfo,
       demoPath,
       fromCache,
@@ -145,7 +147,7 @@ export class ComponentGenerator {
    */
   private generateComponentCode(componentInfo: ComponentInfo): string {
     try {
-      const { demoInfo, inline, componentName, demoPath, filePath } =
+      const { demoInfo, inline, title, componentName, demoPath, filePath } =
         componentInfo;
 
       // 生成导入语句
@@ -161,6 +163,8 @@ export class ComponentGenerator {
         null,
         2,
       );
+
+      const titleStr = title ? `'${title}'` : 'undefined';
 
       // 组件模板
       const template = `import React from 'react';
@@ -180,6 +184,7 @@ export default function ${componentName}() {
       component={<DemoComponent />}
       componentInfo={componentInfo}
       inline={${inline}}
+      title={${titleStr}}
       tooltipRender={(showCode) =>
         translate({
           id: \`previewer.actions.code.\${showCode ? 'shrink' : 'expand'}\`,

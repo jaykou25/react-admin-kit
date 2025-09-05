@@ -41,6 +41,7 @@ export interface PreviewerNode extends Node {
 // 组件选项
 export interface ComponentOptions {
   inline?: boolean;
+  title?: string;
   componentId: string;
   mdxFilePath: string;
   fromCache: boolean;
@@ -54,6 +55,7 @@ export interface ComponentInfo {
   filePath: string;
   componentName: string;
   inline: boolean;
+  title?: string;
   fromCache: boolean;
   createType?: 'new' | 'update';
   demoInfo: DemoInfo;

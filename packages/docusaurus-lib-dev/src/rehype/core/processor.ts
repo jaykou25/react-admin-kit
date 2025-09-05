@@ -90,6 +90,11 @@ export class PreviewerProcessor {
     const inlineAttr = node.attributes.find((attr) => attr.name === 'inline');
     const inline = inlineAttr !== undefined;
 
+    // 获取 title 属性
+    const titleAttr = node.attributes.find(
+      (attr) => attr.name === 'title',
+    )?.value;
+
     const src = srcAttr.value;
     const basePath = file.path || '';
 
@@ -135,6 +140,7 @@ export class PreviewerProcessor {
         demoInfo,
         {
           inline,
+          title: titleAttr,
           componentId,
           mdxFilePath: basePath,
           demoPath: resolvedPath,
@@ -162,7 +168,9 @@ export class PreviewerProcessor {
   ): void {
     // 替换节点类型和属性
     node.name = componentInfo.componentName;
-    node.attributes = []; // 清空原有属性
+
+    node.attributes = []; // 清空节点属性
+
     node.children = []; // 清空子节点
   }
 
