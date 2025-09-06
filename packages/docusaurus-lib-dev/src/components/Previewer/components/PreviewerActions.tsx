@@ -55,10 +55,9 @@ const PreviewerActions: React.FC<PreviewerActionsProps> = (props) => {
               )}
               defaultActiveKey={String(activeKey)}
               onChange={(key) => setActiveKey(Number(key))}
-              items={files.map(({ resolvedSource, ext }, i) => ({
+              items={files.map(({ source, ext }, i) => ({
                 key: String(i),
-                // remove leading ./ prefix
-                label: resolvedSource.replace(/^\.\//, ''),
+                label: source,
                 children: (
                   <SourceCode colorMode={colorMode} lang={ext}>
                     {files[activeKey].value.trim()}
