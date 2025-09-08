@@ -8,7 +8,7 @@ export type FormType = 'new' | 'edit' | 'read';
 export type ModalFormInnerRefType = {
   /**
    * @zh-Hans 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型;
-   *
+   * @en      Used to open the modal; formType can be used to determine the form type in onFinish;
    */
   openModal: (
     formType?: FormType,
@@ -18,6 +18,7 @@ export type ModalFormInnerRefType = {
 
   /**
    * @zh-Hans 当前的表单类型
+   * @en      Current form type
    */
   formType?: FormType;
 } & SchemaFormInnerRefType;
