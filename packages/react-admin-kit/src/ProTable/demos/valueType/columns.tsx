@@ -17,7 +17,7 @@ export const getColumns = (): TableColumnType[] => [
     valueType: 'dateRange',
   },
   {
-    title: '金额',
+    title: 'money',
     dataIndex: 'money',
     valueType: 'money',
   },

@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "ProTable Doc Translation",
+  "description": "Translates the ProTable documentation from Chinese to English, including handling demo components with Chinese content by creating -en versions",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "website/blog/protable/index.mdx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The ProTable documentation file has been updated. Please translate the Chinese content in website/blog/protable/index.mdx to English and save it to the corresponding location in website/i18n/en/docusaurus-plugin-content-blog-blog1/. \n\nFollow these specific requirements:\n1. Keep the header section concise and short\n2. For demo components like <Previewer src=\"@@/ProTable/demos/basic/index.tsx\" />, first check if the referenced component contains Chinese text (including comments)\n3. If the component has no Chinese content, keep the Previewer reference unchanged\n4. If the component contains Chinese text, create a new English version of the component with filename ending in \"-en\" (e.g., basic-en.tsx), translate all Chinese content to English, and update the Previewer src path accordingly\n5. Ensure all Chinese text in the MDX file is properly translated to English while maintaining the document structure and formatting"
+  }
+}
