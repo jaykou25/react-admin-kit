@@ -1,5 +1,6 @@
 import {
   FormUploadContext,
+  LocaleContext,
   ModalFormContext,
   ProTableContext,
   SchemaFormContext,
@@ -11,9 +12,11 @@ import {
   SchemaFormSettingProps,
   SettingProviderProps,
 } from './types';
+import zhCN from '../locale/zh_CN';
 
 const SettingProvider = (props: SettingProviderProps) => {
   const {
+    locale,
     proTableSetting,
     modalFormSetting,
     schemaFormSetting,
@@ -22,15 +25,17 @@ const SettingProvider = (props: SettingProviderProps) => {
   } = props;
 
   return (
-    <ProTableContext.Provider value={proTableSetting}>
-      <ModalFormContext.Provider value={modalFormSetting}>
-        <SchemaFormContext.Provider value={schemaFormSetting}>
-          <FormUploadContext.Provider value={formUploadSetting}>
-            {children}
-          </FormUploadContext.Provider>
-        </SchemaFormContext.Provider>
-      </ModalFormContext.Provider>
-    </ProTableContext.Provider>
+    <LocaleContext.Provider value={locale || zhCN}>
+      <ProTableContext.Provider value={proTableSetting}>
+        <ModalFormContext.Provider value={modalFormSetting}>
+          <SchemaFormContext.Provider value={schemaFormSetting}>
+            <FormUploadContext.Provider value={formUploadSetting}>
+              {children}
+            </FormUploadContext.Provider>
+          </SchemaFormContext.Provider>
+        </ModalFormContext.Provider>
+      </ProTableContext.Provider>
+    </LocaleContext.Provider>
   );
 };
 

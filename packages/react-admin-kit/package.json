@@ -33,6 +33,11 @@
       "types": "./es/utils/index.d.ts",
       "import": "./es/utils/index.js",
       "require": "./lib/utils/index.js"
+    },
+    "./locale": {
+      "types": "./es/locale/index.d.ts",
+      "import": "./es/locale/index.js",
+      "require": "./lib/locale/index.js"
     }
   },
   "main": "lib/index.js",

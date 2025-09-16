@@ -45,7 +45,10 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: 'Actions',
     valueType: 'option',
-    enableDelete: true,
+    enableDelete: () => ({
+      danger: true,
+      btnText: 'Close',
+    }),
     render: (text, record, index, actionRef, innerRef) => [
       <LinkButton
         key={1}

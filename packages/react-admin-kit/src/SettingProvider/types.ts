@@ -2,6 +2,7 @@ import { FormUploadProps } from '../FormUpload/types';
 import { MyProTableType } from '../ProTable/types';
 import type { SchemaFormProps } from '../SchemaForm/types';
 import type { ModalFormProps } from '../ModalForm/types';
+import { LocaleType } from '../locale';
 
 export type SchemaFormSettingProps = Omit<
   SchemaFormProps,
@@ -24,6 +25,14 @@ export type FormUploadSettingProps = Omit<
 >;
 
 export type SettingProviderProps = {
+  /**
+   * @zh-Hans 语言包配置
+   * @en Language package setting, you can find the packages in react-admin-kit/locale
+   * @default      zhCN
+   * @type -
+   */
+  locale: LocaleType;
+
   /**
    * @zh-Hans SchemaForm组件的设置项
    * @en Settings for SchemaForm component

@@ -3,6 +3,9 @@ import { useColorMode } from '@docusaurus/theme-common';
 import { ConfigProvider, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
+import { SettingProvider } from 'react-admin-kit';
+import zhCNRak from 'react-admin-kit/locale/zh_CN';
+import enUSRak from 'react-admin-kit/locale/en_US';
 
 export default function AntdGlobalWrapper(props: any) {
   const { i18n } = useDocusaurusContext();
@@ -16,6 +19,12 @@ export default function AntdGlobalWrapper(props: any) {
       en: enUS,
     }[i18n.currentLocale] || enUS;
 
+  const rakLocale =
+    {
+      'zh-Hans': zhCNRak,
+      en: enUSRak,
+    }[i18n.currentLocale] || enUS;
+
   return (
     <ConfigProvider
       locale={antdLocale}
@@ -24,7 +33,7 @@ export default function AntdGlobalWrapper(props: any) {
           colorMode === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}
     >
-      {props.children}
+      <SettingProvider locale={rakLocale}>{props.children}</SettingProvider>
     </ConfigProvider>
   );
 }

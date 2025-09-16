@@ -5,6 +5,8 @@ import {
   ProTableSettingProps,
   SchemaFormSettingProps,
 } from './types';
+import { LocaleType } from '../locale';
+import zhCN from '../locale/zh_CN';
 
 export const ProTableContext = React.createContext<
   ProTableSettingProps | undefined
@@ -21,3 +23,5 @@ export const SchemaFormContext = React.createContext<
 export const FormUploadContext = React.createContext<
   FormUploadProps | undefined
 >(undefined);
+
+export const LocaleContext = React.createContext<LocaleType>(zhCN);

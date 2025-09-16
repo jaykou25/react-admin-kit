@@ -12,7 +12,7 @@ import { myMergeOptions } from '../utils';
 
 import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
 
-import { ModalFormContext } from '../SettingProvider/context';
+import { LocaleContext, ModalFormContext } from '../SettingProvider/context';
 import { CreateBaseInner, SchemaFormInnerRefType } from '../context';
 import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
@@ -21,6 +21,7 @@ import { InnerRefContext } from '../ProForm';
 
 const ModalForm = (props: ModalFormProps) => {
   // 全局默认设置
+  const globalLocale = useContext(LocaleContext);
   const setting = useContext(ModalFormContext) || {};
   const safeProps: ModalFormSettingProps = Omit(props, [
     'formRef',
@@ -117,8 +118,8 @@ const ModalForm = (props: ModalFormProps) => {
 
   const handleOnCancel = (e) => {
     const confirmOnCloseDefault = {
-      title: '确认关闭',
-      content: '表单项内容未保存, 是否确认关闭?',
+      title: globalLocale?.confirmOnCloseTitle,
+      content: globalLocale?.confirmOnCloseContent,
     };
     let confirmOnClose = mergedProps.confirmOnClose ?? confirmOnCloseDefault;
     confirmOnClose =

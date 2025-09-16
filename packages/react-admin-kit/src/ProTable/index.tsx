@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ProTableContext } from '../SettingProvider/context';
+import { LocaleContext, ProTableContext } from '../SettingProvider/context';
 import type {
   EnableDeleteType,
   InnerRefType,
@@ -29,7 +29,6 @@ import Omit from 'omit.js';
 import { myMergeOptions } from '../utils';
 import type { ProTableSettingProps } from '../SettingProvider/types';
 import { FormType } from '../ModalForm/types';
-import zh_CN from '../locale/zh_CN';
 import { patchHideInSearch } from './utils/patch-hide-in-search';
 import { message, Modal, Popconfirm, Space } from 'antd';
 import LinkButton from '../LinkButton';
@@ -73,6 +72,7 @@ const ProTable = (props: MyProTableType) => {
   const targetId = useRef();
 
   // 全局默认设置
+  const globalLocale = useContext(LocaleContext);
   const setting = useContext(ProTableContext) || {};
   const safeProps: ProTableSettingProps = Omit(props, [
     'request',
@@ -89,7 +89,7 @@ const ProTable = (props: MyProTableType) => {
     // 默认值放在这里，能合并对象类属性
     {
       toolbar: {},
-      locale: zh_CN,
+      locale: globalLocale,
       delSuccessProps: {
         content: '删除成功',
         type: 'success',
@@ -325,7 +325,7 @@ const ProTable = (props: MyProTableType) => {
     const {
       disabled = false,
       danger = false,
-      btnText = '批量删除',
+      btnText = globalLocale.alertDelBtnText,
     } = typeof alertEnableDelete === 'object' ? alertEnableDelete : {};
 
     // 处理 popconfirm title 默认值
@@ -333,8 +333,7 @@ const ProTable = (props: MyProTableType) => {
       typeof delPopconfirmProps!.title === 'function'
         ? delPopconfirmProps!.title(option.selectedRowKeys, option.selectedRows)
         : delPopconfirmProps!.title ||
-          `确认删除${option.selectedRowKeys.length}条数据吗？`;
-
+          globalLocale.alertDelPopconfirmTitle?.(option.selectedRowKeys);
     // 处理 popconfirm description 默认值
     const popconfirmDescription =
       typeof delPopconfirmProps!.description === 'function'
@@ -351,7 +350,7 @@ const ProTable = (props: MyProTableType) => {
             option.selectedRowKeys,
             option.selectedRows,
           )
-        : delModalConfirmProps!.title || '操作确认';
+        : delModalConfirmProps!.title || globalLocale.alertDelModalConfirmTitle;
 
     // 处理 modal content 默认值
     const modalConfirmContent =
@@ -361,7 +360,7 @@ const ProTable = (props: MyProTableType) => {
             option.selectedRows,
           )
         : delModalConfirmProps!.content ||
-          `确认删除${option.selectedRowKeys.length}条数据吗？`;
+          globalLocale.alertDelModalConfirmContent?.(option.selectedRowKeys);
 
     if (delFunction && hasDelPermission && alertEnableDelete) {
       delDom = getDelDom({
@@ -438,7 +437,7 @@ const ProTable = (props: MyProTableType) => {
                 const {
                   disabled = false,
                   danger = false,
-                  btnText = '删除',
+                  btnText = globalLocale?.delBtnText,
                   btnIndex = renderDom.length,
                 } = typeof enableDeleteResult === 'object'
                   ? enableDeleteResult
@@ -448,7 +447,8 @@ const ProTable = (props: MyProTableType) => {
                 const popconfirmTitle =
                   typeof delPopconfirmProps!.title === 'function'
                     ? delPopconfirmProps!.title(record, index)
-                    : delPopconfirmProps!.title || `确认删除吗？`;
+                    : delPopconfirmProps!.title ||
+                      globalLocale.delPopconfirmTitle;
 
                 // 处理 popconfirm description 默认值
                 const popconfirmDescription =
@@ -460,13 +460,15 @@ const ProTable = (props: MyProTableType) => {
                 const modalConfirmTitle =
                   typeof delModalConfirmProps!.title === 'function'
                     ? delModalConfirmProps!.title(record, index)
-                    : delModalConfirmProps!.title || '操作确认';
+                    : delModalConfirmProps!.title ||
+                      globalLocale.delModalConfirmTitle;
 
                 // 处理 modal content 默认值
                 const modalConfirmContent =
                   typeof delModalConfirmProps!.content === 'function'
                     ? delModalConfirmProps!.content(record, index)
-                    : delModalConfirmProps!.content || `确认删除吗？`;
+                    : delModalConfirmProps!.content ||
+                      globalLocale.delModalConfirmContent;
 
                 const delDom = getDelDom({
                   disabled,
