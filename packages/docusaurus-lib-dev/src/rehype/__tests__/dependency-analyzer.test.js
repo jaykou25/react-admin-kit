@@ -65,6 +65,28 @@ describe('DependencyAnalyzer', () => {
     ]);
   });
 
+  it('应该正确分析多个导入语句', () => {
+    const code = `import { useContext } from 'react'; 
+import App from './app';`;
+    const deps = analyzer.analyzeDependencies(code);
+
+    expect(deps).toEqual([
+      {
+        type: 'NPM',
+        source: 'react',
+        importType: 'named',
+        imported: ['useContext'],
+      },
+      {
+        type: 'FILE',
+        source: './app',
+        ext: 'tsx',
+        importType: 'default',
+        imported: ['default'],
+      },
+    ]);
+  });
+
   it('应该在解析错误时返回空数组', () => {
     const code = `import { 错误的语法`;
     const deps = analyzer.analyzeDependencies(code);
