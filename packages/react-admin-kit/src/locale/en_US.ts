@@ -15,6 +15,8 @@ const locale: LocaleType = {
   delModalConfirmTitle: 'Confirm Action',
   delModalConfirmContent: `Are you sure you want to delete?`,
 
+  delSuccessContent: 'Delete successful',
+
   alertDelBtnText: 'Batch Delete',
   alertDelPopconfirmTitle: (rowKeys) =>
     `Are you sure you want to delete ${rowKeys.length} items?`,

@@ -9,7 +9,7 @@ import {
 } from 'react-admin-kit';
 
 import type { TableColumnType } from 'react-admin-kit';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 // 标准列配置
 export const mockColumns: TableColumnType[] = [
@@ -83,37 +83,10 @@ const BusinessSelect = BusinessSelectBuilder({
 
 const UnitTest = () => {
   const [toggle, setToggle] = useState(true);
+
   return (
     <>
-      <div>
-        <ProForm submitter>
-          <SchemaForm
-            embed
-            columns={[
-              {
-                title: 'Name',
-                dataIndex: 'name',
-              },
-              {
-                title: 'Hobby',
-                dataIndex: '',
-                valueType: 'select',
-                fieldProps: {
-                  open: true,
-                  labelInValue: true,
-                  options: [
-                    {
-                      ['data-testid']: 'testOption1',
-                      label: 'Music',
-                      value: '8',
-                    },
-                  ],
-                },
-              },
-            ]}
-          />
-        </ProForm>
-      </div>
+      <div></div>
     </>
   );
 };

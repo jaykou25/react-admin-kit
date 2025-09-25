@@ -4,8 +4,11 @@ import { ConfigProvider, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import { SettingProvider } from 'react-admin-kit';
+import ProConfigContext, { createIntl } from '@ant-design/pro-provider';
+import proEnUs from '@ant-design/pro-provider/es/locale/en_US';
 import zhCNRak from 'react-admin-kit/locale/zh_CN';
 import enUSRak from 'react-admin-kit/locale/en_US';
+import { useContext } from 'react';
 
 export default function AntdGlobalWrapper(props: any) {
   const { i18n } = useDocusaurusContext();
@@ -23,17 +26,27 @@ export default function AntdGlobalWrapper(props: any) {
     {
       'zh-Hans': zhCNRak,
       en: enUSRak,
-    }[i18n.currentLocale] || enUS;
+    }[i18n.currentLocale] || enUSRak;
+
+  const values = useContext(ProConfigContext);
+  const enUSIntl = createIntl('en_US', proEnUs);
 
   return (
-    <ConfigProvider
-      locale={antdLocale}
-      theme={{
-        algorithm:
-          colorMode === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+    <ProConfigContext.Provider
+      value={{
+        ...values,
+        intl: enUSIntl,
       }}
     >
-      <SettingProvider locale={rakLocale}>{props.children}</SettingProvider>
-    </ConfigProvider>
+      <ConfigProvider
+        locale={antdLocale}
+        theme={{
+          algorithm:
+            colorMode === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        }}
+      >
+        <SettingProvider locale={rakLocale}>{props.children}</SettingProvider>
+      </ConfigProvider>
+    </ProConfigContext.Provider>
   );
 }

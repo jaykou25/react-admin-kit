@@ -15,6 +15,8 @@ const locale: LocaleType = {
   delModalConfirmTitle: '操作确认',
   delModalConfirmContent: `确认删除吗？`,
 
+  delSuccessContent: '删除成功',
+
   alertDelBtnText: '批量删除',
   alertDelPopconfirmTitle: (rowKeys) => `确认删除${rowKeys.length}条数据吗？`,
 

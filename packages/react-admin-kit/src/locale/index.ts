@@ -10,6 +10,8 @@ export type LocaleType = {
   delModalConfirmTitle?: string;
   delModalConfirmContent?: string;
 
+  delSuccessContent?: string;
+
   alertDelBtnText?: string;
   alertDelPopconfirmTitle?: (rowKeys: any[]) => string;
   alertDelModalConfirmTitle?: string;

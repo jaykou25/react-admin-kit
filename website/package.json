@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@ant-design/icons-svg": "^4.4.2",
+    "@ant-design/pro-provider": "^2.16.2",
     "@docusaurus/core": "3.8.1",
     "@docusaurus/plugin-content-blog": "3.8.1",
     "@docusaurus/preset-classic": "3.8.1",

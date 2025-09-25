@@ -31,7 +31,7 @@ export type SettingProviderProps = {
    * @default      zhCN
    * @type -
    */
-  locale: LocaleType;
+  locale?: LocaleType;
 
   /**
    * @zh-Hans SchemaForm组件的设置项

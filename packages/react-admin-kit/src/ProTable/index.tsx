@@ -91,7 +91,7 @@ const ProTable = (props: MyProTableType) => {
       toolbar: {},
       locale: globalLocale,
       delSuccessProps: {
-        content: '删除成功',
+        content: globalLocale.delSuccessContent ?? '删除成功',
         type: 'success',
       },
       delPopconfirmProps: {},
@@ -390,7 +390,9 @@ const ProTable = (props: MyProTableType) => {
     }
 
     const cancelDom = (
-      <LinkButton onClick={option.onCleanSelected}>取消选择</LinkButton>
+      <LinkButton onClick={option.onCleanSelected}>
+        {option.intl.getMessage('alert.clear', '清空')}
+      </LinkButton>
     );
 
     const defaultDom = (

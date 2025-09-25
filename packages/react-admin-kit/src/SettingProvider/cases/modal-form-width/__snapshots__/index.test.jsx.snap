@@ -3,7 +3,7 @@
 exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配置生效 1`] = `
 <div
   aria-modal="true"
-  class="ant-modal css-dev-only-do-not-override-mc1tut ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+  class="ant-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
   role="dialog"
   style="--ant-modal-xs-width: 100%; --ant-modal-sm-width: 90%; --ant-modal-md-width: 80%; --ant-modal-lg-width: 70%; --ant-modal-xl-width: 50%; --ant-modal-xxl-width: 40%;"
 >
@@ -54,7 +54,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配�
         >
           <form
             autocomplete="off"
-            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+            class="ant-form ant-form-vertical ant-pro-form"
           >
             <input
               style="display: none;"
@@ -67,7 +67,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配�
         class="ant-modal-footer"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+          class="ant-btn ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
           type="button"
         >
           <span>
@@ -75,7 +75,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配�
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+          class="ant-btn ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
           type="button"
         >
           <span>
@@ -95,7 +95,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 1. 默认宽度配�
 exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义宽度时优先生效 1`] = `
 <div
   aria-modal="true"
-  class="ant-modal css-dev-only-do-not-override-mc1tut ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+  class="ant-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
   role="dialog"
   style="--ant-modal-xs-width: 100%; --ant-modal-sm-width: 90%; --ant-modal-md-width: 80%; --ant-modal-lg-width: 30%; --ant-modal-xl-width: 50%; --ant-modal-xxl-width: 40%;"
 >
@@ -146,7 +146,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义�
         >
           <form
             autocomplete="off"
-            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+            class="ant-form ant-form-vertical ant-pro-form"
           >
             <input
               style="display: none;"
@@ -159,7 +159,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义�
         class="ant-modal-footer"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+          class="ant-btn ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
           type="button"
         >
           <span>
@@ -167,7 +167,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义�
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+          class="ant-btn ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
           type="button"
         >
           <span>
@@ -187,7 +187,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 2. 传入自定义�
 exports[`SettingProvider modalFormSetting.width 集成测试 3. 传入自定义宽度时优先生效 - 数值 1`] = `
 <div
   aria-modal="true"
-  class="ant-modal css-dev-only-do-not-override-mc1tut ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+  class="ant-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
   role="dialog"
   style="width: 400px;"
 >
@@ -238,7 +238,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 3. 传入自定义�
         >
           <form
             autocomplete="off"
-            class="ant-form ant-form-vertical ant-pro-form css-dev-only-do-not-override-mc1tut"
+            class="ant-form ant-form-vertical ant-pro-form"
           >
             <input
               style="display: none;"
@@ -251,7 +251,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 3. 传入自定义�
         class="ant-modal-footer"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+          class="ant-btn ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
           type="button"
         >
           <span>
@@ -259,7 +259,7 @@ exports[`SettingProvider modalFormSetting.width 集成测试 3. 传入自定义�
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-mc1tut ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+          class="ant-btn ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
           type="button"
         >
           <span>
