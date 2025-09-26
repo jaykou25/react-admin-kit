@@ -18,6 +18,8 @@ export interface Dependency {
   importType: 'default' | 'namespace' | 'named' | 'side-effect';
   imported?: string[]; // 导入的具体内容
   value?: string; // 文件内容（仅 FILE 类型）
+  depth?: number; // 依赖深度（从根文件开始计算）
+  parent?: string; // 父文件路径
 }
 
 // 演示组件信息

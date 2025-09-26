@@ -9,7 +9,7 @@ export class FileHandler {
   constructor(
     private pathResolver: PathResolver,
     private dependencyAnalyzer: DependencyAnalyzer,
-  ) {}
+  ) { }
 
   /**
    * 处理单个演示文件
@@ -21,8 +21,8 @@ export class FileHandler {
     // 2. 分析依赖
     const rawDependencies = this.dependencyAnalyzer.analyzeDependencies(code);
 
-    // 3. 并行处理文件类型的依赖
-    const dependencies: Dependency[] = this.processDependenciesParallel(
+    // 3. 使用递归处理依赖
+    const dependencies: Dependency[] = this.processDependenciesRecursive(
       rawDependencies,
       srcPath,
     );
@@ -40,6 +40,8 @@ export class FileHandler {
           importType: 'default',
           imported: ['default'],
           value: code, // 读取文件内容
+          depth: 0, // 根文件深度为 0
+          parent: undefined, // 根文件没有父文件
         },
         ...dependencies,
       ],
@@ -69,59 +71,110 @@ export class FileHandler {
   }
 
   /**
-   * 并行处理依赖文件
+   * 递归处理依赖文件
    */
-  private processDependenciesParallel(
+  private processDependenciesRecursive(
     rawDependencies: Dependency[],
     srcPath: string,
   ): Dependency[] {
-    const fileDependencies = rawDependencies.filter(
-      (dep) => dep.type === 'FILE',
-    );
-    const nonFileDependencies = rawDependencies.filter(
-      (dep) => dep.type !== 'FILE',
-    );
+    // 初始化已访问文件集合
+    const visitedFiles = new Set<string>();
+    const rootPath = path.normalize(srcPath);
+    visitedFiles.add(rootPath);
 
-    // 并行处理文件依赖
-    const processedFileDeps = fileDependencies.map((item) => {
-      try {
-        const depFilePath = path.resolve(path.dirname(srcPath), item.source);
-        const depFilePathSafe = this.pathResolver.resolvePath(depFilePath);
-
-        return {
-          ...item,
-          // 给 source 带上后缀, eg: ./Foo => ./Foo.tsx
-          resolvedSource: this.pathResolver.getFullRelPath(
-            depFilePathSafe,
-            item.source,
-          ),
-          value: fs.readFileSync(depFilePathSafe, 'utf-8'), // 读取文件内容
-        };
-      } catch (error) {
-        console.warn(`无法读取依赖文件: ${item.source}`, error);
-        return item;
-      }
-    });
-
-    return [...processedFileDeps, ...nonFileDependencies];
+    // 递归处理依赖
+    return this.processFileDependenciesRecursive(rawDependencies, srcPath, visitedFiles, 0);
   }
 
   /**
-   * 批量处理多个演示文件
+   * 递归处理文件依赖的核心方法
    */
-  async processDemosParallel(filePaths: string[]): Promise<DemoInfo[]> {
-    const promises = filePaths.map(async (filePath) => {
-      try {
-        return this.processDemo(filePath);
-      } catch (error) {
-        console.error(`处理文件失败: ${filePath}`, error);
-        return null;
-      }
-    });
+  private processFileDependenciesRecursive(
+    rawDependencies: Dependency[],
+    srcPath: string,
+    visitedFiles: Set<string>,
+    depth: number,
+  ): Dependency[] {
+    const result: Dependency[] = [];
 
-    const results = await Promise.all(promises);
-    return results.filter((result): result is DemoInfo => result !== null);
+    // 分离 FILE 类型和 NPM 类型依赖
+    const fileDependencies = rawDependencies.filter(dep => dep.type === 'FILE');
+    const npmDependencies = rawDependencies.filter(dep => dep.type === 'NPM');
+
+    // NPM 依赖直接返回，添加深度和父文件信息
+    for (const npmDep of npmDependencies) {
+      result.push({
+        ...npmDep,
+        depth: depth + 1,
+        parent: srcPath,
+      });
+    }
+
+    // 顺序处理每个 FILE 类型依赖
+    for (const fileDep of fileDependencies) {
+      try {
+        const depFilePath = path.resolve(path.dirname(srcPath), fileDep.source);
+        const depFilePathSafe = this.pathResolver.resolvePath(depFilePath);
+        const normalizedPath = path.normalize(depFilePathSafe);
+
+        // 检查循环依赖
+        if (visitedFiles.has(normalizedPath)) {
+          console.warn(`检测到循环依赖: ${normalizedPath}, 跳过处理`);
+
+          continue;
+        }
+
+        // 读取文件内容
+        const fileContent = fs.readFileSync(depFilePathSafe, 'utf-8');
+
+        // 创建当前依赖对象
+        const currentDependency: Dependency = {
+          ...fileDep,
+          resolvedSource: this.pathResolver.getFullRelPath(depFilePathSafe, fileDep.source),
+          value: fileContent,
+          depth: depth + 1,
+          parent: srcPath,
+        };
+
+        result.push(currentDependency);
+
+        // 将当前文件添加到已访问集合
+        visitedFiles.add(normalizedPath);
+
+        try {
+          // 递归分析当前文件的依赖
+          const subDependencies = this.dependencyAnalyzer.analyzeDependencies(fileContent);
+
+          if (subDependencies.length > 0) {
+            // 递归处理子依赖
+            const processedSubDeps = this.processFileDependenciesRecursive(
+              subDependencies,
+              depFilePathSafe,
+              visitedFiles,
+              depth + 1
+            );
+
+            result.push(...processedSubDeps);
+          }
+        } catch (subError) {
+          console.warn(`分析子依赖失败: ${normalizedPath}`, subError);
+        }
+
+
+      } catch (error) {
+        console.warn(`无法读取依赖文件: ${fileDep.source}`, error);
+        result.push({
+          ...fileDep,
+          depth: depth + 1,
+          parent: srcPath,
+          value: `// 读取文件失败: ${error instanceof Error ? error.message : '未知错误'}`,
+        });
+      }
+    }
+
+    return result;
   }
+
 
   /**
    * 批量计算文件哈希
