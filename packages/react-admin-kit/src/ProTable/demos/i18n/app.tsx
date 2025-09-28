@@ -2,15 +2,14 @@ import { Button, message } from 'antd';
 import { useRef } from 'react';
 import type { ActionRefType, InnerRefType } from 'react-admin-kit';
 import { ProTable } from 'react-admin-kit';
-import { delelteRecord, mockRequest } from './apis';
+import {
+  mockDelete,
+  mockCreate,
+  mockRequest,
+  mockUpdate,
+} from '../mock-api/index';
 
 import { getColumns } from './columns';
-
-export const FORM_TYPE_MAP = {
-  new: 'Create',
-  edit: 'Edit',
-  read: 'View',
-};
 
 const Basic = () => {
   const innerRef = useRef<InnerRefType>();
@@ -40,18 +39,21 @@ const Basic = () => {
           ],
         }}
         rowSelection={{}}
-        delFunction={delelteRecord}
-        onFinish={(values, type) => {
-          console.log({ values });
-          // Mock request
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(true);
-
-              message.success(FORM_TYPE_MAP[type] + ' successful');
+        delFunction={mockDelete}
+        onFinish={async (values, type, formData) => {
+          if (type === 'new') {
+            return mockCreate(values).then(() => {
+              message.success('Create successful');
               actionRef.current?.reload();
-            }, 1000);
-          });
+            });
+          }
+
+          if (type === 'edit') {
+            return mockUpdate({ ...values, id: formData.id }).then(() => {
+              message.success('Update successful');
+              actionRef.current?.reload();
+            });
+          }
         }}
       />
     </div>
