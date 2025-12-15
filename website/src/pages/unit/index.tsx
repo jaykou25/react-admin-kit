@@ -6,10 +6,11 @@ import {
   ProTable,
   BusinessSelectBuilder,
   ProForm,
+  Button,
 } from 'react-admin-kit';
 
 import type { TableColumnType } from 'react-admin-kit';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 
 // 标准列配置
 export const mockColumns: TableColumnType[] = [
@@ -83,10 +84,24 @@ const BusinessSelect = BusinessSelectBuilder({
 
 const UnitTest = () => {
   const [toggle, setToggle] = useState(true);
+  const innerRef = useRef();
 
   return (
     <>
-      <div></div>
+      <Button onClick={() => innerRef.current?.openModal()}>add</Button>
+      <ProTable
+        defaultHideInSearch
+        innerRef={innerRef}
+        columns={[
+          {
+            title: 'titleTest',
+            dataIndex: 'titleTest',
+            hideInSearch: true,
+            type: 'search',
+          },
+        ]}
+        request={mockApi}
+      />
     </>
   );
 };
