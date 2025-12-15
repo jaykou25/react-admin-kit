@@ -133,12 +133,10 @@ describe('ProTable innerRef export 功能测试', () => {
             {
               title: 'ID',
               dataIndex: 'id',
-              hideInSearch: false,
             },
             {
               title: '年龄',
               dataIndex: 'age',
-              hideInSearch: false,
             },
             {
               title: '邮箱',

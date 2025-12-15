@@ -29,11 +29,10 @@ import Omit from 'omit.js';
 import { myMergeOptions } from '../utils';
 import type { ProTableSettingProps } from '../SettingProvider/types';
 import { FormType } from '../ModalForm/types';
-import { patchHideInSearch } from './utils/patch-hide-in-search';
 import { message, Modal, Popconfirm, Space } from 'antd';
 import LinkButton from '../LinkButton';
 import { FormColumnType } from '../SchemaForm/types';
-import { exportTable, filteExportCols, filteFormCols } from './utils';
+import { exportTable, getAreaFields } from './utils';
 
 export const FORM_TYPE_LOCALE = {
   new: 'formTypeNew',
@@ -515,11 +514,7 @@ const ProTable = (props: MyProTableType) => {
 
   useEffect(() => {
     if (innerRef.current) {
-      const exportColumns = filteExportCols(
-        patchHideInSearch(columns, defaultHideInSearch).filter(
-          (col) => col.type !== 'form',
-        ),
-      );
+      const exportColumns = getAreaFields(columns, 'export');
 
       // 多语言
       const defaultFilename =
@@ -552,10 +547,15 @@ const ProTable = (props: MyProTableType) => {
         rowKey={rowKey}
         headerTitle={getHeaderTitle()}
         actionRef={getActionRef()}
-        columns={patchRender(patchHideInSearch(columns, defaultHideInSearch), {
-          innerRef,
-          spaceProps: optionColumnSpaceProps,
-        }).filter((col) => col.type !== 'form')}
+        columns={patchRender(
+          getAreaFields(columns, 'search', { defaultHideInSearch }).concat(
+            getAreaFields(columns, 'table'),
+          ),
+          {
+            innerRef,
+            spaceProps: optionColumnSpaceProps,
+          },
+        )}
         request={patchRequest()}
         rowSelection={getRowSelection()}
         tableAlertOptionRender={
@@ -568,7 +568,7 @@ const ProTable = (props: MyProTableType) => {
         title={title}
         innerRef={innerRef}
         //@ts-ignore render 方法在 table 和 form 上的使用方法稍有不同，使用时需注意，最好两端分开用 render
-        columns={filteFormCols(formColumns || columns)}
+        columns={getAreaFields(formColumns || columns, 'form')}
         onOpen={selfOnOpen}
         onFinish={onFinish}
         {...modalFormRestProps}

@@ -1,6 +1,6 @@
-import { filteExportCols } from './index';
+import { getAreaFields } from './index';
 
-describe('filteExportCols', () => {
+describe('getAreaFields for export', () => {
   it('should filter out columns with hideInTable = true', () => {
     const columns = [
       { dataIndex: 'name', title: 'Name' },
@@ -8,7 +8,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(2);
     expect(result).toEqual([
@@ -24,7 +24,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(2);
     expect(result).toEqual([
@@ -40,7 +40,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(2);
     expect(result).toEqual([
@@ -58,7 +58,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(2);
     expect(result).toEqual([
@@ -76,7 +76,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'select', title: 'Select', valueType: 'select' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(5);
     expect(result).toEqual(columns);
@@ -93,7 +93,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(3);
     expect(result).toEqual(columns);
@@ -106,7 +106,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(3);
     expect(result).toEqual(columns);
@@ -115,7 +115,7 @@ describe('filteExportCols', () => {
   it('should handle empty columns array', () => {
     const columns = [];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(0);
     expect(result).toEqual([]);
@@ -128,7 +128,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(2);
     expect(result).toEqual([
@@ -149,7 +149,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'date', title: 'Date', valueType: 'date' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(4);
     expect(result).toEqual([
@@ -167,7 +167,7 @@ describe('filteExportCols', () => {
       { dataIndex: 'email', title: 'Email' },
     ];
 
-    const result = filteExportCols(columns);
+    const result = getAreaFields(columns, 'export');
 
     expect(result).toHaveLength(3);
     expect(result).toEqual(columns);

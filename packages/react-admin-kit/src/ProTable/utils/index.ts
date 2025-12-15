@@ -25,30 +25,133 @@ export function _getValueByDataIndex(
   return undefined;
 }
 
-/**
- * 过滤出供导出用的columns
- */
-export const filteExportCols = (columns: TableColumnType[]) => {
-  return columns
-    .filter((col) => !col.hideInTable)
-    .filter((col) => {
-      const valueType = typeof col.valueType === 'string' ? col.valueType : '';
-      return !['option', 'index'].includes(valueType);
-    });
-};
+export function getFieldVisibility(
+  field: TableColumnType,
+  defaultHideInSearch: boolean = false,
+): {
+  search: boolean;
+  table: boolean;
+  form: boolean;
+} {
+  const { type, search, hideInSearch, hideInTable, hideInForm } = field;
 
-/**
- * 过滤出modalForm区域的columns
- */
-export const filteFormCols = (columns) => {
-  return columns
-    .filter((col) => col.type === 'form' || col.type === undefined)
-    .filter((col) => !col.hideInForm)
-    .filter((col) => {
-      const valueType = typeof col.valueType === 'string' ? col.valueType : '';
-      return !['option', 'index'].includes(valueType);
-    });
-};
+  // 默认值：如果没有指定，默认出现在所有区域
+  const defaultVisibility = {
+    search: defaultHideInSearch === false,
+    table: true,
+    form: true,
+  };
+
+  // 1. 首先处理 type 属性的优先级
+  if (type) {
+    switch (type) {
+      case 'search':
+        return {
+          search: true,
+          table: false,
+          form: false,
+        };
+      case 'table':
+        return {
+          search: false,
+          table: true,
+          form: false,
+        };
+      case 'form':
+        return {
+          search: false,
+          table: false,
+          form: true,
+        };
+      default:
+        // 未知的 type，继续后续判断
+        break;
+    }
+  }
+
+  // 2. 如果指定了 type，但不在上述情况中，继续后续逻辑
+  const visibility = { ...defaultVisibility };
+
+  // 3. 处理 search 属性（过时的 API，为了兼容性保留）
+  if (typeof search === 'boolean') {
+    visibility.search = search;
+  }
+
+  // 4. 处理 hideInXxx 属性
+  if (hideInSearch === true) {
+    visibility.search = false;
+  } else if (hideInSearch === false) {
+    visibility.search = true;
+  }
+
+  if (hideInTable) {
+    visibility.table = false;
+  }
+  if (hideInForm) {
+    visibility.form = false;
+  }
+
+  return visibility;
+}
+
+// 只挑选，不对 column 加东西。
+export function getAreaFields(
+  fields: TableColumnType[],
+  area: 'search' | 'table' | 'form' | 'export',
+  options?: { defaultHideInSearch: boolean },
+) {
+  const { defaultHideInSearch = false } = options || {};
+
+  const result: { [key: string]: TableColumnType[] } = {
+    search: [],
+    table: [],
+    export: [],
+    form: [],
+  };
+
+  fields.forEach((field) => {
+    const visibility = getFieldVisibility(field, defaultHideInSearch);
+    const valueType =
+      typeof field.valueType === 'string' ? field.valueType : '';
+    const tableOnlyValueType = ['index', 'option'].includes(valueType);
+    const formOnlyValueType = valueType === 'dependency';
+
+    // 创建字段副本，避免修改原始对象
+    const fieldCopy = { ...field };
+
+    // search区域
+    if (visibility.search && !tableOnlyValueType) {
+      result.search.push({
+        ...fieldCopy,
+        hideInSearch: false,
+        hideInTable: true,
+        hideInForm: true,
+      });
+    }
+
+    // table区域
+    if (visibility.table && !formOnlyValueType) {
+      result.table.push({
+        ...fieldCopy,
+        hideInTable: false,
+        hideInSearch: true,
+        hideInForm: true,
+      });
+    }
+
+    // export区域
+    if (visibility.table && !tableOnlyValueType && !formOnlyValueType) {
+      result.export.push(fieldCopy);
+    }
+
+    // form区域
+    if (visibility.form && !tableOnlyValueType) {
+      result.form.push({ ...fieldCopy, hideInForm: false });
+    }
+  });
+
+  return result[area] || [];
+}
 
 export function _formatDateTypeData(text, format?: string) {
   if (!text) return '';
