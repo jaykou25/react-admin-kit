@@ -6,7 +6,6 @@ const columns: TableColumnType[] = [
   {
     title: 'Username',
     dataIndex: 'name',
-    ellipsis: true,
     copyable: true,
     width: 100,
     render: (dom) => {

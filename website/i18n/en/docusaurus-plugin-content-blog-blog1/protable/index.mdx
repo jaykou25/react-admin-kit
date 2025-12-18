@@ -233,7 +233,7 @@ And that's it - you've built a complete CRUD table! ✨
 
 ## Key Concepts
 
-### valueType - Smart Data Display
+### valueType 
 
 ProTable supports `valueType` just like SchemaForm, but here it's focused on display formatting. For example, set `valueType: 'date'` and ProTable will automatically convert timestamps into readable dates.
 
@@ -300,7 +300,7 @@ You can also set a global default with `defaultHideInSearch` to control whether 
 
 <Previewer src="@@/ProTable/demos/columnType-en/index.tsx" />
 
-### Making Search Fields Depend on Each Other
+### Making Search Fields Depend on Each Other 
 
 <Previewer src="@@/ProTable/demos/searchDependency-en/index.tsx" />
 
@@ -326,7 +326,7 @@ Then import it:
 import * as ExcelJS from 'exceljs';
 ```
 
-Export with one line: `innerRef.current?.export(rows, ExcelJS)`
+Export with one command: `innerRef.current?.export(rows, ExcelJS)`
 
 <Previewer title="Export All" src="@@/ProTable/demos/export-en/index.tsx" />
 
@@ -362,16 +362,6 @@ Want to show data without allowing edits? Use read-only mode:
 Sometimes you need to fetch additional data when opening an edit form (but not for create). Here's how:
 
 <Previewer src="@@/ProTable/demos/onOpen-en/index.tsx" />
-
-### Understanding onFinish Parameters
-
-The `onFinish` callback gives you three useful parameters:
-
-1. **`values`** - Form data the user entered
-2. **`formType`** - Either 'new', 'edit', or 'read'
-3. **`formData`** - Original data passed to the modal (includes ID and other metadata)
-
-<Previewer src="@@/ProTable/demos/onFinish-en/index.tsx" />
 
 ### Convention-Based Data Handling
 

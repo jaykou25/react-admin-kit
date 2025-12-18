@@ -58,7 +58,7 @@ export const mockRequest = (params): any => {
   return new Promise((resolve) => {
     const { name, phone, gender, startTime, endTime, current, pageSize } =
       params;
-    console.log('params', { gender, startTime, endTime });
+    console.log('params', { current, pageSize, gender, startTime, endTime });
     const searchData = dataSource.filter((item) => {
       const nameMatch =
         name !== undefined

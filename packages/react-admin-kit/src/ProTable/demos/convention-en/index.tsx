@@ -42,8 +42,7 @@ const ConventionDemo = () => {
         pagination={false}
         modalFormProps={{
           formProps: {
-            layout: 'horizontal',
-            labelCol: { span: 4 },
+            layout: 'vertical',
           },
         }}
       />

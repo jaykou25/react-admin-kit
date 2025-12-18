@@ -1,14 +1,14 @@
 import { ProTable } from 'react-admin-kit';
-import { mockRequest } from './apis';
 
 import { getColumns } from './columns';
+import { mockRequest } from '../mock-api';
 
 const SearchConfig = () => {
   return (
     <ProTable
       name="User"
       search={{
-        layout: 'horizontal',
+        layout: 'vertical',
         labelWrap: true,
         defaultCollapsed: false,
         span: 8,

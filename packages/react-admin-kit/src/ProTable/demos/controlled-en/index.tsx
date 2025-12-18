@@ -9,7 +9,7 @@ const Controlled = () => {
   const innerRef = useRef<any>();
 
   const [dataSource, setDataSource] = useState([
-    { id: 1, name: 'Mr. Wang', phone: '1596668888', sex: 'Male' },
+    { id: 1, name: 'Mr. Wang', phone: '1596668888' },
   ]);
 
   const onFinish = (values: any, type: any, formData: any) => {
@@ -45,7 +45,7 @@ const Controlled = () => {
       </div>
       <ProTable
         name="Controlled"
-        columns={getColumns(handleDel)}
+        columns={getColumns()}
         dataSource={dataSource}
         innerRef={innerRef}
         onFinish={onFinish}

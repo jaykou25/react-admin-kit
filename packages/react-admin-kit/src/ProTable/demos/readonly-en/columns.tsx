@@ -5,14 +5,7 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: 'Username',
     dataIndex: 'name',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: 'Username is required',
-        },
-      ],
-    },
+    required: true,
   },
   {
     title: 'Phone',
@@ -20,36 +13,42 @@ export const getColumns = (): TableColumnType[] => [
   },
   {
     title: 'Nickname',
-    dataIndex: 'nickName',
+    dataIndex: 'nickname',
     hideInSearch: true,
   },
   {
-    title: 'Is Member',
-    dataIndex: 'isMember',
+    title: 'Gender',
+    dataIndex: 'gender',
     valueType: 'radio',
     fieldProps: {
       options: [
-        { label: 'Yes', value: '1' },
-        { label: 'No', value: '0' },
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
       ],
     },
   },
-  {
-    valueType: 'dependency',
-    type: 'form',
-    name: ['isMember'],
-    columns: ({ isMember }) => {
-      if (isMember === '1') {
-        return [
-          {
-            title: 'Member Level',
-            dataIndex: 'grade',
-          },
-        ];
-      }
 
-      return [];
+  // for search
+  {
+    title: 'Created At',
+    dataIndex: 'createdAt',
+    valueType: 'dateRange',
+    colSize: 2,
+    type: 'search',
+    transform: (vals) => {
+      return {
+        startTime: vals[0],
+        endTime: vals[1],
+      };
     },
+  },
+
+  // for table
+  {
+    title: 'Created At',
+    dataIndex: 'createdAt',
+    valueType: 'date',
+    type: 'table',
   },
   {
     title: 'Actions',

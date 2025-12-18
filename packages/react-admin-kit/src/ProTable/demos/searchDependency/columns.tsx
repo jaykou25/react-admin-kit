@@ -93,17 +93,4 @@ export const getColumns = (): TableColumnType[] => [
       };
     },
   },
-  {
-    title: '操作',
-    valueType: 'option',
-    enableDelete: true,
-    render: (text, record, index, actionRef, innerRef) => [
-      <LinkButton
-        key={1}
-        onClick={() => innerRef.current?.openModal('edit', record)}
-      >
-        编辑
-      </LinkButton>,
-    ],
-  },
 ];

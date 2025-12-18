@@ -126,6 +126,7 @@ export function getAreaFields(
         hideInSearch: false,
         hideInTable: true,
         hideInForm: true,
+        search: true,
       });
     }
 
@@ -156,10 +157,11 @@ export function getAreaFields(
 export function _formatDateTypeData(text, format?: string) {
   if (!text) return '';
 
-  if (typeof text === 'string') {
-    return text;
+  const parsed = dayjs(text);
+  if (parsed.isValid()) {
+    return parsed.format(format || 'YYYY-MM-DD');
   } else {
-    return dayjs(text).format(format || 'YYYY-MM-DD');
+    return text;
   }
 }
 

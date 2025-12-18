@@ -1,25 +1,27 @@
 import { Button, message } from 'antd';
 import { useRef } from 'react';
 import { ProTable } from 'react-admin-kit';
-import { delelteRecord, mockRequest } from '../basic/apis';
-
 import { getColumns } from './columns';
+import { mockCreate, mockDelete, mockRequest, mockUpdate } from '../mock-api';
 
 const FormLayout = () => {
   const innerRef = useRef<any>();
   const actionRef = useRef<any>();
 
-  const onFinish = (values: any) => {
-    console.log({ values });
-    // Mock request
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-
-        message.success('Operation successful');
+  const onFinish = (values: any, type, formData) => {
+    if (type === 'new') {
+      return mockCreate(values).then(() => {
+        message.success('Add success');
         actionRef.current?.reload();
-      }, 1000);
-    });
+      });
+    }
+
+    if (type === 'edit') {
+      return mockUpdate({ ...values, id: formData.id }).then(() => {
+        message.success('Edit success');
+        actionRef.current?.reload();
+      });
+    }
   };
 
   return (
@@ -46,7 +48,7 @@ const FormLayout = () => {
         ],
       }}
       rowSelection={{}}
-      delFunction={delelteRecord}
+      delFunction={mockDelete}
       modalFormProps={{
         formProps: {
           grid: true,

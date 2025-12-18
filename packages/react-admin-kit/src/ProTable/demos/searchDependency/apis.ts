@@ -14,10 +14,3 @@ export const mockRequest = (): any => {
     );
   });
 };
-
-export const delelteRecord = (ids) => {
-  return new Promise((resolve) => {
-    console.log('delete record', ids);
-    setTimeout(() => resolve(true), 500);
-  });
-};

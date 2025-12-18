@@ -12,35 +12,42 @@ export const getColumns = (): TableColumnType[] => [
   },
   {
     title: 'Nickname',
-    dataIndex: 'nickName',
+    dataIndex: 'nickname',
     hideInSearch: true,
   },
   {
     title: 'Gender',
-    dataIndex: 'sex',
+    dataIndex: 'gender',
     valueType: 'radio',
     fieldProps: {
       options: [
-        { label: 'Male', value: 'Male' },
-        { label: 'Female', value: 'Female' },
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
       ],
     },
   },
+
+  // for search
   {
-    title: 'ID Number',
-    dataIndex: 'idNumber',
-    hideInSearch: true,
-  },
-  {
-    title: 'Time Range',
-    dataIndex: 'time',
+    title: 'Created At',
+    dataIndex: 'createdAt',
     valueType: 'dateRange',
+    colSize: 2,
+    type: 'search',
     transform: (vals) => {
       return {
         startTime: vals[0],
         endTime: vals[1],
       };
     },
+  },
+
+  // for table
+  {
+    title: 'Created At',
+    dataIndex: 'createdAt',
+    valueType: 'date',
+    type: 'table',
   },
   {
     title: 'Actions',

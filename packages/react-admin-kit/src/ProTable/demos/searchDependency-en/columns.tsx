@@ -1,4 +1,4 @@
-import { LinkButton, TableColumnType } from 'react-admin-kit';
+import { TableColumnType } from 'react-admin-kit';
 
 export const getColumns = (): TableColumnType[] => [
   // search section👇
@@ -92,18 +92,5 @@ export const getColumns = (): TableColumnType[] => [
         endTime: vals[1],
       };
     },
-  },
-  {
-    title: 'Actions',
-    valueType: 'option',
-    enableDelete: true,
-    render: (text, record, index, actionRef, innerRef) => [
-      <LinkButton
-        key={1}
-        onClick={() => innerRef.current?.openModal('edit', record)}
-      >
-        Edit
-      </LinkButton>,
-    ],
   },
 ];

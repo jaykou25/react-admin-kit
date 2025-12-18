@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import type { ActionRefType, InnerRefType } from 'react-admin-kit';
 import { Button, ProTable } from 'react-admin-kit';
-import { mockAdd, mockDetroy, mockRequest, mockUpdate } from './apis';
 
 import { message } from 'antd';
 import { getColumns } from './columns';
+import { mockCreate, mockDelete, mockRequest, mockUpdate } from '../mock-api';
 
 const Destroy = () => {
   const innerRef = useRef<InnerRefType>();
@@ -13,8 +13,6 @@ const Destroy = () => {
   return (
     <ProTable
       actionRef={actionRef}
-      confirmModelType="modal"
-      confirmModalProps={{ title: 'Are you sure to close?' }}
       columns={getColumns()}
       request={mockRequest}
       pagination={{ pageSize: 5 }}
@@ -32,7 +30,7 @@ const Destroy = () => {
       }}
       onFinish={async (values, formType, formData) => {
         if (formType === 'new') {
-          await mockAdd(values);
+          await mockCreate(values);
           message.success('Created successfully');
           actionRef.current?.reload();
         }
@@ -43,14 +41,8 @@ const Destroy = () => {
           actionRef.current?.reload();
         }
       }}
-      delFunction={mockDetroy}
+      delFunction={mockDelete}
       rowSelection={{}}
-      tableAlertOption={{
-        deleteProps: {
-          btnText: 'Batch Close',
-          title: (n) => `Are you sure to close ${n} records?`,
-        },
-      }}
     />
   );
 };

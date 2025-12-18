@@ -1,8 +1,7 @@
 import { useRef } from 'react';
 import { ProTable } from 'react-admin-kit';
-import { mockRequest } from '../basic/apis';
-
 import { getColumns } from './columns';
+import { mockRequest } from '../mock-api';
 
 const Readonly = () => {
   const innerRef = useRef<any>(null);
@@ -20,7 +19,9 @@ const Readonly = () => {
         modalFormProps={{
           formProps: {
             layout: 'horizontal',
-            labelCol: { span: 5 },
+            grid: true,
+            rowProps: { gutter: [24, 0] },
+            colProps: { span: 12 },
             // Only used to distinguish name in documentation examples
             name: 'protable-readonly',
           },

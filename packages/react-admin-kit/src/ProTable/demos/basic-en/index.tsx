@@ -44,6 +44,7 @@ const Basic = () => {
             </Button>,
           ],
         }}
+        pagination={{ pageSize: 5 }}
         rowSelection={{}}
         delFunction={mockDelete}
         onFinish={(values, type, formData) => {

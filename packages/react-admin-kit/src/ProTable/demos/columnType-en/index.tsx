@@ -1,16 +1,8 @@
-import { message } from 'antd';
 import { useRef } from 'react';
 import type { ActionRefType, InnerRefType } from 'react-admin-kit';
-import { Button, ProTable } from 'react-admin-kit';
-import { delelteRecord } from '../basic/apis';
+import { ProTable } from 'react-admin-kit';
 
 import { getColumns } from './columns';
-
-export const FORM_TYPE_MAP = {
-  new: 'Create',
-  edit: 'Edit',
-  read: 'View',
-};
 
 const Demo = () => {
   const innerRef = useRef<InnerRefType>();
@@ -20,9 +12,9 @@ const Demo = () => {
     <ProTable
       name="User"
       defaultHideInSearch={true}
+      search={{ defaultCollapsed: false, layout: 'vertical' }}
       columns={getColumns()}
-      request={(params) => {
-        console.log('Request params', params);
+      request={() => {
         return Promise.resolve({
           data: [
             {
@@ -37,33 +29,6 @@ const Demo = () => {
       bordered
       innerRef={innerRef}
       actionRef={actionRef}
-      toolbar={{
-        actions: [
-          <Button
-            key={1}
-            type="primary"
-            onClick={() => {
-              innerRef.current?.openModal();
-            }}
-          >
-            Create
-          </Button>,
-        ],
-      }}
-      rowSelection={{}}
-      delFunction={delelteRecord}
-      onFinish={(values, type) => {
-        console.log({ values });
-        // Mock request
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-
-            message.success(FORM_TYPE_MAP[type] + ' successful');
-            actionRef.current?.reload();
-          }, 1000);
-        });
-      }}
       // Only used to distinguish name in documentation examples
       modalFormProps={{
         formProps: {

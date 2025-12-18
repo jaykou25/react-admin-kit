@@ -1,9 +1,9 @@
 import * as ExcelJS from 'exceljs';
 import { ProTable, Button, InnerRefType } from 'react-admin-kit';
-import { mockRequestForExport } from './apis';
 
 import { getColumns } from './columns';
 import { useRef } from 'react';
+import { mockRequest } from '../mock-api';
 
 const Export = () => {
   const innerRef = useRef<InnerRefType>();
@@ -27,7 +27,7 @@ const Export = () => {
           ],
         }}
         columns={getColumns()}
-        request={mockRequestForExport}
+        request={mockRequest}
         bordered
       />
     </div>

@@ -10,7 +10,6 @@ export const getColumns = (): TableColumnType[] => [
     title: 'Department',
     dataIndex: 'deptId,deptName',
     valueType: 'treeSelect',
-    width: 'sm',
     fieldProps: {
       placeholder: 'Please select',
       labelInValue: true,
