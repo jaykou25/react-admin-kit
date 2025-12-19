@@ -1,4 +1,4 @@
-import { LinkButton, TableColumnType } from 'react-admin-kit';
+import { TableColumnType } from 'react-admin-kit';
 
 export const getColumns = (): TableColumnType[] => [
   {

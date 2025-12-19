@@ -1,10 +1,9 @@
 import { useRef } from 'react';
 import type { ActionRefType, InnerRefType } from 'react-admin-kit';
 import { Button, ProTable } from 'react-admin-kit';
-import { mockAdd, mockDetroy, mockRequest, mockUpdate } from './apis';
-
 import { message } from 'antd';
 import { getColumns } from './columns';
+import { mockCreate, mockDelete, mockRequest, mockUpdate } from '../mock-api';
 
 const Destroy = () => {
   const innerRef = useRef<InnerRefType>();
@@ -12,13 +11,11 @@ const Destroy = () => {
 
   return (
     <ProTable
-      actionRef={actionRef}
-      confirmModelType="modal"
-      confirmModalProps={{ title: '确定关闭吗?' }}
       columns={getColumns()}
       request={mockRequest}
       pagination={{ pageSize: 5 }}
       innerRef={innerRef}
+      actionRef={actionRef}
       toolbar={{
         actions: [
           <Button
@@ -32,7 +29,7 @@ const Destroy = () => {
       }}
       onFinish={async (values, formType, formData) => {
         if (formType === 'new') {
-          await mockAdd(values);
+          await mockCreate(values);
           message.success('新建成功');
           actionRef.current?.reload();
         }
@@ -43,14 +40,8 @@ const Destroy = () => {
           actionRef.current?.reload();
         }
       }}
-      delFunction={mockDetroy}
+      delFunction={mockDelete}
       rowSelection={{}}
-      tableAlertOption={{
-        deleteProps: {
-          btnText: '批量关闭',
-          title: (n) => `确定关闭${n}条数据吗?`,
-        },
-      }}
     />
   );
 };

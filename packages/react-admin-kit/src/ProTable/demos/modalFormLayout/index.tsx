@@ -1,26 +1,13 @@
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import { useRef } from 'react';
 import { ProTable } from 'react-admin-kit';
-import { delelteRecord, mockRequest } from '../basic/apis';
+import { mockRequest } from '../basic/apis';
 
 import { getColumns } from './columns';
 
 const FormLayout = () => {
   const innerRef = useRef<any>();
   const actionRef = useRef<any>();
-
-  const onFinish = (values: any) => {
-    console.log({ values });
-    // 模拟请求
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-
-        message.success('操作成功');
-        actionRef.current?.reload();
-      }, 1000);
-    });
-  };
 
   return (
     <ProTable
@@ -30,7 +17,6 @@ const FormLayout = () => {
       innerRef={innerRef}
       actionRef={actionRef}
       request={mockRequest}
-      onFinish={onFinish}
       bordered
       toolbar={{
         actions: [
@@ -45,8 +31,6 @@ const FormLayout = () => {
           </Button>,
         ],
       }}
-      rowSelection={{}}
-      delFunction={delelteRecord}
       modalFormProps={{
         formProps: {
           grid: true,

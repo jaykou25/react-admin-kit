@@ -67,30 +67,4 @@ export const getColumns = (): TableColumnType[] => [
     title: 'Nickname',
     dataIndex: 'nickName',
   },
-  {
-    title: 'Gender',
-    dataIndex: 'sex',
-    valueType: 'radio',
-    fieldProps: {
-      options: [
-        { label: 'Male', value: 'Male' },
-        { label: 'Female', value: 'Female' },
-      ],
-    },
-  },
-  {
-    title: 'ID Number',
-    dataIndex: 'idNumber',
-  },
-  {
-    title: 'Time Range',
-    dataIndex: 'time',
-    valueType: 'dateRange',
-    transform: (vals) => {
-      return {
-        startTime: vals[0],
-        endTime: vals[1],
-      };
-    },
-  },
 ];

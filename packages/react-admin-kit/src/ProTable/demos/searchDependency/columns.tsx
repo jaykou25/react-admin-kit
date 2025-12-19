@@ -1,4 +1,4 @@
-import { LinkButton, TableColumnType } from 'react-admin-kit';
+import { TableColumnType } from 'react-admin-kit';
 
 export const getColumns = (): TableColumnType[] => [
   // search 部分👇
@@ -66,31 +66,5 @@ export const getColumns = (): TableColumnType[] => [
   {
     title: '昵称',
     dataIndex: 'nickName',
-  },
-  {
-    title: '性别',
-    dataIndex: 'sex',
-    valueType: 'radio',
-    fieldProps: {
-      options: [
-        { label: '男', value: '男' },
-        { label: '女', value: '女' },
-      ],
-    },
-  },
-  {
-    title: '身份证号',
-    dataIndex: 'idNumber',
-  },
-  {
-    title: '时间范围',
-    dataIndex: 'time',
-    valueType: 'dateRange',
-    transform: (vals) => {
-      return {
-        startTime: vals[0],
-        endTime: vals[1],
-      };
-    },
   },
 ];

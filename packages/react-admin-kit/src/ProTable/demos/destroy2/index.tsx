@@ -1,7 +1,7 @@
 import { ProTable } from 'react-admin-kit';
-import { mockDetroy, mockRequest } from './apis';
 
 import { getColumns } from './columns';
+import { mockDelete, mockRequest } from '../mock-api';
 
 const Destroy = () => {
   return (
@@ -24,7 +24,7 @@ const Destroy = () => {
       columns={getColumns()}
       request={mockRequest}
       pagination={{ pageSize: 5 }}
-      delFunction={mockDetroy}
+      delFunction={mockDelete}
       rowSelection={{}}
     />
   );

@@ -8,7 +8,6 @@ import {
   mockRequest,
   mockUpdate,
 } from '../mock-api/index';
-
 import { getColumns } from './columns';
 
 const Basic = () => {
