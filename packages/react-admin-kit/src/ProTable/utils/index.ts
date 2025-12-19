@@ -161,7 +161,11 @@ export function _formatDateTypeData(text, format?: string) {
   if (parsed.isValid()) {
     return parsed.format(format || 'YYYY-MM-DD');
   } else {
-    return text;
+    if (typeof text === 'number' || typeof text === 'string') {
+      return text;
+    }
+
+    return 'Invalid Date';
   }
 }
 

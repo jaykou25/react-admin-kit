@@ -218,7 +218,7 @@ describe('_getExportValue', () => {
           valueType: 'dateTime',
         };
         const result = _getExportValue(mockRecord, col);
-        expect(result).toBe('2023-01-01T10:30:00');
+        expect(result).toBe('2023-01-01 10:30:00');
       });
 
       it('should format dateRange valueType', () => {
@@ -236,7 +236,7 @@ describe('_getExportValue', () => {
           valueType: 'dateTimeRange',
         };
         const result = _getExportValue(mockRecord, col);
-        expect(result).toBe('2023-01-01T10:30:00 - 2023-01-31T18:45:00');
+        expect(result).toBe('2023-01-01 10:30:00 - 2023-01-31 18:45:00');
       });
 
       it('should handle empty dateRange', () => {

@@ -18,6 +18,10 @@ import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
 import type { ModalFormSettingProps } from '../SettingProvider/types';
 import { InnerRefContext } from '../ProForm';
+import {
+  collectDataIndex,
+  transformValuesForConvention,
+} from '../SchemaForm/utils';
 
 const ModalForm = (props: ModalFormProps) => {
   // 全局默认设置
@@ -100,7 +104,12 @@ const ModalForm = (props: ModalFormProps) => {
       'RC_FORM_INTERNAL_HOOKS',
     );
 
-    setInitialValues(formData);
+    const $values = transformValuesForConvention(
+      formData,
+      collectDataIndex(columns, formData),
+    );
+
+    setInitialValues($values);
     form.resetFields();
   }, [formData]);
 
