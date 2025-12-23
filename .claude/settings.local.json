@@ -14,7 +14,8 @@
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable/**)",
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable\\cases/**)",
-      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit/**)"
+      "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit/**)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": [],
