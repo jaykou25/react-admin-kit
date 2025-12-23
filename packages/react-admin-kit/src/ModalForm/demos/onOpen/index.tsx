@@ -3,12 +3,9 @@ import { useRef, useState } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
 
-const TitleMap = { new: '新增', edit: '编辑', read: '查看' };
-
 const OnOpenDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>();
-  const [render, setRender] = useState(1);
-  const reRender = () => setRender((val) => val + 1);
+  const [title, setTitle] = useState('新增');
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -42,7 +39,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('new', null, reRender);
+            setTitle('新增');
+            innerRef.current?.openModal('new', null);
           }}
         >
           新增
@@ -51,7 +49,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('edit', {}, reRender);
+            setTitle('编辑');
+            innerRef.current?.openModal('edit', {});
           }}
         >
           编辑
@@ -60,7 +59,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('read', {}, reRender);
+            setTitle('查看');
+            innerRef.current?.openModal('read', {});
           }}
         >
           查看
@@ -68,7 +68,7 @@ const OnOpenDemo = () => {
       </Space>
 
       <ModalForm
-        title={TitleMap[innerRef.current?.formType || 'new']}
+        title={title}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={[

@@ -3,12 +3,9 @@ import { useRef, useState } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
 import { ModalForm } from 'react-admin-kit';
 
-const TitleMap = { new: 'New', edit: 'Edit', read: 'Read' };
-
 const OnOpenDemo = () => {
   const innerRef = useRef<ModalFormInnerRefType>();
-  const [render, setRender] = useState(1);
-  const reRender = () => setRender((val) => val + 1);
+  const [title, setTitle] = useState('New');
 
   const onFinish = (values: any) => {
     console.log({ values });
@@ -42,7 +39,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('new', null, reRender);
+            setTitle('New');
+            innerRef.current?.openModal('new', null);
           }}
         >
           New
@@ -51,7 +49,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('edit', {}, reRender);
+            setTitle('Edit');
+            innerRef.current?.openModal('edit', {});
           }}
         >
           Edit
@@ -60,7 +59,8 @@ const OnOpenDemo = () => {
         <Button
           type="primary"
           onClick={() => {
-            innerRef.current?.openModal('read', {}, reRender);
+            setTitle('Read');
+            innerRef.current?.openModal('read', {});
           }}
         >
           Read
@@ -68,7 +68,7 @@ const OnOpenDemo = () => {
       </Space>
 
       <ModalForm
-        title={TitleMap[innerRef.current?.formType || 'new']}
+        title={title}
         innerRef={innerRef}
         onFinish={onFinish}
         columns={[
