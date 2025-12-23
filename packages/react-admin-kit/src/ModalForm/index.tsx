@@ -10,7 +10,12 @@ import {
 import SchemaForm from '../SchemaForm';
 import { myMergeOptions } from '../utils';
 
-import type { FormType, ModalFormProps, ModalFormSelfProps } from './types';
+import type {
+  FormType,
+  ModalFormInnerRefType,
+  ModalFormProps,
+  ModalFormSelfProps,
+} from './types';
 
 import { LocaleContext, ModalFormContext } from '../SettingProvider/context';
 import { CreateBaseInner, SchemaFormInnerRefType } from '../context';
@@ -267,3 +272,11 @@ export default ModalForm;
  */
 /* istanbul ignore next */
 export const ModalFormType: React.FC<ModalFormSelfProps> = () => null;
+
+/**
+ * 仅用于输出文档
+ */
+/* istanbul ignore next */
+export const ModalFormInnerRefTypeComponent: React.FC<
+  ModalFormInnerRefType
+> = () => null;

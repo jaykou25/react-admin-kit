@@ -32,7 +32,7 @@ export type ModalFormSelfProps = {
   /**
    * @zh-Hans 非受控模式(推荐); 在open没传的情况下可以通过innerRef来打开弹窗;
    * @en      Uncontrolled mode (recommended); when open is not passed, you can open the modal through innerRef;
-   * @type React.MutableRefObject<ModalFormInnerRefType>
+   * @type [ModalFormInnerRefType](/components/modal-form#modalforminnerreftype)
    */
   innerRef?: React.MutableRefObject<ModalFormInnerRefType | undefined>;
 

@@ -79,19 +79,12 @@ sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
 
 ### ModalForm
 
+ModalForm 类型是 [ModalFormSelfType](/components/modal-form#modalformselftype) 和 <Link src='https://ant-design.antgroup.com/components/modal-cn#api'>Antd Modal</Link> 的结合。
+
+#### ModalFormSelfType
+
 <API name="ModalFormType" typeStyles={{ minWidth: '180px' }} />
 
-### InnerRef
+### ModalFormInnerRefType
 
-<div className="dumi-default-table-content">
-
-| 参数 | 说明 | 类型 | <div style={{width: '65px'}}>默认值</div> |
-| --- | --- | --- | --- |
-| openModal | 用于打开弹窗; formType 可用于在 onFinish 的时候判断表单类型; | `(formType?: 'new' \| 'edit' \| 'read', initialValues?: any) => void` | - |
-| formType | 当前的表单类型 | `'new' \| 'edit' \| 'read'` | `new` |
-| data | 可以存储表单中的额外数据 | `Record<string, any>` | `{}` |
-| setData | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段. | `(Record<string, any>) => void` | `--` |
-
-</div>
-
-更多 Modal 属性请参考 [Antd Modal 文档](https://ant.design/components/modal-cn/#api)
+<API name="ModalFormInnerRefTypeComponent" />
