@@ -31,7 +31,7 @@ function normalizeTree(
 - `patchFunction` - 用于处理每个节点的函数，返回要合并或替换的属性对象
 - `options.replace` - 是否用 patch 结果完全替换原节点，默认为 false（合并模式）
 
-**基础用法**
+### 基础用法
 
 ```js
 // 为每个节点添加 disabled 属性
@@ -44,7 +44,7 @@ const result = normalizeTree(data, (item) => ({ disabled: true }));
 // 结果：每个节点都会添加 disabled: true 属性
 ```
 
-**条件处理**
+### 条件处理
 
 ```js
 // 根据节点属性动态添加样式
@@ -68,7 +68,7 @@ const normalizedMenu = normalizeTree(menuData, (item) => {
 });
 ```
 
-**替换模式**
+### 替换模式
 
 ```js
 // 完全重构节点结构

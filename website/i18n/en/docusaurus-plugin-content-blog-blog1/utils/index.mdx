@@ -1,0 +1,87 @@
+---
+date: 2025-05-01
+sidebar_label: Tree Data:0:Utils:3
+---
+
+# Tree Data
+
+Provides utility methods for handling tree data.
+
+```js
+import { normalizeTree } from 'react-admin-kit/utils';
+```
+
+> Open your browser's developer tools and use `_.normalizeTree` for debugging.
+
+## normalizeTree
+
+Normalizes tree data structure by processing each node through the provided patch function.
+
+```tsx
+function normalizeTree(
+  data: any[] = [],
+  patchFunction?: (item: any) => Record<string, any> | undefined,
+  options?: { replace: boolean },
+): any[];
+```
+
+**Parameters**
+
+- `data` - Tree data array
+- `patchFunction` - Function to process each node, returns an object of properties to merge or replace
+- `options.replace` - Whether to completely replace the original node with the patch result, defaults to false (merge mode)
+
+### Basic Usage
+
+```js
+// Add disabled property to each node
+const data = [
+  { id: 1, name: 'Node 1', children: [{ id: 2, name: 'Node 2' }] },
+  { id: 3, name: 'Node 3' },
+];
+
+const result = normalizeTree(data, (item) => ({ disabled: true }));
+// Result: Each node will have the disabled: true property added
+```
+
+### Conditional Processing
+
+```js
+// Dynamically add styles based on node properties
+const menuData = [
+  { key: 'home', title: 'Home', type: 'page' },
+  {
+    key: 'users',
+    title: 'User Management',
+    type: 'menu',
+    children: [{ key: 'user-list', title: 'User List', type: 'page' }],
+  },
+];
+
+const normalizedMenu = normalizeTree(menuData, (item) => {
+  if (item.type === 'menu') {
+    return { icon: 'folder', expandable: true };
+  }
+  if (item.type === 'page') {
+    return { icon: 'file', clickable: true };
+  }
+});
+```
+
+### Replace Mode
+
+```js
+// Completely restructure node format
+const rawData = [{ id: 1, label: 'Item 1', sub: [{ id: 2, label: 'Item 2' }] }];
+
+const transformed = normalizeTree(
+  rawData,
+  (item) => ({
+    value: item.id,
+    title: item.label,
+    children: item.sub,
+  }),
+  { replace: true },
+);
+// Result: Node structure is completely replaced with the new format
+```
