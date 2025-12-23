@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { ProTable } from 'react-admin-kit';
-import { mockRequest } from '../basic/apis';
+import { mockRequest } from './apis';
 
 import { getColumns } from './columns';
 

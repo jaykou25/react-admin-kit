@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { ConfigProvider } from 'antd';
 import ProConfigContext, { createIntl } from '@ant-design/pro-provider';
 import { SettingProvider } from 'react-admin-kit';
-import App from './app';
+import App from '../basic-en/index';
 
 import enUS from 'antd/locale/en_US';
 import enUsPro from '@ant-design/pro-provider/es/locale/en_US';

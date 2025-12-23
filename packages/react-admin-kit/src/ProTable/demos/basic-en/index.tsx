@@ -11,12 +11,6 @@ import {
 
 import { getColumns } from './columns';
 
-export const FORM_TYPE_MAP = {
-  new: 'Create',
-  edit: 'Edit',
-  read: 'View',
-};
-
 const Basic = () => {
   const innerRef = useRef<InnerRefType>();
   const actionRef = useRef<ActionRefType>();
