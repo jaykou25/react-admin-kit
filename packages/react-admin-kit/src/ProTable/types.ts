@@ -9,7 +9,6 @@ import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/Form
 import type {
   MessageArgsProps,
   ModalFuncProps,
-  ModalProps,
   PopconfirmProps,
   SpaceProps,
 } from 'antd';
@@ -320,7 +319,7 @@ export type MyProTableSelfType = {
    *
    * @default zh_CH
    */
-  locale?: LocaleType;
+  rakLocale?: LocaleType;
 
   /**
    * @zh-Hans 弹框中的表单项。

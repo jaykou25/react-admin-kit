@@ -88,7 +88,7 @@ const ProTable = (props: MyProTableType) => {
     // 默认值放在这里，能合并对象类属性
     {
       toolbar: {},
-      locale: globalLocale,
+      rakLocale: globalLocale,
       delSuccessProps: {
         content: globalLocale.delSuccessContent ?? '删除成功',
         type: 'success',
@@ -123,7 +123,7 @@ const ProTable = (props: MyProTableType) => {
     name,
     onOpen,
     defaultHideInSearch = false,
-    locale,
+    rakLocale,
     noPadding = false,
     options = false,
     rowSelection,
@@ -148,7 +148,7 @@ const ProTable = (props: MyProTableType) => {
 
     if (title) return title;
 
-    if (name) return `${name}${locale!.tableTitleAfter}`;
+    if (name) return `${name}${rakLocale!.tableTitleAfter}`;
 
     return false;
   };
@@ -156,7 +156,7 @@ const ProTable = (props: MyProTableType) => {
   const getModalTitle = () => {
     const { name = '' } = mergedProps;
     const localeKey = FORM_TYPE_LOCALE[formType];
-    const formTypeStr = locale![localeKey];
+    const formTypeStr = rakLocale![localeKey];
     return `${formTypeStr}${name}` || '';
   };
 
@@ -518,7 +518,7 @@ const ProTable = (props: MyProTableType) => {
 
       // 多语言
       const defaultFilename =
-        `${name}${locale?.tableTitleAfter}` || locale?.exportFilename;
+        `${name}${rakLocale?.tableTitleAfter}` || rakLocale?.exportFilename;
 
       innerRef.current.export = (rows, ExcelJS, options = {}) =>
         exportTable(exportColumns, rows, ExcelJS, {
