@@ -324,7 +324,7 @@ const ProTable = (props: MyProTableType) => {
     const {
       disabled = false,
       danger = false,
-      btnText = globalLocale.alertDelBtnText,
+      btnText = rakLocale?.alertDelBtnText,
     } = typeof alertEnableDelete === 'object' ? alertEnableDelete : {};
 
     // 处理 popconfirm title 默认值
@@ -332,7 +332,7 @@ const ProTable = (props: MyProTableType) => {
       typeof delPopconfirmProps!.title === 'function'
         ? delPopconfirmProps!.title(option.selectedRowKeys, option.selectedRows)
         : delPopconfirmProps!.title ||
-          globalLocale.alertDelPopconfirmTitle?.(option.selectedRowKeys);
+          rakLocale?.alertDelPopconfirmTitle?.(option.selectedRowKeys);
     // 处理 popconfirm description 默认值
     const popconfirmDescription =
       typeof delPopconfirmProps!.description === 'function'
@@ -349,7 +349,7 @@ const ProTable = (props: MyProTableType) => {
             option.selectedRowKeys,
             option.selectedRows,
           )
-        : delModalConfirmProps!.title || globalLocale.alertDelModalConfirmTitle;
+        : delModalConfirmProps!.title || rakLocale?.alertDelModalConfirmTitle;
 
     // 处理 modal content 默认值
     const modalConfirmContent =
@@ -359,7 +359,7 @@ const ProTable = (props: MyProTableType) => {
             option.selectedRows,
           )
         : delModalConfirmProps!.content ||
-          globalLocale.alertDelModalConfirmContent?.(option.selectedRowKeys);
+          rakLocale?.alertDelModalConfirmContent?.(option.selectedRowKeys);
 
     if (delFunction && hasDelPermission && alertEnableDelete) {
       delDom = getDelDom({
@@ -438,7 +438,7 @@ const ProTable = (props: MyProTableType) => {
                 const {
                   disabled = false,
                   danger = false,
-                  btnText = globalLocale?.delBtnText,
+                  btnText = rakLocale?.delBtnText,
                   btnIndex = renderDom.length,
                 } = typeof enableDeleteResult === 'object'
                   ? enableDeleteResult
@@ -449,7 +449,7 @@ const ProTable = (props: MyProTableType) => {
                   typeof delPopconfirmProps!.title === 'function'
                     ? delPopconfirmProps!.title(record, index)
                     : delPopconfirmProps!.title ||
-                      globalLocale.delPopconfirmTitle;
+                      rakLocale?.delPopconfirmTitle;
 
                 // 处理 popconfirm description 默认值
                 const popconfirmDescription =
@@ -462,14 +462,14 @@ const ProTable = (props: MyProTableType) => {
                   typeof delModalConfirmProps!.title === 'function'
                     ? delModalConfirmProps!.title(record, index)
                     : delModalConfirmProps!.title ||
-                      globalLocale.delModalConfirmTitle;
+                      rakLocale?.delModalConfirmTitle;
 
                 // 处理 modal content 默认值
                 const modalConfirmContent =
                   typeof delModalConfirmProps!.content === 'function'
                     ? delModalConfirmProps!.content(record, index)
                     : delModalConfirmProps!.content ||
-                      globalLocale.delModalConfirmContent;
+                      rakLocale?.delModalConfirmContent;
 
                 const delDom = getDelDom({
                   disabled,
