@@ -70,6 +70,26 @@ const config: Config = {
     [
       '@docusaurus/plugin-content-blog',
       {
+        id: 'changelog',
+        path: 'changelog',
+        routeBasePath: '/changelog',
+        blogSidebarCount: 'ALL',
+        showReadingTime: false,
+        showLastUpdateTime: false,
+        showLastUpdateAuthor: false,
+        sortPosts: 'ascending',
+        feedOptions: {
+          type: ['rss', 'atom'],
+          xslt: true,
+        },
+        onInlineTags: 'warn',
+        onInlineAuthors: 'warn',
+        onUntruncatedBlogPosts: 'warn',
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
         id: 'blog2',
         path: 'case',
         routeBasePath: '/case',
@@ -168,7 +188,7 @@ const config: Config = {
           label: 'components',
           position: 'left',
         },
-        { to: '/changelog', label: 'changelog', position: 'left' },
+        { to: '/changelog/v1', label: 'changelog', position: 'left' },
         isDev
           ? { to: '/case/schema-form', label: 'case', position: 'left' }
           : null,
