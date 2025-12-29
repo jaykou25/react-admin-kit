@@ -5,6 +5,7 @@ import {
   FormItemInfo,
   ResponsiveSpan,
   mergeEmptyItems,
+  normalizeSpan,
 } from './utils/descriptions-table';
 
 const { useBreakpoint } = Grid;
@@ -128,8 +129,17 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
       };
     });
 
+    const handledEmptyItems = mergeEmptyItems(
+      descriptionItems,
+      calculatedColumn,
+    );
+    const normalizedSpanItems = normalizeSpan(
+      handledEmptyItems,
+      calculatedColumn,
+    );
+
     return {
-      descriptionItems: mergeEmptyItems(descriptionItems, calculatedColumn),
+      descriptionItems: normalizedSpanItems,
       column: calculatedColumn,
     };
   }, [formItems, screens]);
@@ -140,9 +150,9 @@ const DescriptionsTable: React.FC<DescriptionsTableProps> = ({
 
   return (
     <Descriptions
-      column={column}
       layout={layout}
       {...descriptionsProps}
+      column={column}
       items={descriptionItems}
     />
   );

@@ -1,4 +1,4 @@
-import { extractSpanFromClassName, mergeEmptyItems, scanFormItems } from './descriptions-table';
+import { extractSpanFromClassName, mergeEmptyItems, normalizeSpan, scanFormItems } from './descriptions-table';
 
 describe('extractSpanFromClassName', () => {
   test('should return default value 24 for invalid input', () => {
@@ -407,8 +407,142 @@ describe('scanFormItems', () => {
   test('should handle error gracefully', () => {
     // Mock a container that will cause an error
     const container = {};
-    
+
     const result = scanFormItems(container);
     expect(result).toEqual([]);
   });
 });
+
+describe('normalizeSpan', () => {
+  test('should normalize when next item would overflow', () => {
+    const items = [{ span: 1 }, { span: 1 }, { span: 3 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 'filled' },
+      { span: 3 }
+    ]);
+  });
+
+  test('should handle simple overflow', () => {
+    const items = [{ span: 2 }, { span: 2 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 'filled' },
+      { span: 2 }
+    ]);
+  });
+
+  test('should handle items that exactly fill a row', () => {
+    const items = [{ span: 1 }, { span: 2 }, { span: 1 }, { span: 2 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 2 },
+      { span: 1 },
+      { span: 2 }
+    ]);
+  });
+
+  test('should handle single item that exceeds column', () => {
+    const items = [{ span: 5 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 'filled' }
+    ]);
+  });
+
+  test('should handle empty array', () => {
+    const result = normalizeSpan([], 3);
+    expect(result).toEqual([]);
+  });
+
+  test('should handle null or undefined input', () => {
+    expect(normalizeSpan(null, 3)).toEqual([]);
+    expect(normalizeSpan(undefined, 3)).toEqual([]);
+  });
+
+  test('should handle custom column value', () => {
+    const items = [{ span: 2 }, { span: 2 }, { span: 3 }];
+    const result = normalizeSpan(items, 4);
+    expect(result).toEqual([
+      { span: 2 },
+      { span: 2 },
+      { span: 3 }
+    ]);
+  });
+
+  test('should handle items with span of 1 filling exactly', () => {
+    const items = [{ span: 1 }, { span: 1 }, { span: 1 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 1 },
+      { span: 1 }
+    ]);
+  });
+
+  test('should preserve other properties in item objects', () => {
+    const items = [
+      { label: 'Name', span: 1 },
+      { label: 'Age', span: 1 },
+      { label: 'Email', span: 3 }
+    ];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { label: 'Name', span: 1 },
+      { label: 'Age', span: 'filled' },
+      { label: 'Email', span: 3 }
+    ]);
+  });
+
+  test('should handle complex multi-row scenarios', () => {
+    const items = [
+      { span: 1 },
+      { span: 1 },
+      { span: 2 },
+      { span: 1 },
+      { span: 1 },
+      { span: 1 }
+    ];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 'filled' },
+      { span: 2 },
+      { span: 1 },
+      { span: 1 },
+      { span: 1 }
+    ]);
+  });
+
+  test('should use default column value of 3', () => {
+    const items = [{ span: 1 }, { span: 1 }, { span: 3 }];
+    const result = normalizeSpan(items);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 'filled' },
+      { span: 3 }
+    ]);
+  });
+
+  test('should handle item with span equal to column', () => {
+    const items = [{ span: 3 }, { span: 1 }, { span: 1 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 3 },
+      { span: 1 },
+      { span: 1 }
+    ]);
+  });
+
+  test('should handle last item not filling row', () => {
+    const items = [{ span: 1 }, { span: 1 }];
+    const result = normalizeSpan(items, 3);
+    expect(result).toEqual([
+      { span: 1 },
+      { span: 1 }
+    ]);
+  });
+});
+

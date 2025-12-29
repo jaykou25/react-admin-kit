@@ -88,19 +88,203 @@ const UnitTest = () => {
 
   return (
     <>
-      <Button onClick={() => innerRef.current?.openModal()}>add</Button>
-      <ProTable
-        defaultHideInSearch
-        innerRef={innerRef}
+      {/* <SchemaForm
+        layout="horizontal"
+        readonly
+        readonlyType="descriptions"
+        descriptionsProps={{
+          bordered: true,
+        }}
+        grid
+        colProps={{ span: 8 }}
+        initialValues={{
+          procurementProject: '测试',
+          projectType: '服务类',
+          procurementBudget: '20000',
+          procurementType: '平台采购',
+          procurementMethod: '音源直接采购',
+          procurementCondition:
+            '采用单源直接采购以外的采购方式，符合相应资格条件的供应商只有1家',
+          needMeeting1: '是',
+          meetingType: '办公会',
+          applyDepartment: '数字赋能中心',
+          projectDescription: '测试',
+          other: '',
+          createTime: 2025 - 12 - 24,
+        }}
         columns={[
           {
-            title: 'titleTest',
-            dataIndex: 'titleTest',
-            hideInSearch: true,
-            type: 'search',
+            title: '项目介绍',
+            dataIndex: 'projectDescription',
+            colProps: { span: 24 },
+          },
+          {
+            title: '其它',
+            dataIndex: 'other',
+            colProps: { span: 24 },
+          },
+          {
+            title: '创建时间',
+            dataIndex: 'createTime',
+            colProps: { span: 24 },
           },
         ]}
-        request={mockApi}
+      /> */}
+
+      {/* <SchemaForm
+        layout="horizontal"
+        readonly
+        grid
+        colProps={{ span: 8 }}
+        initialValues={{
+          procurementProject: '测试',
+          projectType: '服务类',
+          procurementBudget: '20000',
+          procurementType: '平台采购',
+          procurementMethod: '音源直接采购',
+          procurementCondition:
+            '采用单源直接采购以外的采购方式，符合相应资格条件的供应商只有1家',
+          needMeeting1: '是',
+          meetingType: '办公会',
+          applyDepartment: '数字赋能中心',
+          projectDescription: '测试',
+          other: '',
+          createTime: 2025 - 12 - 24,
+        }}
+        columns={[
+          {
+            title: '采购项目',
+            dataIndex: 'procurementProject',
+          },
+          {
+            title: '项目类型',
+            dataIndex: 'projectType',
+          },
+          {
+            title: '采购预算',
+            dataIndex: 'procurementBudget',
+          },
+          {
+            title: '采购类型',
+            dataIndex: 'procurementType',
+          },
+          {
+            title: '采购方式',
+            dataIndex: 'procurementMethod',
+          },
+          {
+            title: '采购适用条件',
+            dataIndex: 'procurementCondition',
+            colProps: { span: 24 },
+          },
+          {
+            title: '是否上会',
+            dataIndex: 'needMeeting',
+          },
+          {
+            title: '会议类型',
+            dataIndex: 'meetingType',
+          },
+          {
+            title: '申请部门',
+            dataIndex: 'applyDepartment',
+          },
+          {
+            title: '项目介绍',
+            dataIndex: 'projectDescription',
+            colProps: { span: 24 },
+          },
+          {
+            title: '其它',
+            dataIndex: 'other',
+            colProps: { span: 24 },
+          },
+          {
+            title: '创建时间',
+            dataIndex: 'createTime',
+            colProps: { span: 24 },
+          },
+        ]}
+      /> */}
+
+      <SchemaForm
+        layout="horizontal"
+        readonly
+        readonlyType="descriptions"
+        descriptionsProps={{
+          bordered: true,
+        }}
+        grid
+        colProps={{ span: 8 }}
+        initialValues={{
+          procurementProject: '测试',
+          projectType: '服务类',
+          procurementBudget: '20000',
+          procurementType: '平台采购',
+          procurementMethod: '音源直接采购',
+          procurementCondition:
+            '采用单源直接采购以外的采购方式，符合相应资格条件的供应商只有1家',
+          needMeeting1: '是',
+          meetingType: '办公会',
+          applyDepartment: '数字赋能中心',
+          projectDescription: '测试',
+          other: '',
+          createTime: 2025 - 12 - 24,
+        }}
+        columns={[
+          {
+            title: '采购项目',
+            dataIndex: 'procurementProject',
+          },
+          {
+            title: '项目类型',
+            dataIndex: 'projectType',
+          },
+          {
+            title: '采购预算',
+            dataIndex: 'procurementBudget',
+          },
+          {
+            title: '采购类型',
+            dataIndex: 'procurementType',
+          },
+          {
+            title: '采购方式',
+            dataIndex: 'procurementMethod',
+          },
+          {
+            title: '采购适用条件',
+            dataIndex: 'procurementCondition',
+            colProps: { span: 24 },
+          },
+          {
+            title: '是否上会',
+            dataIndex: 'needMeeting',
+          },
+          {
+            title: '会议类型',
+            dataIndex: 'meetingType',
+          },
+          {
+            title: '申请部门',
+            dataIndex: 'applyDepartment',
+          },
+          {
+            title: '项目介绍',
+            dataIndex: 'projectDescription',
+            colProps: { span: 24 },
+          },
+          {
+            title: '其它',
+            dataIndex: 'other',
+            colProps: { span: 24 },
+          },
+          {
+            title: '创建时间',
+            dataIndex: 'createTime',
+            colProps: { span: 24 },
+          },
+        ]}
       />
     </>
   );

@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import DescriptionsTable from './DescriptionsTable';
 
 // Mock Antd Descriptions component
@@ -26,6 +25,7 @@ jest.mock('antd', () => ({
 jest.mock('./utils/descriptions-table', () => ({
   scanFormItems: jest.fn(),
   mergeEmptyItems: jest.fn((items) => items),
+  normalizeSpan: jest.fn((items) => items),
 }));
 
 describe('DescriptionsTable', () => {
@@ -37,7 +37,10 @@ describe('DescriptionsTable', () => {
     jest.clearAllMocks();
 
     // Mock scanFormItems to return sample form items
-    const { scanFormItems } = require('./utils/descriptions-table');
+    const {
+      scanFormItems,
+      normalizeSpan,
+    } = require('./utils/descriptions-table');
     scanFormItems.mockReturnValue([
       {
         label: 'Username',

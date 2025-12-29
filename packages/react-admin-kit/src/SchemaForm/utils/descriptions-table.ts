@@ -187,6 +187,87 @@ export const mergeEmptyItems = (items, column) => {
 };
 
 /**
+ * 规范化 Descriptions items 中的 span 值
+ *
+ * 对于 Ant Design Descriptions 组件：
+ * - 每行的 span 总和应该等于 column 值
+ * - 'filled' 会自动填充剩余空间
+ * - 当某个 item 的 span 会导致当前行总和超过 column 时，前一项应被设为 'filled' 来填满当前行
+ *
+ * @param items - Descriptions 的 items 数组（span 只会是数字）
+ * @param column - Descriptions 的 column 值（默认为 3）
+ * @returns 规范化后的 items 数组
+ *
+ * @example
+ * ```ts
+ * // 示例 1: 需要将某项设为 'filled'
+ * normalizeSpan([{ span: 1 }, { span: 1 }, { span: 3 }], 3)
+ * // => [{ span: 1 }, { span: 'filled' }, { span: 3 }]
+ *
+ * // 示例 2: 简单溢出
+ * normalizeSpan([{ span: 2 }, { span: 2 }], 3)
+ * // => [{ span: 'filled' }, { span: 2 }]
+ * ```
+ */
+export const normalizeSpan = <T extends { span: number }>(
+  items: T[],
+  column: number = 3,
+): T[] => {
+  if (!items || items.length === 0) {
+    return [];
+  }
+
+  const normalizedItems: T[] = [];
+  let currentRowSpan = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const span = item.span;
+
+    const newTotal = currentRowSpan + span;
+
+    // 当前项自己溢出
+    if (newTotal > column) {
+      normalizedItems.push({ ...item, span: 'filled' } as T);
+      currentRowSpan = 0;
+      continue;
+    }
+
+    // 刚好填满
+    if (newTotal === column) {
+      normalizedItems.push(item);
+      currentRowSpan = 0;
+      continue;
+    }
+
+    // 未填满，检查下一项
+    const nextItem = items[i + 1];
+
+    // 没有下一项，保持当前项
+    if (!nextItem) {
+      normalizedItems.push(item);
+      currentRowSpan = newTotal;
+      continue;
+    }
+
+    const nextSpan = nextItem.span;
+
+    // 检查：当前项 + 下一项是否会溢出
+    if (newTotal + nextSpan > column) {
+      // 会溢出，当前项填满当前行
+      normalizedItems.push({ ...item, span: 'filled' } as T);
+      currentRowSpan = 0;
+    } else {
+      // 不会溢出，保持当前项
+      normalizedItems.push(item);
+      currentRowSpan = newTotal;
+    }
+  }
+
+  return normalizedItems;
+};
+
+/**
  * 安全执行函数，提供错误处理
  */
 /* istanbul ignore next */

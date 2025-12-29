@@ -40,7 +40,7 @@ export const ReadonlyTypeContext = createContext<'form' | 'descriptions'>(
   'form',
 );
 export const DescriptionsPropsContext = createContext<
-  Omit<DescriptionsProps, 'items'>
+  Omit<DescriptionsProps, 'items' | 'columns'>
 >({});
 
 export const EmbedColumnContext = createContext<any>({});
