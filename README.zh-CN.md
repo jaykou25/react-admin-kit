@@ -60,7 +60,7 @@ npm install react-admin-kit
 >
 > 由于 ProComponent 引入了 antd v5的一些组件, 比如 ColorPicker. 如果你使用 vite 打包器会在本地开发时启动报错, 可以改用 webpack 打包器来开发.
 >
-> 请使用 RAK < v0.4的版本, v0.4 以后只支持 antd v5.
+> 请使用 RAK < v0.4的版本, v0.4 以后只支持 antd v5 或更高版本.
 
 ### 生成表单
 
@@ -160,4 +160,4 @@ RAK 只有 3 个核心组件, 并且它们是组合的关系:
 }
 ```
 
-推荐使用 antd v5.
+推荐使用 antd v5 或更高版本.

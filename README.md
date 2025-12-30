@@ -60,7 +60,7 @@ View [Component Documentation](https://jaykou25.github.io/react-admin-kit/compon
 >
 > Since ProComponent introduces some components from antd v5, such as ColorPicker. If you use the vite bundler, you will encounter errors during local development. You can switch to the webpack bundler for development.
 >
-> Please use RAK < v0.4, v0.4 and later only support antd v5.
+> Please use RAK < v0.4, v0.4 and later only support antd v5 or higher version.
 
 ### Generate Forms
 
@@ -160,4 +160,4 @@ So component properties can be passed through. For example, in the `ModalForm` c
 }
 ```
 
-Recommend using antd v5.
+Recommend using antd v5 or higher version.
