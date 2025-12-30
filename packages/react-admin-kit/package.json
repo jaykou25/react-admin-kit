@@ -1,6 +1,6 @@
 {
   "name": "react-admin-kit",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A react based UI components for admin system",
   "keywords": [
     "react-admin",
@@ -20,6 +20,14 @@
     "表单生成器",
     "表格组件"
   ],
+  "homepage": "https://github.com/jaykou25/react-admin-kit#readme",
+  "bugs": {
+    "url": "https://github.com/jaykou25/react-admin-kit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaykou25/react-admin-kit.git"
+  },
   "license": "ISC",
   "author": "jay.kou@qq.com",
   "sideEffects": false,
