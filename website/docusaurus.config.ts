@@ -197,6 +197,11 @@ const config: Config = {
           position: 'right',
         },
         {
+          href: 'https://jaykou25.github.io/react-admin-kit-v0',
+          label: '0.x',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/jaykou25/react-admin-kit',
           label: 'gitHub',
           position: 'right',
