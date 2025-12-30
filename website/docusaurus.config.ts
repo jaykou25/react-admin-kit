@@ -21,15 +21,16 @@ const config: Config = {
   clientModules: [require.resolve('./src/clientModules/globalUtils.js')],
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://jaykou25.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/react-admin-kit/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'jaykou25', // Usually your GitHub org/user name.
   projectName: 'react-admin-kit', // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -87,7 +88,7 @@ const config: Config = {
         onUntruncatedBlogPosts: 'warn',
       },
     ],
-    [
+    isDev && [
       '@docusaurus/plugin-content-blog',
       {
         id: 'blog2',
@@ -127,13 +128,7 @@ const config: Config = {
     [
       'classic',
       {
-        docs: {
-          sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
+        docs: false,
         blog: {
           id: 'blog1',
           routeBasePath: '/components',
@@ -163,6 +158,9 @@ const config: Config = {
               },
             ],
           ],
+        },
+        pages: {
+          exclude: isDev ? [] : ['**/_*/**', '**/_*.{js,jsx,ts,tsx,md,mdx}'],
         },
         theme: {
           customCss: './src/css/custom.css',
