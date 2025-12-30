@@ -14,6 +14,10 @@
 
 [文档 (github pages)](https://jaykou25.github.io/react-admin-kit/)
 
+v1.0 版本正式发布！测试全面覆盖，代码覆盖率大于 90%，分支覆盖率大于 85%。
+
+ <img alt='coverage' width='490px'  src="images/coverage.png">
+
 ## 简介
 
 React Admin Kit (简称 RAK) 是一个基于 React 和 Ant Design 的组件库, 用于在中后台系统中快速的构建表单表格. RAK 的使用不仅能极大的提升开发效率, 而且由于其约定式的 api 还能降低后期不同开发人员的维护成本. 另外由于表单和表格都是由配置式数组生成, 使得不同页面间的表单和表格的复用变得非常简单.
