@@ -1,0 +1,16 @@
+node_modules
+/dist
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
+.DS_Store
+
+/docs-dist
+/vercel-dist
+/server
+*.lock
+
+# ide
+/.vscode
+/.idea
+

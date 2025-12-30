@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>React Admin Kit Blog</title>
+        <link>https://jaykou25.github.io/react-admin-kit/en/changelog</link>
+        <description>React Admin Kit Blog</description>
+        <lastBuildDate>Wed, 01 Jan 2025 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[v1 Changelog]]></title>
+            <link>https://jaykou25.github.io/react-admin-kit/en/changelog/v1</link>
+            <guid>https://jaykou25.github.io/react-admin-kit/en/changelog/v1</guid>
+            <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[{/* ### New]]></description>
+            <content:encoded><![CDATA[
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="100">1.0.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1#100" class="hash-link" aria-label="Direct link to 1.0.0" title="Direct link to 1.0.0" translate="no">​</a></h2>
+<p>Version 1.0 achieves comprehensive test coverage with over 90% code coverage and 85% branch coverage.</p>
+<p>For migration from v0, please pay attention to the changes below.</p>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="new-">New 🆕<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1#new-" class="hash-link" aria-label="Direct link to New 🆕" title="Direct link to New 🆕" translate="no">​</a></h4>
+<ul>
+<li class="">Added internationalization (i18n) support to the component library.</li>
+<li class="">Added SSR support to the component library.</li>
+<li class="">Added utils methods <a class="" href="https://jaykou25.github.io/react-admin-kit/en/components/utils-tree">utils-tree</a>.</li>
+<li class="">SchemaForm component added <a class="" href="https://jaykou25.github.io/react-admin-kit/en/components/schema-form#readonly-table-mode">read-only table mode</a>.</li>
+<li class="">ProTable component added <code>delSuccessProps</code> property.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="changes-">Changes 💥<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1#changes-" class="hash-link" aria-label="Direct link to Changes 💥" title="Direct link to Changes 💥" translate="no">​</a></h4>
+<ul>
+<li class="">ProTable component property changes (<code>modalProps</code> and <code>formProps</code> merged into <code>modalFormProps</code>).</li>
+<li class="">ProTable component property name changed (<code>confirmModelType</code> changed to <code>delConfirmType</code>).</li>
+<li class="">ProTable component property changes (<code>confirmModalProps</code> removed, changed to <code>delPopconfirmProps</code> and <code>delModalConfirmProps</code>).</li>
+<li class="">ProTable component property name changed (<code>optionColSpaceSize</code> changed to <code>optionColumnSpaceProps</code>).</li>
+<li class="">ProTable component export functionality changes:<!-- -->
+<ol>
+<li class="">Removed the default dependency on the exceljs library, which helps reduce the bundle size of the component library.</li>
+<li class="">For pages that need export functionality, you need to install the exceljs library first, then call the related methods. <a class="" href="https://jaykou25.github.io/react-admin-kit/en/components/protable#exporting-table-data-to-excel">Reference documentation</a></li>
+</ol>
+</li>
+<li class="">FormUpload component removed the functionality of automatically injecting the loading property to children. Changed to provide the loading property to the children function.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="types-">Types <img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"><a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1#types-" class="hash-link" aria-label="Direct link to types-" title="Direct link to types-" translate="no">​</a></h4>
+<ul>
+<li class="">ProForm component <code>submitter</code> property now supports boolean type.</li>
+</ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0 Changelog]]></title>
+            <link>https://jaykou25.github.io/react-admin-kit/en/changelog/v0</link>
+            <guid>https://jaykou25.github.io/react-admin-kit/en/changelog/v0</guid>
+            <pubDate>Thu, 02 Jan 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[0.5.11]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0511">0.5.11<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0511" class="hash-link" aria-label="Direct link to 0.5.11" title="Direct link to 0.5.11" translate="no">​</a></h2>
+<p>ModalForm component</p>
+<ul>
+<li class="">style: Fixed scrollbar issue with long forms.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0510">0.5.10<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0510" class="hash-link" aria-label="Direct link to 0.5.10" title="Direct link to 0.5.10" translate="no">​</a></h2>
+<p>ModalForm component</p>
+<ul>
+<li class="">🐛 Fixed initialValue related warnings.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="059">0.5.9<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#059" class="hash-link" aria-label="Direct link to 0.5.9" title="Direct link to 0.5.9" translate="no">​</a></h2>
+<ul>
+<li class="">🐛 Added capturing of pro-component warning messages, e.g., <code>antd: Form.Item</code>.</li>
+</ul>
+<p>ModalForm component</p>
+<ul>
+<li class="">🐛 Merged initialValues handling with initial values in openModal.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="058">0.5.8<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#058" class="hash-link" aria-label="Direct link to 0.5.8" title="Direct link to 0.5.8" translate="no">​</a></h2>
+<ul>
+<li class="">🐛 Added capturing of pro-component warning messages, e.g., <code>Warning: findDOMNode is deprecated</code>.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="057">0.5.7<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#057" class="hash-link" aria-label="Direct link to 0.5.7" title="Direct link to 0.5.7" translate="no">​</a></h2>
+<p>BusinessSelect component</p>
+<ul>
+<li class="">🐛 Fixed BusinessSelect grouped options issue.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="056">0.5.6<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#056" class="hash-link" aria-label="Direct link to 0.5.6" title="Direct link to 0.5.6" translate="no">​</a></h2>
+<p>BusinessSelect component</p>
+<ul>
+<li class="">🐛 Fixed BusinessSelect component disabled property not being received. Also added grouped options.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="055">0.5.5<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#055" class="hash-link" aria-label="Direct link to 0.5.5" title="Direct link to 0.5.5" translate="no">​</a></h2>
+<p>ModalForm component</p>
+<ul>
+<li class="">💄 ModalForm scrollbar sticks to edge when form has scrolling.</li>
+</ul>
+<p>SchemaForm component</p>
+<ul>
+<li class="">🐛 Fixed issue where required property in schema was ineffective when formItemProps is a function.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="054">0.5.4<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#054" class="hash-link" aria-label="Direct link to 0.5.4" title="Direct link to 0.5.4" translate="no">​</a></h2>
+<p>BusinessSelect component</p>
+<ul>
+<li class="">🆕 Added searchDebounceValue property to control debounce value during component search.</li>
+<li class="">🐛 Fixed conflict between loading and allowClear during component search.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="053">0.5.3<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#053" class="hash-link" aria-label="Direct link to 0.5.3" title="Direct link to 0.5.3" translate="no">​</a></h2>
+<p>ProTable component</p>
+<ul>
+<li class="">🐛 Fixed search form valueType: dependency being ineffective.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="051">0.5.1<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#051" class="hash-link" aria-label="Direct link to 0.5.1" title="Direct link to 0.5.1" translate="no">​</a></h2>
+<p>2024-5-20</p>
+<p>ProForm component</p>
+<ul>
+<li class="">🐛 Fixed formRef conventional assignment not updating in time.</li>
+<li class="">🐛 Fixed grid layout failure for valueType: formList in <code>embed</code> mode.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="050">0.5.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#050" class="hash-link" aria-label="Direct link to 0.5.0" title="Direct link to 0.5.0" translate="no">​</a></h2>
+<p>2024-5-15</p>
+<ul>
+<li class="">✨ Refactored SchemaForm and ProForm conventional implementation. Fixed issue where form conventional assignment was ineffective in fieldProps function. Added test case coverage.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="044">0.4.4<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#044" class="hash-link" aria-label="Direct link to 0.4.4" title="Direct link to 0.4.4" translate="no">​</a></h2>
+<p>2024-5-11</p>
+<p>SchemaForm component, ProForm component</p>
+<ul>
+<li class="">🐛 Fixed <strong>form instance</strong> methods <code>validateFields</code>, <code>getFieldsFormatValue</code>, <code>validateFieldsReturnFormatValue</code> not handling conventional processing.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="043">0.4.3<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#043" class="hash-link" aria-label="Direct link to 0.4.3" title="Direct link to 0.4.3" translate="no">​</a></h2>
+<p>2024-5-6</p>
+<p>ModalForm component</p>
+<ul>
+<li class="">🐛 Fixed ModalForm component (or ProTable) nested in ProForm component where form in fieldProps function was being overwritten.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="041">0.4.1<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#041" class="hash-link" aria-label="Direct link to 0.4.1" title="Direct link to 0.4.1" translate="no">​</a></h2>
+<p>2024-4-25</p>
+<p>SchemaForm component</p>
+<ul>
+<li class="">🐛 Fixed getFieldsValue not processing conventional values.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="040">0.4.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#040" class="hash-link" aria-label="Direct link to 0.4.0" title="Direct link to 0.4.0" translate="no">​</a></h2>
+<p>2024-4-12</p>
+<p>Removed deprecated APIs from antd v4. Versions after v0.4 only support antd v5.</p>
+<p>ModalForm component</p>
+<ul>
+<li class="">Removed bodyStyle API.</li>
+</ul>
+<p>SchemaForm component</p>
+<ul>
+<li class="">🆕 In read-only mode, the second parameter of the render function is extended from entity to record. This record not only contains all form item values, but also includes non-form item values from initialValues and values set via setFieldsValue, increasing practicality.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0323">0.3.23<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0323" class="hash-link" aria-label="Direct link to 0.3.23" title="Direct link to 0.3.23" translate="no">​</a></h2>
+<p>Same as 0.4.4</p>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0322">0.3.22<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0322" class="hash-link" aria-label="Direct link to 0.3.22" title="Direct link to 0.3.22" translate="no">​</a></h2>
+<p>Same as 0.4.3</p>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0319">0.3.19<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0319" class="hash-link" aria-label="Direct link to 0.3.19" title="Direct link to 0.3.19" translate="no">​</a></h2>
+<p>Same as 0.4.1</p>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0318">0.3.18<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0318" class="hash-link" aria-label="Direct link to 0.3.18" title="Direct link to 0.3.18" translate="no">​</a></h2>
+<p>2024-4-9</p>
+<p>ProTable component</p>
+<ul>
+<li class=""><img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"> Fixed ProTable search property type definition.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0317">0.3.17<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0317" class="hash-link" aria-label="Direct link to 0.3.17" title="Direct link to 0.3.17" translate="no">​</a></h2>
+<p>2024-4-9</p>
+<p>Documentation examples updated to antd v5.</p>
+<p>ModalForm component</p>
+<ul>
+<li class=""><img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"> Fixed ModalFormInnerRefType type definition, allowing useRef() default value to be empty after fix.</li>
+</ul>
+<p>ProTable component</p>
+<ul>
+<li class=""><img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"> Fixed TableColumnType type definition, making hints more accurate after fix.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0316">0.3.16<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0316" class="hash-link" aria-label="Direct link to 0.3.16" title="Direct link to 0.3.16" translate="no">​</a></h2>
+<p>2024-2-11</p>
+<p>ModalForm component</p>
+<ul>
+<li class="">🐛 Fixed openModal('read') read-only method being ineffective for dependency sub-items.</li>
+</ul>
+<p>ProTable component</p>
+<ul>
+<li class="">🐛 Fixed innerRef and innerRef in fieldProps not being the same object.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0315">0.3.15<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0315" class="hash-link" aria-label="Direct link to 0.3.15" title="Direct link to 0.3.15" translate="no">​</a></h2>
+<p>2024-2-7</p>
+<p>ProTable component</p>
+<ul>
+<li class="">🛠 Schema type field added 'search' type, representing items only used in ProTable's search area.</li>
+<li class="">🆕 Added defaultHideInSearch property to globally control whether columns display in the search area by default.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0314">0.3.14<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0314" class="hash-link" aria-label="Direct link to 0.3.14" title="Direct link to 0.3.14" translate="no">​</a></h2>
+<p>2024-2-2</p>
+<p>ProTable component</p>
+<ul>
+<li class="">🆕 Added reload global event for controlling table refresh from other pages.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0313">0.3.13<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0313" class="hash-link" aria-label="Direct link to 0.3.13" title="Direct link to 0.3.13" translate="no">​</a></h2>
+<p>2023-12-3</p>
+<p>ProTable component</p>
+<ul>
+<li class="">🐛 Delete button added stopPropogation.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0312">0.3.12<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0312" class="hash-link" aria-label="Direct link to 0.3.12" title="Direct link to 0.3.12" translate="no">​</a></h2>
+<p>2023-12-1</p>
+<p>SchemaForm component</p>
+<ul>
+<li class="">🐛 Fixed conventional assignment issue: setFieldsValue assignment would empty other form item values.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0311">0.3.11<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0311" class="hash-link" aria-label="Direct link to 0.3.11" title="Direct link to 0.3.11" translate="no">​</a></h2>
+<p>2023-11-29</p>
+<p>SchemaForm component</p>
+<ul>
+<li class="">🐛 Fixed conventional assignment issue: assuming component is labelInValue, dataIndex is userId, userName, when backend returns empty userId and userName, previously assigned empty object to component, now changed to assign undefined.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0310">0.3.10<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0310" class="hash-link" aria-label="Direct link to 0.3.10" title="Direct link to 0.3.10" translate="no">​</a></h2>
+<p>2023-11-28</p>
+<p>BusinessSelect component</p>
+<ul>
+<li class="">🆕 Added onLoad event, triggered after dropdown data loading completes.</li>
+</ul>
+<p>BusinessTreeSelect component</p>
+<ul>
+<li class="">🆕 Same as above, added onLoad event.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="039">0.3.9<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#039" class="hash-link" aria-label="Direct link to 0.3.9" title="Direct link to 0.3.9" translate="no">​</a></h2>
+<p>2023-11-27</p>
+<p>ProTable component</p>
+<ul>
+<li class="">🆕 Added optionColumnSpaceProps property to control button arrangement in table operation column.</li>
+<li class="">🐛 Fixed issue where component-level options property set to false was overridden when global options property was set.</li>
+</ul>
+<p>SettingProvider global settings</p>
+<ul>
+<li class="">🆕 Added optionColumnSpaceProps property to globally control button arrangement in table operation columns.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="037">0.3.7<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#037" class="hash-link" aria-label="Direct link to 0.3.7" title="Direct link to 0.3.7" translate="no">​</a></h2>
+<p>2023-11-22</p>
+<p>BusinessSelect component</p>
+<ul>
+<li class="">Fixed allowClear and showSearch properties being overridden by internal default properties.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="036">0.3.6<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#036" class="hash-link" aria-label="Direct link to 0.3.6" title="Direct link to 0.3.6" translate="no">​</a></h2>
+<p>2023-11-19</p>
+<p>SchemaForm component</p>
+<ul>
+<li class="">Fixed setFieldsValue ineffective for conventional data assignment.</li>
+</ul>
+<p>FormUpload component</p>
+<ul>
+<li class="">No error when value is empty string</li>
+</ul>
+<p>ProTable component</p>
+<ul>
+<li class="">Fixed reload not triggering when actionRef not passed for integrated delete functionality</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="035">0.3.5<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#035" class="hash-link" aria-label="Direct link to 0.3.5" title="Direct link to 0.3.5" translate="no">​</a></h2>
+<p>Button component</p>
+<ul>
+<li class="">Added type definitions</li>
+</ul>
+<p>FormUpload component</p>
+<ul>
+<li class="">Component injects loading property to children component during upload.</li>
+<li class="">Component children can also be a function, with loading passed to children function.</li>
+<li class=""><code>Documentation</code> added file import example</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="034">0.3.4<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#034" class="hash-link" aria-label="Direct link to 0.3.4" title="Direct link to 0.3.4" translate="no">​</a></h2>
+<p>ProTable component</p>
+<ul>
+<li class="">ProTable <code>search</code> property added labelWrap ts type.</li>
+<li class="">ProTable component added <code>confirmModalType</code> and <code>confirmModalProps</code> properties to control delete dialog type. Default type is Popconfirm.</li>
+<li class="">Delete button in ProTable operation column added btnText property to change button text. <code>{ enableDelete: () =&gt; ({btnText: ''}) }</code></li>
+<li class="">ProTable <code>tableAlertOption</code> property added <code>deleteProps</code> property to control batch delete button properties.</li>
+</ul>
+<p>Global settings SettingProvider</p>
+<ul>
+<li class="">SettingProvider added global property settings for ProTable, enabling global configuration of delete dialog type and prompt text, etc.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="033">0.3.3<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#033" class="hash-link" aria-label="Direct link to 0.3.3" title="Direct link to 0.3.3" translate="no">​</a></h2>
+<ul>
+<li class="">ModalForm component innerRef added formType field to indicate current form type, <code>new | edit | read</code></li>
+<li class="">SchemaForm component schema added required field, shorthand for formItemProps: <code>{ rules: [{ required: true }]}</code></li>
+<li class="">ProTable component schema added type field, <code>form | table</code>, to specify whether this schema is used for table or form, when type is empty it applies to both form and table.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="032">0.3.2<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#032" class="hash-link" aria-label="Direct link to 0.3.2" title="Direct link to 0.3.2" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed SchemaForm error in converting array-type values during onFinish.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="031">0.3.1<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#031" class="hash-link" aria-label="Direct link to 0.3.1" title="Direct link to 0.3.1" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed SchemaForm formRef ineffective when initialValues has values.</li>
+<li class="">Fixed ProForm formRef ineffective when initialValues has values.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="030">0.3.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#030" class="hash-link" aria-label="Direct link to 0.3.0" title="Direct link to 0.3.0" translate="no">​</a></h2>
+<ul>
+<li class="">Documentation upgraded to dumi2.0</li>
+<li class="">ProForm component added innerRef property.</li>
+<li class="">SchemaForm component submitter property added style property.</li>
+<li class="">Fixed ProTable component undefined issue when name not passed.</li>
+<li class="">Fixed SchemaForm component reset form causing initial values loss when initialValues has values.</li>
+<li class="">API change: Protable component <code>hideExport</code> property in tableAlertOption renamed to <code>enableExport</code></li>
+<li class="">API change: FormUpload component onChange property modified:<!-- -->
+<ul>
+<li class="">Changed from triggering onChange on any file change to only triggering after all files uploaded, and upload error files are not included in files.</li>
+<li class="">onFinish property same as onChange.</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="022">0.2.2<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#022" class="hash-link" aria-label="Direct link to 0.2.2" title="Direct link to 0.2.2" translate="no">​</a></h2>
+<ul>
+<li class="">Fix same as 0.1.23</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0123">0.1.23<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0123" class="hash-link" aria-label="Direct link to 0.1.23" title="Direct link to 0.1.23" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed FormUpload fileList state sync issue in controlled state</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="021">0.2.1<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#021" class="hash-link" aria-label="Direct link to 0.2.1" title="Direct link to 0.2.1" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed SchemaForm fields touched when setting initialValues</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="020">0.2.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#020" class="hash-link" aria-label="Direct link to 0.2.0" title="Direct link to 0.2.0" translate="no">​</a></h2>
+<ul>
+<li class="">API change: Changed SchemaForm component valueName to valueBaseName</li>
+<li class="">Added form conventional processing, greatly simplifying data processing flow</li>
+<li class="">Fixed when valueBaseName has values, valueType is dependency, dataIndex in columns function needs to handle valueBaseName values</li>
+<li class="">Fixed dependency columns in readonly mode not processed</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0122">0.1.22<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0122" class="hash-link" aria-label="Direct link to 0.1.22" title="Direct link to 0.1.22" translate="no">​</a></h2>
+<ul>
+<li class="">Removed redundant console.log</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0121">0.1.21<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0121" class="hash-link" aria-label="Direct link to 0.1.21" title="Direct link to 0.1.21" translate="no">​</a></h2>
+<ul>
+<li class="">Adjusted BusinessSelectBuilder API</li>
+<li class="">Adjusted BusinessTreeSelectBuilder API</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0120">0.1.20<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0120" class="hash-link" aria-label="Direct link to 0.1.20" title="Direct link to 0.1.20" translate="no">​</a></h2>
+<ul>
+<li class="">Changed LinkButton type</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0119">0.1.19<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0119" class="hash-link" aria-label="Direct link to 0.1.19" title="Direct link to 0.1.19" translate="no">​</a></h2>
+<ul>
+<li class="">SettingProvider added SchemaForm global settings</li>
+<li class="">Improved ProTable frontend export</li>
+<li class="">Added FormUpload component</li>
+<li class="">SettingProvider added FormUpload global settings</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0118">0.1.18<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0118" class="hash-link" aria-label="Direct link to 0.1.18" title="Direct link to 0.1.18" translate="no">​</a></h2>
+<ul>
+<li class="">ModalForm added confirmOnClose</li>
+<li class="">BusinessSelect added clearSelectCache method</li>
+<li class="">BusinessTreeSelect added clearTreeSelectCache method</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0117">0.1.17<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0117" class="hash-link" aria-label="Direct link to 0.1.17" title="Direct link to 0.1.17" translate="no">​</a></h2>
+<ul>
+<li class="">ModalForm and ProTable onOpen method added third parameter formData</li>
+<li class="">Corrected ProColumnType</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0116">0.1.16<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0116" class="hash-link" aria-label="Direct link to 0.1.16" title="Direct link to 0.1.16" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed BusinessSelectBuilder reRender issue caused by cache</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0115">0.1.15<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0115" class="hash-link" aria-label="Direct link to 0.1.15" title="Direct link to 0.1.15" translate="no">​</a></h2>
+<ul>
+<li class="">ModalForm does not close dialog after onFinish failure</li>
+<li class="">Fixed BusinessSelectBuilder pagination component not throwing queryParams</li>
+<li class="">ModalForm innerRef openModal method added formType parameter; available during onOpen and onFinish; formType supports read</li>
+<li class="">ProTable innerRef openModal supports read</li>
+<li class="">Fixed ProTable columnsType</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0114">0.1.14<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0114" class="hash-link" aria-label="Direct link to 0.1.14" title="Direct link to 0.1.14" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed LinkButton classnames issue</li>
+<li class="">Refactored BusinessTreeSelect component, added queryParams</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0113">0.1.13<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0113" class="hash-link" aria-label="Direct link to 0.1.13" title="Direct link to 0.1.13" translate="no">​</a></h2>
+<ul>
+<li class="">Changed columns valueType</li>
+<li class="">Tested SchemaForm fieldProps unable to get form instance</li>
+<li class="">Removed src</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0112">0.1.12<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0112" class="hash-link" aria-label="Direct link to 0.1.12" title="Direct link to 0.1.12" translate="no">​</a></h2>
+<ul>
+<li class="">Added dependency @ant-design/pro-utils</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0111">0.1.11<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0111" class="hash-link" aria-label="Direct link to 0.1.11" title="Direct link to 0.1.11" translate="no">​</a></h2>
+<ul>
+<li class="">Put src files in package</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0110">0.1.10<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#0110" class="hash-link" aria-label="Direct link to 0.1.10" title="Direct link to 0.1.10" translate="no">​</a></h2>
+<ul>
+<li class="">ProTable added noPadding</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="019">0.1.9<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#019" class="hash-link" aria-label="Direct link to 0.1.9" title="Direct link to 0.1.9" translate="no">​</a></h2>
+<ul>
+<li class="">Changed use case, deprecated renderFormItem for display control</li>
+<li class="">Extended valueType definition</li>
+<li class="">BusinessSelect and BusinessTreeSelect support type generic</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="018">0.1.8<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#018" class="hash-link" aria-label="Direct link to 0.1.8" title="Direct link to 0.1.8" translate="no">​</a></h2>
+<ul>
+<li class="">Fixed LinkButton warnings</li>
+<li class="">Fixed BusinessTreeSelect loading error</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="017">0.1.7<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#017" class="hash-link" aria-label="Direct link to 0.1.7" title="Direct link to 0.1.7" translate="no">​</a></h2>
+<ul>
+<li class="">Added Button component</li>
+<li class="">Added LinkButton component</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="016">0.1.6<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#016" class="hash-link" aria-label="Direct link to 0.1.6" title="Direct link to 0.1.6" translate="no">​</a></h2>
+<ul>
+<li class="">Added SchemaForm embed mode</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="015">0.1.5<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#015" class="hash-link" aria-label="Direct link to 0.1.5" title="Direct link to 0.1.5" translate="no">​</a></h2>
+<ul>
+<li class="">Added BusinessSelect component</li>
+<li class="">Added BusinessTreeSelect component</li>
+<li class="">Added SettingProvider component</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="014">0.1.4<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#014" class="hash-link" aria-label="Direct link to 0.1.4" title="Direct link to 0.1.4" translate="no">​</a></h2>
+<ul>
+<li class="">Moved react out of dependency</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="013">0.1.3<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#013" class="hash-link" aria-label="Direct link to 0.1.3" title="Direct link to 0.1.3" translate="no">​</a></h2>
+<ul>
+<li class="">Added types <code>ProColumnType</code> and <code>InnerRefType</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="012">0.1.2<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#012" class="hash-link" aria-label="Direct link to 0.1.2" title="Direct link to 0.1.2" translate="no">​</a></h2>
+<ul>
+<li class="">Removed css modules</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="011">0.1.1<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#011" class="hash-link" aria-label="Direct link to 0.1.1" title="Direct link to 0.1.1" translate="no">​</a></h2>
+<ul>
+<li class="">Adjusted dependencies</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="010">0.1.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v0#010" class="hash-link" aria-label="Direct link to 0.1.0" title="Direct link to 0.1.0" translate="no">​</a></h2>
+<ul>
+<li class="">Initial release testing</li>
+</ul>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
