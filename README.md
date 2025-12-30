@@ -1,5 +1,6 @@
 # react-admin-kit
 
+[中文文档](./README.zh-CN.md)
 
 <p>
   <a href="https://www.npmjs.com/package/react-admin-kit"><img src="https://badgen.net/npm/v/react-admin-kit" alt="Version" /></a>
@@ -9,79 +10,79 @@
 
 <p align="left">
     <img alt='react admin kit logo' height="80" src="https://github.com/jaykou25/react-admin-kit/raw/v0.3/public/rak.png">
-  <p style="font-size: 22px">快速构建表单表格的 React 组件库</p>
+  <p style="font-size: 22px">A React component library for rapidly building forms and tables</p>
 </p>
 
-[文档 (github pages)](https://jaykou25.github.io/react-admin-kit/)
+[Documentation (github pages)](https://jaykou25.github.io/react-admin-kit/)
 
-v1.0 版本正式发布！测试全面覆盖，代码覆盖率大于 90%，分支覆盖率大于 85%。
+Version v1.0 is officially released! Comprehensive test coverage with code coverage over 90% and branch coverage over 85%.
 
  <img alt='coverage' width='490px'  src="images/coverage.png">
 
-## 简介
+## Introduction
 
-React Admin Kit (简称 RAK) 是一个基于 React 和 Ant Design 的组件库, 用于在中后台系统中快速的构建表单表格. RAK 的使用不仅能极大的提升开发效率, 而且由于其约定式的 api 还能降低后期不同开发人员的维护成本. 另外由于表单和表格都是由配置式数组生成, 使得不同页面间的表单和表格的复用变得非常简单.
+React Admin Kit (RAK) is a component library based on React and Ant Design, designed for rapidly building forms and tables in admin systems. Using RAK not only greatly improves development efficiency but also reduces maintenance costs for different developers due to its convention-based API. Additionally, since forms and tables are generated from configuration arrays, reusing forms and tables across different pages becomes very simple.
 
-## 为什么要有这套组件库
+## Why This Component Library?
 
-或者说已经有了 ProComponent 为什么还需要 RAK?
+Or why do we need RAK when ProComponent already exists?
 
-对于中后台业务系统(简称 admin 系统), ProComponent 的`ProLayout`, `ProTable`等组件已经成为了一个典范, 它们极大的方便了我们前端开发者.
+For admin business systems, ProComponent's components like `ProLayout` and `ProTable` have become a paradigm, greatly facilitating our frontend developers.
 
-然而, ProComponent 还是存在着一些问题, 或者说它总是达不到像 Antd 一样的使用体验. 究其原因, 对我而言, 是在文档的阅读和组件的选择上需要花费较多的时间成本...
+However, ProComponent still has some issues, or it doesn't quite achieve the same user experience as Antd. The reason, for me, is that it takes too much time to read the documentation and select the right components...
 
-我们只想把视角聚焦在两个点上, 表格(Table)和表单(Form), 也是 admin 系统中使用最多的页面结构, 以 schema 为核心把 Table 和 Form 串联起来. 并以此衍生出一些其它的组件.
+We want to focus on just two points: Table and Form, which are the most commonly used page structures in admin systems. We connect Table and Form with schema at the core, and derive other components from this.
 
-如果你是 ProComponent 用户, 那大部分的 api 都可以透传给 RAK. 如果你之前未使用过 ProComponent, 那也完全可以直接通过 RAK 的用例和文档来开始使用, 渐近式的使用其它的 api.
+If you're a ProComponent user, most APIs can be passed through to RAK. If you haven't used ProComponent before, you can start directly with RAK's examples and documentation, progressively using other APIs.
 
-## 如何使用
+## How to Use
 
-RAK 依赖 Antd, 所以在使用前需要先安装 Antd.
+RAK depends on Antd, so you need to install Antd first.
 
 ```bash
 yarn add antd
 ```
 
-安装 RAK
+Install RAK
 
 ```bash
 $ yarn add react-admin-kit
 ```
-查看 [组件文档](https://jaykou25.github.io/react-admin-kit/components/schema-form) 并开始使用✨.
+View [Component Documentation](https://jaykou25.github.io/react-admin-kit/components/schema-form) and get started ✨.
 
-> 如果要使用 antd v4 版本请看下面的注意事项👇
+> If you want to use antd v4, please see the notes below 👇
 >
-> 使用 antd v4 版本需要引入样式文件.
+> Using antd v4 requires importing the style file.
 >
 > ```js
 > import 'antd/dist/antd.min.css';
 > ```
 >
-> 由于 ProComponent 引入了 antd v5的一些组件, 比如 ColorPicker. 如果你使用 vite 打包器会在本地开发时启动报错, 可以改用 webpack 打包器来开发. 
+> Since ProComponent introduces some components from antd v5, such as ColorPicker. If you use the vite bundler, you will encounter errors during local development. You can switch to the webpack bundler for development.
 >
-> 请使用 RAK < v0.4的版本, v0.4 以后只支持 antd v5.
+> Please use RAK < v0.4, v0.4 and later only support antd v5.
 
-### 生成表单
+### Generate Forms
 
-常规的表单是由 Form.Item 组成.
+Conventional forms are composed of Form.Item.
 
 ```js
 import { Form, Input, DatePicker, Select } from 'antd';
 
 <Form onFinish={handleFinish}>
-  <Form.Item label="客户名称" name="name">
+  <Form.Item label="Customer Name" name="name">
     <Input />
   </Form.Item>
 
-  <Form.Item label="合同日期" name="contractDate">
+  <Form.Item label="Contract Date" name="contractDate">
     <DatePicker />
   </Form.Item>
 
-  <Form.Item label="支付方式" name="payType">
+  <Form.Item label="Payment Method" name="payType">
     <Select
       options={[
-        { label: '支付宝', value: '1' },
-        { label: '微信', value: '2' },
+        { label: 'Alipay', value: '1' },
+        { label: 'WeChat', value: '2' },
       ]}
     />
     ;
@@ -89,62 +90,62 @@ import { Form, Input, DatePicker, Select } from 'antd';
 </Form>;
 ```
 
-RAK 通过 schemas 生成表单, 一个 schema 对应一个 Form.Item.
+RAK generates forms through schemas, where one schema corresponds to one Form.Item.
 
 ```js
 import { SchemaForm } from 'react-admin-kit';
 
 const columns = [
   {
-    title: '客户名称',
+    title: 'Customer Name',
     dataIndex: 'name',
   },
   {
-    title: '合同日期',
+    title: 'Contract Date',
     dataIndex: 'contractDate',
     valueType: 'date',
   },
   {
-    title: '支付方式',
+    title: 'Payment Method',
     dataIndex: 'payType',
     valueType: 'select',
     fieldProps: {
       options: [
-        { label: '支付宝', value: '1' },
-        { label: '微信', value: '2' },
+        { label: 'Alipay', value: '1' },
+        { label: 'WeChat', value: '2' },
       ],
     },
   },
 ];
 
-// 具体请参考各组件文档
+// Please refer to each component's documentation
 const Demo = () => {
   return <SchemaForm columns={columns} onFinish={handleFinish} />;
 };
 ```
 
-### 生成表格
+### Generate Tables
 
 ```js
 import { ProTable } from 'react-admin-kit';
 
-// 具体请参考各组件文档
+// Please refer to each component's documentation
 const Demo = () => {
   return <ProTable columns={columns} />;
 };
 ```
 
-## 核心组件介绍
+## Core Components Introduction
 
-RAK 只有 3 个核心组件, 并且它们是组合的关系:
+RAK has only 3 core components, and they are composable:
 
-- `SchemaForm - JSON表单`: `SchemaForm`
-- `ModalForm - 弹窗表单`: `Modal` + `SchemaForm`
-- `ProTable - 高级表格`: `ProTable` + `ModalForm`
+- `SchemaForm - JSON Form`: `SchemaForm`
+- `ModalForm - Modal Form`: `Modal` + `SchemaForm`
+- `ProTable - Advanced Table`: `ProTable` + `ModalForm`
 
-所以组件间的属性是可以透传的. 比如在`ModalForm`组件中就可以透传`SchemaForm`的属性. 在`ProTable`组件中可以透传`Modal`和`SchemaForm`的属性. 具体可以参见各组件的文档说明.
+So component properties can be passed through. For example, in the `ModalForm` component, you can pass through `SchemaForm` properties. In the `ProTable` component, you can pass through `Modal` and `SchemaForm` properties. See each component's documentation for details.
 
-## 项目依赖
+## Project Dependencies
 
 ```js
 {
@@ -159,4 +160,4 @@ RAK 只有 3 个核心组件, 并且它们是组合的关系:
 }
 ```
 
-推荐使用 antd v5.
+Recommend using antd v5.
