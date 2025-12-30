@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "description": "react admin kit 网站",
+  "homepage": "https://jaykou25.github.io/react-admin-kit",
   "scripts": {
     "build": "docusaurus build",
     "clear": "docusaurus clear",
-    "deploy": "docusaurus deploy",
+    "deploy": "gh-pages -d build",
     "docusaurus": "docusaurus",
     "serve": "docusaurus serve",
     "start": "set HOST=0.0.0.0 && docusaurus start --port 3600 --no-open --host 0.0.0.0",
