@@ -31,6 +31,9 @@ For migration from v0, please pay attention to the changes below.
 - ProTable component property name changed (`confirmModelType` changed to `delConfirmType`).
 - ProTable component property changes (`confirmModalProps` removed, changed to `delPopconfirmProps` and `delModalConfirmProps`).
 - ProTable component property name changed (`optionColSpaceSize` changed to `optionColumnSpaceProps`).
+- ProTable component export functionality changes:
+   1. Removed the default dependency on the exceljs library, which helps reduce the bundle size of the component library.
+   2. For pages that need export functionality, you need to install the exceljs library first, then call the related methods. [Reference documentation](/components/protable#exporting-table-data-to-excel)
 - FormUpload component removed the functionality of automatically injecting the loading property to children. Changed to provide the loading property to the children function.
 
 #### Types <TsImg />
