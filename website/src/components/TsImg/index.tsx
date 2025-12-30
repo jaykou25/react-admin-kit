@@ -1,0 +1,11 @@
+const TsImg = () => {
+  return (
+    <img
+      width="20"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg=="
+      style={{ verticalAlign: '-3px' }}
+    ></img>
+  );
+};
+
+export default TsImg;

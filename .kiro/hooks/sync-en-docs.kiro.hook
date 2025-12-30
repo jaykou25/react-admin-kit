@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "Sync English Documentation",
+  "description": "When Chinese documentation files are modified, find the corresponding English version and update it based on the Chinese content",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "website/docs/**/*.md",
+      "website/blog/**/*.md",
+      "website/i18n/zh-Hans/**/*.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "当前页的文档已经修改，请找到对应的英文版的文档，根据中文文档来调整英文版的内容. \n\n注意 \n1. 用例的地址如果有英文版的还是要保持英文版。\n2. 在翻译时 header 尽量保持短一点。"
+  }
+}

@@ -1,0 +1,90 @@
+---
+date: 2025-01-02
+sidebar_label: ModalForm - 弹窗表单:1:核心组件:0
+---
+
+# ModalForm - 弹窗表单
+
+通过 schema 生成一个 **弹窗** 表单。
+
+这个组件是 [Modal](https://ant-design.antgroup.com/components/modal-cn#api) 和 [SchemaForm](/components/schema-form) 的结合，此可以透传它们两者的 API。
+
+## 基础
+
+### 基本的使用方法
+
+<Previewer src="@@/ModalForm/demos/basic/index.tsx" />
+
+### 非受控模式 (推荐)
+
+利用 RAK 提供的 [innerRef](/components/modal-form#modalforminnerreftype)，无需额外定义 open 变量就能控制弹窗，用更加简洁。后面的用例默认使用该方式。
+
+<Previewer src="@@/ModalForm/demos/innerRef/index.tsx" />
+
+### 表单类型
+
+打开的表单有三种类型：新增，编辑，只读。还能传入初始值。
+
+<Previewer src="@@/ModalForm/demos/form-type/index.tsx" />
+
+### onFinish
+
+在 onFinish 函数里可以根据表单类型来调不同的接口。
+
+<Previewer src="@@/ModalForm/demos/onFinish/index.tsx" />
+
+### onOpen
+
+利用 `onOpen` 在弹窗打开时请求接口。
+
+<Previewer src="@@/ModalForm/demos/onOpen/index.tsx" />
+
+## 布局
+
+通过 `formProps` 属性传入 [SchemaForm](/components/schema-form#schemaform) 组件的 API, 来改变表单的布局。
+
+### 多列排布
+
+<Previewer src="@@/ModalForm/demos/multipleCol/index.tsx" />
+
+### 长表单校验时滚动到所在项
+
+<Previewer src="@@/ModalForm/demos/longForm/index.tsx" />
+
+## 表单操作
+
+### 显示与隐藏
+
+使用 `valueType=dependency` 来做显示与隐藏。
+
+<Previewer src="@@/ModalForm/demos/initValue/index.tsx" />
+
+## 表单数据
+
+表单数据请参考 [SchemaForm](/components/schema-form#表单数据)
+
+### 约定式
+
+与 [SchemaForm](/components/schema-form#约定式) 一样，ModalForm 同样支持约定式数据处理.
+
+<Previewer src="@@/ModalForm/demos/convention/index.tsx" />
+
+### 利用 innerRef 存储额外信息
+
+与 [SchemaForm](/components/schema-form#利用-innerref-存储额外信息) 一样，ModalForm 也能利用 innerRef 存储额外数据.
+
+<Previewer src="@@/ModalForm/demos/innerRefData/index.tsx" />
+
+## API
+
+### ModalForm
+
+ModalForm 类型是 [ModalFormSelfType](/components/modal-form#modalformselftype) 和 <Link src='https://ant-design.antgroup.com/components/modal-cn#api'>Antd Modal</Link> 的结合。
+
+#### ModalFormSelfType
+
+<API name="ModalFormType" typeStyles={{ minWidth: '180px' }} />
+
+### ModalFormInnerRefType
+
+<API name="ModalFormInnerRefTypeComponent" />

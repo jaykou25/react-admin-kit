@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "react-admin-kit": ["src"],
+      "react-admin-kit/*": ["src/*", "*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

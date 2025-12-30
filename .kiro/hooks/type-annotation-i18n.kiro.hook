@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Type Annotation Internationalization",
+  "description": "Generates English versions of type annotations with @en prefix and adds @zh-Hans prefix to Chinese comments that don't have it",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Please analyze the current document and perform the following tasks:\n\n1. For any type annotations or comments in Chinese, generate an English version and add it with the @en prefix\n2. For any Chinese comments that don't already have the @zh-Hans prefix, add the @zh-Hans prefix to them\n3. Maintain the original formatting and structure of the code\n4. Ensure the English translations are accurate and use proper technical terminology\n5. Keep both language versions for better internationalization support\n\nFocus on type annotations, interface definitions, JSDoc comments, and inline comments. Make sure the translations are contextually appropriate for the React Admin Kit library and its TypeScript/JavaScript codebase."
+  }
+}

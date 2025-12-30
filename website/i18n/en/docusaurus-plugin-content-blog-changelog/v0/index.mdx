@@ -1,0 +1,380 @@
+---
+date: 2025-01-02
+sidebar_label: v0
+title: v0 Changelog
+---
+
+## 0.5.11
+ModalForm component
+- style: Fixed scrollbar issue with long forms.
+
+## 0.5.10
+ModalForm component
+- 🐛 Fixed initialValue related warnings.
+
+## 0.5.9
+- 🐛 Added capturing of pro-component warning messages, e.g., `antd: Form.Item`.
+
+ModalForm component
+- 🐛 Merged initialValues handling with initial values in openModal.
+
+## 0.5.8
+- 🐛 Added capturing of pro-component warning messages, e.g., `Warning: findDOMNode is deprecated`.
+
+## 0.5.7
+BusinessSelect component
+- 🐛 Fixed BusinessSelect grouped options issue.
+
+## 0.5.6
+BusinessSelect component
+- 🐛 Fixed BusinessSelect component disabled property not being received. Also added grouped options.
+
+## 0.5.5
+ModalForm component
+- 💄 ModalForm scrollbar sticks to edge when form has scrolling.
+
+SchemaForm component
+- 🐛 Fixed issue where required property in schema was ineffective when formItemProps is a function.
+
+## 0.5.4
+BusinessSelect component
+- 🆕 Added searchDebounceValue property to control debounce value during component search.
+- 🐛 Fixed conflict between loading and allowClear during component search.
+
+
+## 0.5.3
+ProTable component
+- 🐛 Fixed search form valueType: dependency being ineffective.
+
+## 0.5.1
+2024-5-20
+
+ProForm component
+- 🐛 Fixed formRef conventional assignment not updating in time.
+- 🐛 Fixed grid layout failure for valueType: formList in `embed` mode.
+
+## 0.5.0
+2024-5-15
+
+- ✨ Refactored SchemaForm and ProForm conventional implementation. Fixed issue where form conventional assignment was ineffective in fieldProps function. Added test case coverage.
+
+## 0.4.4
+2024-5-11
+
+SchemaForm component, ProForm component
+- 🐛 Fixed **form instance** methods `validateFields`, `getFieldsFormatValue`, `validateFieldsReturnFormatValue` not handling conventional processing.
+
+## 0.4.3
+2024-5-6
+
+ModalForm component
+- 🐛 Fixed ModalForm component (or ProTable) nested in ProForm component where form in fieldProps function was being overwritten.
+
+## 0.4.1
+2024-4-25
+
+SchemaForm component
+- 🐛 Fixed getFieldsValue not processing conventional values.
+
+## 0.4.0
+2024-4-12
+
+Removed deprecated APIs from antd v4. Versions after v0.4 only support antd v5.
+
+ModalForm component
+- Removed bodyStyle API.
+
+SchemaForm component
+- 🆕 In read-only mode, the second parameter of the render function is extended from entity to record. This record not only contains all form item values, but also includes non-form item values from initialValues and values set via setFieldsValue, increasing practicality.
+
+## 0.3.23
+Same as 0.4.4
+
+## 0.3.22
+Same as 0.4.3
+
+## 0.3.19
+Same as 0.4.1
+
+## 0.3.18
+2024-4-9
+
+ProTable component
+- <TsImg /> Fixed ProTable search property type definition.
+
+
+## 0.3.17
+2024-4-9
+
+Documentation examples updated to antd v5.
+
+ModalForm component
+- <TsImg /> Fixed ModalFormInnerRefType type definition, allowing useRef() default value to be empty after fix.
+
+ProTable component
+- <TsImg /> Fixed TableColumnType type definition, making hints more accurate after fix.
+
+## 0.3.16
+2024-2-11
+
+ModalForm component
+- 🐛 Fixed openModal('read') read-only method being ineffective for dependency sub-items.
+
+ProTable component
+- 🐛 Fixed innerRef and innerRef in fieldProps not being the same object.
+
+## 0.3.15
+2024-2-7
+
+ProTable component
+- 🛠 Schema type field added 'search' type, representing items only used in ProTable's search area.
+- 🆕 Added defaultHideInSearch property to globally control whether columns display in the search area by default.
+
+## 0.3.14
+2024-2-2
+
+ProTable component
+- 🆕 Added reload global event for controlling table refresh from other pages.
+
+## 0.3.13
+2023-12-3
+
+ProTable component
+- 🐛 Delete button added stopPropogation.
+
+## 0.3.12
+2023-12-1
+
+SchemaForm component
+- 🐛 Fixed conventional assignment issue: setFieldsValue assignment would empty other form item values.
+
+## 0.3.11
+2023-11-29
+
+SchemaForm component
+- 🐛 Fixed conventional assignment issue: assuming component is labelInValue, dataIndex is userId, userName, when backend returns empty userId and userName, previously assigned empty object to component, now changed to assign undefined.
+
+## 0.3.10
+2023-11-28
+
+BusinessSelect component
+- 🆕 Added onLoad event, triggered after dropdown data loading completes.
+
+BusinessTreeSelect component
+- 🆕 Same as above, added onLoad event.
+
+## 0.3.9
+2023-11-27
+
+ProTable component
+- 🆕 Added optionColumnSpaceProps property to control button arrangement in table operation column.
+- 🐛 Fixed issue where component-level options property set to false was overridden when global options property was set.
+
+SettingProvider global settings
+- 🆕 Added optionColumnSpaceProps property to globally control button arrangement in table operation columns.
+
+
+## 0.3.7
+2023-11-22
+
+BusinessSelect component
+- Fixed allowClear and showSearch properties being overridden by internal default properties.
+
+## 0.3.6
+
+2023-11-19
+
+SchemaForm component
+
+- Fixed setFieldsValue ineffective for conventional data assignment.
+
+FormUpload component
+
+- No error when value is empty string
+
+ProTable component
+
+- Fixed reload not triggering when actionRef not passed for integrated delete functionality
+
+## 0.3.5
+
+Button component
+
+- Added type definitions
+
+FormUpload component
+
+- Component injects loading property to children component during upload.
+- Component children can also be a function, with loading passed to children function.
+- `Documentation` added file import example
+
+## 0.3.4
+
+ProTable component
+
+- ProTable `search` property added labelWrap ts type.
+- ProTable component added `confirmModalType` and `confirmModalProps` properties to control delete dialog type. Default type is Popconfirm.
+- Delete button in ProTable operation column added btnText property to change button text. `{ enableDelete: () => ({btnText: ''}) }`
+- ProTable `tableAlertOption` property added `deleteProps` property to control batch delete button properties.
+
+Global settings SettingProvider
+
+- SettingProvider added global property settings for ProTable, enabling global configuration of delete dialog type and prompt text, etc.
+
+## 0.3.3
+
+- ModalForm component innerRef added formType field to indicate current form type, `new | edit | read`
+- SchemaForm component schema added required field, shorthand for formItemProps: `{ rules: [{ required: true }]}`
+- ProTable component schema added type field, `form | table`, to specify whether this schema is used for table or form, when type is empty it applies to both form and table.
+
+## 0.3.2
+
+- Fixed SchemaForm error in converting array-type values during onFinish.
+
+## 0.3.1
+
+- Fixed SchemaForm formRef ineffective when initialValues has values.
+- Fixed ProForm formRef ineffective when initialValues has values.
+
+## 0.3.0
+
+- Documentation upgraded to dumi2.0
+- ProForm component added innerRef property.
+- SchemaForm component submitter property added style property.
+- Fixed ProTable component undefined issue when name not passed.
+- Fixed SchemaForm component reset form causing initial values loss when initialValues has values.
+- API change: Protable component `hideExport` property in tableAlertOption renamed to `enableExport`
+- API change: FormUpload component onChange property modified:
+  - Changed from triggering onChange on any file change to only triggering after all files uploaded, and upload error files are not included in files.
+  - onFinish property same as onChange.
+
+## 0.2.2
+
+- Fix same as 0.1.23
+
+## 0.1.23
+
+- Fixed FormUpload fileList state sync issue in controlled state
+
+## 0.2.1
+
+- Fixed SchemaForm fields touched when setting initialValues
+
+## 0.2.0
+
+- API change: Changed SchemaForm component valueName to valueBaseName
+- Added form conventional processing, greatly simplifying data processing flow
+- Fixed when valueBaseName has values, valueType is dependency, dataIndex in columns function needs to handle valueBaseName values
+- Fixed dependency columns in readonly mode not processed
+
+## 0.1.22
+
+- Removed redundant console.log
+
+## 0.1.21
+
+- Adjusted BusinessSelectBuilder API
+- Adjusted BusinessTreeSelectBuilder API
+
+## 0.1.20
+
+- Changed LinkButton type
+
+## 0.1.19
+
+- SettingProvider added SchemaForm global settings
+- Improved ProTable frontend export
+- Added FormUpload component
+- SettingProvider added FormUpload global settings
+
+## 0.1.18
+
+- ModalForm added confirmOnClose
+- BusinessSelect added clearSelectCache method
+- BusinessTreeSelect added clearTreeSelectCache method
+
+## 0.1.17
+
+- ModalForm and ProTable onOpen method added third parameter formData
+- Corrected ProColumnType
+
+## 0.1.16
+
+- Fixed BusinessSelectBuilder reRender issue caused by cache
+
+## 0.1.15
+
+- ModalForm does not close dialog after onFinish failure
+- Fixed BusinessSelectBuilder pagination component not throwing queryParams
+- ModalForm innerRef openModal method added formType parameter; available during onOpen and onFinish; formType supports read
+- ProTable innerRef openModal supports read
+- Fixed ProTable columnsType
+
+## 0.1.14
+
+- Fixed LinkButton classnames issue
+- Refactored BusinessTreeSelect component, added queryParams
+
+## 0.1.13
+
+- Changed columns valueType
+- Tested SchemaForm fieldProps unable to get form instance
+- Removed src
+
+## 0.1.12
+
+- Added dependency @ant-design/pro-utils
+
+## 0.1.11
+
+- Put src files in package
+
+## 0.1.10
+
+- ProTable added noPadding
+
+## 0.1.9
+
+- Changed use case, deprecated renderFormItem for display control
+- Extended valueType definition
+- BusinessSelect and BusinessTreeSelect support type generic
+
+## 0.1.8
+
+- Fixed LinkButton warnings
+- Fixed BusinessTreeSelect loading error
+
+## 0.1.7
+
+- Added Button component
+- Added LinkButton component
+
+## 0.1.6
+
+- Added SchemaForm embed mode
+
+## 0.1.5
+
+- Added BusinessSelect component
+- Added BusinessTreeSelect component
+- Added SettingProvider component
+
+## 0.1.4
+
+- Moved react out of dependency
+
+## 0.1.3
+
+- Added types `ProColumnType` and `InnerRefType`
+
+## 0.1.2
+
+- Removed css modules
+
+## 0.1.1
+
+- Adjusted dependencies
+
+## 0.1.0
+
+- Initial release testing

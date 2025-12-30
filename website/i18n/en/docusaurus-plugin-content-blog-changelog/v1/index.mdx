@@ -1,0 +1,40 @@
+---
+date: 2025-01-01
+sidebar_label: v1
+title: v1 Changelog
+---
+
+{/* ### New
+
+### Changes
+
+### Fixes
+
+### Types */}
+
+## 1.0.0
+
+Version 1.0 achieves comprehensive test coverage with over 90% code coverage and 85% branch coverage.
+
+For migration from v0, please pay attention to the changes below.
+
+#### New 🆕
+
+- Added internationalization (i18n) support to the component library.
+- Added SSR support to the component library.
+- Added utils methods [utils-tree](/components/utils-tree).
+- SchemaForm component added [read-only table mode](/components/schema-form#readonly-table-mode).
+- ProTable component added `delSuccessProps` property.
+
+#### Changes 💥
+- ProTable component property changes (`modalProps` and `formProps` merged into `modalFormProps`).
+- ProTable component property name changed (`confirmModelType` changed to `delConfirmType`).
+- ProTable component property changes (`confirmModalProps` removed, changed to `delPopconfirmProps` and `delModalConfirmProps`).
+- ProTable component property name changed (`optionColSpaceSize` changed to `optionColumnSpaceProps`).
+- ProTable component export functionality changes:
+   1. Removed the default dependency on the exceljs library, which helps reduce the bundle size of the component library.
+   2. For pages that need export functionality, you need to install the exceljs library first, then call the related methods. [Reference documentation](/components/protable#exporting-table-data-to-excel)
+- FormUpload component removed the functionality of automatically injecting the loading property to children. Changed to provide the loading property to the children function.
+
+#### Types <TsImg />
+- ProForm component `submitter` property now supports boolean type.

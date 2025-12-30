@@ -1,0 +1,158 @@
+---
+date: 2025-02-01
+sidebar_label: BusinessSelect - 业务下拉:0:衍生组件:1
+---
+
+# BusinessSelect - 业务下拉
+
+在表单中我们常常会用到**通过接口**获取选项的下拉组件（在这里称之为业务下拉）。传统的实现方式是直接在页面中请求接口，处理选项数据。但如果页面中有多个业务下拉时就会带来以下问题：
+
+1. 相似代码过多（请求、处理、赋值）
+
+2. 有些下拉需要滚动分页，需求难以统一处理
+
+3. 跨页面复用性差
+
+是不是可以把这些组件集中在一起管理呢？简单来说就是把所有的业务下拉合并成**一个**组件，通过 `type` 区分不同的类型，实现：
+
+- 统一管理入口
+
+- 内置分页支持
+
+- 跨页面复用
+
+下面是组件的初始化示例:
+
+```ts
+import { BusinessSelectBuilder } from 'react-admin-kit';
+
+// 定义 type 类型，方便在使用时有代码提示
+type SelectType = 'color' | 'brand';
+
+const BusinessSelect = BusinessSelectBiulder<SelectType>({
+  apis: [
+    {
+      type: 'color',
+      api: queryColorFunction,
+    },
+    {
+      type: 'brand',
+      api: queryBrandFunction,
+      pagination: true,
+    },
+  ],
+});
+
+// 在页面上使用
+<BusinessSelect type="color" />;
+<BusinessSelect type="brand" />;
+```
+
+> 请求接口的返回格式必须为 `{data: []，total: xx}`，对于非分页组件 total 可不返回。
+>
+> 其中 data 为一个对象数组，组件默认读取 `name` 作为文本显示，`id` 作为下拉取值。
+>
+> 注意 antd Select 组件是使用的 `label` 和 `value` 作为文本和下拉取值字段. 本组件使用 `name` 和 `id` 来取值是因为后端返回的数据中这两个值更为通用. 当然你可以通过 `fieldNames` api 来更改取值字段。
+
+## 基本的使用方法
+
+`BusinessSelect`是 <Link src='https://ant.design/components/select-cn#select-props'>Antd Select</Link> 的封装，因此组件可以接受 antd Select 的所有属性。
+
+<Previewer src="@@/BusinessSelectBuilder/demos/basic/index.tsx" />
+
+## 多次引用只会请求一次接口
+
+下拉数据默认会自动缓存
+
+<Previewer src="@@/BusinessSelectBuilder/demos/oneQuery/index.tsx" />
+
+## 请求接口带查询参数 queryParams
+
+有时我们需要给接口传递查询参数。
+
+比如有一个人员接口会根据 type 来区分不同的人员类型，在 A 页面用的是 type=1，在 B 页面用的是 type=2。 这种情况可以使用 `queryParams` 属性
+
+```js
+// A页面
+<BusinessSelect type="user" queryParams={{ type: 1 }} />
+
+// B页面
+<BusinessSelect type="user" queryParams={{ type: 2 }} />
+```
+
+> 当 queryParams 传入值时，该下拉将不缓存数据
+
+<Previewer src="@@/BusinessSelectBuilder/demos/queryParams/index.tsx" />
+
+## 分页下拉及其搜索
+
+当下拉数据量很大时，将 ApiType 中的 pagination 设为 true，组件即开启分页模式，支持滚动到底部加载下一页和远程搜索。
+
+组件会给接口抛出 current，searchValue 两个查询参数供请求接口使用。
+
+```js
+// ApiType
+{
+  api: ({ current, searchValue }) => request();
+}
+```
+
+<Previewer src="@@/BusinessSelectBuilder/demos/search/index.tsx" />
+
+## 清除缓存
+
+使用 `clearSelectCache(type: string)` 方法清除缓存。 type 不传清除所有类型的缓存。
+
+<Previewer src="@@/BusinessSelectBuilder/demos/clearCache/index.tsx" />
+
+## 定义下拉取值字段
+
+下拉的 label 默认取值是 `name` 字段，value 的默认取值是 `id`。如果要更改取值字段，可通过 `fieldNames` 属性来更改。
+
+```js
+<BusinessSelect
+  type="user"
+  fieldNames={{ value: 'userId', label: 'userName' }}
+/>
+```
+
+除了可以在 BusinessSelect 上设置以外，还可以在 BusinessSelectBuilder 上设置：
+
+```js
+BusinessSelectBuilder({
+  apis: [
+    {
+      type: 'user'
+      defaultProps: {
+        fieldNames: {
+          value: 'userId', label: 'userName'
+        }
+      }
+    }
+  ]
+})
+```
+
+## onLoad 事件
+
+当下拉数据加载完成后会触发 onLoad 事件。这个事件对于某些场景非常有用，例如可以用它实现默认选中第一条数据。
+
+<Previewer src="@@/BusinessSelectBuilder/demos/onLoad/index.tsx" />
+
+## API
+
+### BusinessSelectBuilder
+
+<API name="BusinessSelectBuilder" />
+
+### ApiType
+
+<API name="BizApi" />
+
+### BusinessSelect
+
+BusinessSelect 类型是 [BusinessSelectSelfType](/components/business-select#businessselectselftype) 和 <Link src='https://ant.design/components/select-cn#select-props'>SelectProps</Link> 的结合。
+
+#### BusinessSelectSelfType
+
+<API name="BusinessSelectSelf" />

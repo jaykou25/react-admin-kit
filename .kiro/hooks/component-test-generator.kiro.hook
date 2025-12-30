@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "简洁 Component Test Generator",
+  "description": "Automatically creates test cases for React components in a cases folder within the component directory. Tests are kept simple and focused on basic functionality rather than edge cases.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "packages/react-admin-kit/src/**/*.tsx",
+      "packages/react-admin-kit/src/**/*.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A React component file has been modified. Please analyze the component and create appropriate test cases for it. The test cases should be:\n\n1. Simple and clear, focusing on basic functionality\n2. Not required to cover edge cases\n3. Saved in a 'cases' folder within the component's directory\n4. Written using Jest and React Testing Library\n5. Based on the component's props, functionality, and usage patterns\n\nPlease examine the modified file and generate test cases that verify the component's core behavior, prop handling, and rendering logic. Keep the tests concise and maintainable."
+  }
+}

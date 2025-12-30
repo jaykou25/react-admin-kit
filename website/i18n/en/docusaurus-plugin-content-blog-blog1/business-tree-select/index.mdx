@@ -1,0 +1,78 @@
+---
+date: 2025-02-02
+sidebar_label: BusinessTreeSelect:1:Derived Components:1
+---
+
+# BusinessTreeSelect
+
+Provides the same functionality as BusinessSelect, but works with **tree** data instead of flat lists.
+
+Define once, use conveniently across your entire application.
+
+Here's the component initialization example:
+
+```js
+import { BusinessTreeSelectBuilder } from 'react-admin-kit';
+
+// Define type for code hinting
+type TreeSelectType = 'org';
+
+const BusinessTreeSelect = BusinessTreeSelectBuilder<TreeSelectType>(
+  {
+    apis: [
+      {
+        type: 'org',
+        api: queryOrgFunction,
+      },
+    ],
+  })
+
+// Usage in pages
+<BusinessTreeSelect type="org" />;
+```
+
+> Since it processes tree data, pagination is not needed. The API should return an array of objects directly, with `name` as display text and `id` as value by default.
+
+## Basic Usage
+
+`BusinessTreeSelect` is a wrapper around <Link src='https://ant.design/components/tree-select#api'>Antd TreeSelect</Link>, so it accepts all Antd TreeSelect properties.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/basic-en/index.tsx" />
+
+## Cascading
+
+- This example shows department options cascading based on company selection.
+
+- Use `queryParams` to pass parameters to the API.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/queryParams-en/index.tsx" />
+
+## Clear Cache
+
+Use `clearTreeSelectCache(type: string)` to clear cache. Omitting `type` clears all type caches.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/clearCache-en/index.tsx" />
+
+## onLoad Event
+
+Triggered when dropdown data finishes loading. This event is useful for certain scenarios, such as auto-selecting the first item.
+
+<Previewer src="@@/BusinessTreeSelectBuilder/demos/onLoad-en/index.tsx" />
+
+## API
+
+### BusinessTreeSelectBuilder
+
+<API name="BusinessTreeSelectBuilder" />
+
+### ApiType
+
+<API name="BizTreeApi" />
+
+### BusinessTreeSelect
+
+BusinessTreeSelect type is a combination of [BusinessTreeSelectSelfType](/components/business-tree-select#businesstreeselectselftype) and <Link src='https://ant.design/components/tree-select#api'>TreeSelectProps</Link>.
+
+#### BusinessTreeSelectSelfType
+
+<API name="BusinessTreeSelectSelf" />

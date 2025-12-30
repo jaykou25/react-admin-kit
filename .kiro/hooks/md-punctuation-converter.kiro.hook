@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "MD 规范中文符号",
+  "description": "Converts English punctuation marks (commas, periods) to Chinese punctuation in markdown documents while preserving punctuation in code blocks",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "*.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Please modify the current markdown document to convert English punctuation marks (commas \",\" and periods \".\") to Chinese punctuation marks (Chinese comma \"，\" and Chinese period \"。\"). Important: Do NOT modify punctuation marks inside code blocks (content between ``` or ` marks). Only convert punctuation in regular text paragraphs."
+  }
+}

@@ -12,6 +12,6 @@
       "react-admin-kit": ["src"],
       "react-admin-kit/*": ["src/*", "*"]
     }
-  },
-  "include": [".dumirc.ts", "src/**/*", "docs/**/*"]
+  }
+  // "include": [".dumirc.ts", "src/**/*", "docs/**/*"]
 }

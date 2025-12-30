@@ -1,0 +1,45 @@
+---
+date: 2025-01-01
+sidebar_label: v1
+title: v1 更新日志
+---
+
+{/* ### 新增
+
+### 变动
+
+### 修复
+
+### 类型 */}
+
+## 1.0.0
+
+1.0 版本全面覆盖了测试用例。代码覆盖率大于 90%，分支覆盖率大于 85%。
+
+从 v0 版本迁移请关注下面的变更项。
+
+#### 新增 🆕 
+
+- 组件库增加多语言支持。
+- 组件库支持 SSR。
+- 增加 utils 工具方法 [utils-tree](/components/utils-tree)。
+- SchemaForm 组件增加 [只读表格模式](/components/schema-form#只读表格模式)。
+- ProTable 组件增加 `delSuccessProps` 属性。
+
+#### 变更 💥 
+- ProTable 组件属性变更（`modalProps` 和 `formProps` 合并成 `modalFormProps`）。
+- ProTable 组件属性名变更（`confirmModelType` 改成 `delConfirmType`）。
+- ProTable 组件属性变更（`confirmModalProps` 移除，改成 `delPopconfirmProps` 和 `delModalConfirmProps`）。
+- ProTable 组件属性名变更（`optionColSpaceSize` 改成 `optionColumnSpaceProps`）。 
+- ProTable 组件导出功能变更：
+   1. 移除了 exceljs 库的默认依赖，这有助于减少组件库的体积。
+   2. 对于需要导出的页面，需要先安装 exceljs 库，然后调用相关的方法。[参考文档](/components/protable#导出表格数据)
+- FormUpload 组件移除了给 children 默认注入 loading 属性的功能。改成给 children 函数提供 loading 属性。 
+
+#### 类型 <TsImg />
+- ProForm 组件 `submitter` 属性支持 boolean 类型。 
+
+
+
+
+

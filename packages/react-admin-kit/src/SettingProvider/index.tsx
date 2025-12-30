@@ -1,0 +1,72 @@
+import {
+  FormUploadContext,
+  LocaleContext,
+  ModalFormContext,
+  ProTableContext,
+  SchemaFormContext,
+} from './context';
+import {
+  FormUploadSettingProps,
+  ModalFormSettingProps,
+  ProTableSettingProps,
+  SchemaFormSettingProps,
+  SettingProviderProps,
+} from './types';
+import zhCN from '../locale/zh_CN';
+
+const SettingProvider = (props: SettingProviderProps) => {
+  const {
+    locale,
+    proTableSetting,
+    modalFormSetting,
+    schemaFormSetting,
+    formUploadSetting,
+    children,
+  } = props;
+
+  return (
+    <LocaleContext.Provider value={locale || zhCN}>
+      <ProTableContext.Provider value={proTableSetting}>
+        <ModalFormContext.Provider value={modalFormSetting}>
+          <SchemaFormContext.Provider value={schemaFormSetting}>
+            <FormUploadContext.Provider value={formUploadSetting}>
+              {children}
+            </FormUploadContext.Provider>
+          </SchemaFormContext.Provider>
+        </ModalFormContext.Provider>
+      </ProTableContext.Provider>
+    </LocaleContext.Provider>
+  );
+};
+
+export default SettingProvider;
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const SchemaFormSettingPropsType: React.FC<
+  SchemaFormSettingProps
+> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const ModalFormSettingPropsType: React.FC<
+  ModalFormSettingProps
+> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const ProTableSettingPropsType: React.FC<ProTableSettingProps> = () => {
+  return null;
+};
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const FormUploadSettingPropsType: React.FC<
+  FormUploadSettingProps
+> = () => {
+  return null;
+};

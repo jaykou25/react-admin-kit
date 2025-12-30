@@ -1,0 +1,429 @@
+---
+date: 2025-01-03
+sidebar_label: ProTable:2:Core Components:0
+---
+
+import AreaImg from './area.png';
+
+# ProTable
+
+ProTable combines the power of <Link src='https://procomponents.ant.design/components/table'>Antd ProTable</Link> with [ModalForm](/components/modal-form), adding built-in delete and export features. It's designed for real-world admin scenarios where you need full CRUD functionality out of the box.
+
+New to ProTable? No worries! The examples below will walk you through everything step by step.
+
+## Building Your First CRUD Table
+
+Here's a complete CRUD table with _search_, _create_, _edit_, and _delete_ functionality. If you're seeing ProTable for the first time, some of the APIs might look unfamiliar - that's totally normal! We'll break everything down into simple, digestible pieces.
+
+<Previewer src="@@/ProTable/demos/basic-en/index.tsx" />
+
+### Fetching Data
+
+The magic starts with the `request` property. Just pass in a function that fetches your data, and ProTable automatically handles pagination, searching, and table refreshing. Your request function should return a promise (like an axios call) with data in this format:
+
+```js
+// Your API should return data like this:
+{
+  data: [], // Array of table rows
+  success: true,
+  total: 6 // Total count for pagination
+}
+```
+
+```js
+<ProTable
+  request={(params) => requestApi(params)}
+  ...
+/>
+```
+
+ProTable automatically passes pagination and search parameters to your request function:
+
+```js
+{
+  current: 2,        // Current page number
+  pageSize: 5,       // Items per page
+  name: "John",      // Search field values
+  // ... other search fields
+}
+```
+
+You can either design your backend API to match this format, or transform the parameters in your request function.
+
+<Previewer src="@@/ProTable/demos/retrieve-en/index.tsx" />
+
+### Adding Create Functionality
+
+Now let's add a "Create" button. ProTable has designated areas for different types of buttons, which keeps your tables organized and user-friendly. You just need to put buttons in the right spots!
+
+<div style={{ textAlign: 'center' }}>
+  <img
+    src={AreaImg}
+    width="100%"
+    alt="Division of protable areas, red text represents large blocks, divided into search, toolbar, tableAlert and other areas. The toolbar block also contains actions sub-blocks"
+  />
+</div>
+
+The red labels show the main areas, and black labels show sub-areas within them. For a "Create" button, the best place is in the `actions` area within the `toolbar` (you could also put it in the `title` area).
+
+```js {2,3}
+<ProTable
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+      >
+        Create
+      </Button>,
+    ],
+  }}
+```
+
+Once you have the button, use `innerRef.current.openModal()` to open the create form.
+
+```js {2,8}
+<ProTable
+  innerRef={innerRef}
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+        onClick={() => innerRef.current.openModal()}
+      >
+        Create
+      </Button>,
+    ],
+  }}
+```
+
+Finally, add an `onFinish` handler to save the new record.
+
+```js {21}
+<ProTable
+  columns={getColumns()}
+  request={mockRequest}
+  pagination={{ pageSize: 5 }}
+  innerRef={innerRef}
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+        onClick={() => innerRef.current?.openModal()}
+      >
+        Create
+      </Button>,
+    ],
+  }}
+  onFinish={async (values, formType) => {
+    if (formType === 'new') {
+      await mockAdd(values);
+      message.success('Created successfully');
+      actionRef.current?.reload(); // Refresh the table after creating
+    }
+  }}
+/>
+```
+
+<Previewer src="@@/ProTable/demos/create-en/index.tsx" />
+
+### Adding Edit Functionality
+
+To add editing, we need an "Actions" column with an "Edit" button for each row.
+
+```js {5,8}
+// columns
+{
+  title: 'Actions',
+  valueType: 'option', // 'option' means this is an actions column
+  render: (text, record, index, actionRef, innerRef) => [
+    <LinkButton
+      key={1}
+      onClick={() => innerRef.current?.openModal('edit', record)}
+    >
+      Edit
+    </LinkButton>,
+  ],
+},
+```
+
+When `valueType` is `option`, ProTable automatically provides the `innerRef` parameter to your render function. Use it to open the edit modal with the row's data pre-filled.
+
+Now let's handle the update logic in `onFinish`:
+
+```js {11}
+<ProTable
+  ...
+  onFinish={async (values, formType, formData) => {
+    if (formType === 'new') {
+      await mockAdd(values);
+      message.success('Created successfully');
+      actionRef.current?.reload();
+    }
+
+    if (formType === 'edit') {
+      await mockUpdate({ ...values, id: formData.id });
+      message.success('Updated successfully');
+      actionRef.current?.reload();
+    }
+  }}
+/>
+```
+
+Notice on line 11: we need the record's ID for the update API, but the form `values` don't include it.
+
+Here's the trick: `onFinish` gets three parameters:
+
+- `values` - the form data the user entered
+- `formType` - whether it's 'new' or 'edit'
+- `formData` - the original record data (including the ID!)
+
+The `formData` is the same `record` you passed to `innerRef.current?.openModal('edit', record)`.
+
+<Previewer src="@@/ProTable/demos/update-en/index.tsx" />
+
+### Adding Delete Functionality
+
+Delete works just like the `request` property - simple and automatic! Just provide a `delFunction`, and ProTable handles both bulk delete and individual row delete.
+
+Your delete function should return a promise and will receive an array of IDs for the selected rows.
+
+For bulk delete, you'll also need to enable row selection:
+
+```js {4}
+<ProTable
+  ...
+  delFunction={mockDetroy}
+  rowSelection={{}}
+/>
+```
+
+Individual row delete buttons are hidden by default (to save space), but you can enable them per column:
+
+```js {13-21}
+// columns
+{
+  title: 'Actions',
+  valueType: 'option', // valueType set to option represents an action column
+  render: (text, record, index, actionRef, innerRef) => [
+    <LinkButton
+      key={1}
+      onClick={() => innerRef.current?.openModal('edit', record)}
+    >
+      Edit
+    </LinkButton>,
+  ],
+  // Simple enable/disable
+  enableDelete: true,
+  // Or customize the delete button
+  enableDelete: () => ({
+    disabled: true,
+    visible: true,
+    danger: true,
+    btnText: 'Close'
+  }),
+},
+```
+
+<Previewer src="@@/ProTable/demos/destroy-en/index.tsx" />
+
+And that's it - you've built a complete CRUD table! ✨
+
+## Key Concepts
+
+### valueType 
+
+ProTable supports `valueType` just like SchemaForm, but here it's focused on display formatting. For example, set `valueType: 'date'` and ProTable will automatically convert timestamps into readable dates.
+
+<Previewer src="@@/ProTable/demos/valueType/index.tsx" />
+
+### renderText vs render - What's the Difference?
+
+These two are easy to mix up, so here's the breakdown:
+
+**`renderText`** - Similar to Ant Design Table's render, but must return a string. ProTable will add ellipsis, copy icons, and other features around your text.
+
+**`render`** - Complete control over the display. The first parameter is `dom` (not `text`), which already includes ellipsis and copy icons that you can use or replace.
+
+<Previewer src="@@/ProTable/demos/renderText-en/index.tsx" />
+
+### Configuring the Search Area
+
+Control which columns appear in the search form:
+
+```js {4,5}
+{
+  title: 'Nickname',
+  dataIndex: 'nickName',
+  hideInSearch: true, // Don't show in search
+  search: false, // Same as above
+}
+```
+
+Or disable search entirely:
+
+```js
+<ProTable search={false} />
+```
+
+You can also customize search behavior:
+
+```js
+<ProTable
+  search={{
+    labelWrap: true, // Wrap long labels
+    defaultCollapsed: false, // Start expanded
+  }}
+/>
+```
+
+<Previewer src="@@/ProTable/demos/searchConfig-en/index.tsx" />
+
+### Using `type` to Control Column Placement
+
+ProTable uses the same column definitions for the table, search form, and edit form. Instead of using multiple `hideIn*` properties (which gets confusing), you can use the `type` field to specify exactly where a column should appear:
+
+```js
+{
+  title: 'Search Only Field',
+  type: 'search'  // Only appears in search form
+}
+```
+
+Available types: `'form' | 'table' | 'search'`
+
+> **Note:** `type` has the highest priority and overrides `hideInSearch` and `search: false`
+
+You can also set a global default with `defaultHideInSearch` to control whether columns appear in search by default.
+
+<Previewer src="@@/ProTable/demos/columnType-en/index.tsx" />
+
+### Making Search Fields Depend on Each Other 
+
+<Previewer src="@@/ProTable/demos/searchDependency-en/index.tsx" />
+
+### Controlled Table
+
+Don't want automatic data loading? No problem! You can use ProTable like a regular table by providing your own data, while still getting the create and edit features.
+
+<Previewer src="@@/ProTable/demos/controlled-en/index.tsx" />
+
+### Exporting Table Data to Excel
+
+ProTable makes Excel export super easy using <Link src='https://github.com/exceljs/exceljs'>exceljs</Link>. The data formatting is handled for you!
+
+First, install exceljs:
+
+```bash
+npm i exceljs --save
+```
+
+Then import it:
+
+```tsx
+import * as ExcelJS from 'exceljs';
+```
+
+Export with one command: `innerRef.current?.export(rows, ExcelJS)`
+
+<Previewer title="Export All" src="@@/ProTable/demos/export-en/index.tsx" />
+
+<Previewer
+  title="Export Selected Rows"
+  src="@@/ProTable/demos/export-selected-en/index.tsx"
+/>
+
+### Customizing Delete Confirmations
+
+<Previewer src="@@/ProTable/demos/destroy2-en/index.tsx" />
+
+## Working with Modals
+
+### Customizing Modal Layout
+
+Use `modalFormProps` to pass any [ModalForm](/components/setting-provider#modalformsettingprops) properties and customize your modal's appearance.
+
+<Previewer src="@@/ProTable/demos/modalFormLayout-en/index.tsx" />
+
+### Read-Only Modal Mode
+
+Want to show data without allowing edits? Use read-only mode:
+
+`innerRef.current?.openModal('read', initialData)`
+
+<Previewer src="@@/ProTable/demos/readonly-en/index.tsx" />
+
+## Handling Form Data
+
+### Loading Data When Opening Forms
+
+Sometimes you need to fetch additional data when opening an edit form (but not for create). Here's how:
+
+<Previewer src="@@/ProTable/demos/onOpen-en/index.tsx" />
+
+### Convention-Based Data Handling
+
+Just like [SchemaForm](/components/schema-form#convention-handling), ProTable can automatically handle common data transformations based on naming conventions.
+
+<Previewer src="@@/ProTable/demos/convention-en/index.tsx" />
+
+### Storing Extra Data with innerRef
+
+Need to pass additional data that's not part of the form? Use innerRef to store and access extra information, just like in [SchemaForm](/components/schema-form#storing-additional-data-with-innerref).
+
+<Previewer src="@@/ProTable/demos/innerRefData-en/index.tsx" />
+
+## API
+
+### ProTable
+
+ProTable combines our custom properties ([ProTableSelfType](/components/protable#protableselftype)) with the original Ant Design ProTable properties ([ProTableOriginType](/components/protable#protableorigintype)).
+
+#### ProTableSelfType
+
+<API name="MyProTableSelfTypeComponent" />
+
+#### ProTableOriginType
+
+<API name="MyProTableOriginTypeComponent" />
+
+### InnerRefType
+
+<API name="InnerRefTypeComponent" typeStyles={{ minWidth: '180px' }} />
+
+### TableAlertOptionType
+
+<API
+  name="TableAlertOptionTypeComponent"
+  descriptionStyles={{ minWidth: '180px' }}
+/>
+
+### TableColumnType
+
+Since ProTable columns work for both tables and forms, TableColumnType combines properties from [TableColumnSelfType](/components/protable#tablecolumnselftype), [TableColumnOriginType](/components/protable#tablecolumnorigintype), and [FormColumnType](/components/schema-form#formcolumntype).
+
+#### TableColumnSelfType
+
+<API name="TableColumnSelfTypeComponent" />
+
+#### TableColumnOriginType
+
+<API name="TableColumnOriginTypeComponent" />
+
+#### [FormColumnType](/components/schema-form#formcolumntype)
+
+### EnableDeleteType
+
+<API name="EnableDeleteTypeComponent" />
+
+### Global Events
+
+<div className="dumi-default-table-content">
+
+| Event Name | Description | Note |
+| --- | --- | --- |
+| @proTableReload | Triggers a table refresh from anywhere in your app using `document.dispatchEvent(new Event('@proTableReload'))`. Useful when you need to refresh a table from a different page - for example, after creating a record on a separate create page. | `v1.0.0` |
+
+</div>

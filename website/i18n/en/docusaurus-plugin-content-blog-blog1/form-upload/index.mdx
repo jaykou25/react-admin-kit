@@ -1,0 +1,132 @@
+---
+date: 2025-02-05
+sidebar_label: FormUpload:4:Derived Components:1
+---
+
+# FormUpload
+
+This component is a wrapper for <Link src='https://ant-design.antgroup.com/components/upload'>Antd Upload</Link> component. By managing `fileList` and `onChange` props, it behaves as a standard controlled component with value/onChange pattern, making it ready to use directly within `Form.Item`.
+
+The design goal of `FormUpload` is to provide a simple, lightweight experience similar to using an `Input` component after basic global configuration. Successfully uploaded files are automatically collected by the form, while failed uploads are filtered out.
+
+## Basic Usage
+
+Configure essential props like `action` and `headers` globally before use:
+
+```js
+<SettingProvider
+  formUploadSetting={{
+    action: 'https://mock.apifox.cn/m1/1864670-0-default/mockUpload',
+    headers: { Authorization: 'myToken' },
+    responseToFileList: (res) => ({ id: res?.data.id }), // Merge API response into file object
+    children: ({ loading }) => (
+      <LinkButton disabled={loading}>
+        {loading ? 'Uploading...' : 'Upload File'}
+      </LinkButton>
+    ),
+  }}
+>
+  ...
+</SettingProvider>
+```
+
+The component's children can use render function:
+
+```js
+<FormUpload>
+  {({loading} => <Button disabled={loading}>{loading ? 'Uploading...' : 'Upload'}</Button>)}
+</FormUpload>
+```
+
+<Previewer src="@@/FormUpload/demos/basic-en/index.tsx" />
+
+## Upload Failures
+
+- You can configure error notifications globally.
+- Failed files won't be collected by the form.
+
+<Previewer src="@@/FormUpload/demos/errorHandle-en/index.tsx" />
+
+## File Initial Values
+
+> Files where beforeUpload returns false are excluded from form collection.
+
+<Previewer src="@@/FormUpload/demos/show-en/index.tsx" />
+
+## Data Processing and Collection
+
+`SchemaForm` provides `convertValue` and `transform` for data processing:
+
+- convertValue - Pre-processes initial values
+- transform - Processes data before submission
+
+> `FormUpload` component expects file objects in format: `{ name: string; url: string }` by default
+>
+> This example shows how to use convertValue and transform for data conversion when backend returns non-conforming data.
+
+<Previewer src="@@/FormUpload/demos/dataSubmit-en/index.tsx" />
+
+## Change Field Keys
+
+FormUpload also provides `nameKey` and `urlKey` to customize file object field mapping. Global configuration is also supported.
+
+<Previewer src="@@/FormUpload/demos/changeKey-en/index.tsx" />
+
+## File Import
+
+`FormUpload` component can also be used for file import scenarios. File import differs from file attachment upload in that each new imported file should replace previous files, while attachment upload logic adds newly uploaded files to the existing file list.
+
+To achieve this replacement effect, you can clear the list after import completion.
+
+<Previewer src="@@/FormUpload/demos/import-en/index.tsx" />
+
+## API
+
+### FormUpload
+
+FormUpload type is a combination of [FormUploadSelfType](/components/form-upload#formuploadselftype) and <Link src='https://ant-design.antgroup.com/components/upload#api'>UploadProps</Link>.
+
+#### FormUploadSelfType
+
+<API name="FormUploadType" />
+
+## FAQ
+
+### What is responseToFileList?
+
+After successful file upload, the default collected data looks like:
+
+```js
+{
+  uid: 'rc-upload-1691485494798-17',
+  name: 'xx.png',
+  size: 1403,
+  status: 'done',
+  response: {
+    // Backend response after successful upload
+    id: 123,
+    filePath: 'xxx'
+  }
+}
+```
+
+The responseToFileList function can merge the above response into the file object.
+
+For example: `responseToFileList: (res) => ({ id: res.id })`, the final submitted object will have the id:
+
+```js
+{
+  id: 123,
+  uid: 'rc-upload-1691485494798-17',
+  name: 'xx.png',
+  size: 1403,
+  status: 'done',
+  response: {
+    // Backend response after successful upload
+    id: 123,
+    filePath: 'xxx'
+  }
+}
+```
+
+Generally this property can be set globally in the `SettingProvider` component.

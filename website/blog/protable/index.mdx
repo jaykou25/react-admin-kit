@@ -1,0 +1,421 @@
+---
+date: 2025-01-03
+sidebar_label: ProTable - 高级表格:2:核心组件:0
+---
+
+import AreaImg from './area.png';
+
+# ProTable - 高级表格
+
+ProTable 是 <Link src='https://procomponents.ant.design/components/table'>Antd ProTable</Link> 和 [ModalForm](/components/modal-form) 的结合，并且融入了删除，前端导出等功能。更加贴合实际场景。
+
+如果你之前并不熟悉 ProTable 的 api，完全可以直接看例子来开始使用。
+
+## 一个基本的 CRUD 表格
+
+这是一个基本的 CRUD 表格，包含了 _查询_，_新建_，_编辑_，_删除_。初次接触 ProTable 的用户可能会遇到很多陌生的 api，让人感觉很不舒服，没关系，我们会通过几个例子慢慢展开。
+
+<Previewer src="@@/ProTable/demos/basic/index.tsx" />
+
+### 查询
+
+先来认识一下 `request` 属性。通过传入一个请求函数，ProTable 就帮我们做好了数据请求，分页，查询，重置等功能。请求函数必须返回一个 promise (一般是一个 axios 实例)，并且 promise 中返回的数据需要满足下面的要求：
+
+```js
+// Promise回返的数据格式
+{
+  data: [], // 表格数据源
+  success: true,
+  total: 6 // 用于分页
+}
+```
+
+```js
+<ProTable
+  request={(params) => requestApi(params)}
+  ...
+/>
+```
+
+请求函数的第一个参数 `params` 会包含分页，搜索等请求参数：
+
+```js
+{
+  current: 2,
+  pageSize: 5,
+  ... // 其它搜索字段
+}
+```
+
+用户可以与后台约定好这些请求参数和返回格式，也可以自已在全局包装一下后传给后台。
+
+<Previewer src="@@/ProTable/demos/retrieve/index.tsx" />
+
+### 新增
+
+接上一个例子，我们先来添加一个新增按钮。
+
+ProTable 内部规划了多个区域用于放置不同的按钮，用户只要在相应的 api 上配置按钮就可以了。这么做一方面能让各表格的功能区域保持清晰统一，另一方面对于终端用户来说也能减少他们对表格操作的熟悉成本。
+
+<div style={{ textAlign: 'center' }}>
+  <img
+    src={AreaImg}
+    width="100%"
+    alt="protable各区域的划分,红色字是大区块, 分成search, toolbar, tableAlert等区域. toolbar大块里还包含actions小块"
+  />
+</div>
+
+上图中的红色字是大区块，大区块里还包含黑色的小区块。对于新增按钮来说，可以加到 toolbar 大区块里的 actions 小区块里（也可以加到 title 里）。
+
+```js {2,3}
+<ProTable
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+      >
+        新增
+      </Button>,
+    ],
+  }}
+```
+
+添加了按钮之后，通过 `innerRef.current.openModal()` 就能打开表单。
+
+```js {2,8}
+<ProTable
+  innerRef={innerRef}
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+        onClick={() => innerRef.current.openModal()}
+      >
+        新增
+      </Button>,
+    ],
+  }}
+```
+
+最后设置 onFinish 属性就完成了表单的新增。
+
+```js {21}
+<ProTable
+  columns={getColumns()}
+  request={mockRequest}
+  pagination={{ pageSize: 5 }}
+  innerRef={innerRef}
+  toolbar={{
+    actions: [
+      <Button
+        key={1}
+        type="primary"
+        onClick={() => innerRef.current?.openModal()}
+      >
+        新增
+      </Button>,
+    ],
+  }}
+  onFinish={async (values, formType) => {
+    if (formType === 'new') {
+      await mockAdd(values);
+      message.success('新建成功');
+      actionRef.current?.reload(); // 新增成功后用 actionRef 重新请求接口
+    }
+  }}
+/>
+```
+
+<Previewer src="@@/ProTable/demos/create/index.tsx" />
+
+### 编辑
+
+接上一个例子，要实现编辑功能，可以在 columns 里增加一个操作列来添加编辑按钮。
+
+```js {5,8}
+// columns
+{
+  title: '操作',
+  valueType: 'option', // valueType 设为 option 代表是操作列
+  render: (text, record, index, actionRef, innerRef) => [
+    <LinkButton
+      key={1}
+      onClick={() => innerRef.current?.openModal('edit', record)}
+    >
+      编辑
+    </LinkButton>,
+  ],
+},
+```
+
+当 valueType 为 option 时，render 函数会被自动注入 innerRef 参数，通过 innerRef 就可以打开编辑弹框并且对表单赋值。
+
+编辑弹框打开后我们继续完善 onFinish 中的更新部分：
+
+```js {11}
+<ProTable
+  ...
+  onFinish={async (values, formType, formData) => {
+    if (formType === 'new') {
+      await mockAdd(values);
+      message.success('新建成功');
+      actionRef.current?.reload();
+    }
+
+    if (formType === 'edit') {
+      await mockUpdate({ ...values, id: formData.id });
+      message.success('更新成功');
+      actionRef.current?.reload();
+    }
+  }}
+/>
+```
+
+从 11 行我们注意到，更新接口除了需要表单值以外，还需要额外传递记录 id 给后台。
+
+我们先来看一下 `onFinish` 的三个参数：
+
+- `values` - 表单收集到的值。
+- `formType` - 表单类型（'new' 或 'edit'）
+- `formData` - 赋给表单的初始值（里面包含 id）
+
+这个 `formData` 其实就是 `innerRef.current?.openModal('edit', record)` 里的 record。
+
+因此 id 可以从 `formData` 里取。
+
+<Previewer src="@@/ProTable/demos/update/index.tsx" />
+
+### 删除
+
+删除功能与上文中的 `request` 属性非常相似，ProTable 提供了一个 `delFunction` 属性，只需要传入一个删除函数，ProTable 就帮我们做好了批量删除和行上删除的功能，
+
+删除函数同样返回一个 promise，参数是所选行的 ids 数组。
+
+要支持批量删除还需要开启行选择功能。
+
+```js {4}
+<ProTable
+  ...
+  delFunction={mockDetroy}
+  rowSelection={{}}
+/>
+```
+
+行上删除的功能默认是关闭的，是为了节省列的横向空间，可以在 columns 里单独开启。
+
+```js {13-21}
+// columns
+{
+  title: '操作',
+  valueType: 'option', // valueType 设为 option 代表是操作列
+  render: (text, record, index, actionRef, innerRef) => [
+    <LinkButton
+      key={1}
+      onClick={() => innerRef.current?.openModal('edit', record)}
+    >
+      编辑
+    </LinkButton>,
+  ],
+  // boolean
+  enableDelete: true,
+  // 或者是函数
+  enableDelete: () => ({
+    disabled: true,
+    visible: true,
+    danger: true,
+    btnText: '关闭'
+  }),
+},
+```
+
+<Previewer src="@@/ProTable/demos/destroy/index.tsx" />
+
+以上就是一个完整的 CRUD 表格 ✨。
+
+## 基本概念
+
+### valueType
+
+ProTable 同样支持 valueType，只是与 SchemaForm 不同的是，ProTable 的 valueType 主要是用于显示。比如当指定 `date` 类型时，当后台返回一个时间戳时，表格中会自动显示成时间。
+
+<Previewer src="@@/ProTable/demos/valueType/index.tsx" />
+
+### renderText 与 render 的区别
+
+在 ProTable 的 column 里 `render` 跟 `renderText` 很容易混淆。
+
+`renderText`更接近于 Antd Table 的 render，但是必需返回 string。最终在表格上显示的时候会把省略号，复制图标（如果有）等内容拼接上去。
+
+`render`可以完全自定义内容的显示。但是它的第一个参数是 `dom` 而不是 `text`，这个需要注意。这个 dom 里包含了省略号和复制图标（如果有）等内容。
+
+<Previewer src="@@/ProTable/demos/renderText/index.tsx" />
+
+### 搜索区域的配置项
+
+column 里的 `hideInSearch` 字段用于控制是否在搜索表单里隐藏。或者用 `search: false`。两者等效。
+
+```js {4,5}
+{
+  title: '昵称',
+  dataIndex: 'nickName',
+  hideInSearch: true, // 在搜索表单里隐藏
+  search: false, // 在搜索表单里隐藏
+}
+```
+
+也可以在组件级别关闭搜索区域。
+
+```js
+<ProTable search={false} />
+```
+
+或者配置搜索区域：
+
+```js
+<ProTable
+  search={{
+    labelWrap: true, // 过长换行
+    defaultCollapsed: false, // 默认展开
+  }}
+/>
+```
+
+<Previewer src="@@/ProTable/demos/searchConfig/index.tsx" />
+
+### type 用于区分各区域
+
+在 ProTable 组件中同一份 columns 既会被用于生成 Table，也有可能被用于生成 Form 又或者 Search。原来我们用 `hideInSearch`，`hideInTable`，`hideInForm` 来控制 column 在各区域的显示与隐藏，但是当 column 变多之后这种反向控制的逻辑就不太好理解，所以我们新增了 type 字段 `form | table | search` 来正向控制 column 显示在哪个区域，比如 type: search 代表该 column **只会**显示在搜索区域。
+
+> type: search 的优先级最高, 会覆盖 hideInSearch: true 和 search: false
+
+同时 ProTable 新增了 `defaultHideInSearch` 属性来全局控制 column 是否默认显示在搜索区域。
+
+<Previewer src="@@/ProTable/demos/columnType/index.tsx" />
+
+### 搜索表单的关联控制
+
+<Previewer src="@@/ProTable/demos/searchDependency/index.tsx" />
+
+### 受控表单
+
+不想使用 request？那就传入 `dataSource` 当成普通 table 来使用。同样集成了新增编辑功能。
+
+<Previewer src="@@/ProTable/demos/controlled/index.tsx" />
+
+### 导出表格数据
+
+可以使用 [exceljs](https://github.com/exceljs/exceljs) 来导出表格数据。组件已经对数据进行了处理，只需传入 ExcelJS 对象就可以轻松导出。
+
+使用前需要先在自已的项目中安装 exceljs：
+
+```bash
+npm i exceljs --save
+```
+
+在页面中导入 exceljs:
+
+```tsx
+import * as ExcelJS from 'exceljs';
+```
+
+通过 `innerRef.current?.export(rows, ExcelJS)` 进行导出。参考示例。
+
+<Previewer title="导出所有" src="@@/ProTable/demos/export/index.tsx" />
+
+<Previewer
+  title="导出所选行"
+  src="@@/ProTable/demos/export-selected/index.tsx"
+/>
+
+### 更改删除确认框的类型和文字
+
+<Previewer src="@@/ProTable/demos/destroy2/index.tsx" />
+
+## 弹窗相关
+
+### 更改弹窗表单的布局
+
+通过 `modalFormProps` 属性可以透传 [ModalForm](/components/setting-provider#modalformsettingprops) 中的属性。
+
+<Previewer src="@@/ProTable/demos/modalFormLayout/index.tsx" />
+
+### 弹窗只读模式
+
+`innerRef.current?.openModal('read', initialData)`
+
+<Previewer src="@@/ProTable/demos/readonly/index.tsx" />
+
+## 表单数据
+
+### onOpen 请求数据后回显
+
+点击编辑时请求接口后回显。新击新增时不请求。
+
+<Previewer src="@@/ProTable/demos/onOpen/index.tsx" />
+
+### 约定式
+
+与 [SchemaForm](/components/schema-form#约定式) 一样，ProTable 同样支持约定式数据处理。
+
+<Previewer src="@@/ProTable/demos/convention/index.tsx" />
+
+### 利用 innerRef 存储额外信息
+
+与 [SchemaForm](/components/schema-form#利用-innerref-存储额外信息) 一样，ProTable 也能利用 innerRef 存储额外数据。
+
+<Previewer src="@@/ProTable/demos/innerRefData/index.tsx" />
+
+## API
+
+### ProTable
+
+ProTable 类型是 [ProTableSelfType](/components/protable#protableselftype) 和 [ProTableOriginType](/components/protable#protableorigintype) 的结合。
+
+#### ProTableSelfType
+
+<API name="MyProTableSelfTypeComponent" />
+
+#### ProTableOriginType
+
+<API name="MyProTableOriginTypeComponent" />
+
+### InnerRefType
+
+<API name="InnerRefTypeComponent" typeStyles={{ minWidth: '180px' }} />
+
+### TableAlertOptionType
+
+<API
+  name="TableAlertOptionTypeComponent"
+  descriptionStyles={{ minWidth: '180px' }}
+/>
+
+### TableColumnType
+
+由于 ProTable 的 columns 既能用于生成 Table 也能用于生成 Form，因此 TableColumnType 类型其实是 [TableColumnSelfType](/components/protable#tablecolumnselftype)，[TableColumnOriginType](/components/protable#tablecolumnorigintype) 和 [FormColumnType](/components/schema-form#formcolumntype) 的结合。
+
+#### TableColumnSelfType
+
+<API name="TableColumnSelfTypeComponent" />
+
+#### TableColumnOriginType
+
+<API name="TableColumnOriginTypeComponent" />
+
+#### [FormColumnType](/components/schema-form#formcolumntype)
+
+### EnableDeleteType
+
+<API name="EnableDeleteTypeComponent" />
+
+### 全局事件
+
+<div className="dumi-default-table-content">
+
+| 事件名 | 描述 | 说明 |
+| --- | --- | --- |
+| @proTableReload | 组件注册了一个 reload 事件, 可以通过 `document.dispatchEvent(new Event('@proTableReload'))` 方法来触发表格刷新. 新增这个 reload 事件是希望能在其它的`兄弟页面`来触发`表格页面`的刷新, 比如在一些缓存场景, `新增页面`提交成功后能够通过这个事件来触发`表格页面`的刷新. | `v1.0.0` |
+
+</div>

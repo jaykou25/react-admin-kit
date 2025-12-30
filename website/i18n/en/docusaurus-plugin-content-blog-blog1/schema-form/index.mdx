@@ -1,0 +1,556 @@
+---
+date: 2025-01-01
+sidebar_label: SchemaForm:0:Core Components:0
+---
+
+# SchemaForm - JSON Form
+
+Generates forms through a declarative schema configuration. The schema structure closely resembles Antd Table's columns.
+
+## Basic Concepts
+
+A basic Schema form:
+
+<Previewer
+  title="A basic Schema form"
+  src="@@/SchemaForm/demos/basic-en/index.tsx"
+/>
+
+Before diving deeper, let's clarify several key concepts.
+
+SchemaForm is built upon the [Antd Form](https://ant-design.antgroup.com/components/form) component. It generates form items by iterating through a **schema array**.
+
+In this example, each object in the <i>columns array</i> represents a **schema**.
+
+```js
+{
+  title: 'Username',
+  dataIndex: 'username',
+  fieldProps: {
+    placeholder: 'Please enter username'
+  },
+  formItemProps: {
+    rules: [
+      {
+        required: true,
+      },
+    ],
+  },
+},
+```
+
+If written using Antd Form directly, this schema would generate:
+
+```js
+import { Form, Input } from 'antd';
+
+<Form>
+  <Form.Item
+    label="Username"
+    name="username"
+    rules={[
+      {
+        required: true,
+      },
+    ]}
+  >
+    <Input placeholder="Please enter username" />
+  </Form.Item>
+</Form>;
+```
+
+It's clear that in the schema:
+
+- `title` corresponds to Form.Item's `label`.
+- `dataIndex` corresponds to Form.Item's `name`.
+- `formItemProps` values are passed to the Form.Item component.
+- `fieldProps` values are passed to the component wrapped by Form.Item (Input in this example).
+
+Let's look at the second schema:
+
+```js | {4}
+{
+  title: "Gender",
+  dataIndex: "gender",
+  valueType: "radio",
+  fieldProps: {
+    options: [
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+      { label: "Other", value: "other" },
+    ],
+  },
+};
+```
+
+The difference from the first schema is the additional `valueType` field. Obviously, SchemaForm renders different components based on the `valueType` field. In this example, valueType: 'radio' corresponds to a Radio.Group component, with options passed through fieldProps.
+
+This is one of the advantages of using SchemaForm - most commonly used components can be rendered through `valueType`.
+
+The **schema** part is now covered. Let's look at the **FormInstance**.
+
+The [FormInstance](https://ant-design.antgroup.com/components/form#forminstance) is an important concept in Antd Form. Through the methods in the instance, we can perform many operations, such as: submitting forms, resetting forms, assigning values to forms, etc.
+
+In SchemaForm, we get the _form instance_ through the `formRef` property.
+
+```js | {4}
+import { useRef } from 'react';
+import { ProFormInstance, SchemaForm } from 'react-admin-kit';
+
+const formRef = useRef<ProFormInstance>() // Note: The type definition used here is ProFormInstance. It extends some methods based on antd form instance
+
+<SchemaForm
+  formRef={formRef}
+>
+
+formRef.current?.submit() // Submit
+formRef.current?.resetFields() // Reset
+formRef.current?.setFieldsValue() // Set values
+```
+
+Other methods in the _form instance_ will be introduced in detail later.
+
+These are the basic concepts of SchemaForm. After reading this, you can already start writing some simple forms ✨.
+
+As you continue to use it, you can keep checking the various examples below to learn about other properties of SchemaForm. I believe you will become more and more proficient.
+
+### valueType
+
+The valueType field is crucial in schema configuration, determining which form component gets rendered. Common types include `money`, `digit`, `date`, `dateRange`, `select`, `radio`, `textarea`, etc. (Complete list [here](https://procomponents.ant.design/en-US/components/schema#valuetype-lists)). When unspecified, defaults to Input.
+
+<Previewer src="@@/SchemaForm/demos/valueType/index.tsx" />
+
+For custom components, use `renderFormItem`. Custom components must follow Form.Item conventions (accept value/onChange props).
+
+```js
+{
+  renderFormItem: (schema, config, form) => {
+    return <MyComp />;
+  };
+}
+```
+
+### required
+
+Since required fields are common, SchemaForm provides a required shorthand for formItemProps: `{ rules: [{ required: true }]}`. formItemProps takes precedence.
+
+<Previewer src="@@/SchemaForm/demos/required/index.tsx" />
+
+## Form Layouts
+
+### Traditional Layouts
+
+<Previewer title="Horizontal" src="@@/SchemaForm/demos/horizontal/index.tsx" />
+
+<Previewer title="Vertical" src="@@/SchemaForm/demos/vertical/index.tsx" />
+
+<Previewer title="Inline" src="@@/SchemaForm/demos/inline/index.tsx" />
+
+### Grid Mode
+
+Grid mode utilizes Ant Design's [Grid](https://ant-design.antgroup.com/components/grid) System, controlling layout through [Row](https://ant-design.antgroup.com/components/grid#row) and [Col](https://ant-design.antgroup.com/components/grid#col) props.
+
+```js | {2}
+<SchemaForm
+  grid
+  rowProps={{}}
+  colProps={{}}
+  columns={[
+    {
+      title: 'name',
+      colProps: {}, // Higher priority
+    },
+    {
+      title: 'age',
+      colProps: {}, // Higher priority
+    },
+  ]}
+/>
+```
+
+When `grid` is enabled, it renders as:
+
+```js | {3,4,10}
+// pseudocode for illustration only
+<Form>
+  <Row {...rowProps}>
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+  </Row>
+</Form>
+```
+
+Grid system enables flexible layouts:
+
+<Previewer src="@@/SchemaForm/demos/grid-en/index.tsx" />
+
+### Horizontal Grid Alignment
+
+In horizontal grid mode, label widths may vary:
+
+<Previewer src="@@/SchemaForm/demos/gridHorizontalInit-en/index.tsx" />
+
+Solutions include setting minimum widths:
+
+<Previewer
+  title="Minimum Label Width"
+  src="@@/SchemaForm/demos/gridHorizontalMinWidth-en/index.tsx"
+/>
+
+Or specifying individual widths:
+
+<Previewer
+  title="Custom Label Widths"
+  src="@@/SchemaForm/demos/gridHorizontal-en/index.tsx"
+/>
+
+> `labelCol` is an Antd Form prop that accepts Col props like `{span: 8}` or `{flex: '0 0 30%'}`.
+>
+> Values are calculated relative to the form item's width (divided into 24 units). `{span: 8}` means the label occupies 8/24 of the item's width.
+
+### Placeholder Spacing
+
+Use empty placeholders for forced line breaks.
+
+<Previewer src="@@/SchemaForm/demos/placeholder/index.tsx" />
+
+## Form Operations
+
+### Readonly Mode
+
+Enable via `readonly` prop or schema's `readonly`. Key notes:
+
+1. Use `render` (not `renderFormItem`) for custom readonly displays
+2. Return null from render for empty space: `render: () => null`
+
+> 💡 Rakjs extends the readonly render function's second parameter (record) to include all form values.
+
+<Previewer src="@@/SchemaForm/demos/readonly-basic/index.tsx" />
+
+### Readonly Table Mode
+
+Readonly mode can also be transformed into a table-like format, similar to the <Link src={'https://ant-design.antgroup.com/components/descriptions#api'}>Antd Descriptions</Link> component.
+
+<Previewer
+  title="readonlyType as description"
+  src="@@/SchemaForm/demos/readonly-basic-description/index.tsx"
+/>
+
+### Field Dependencies
+
+<Previewer src="@@/SchemaForm/demos/dependency-en/index.tsx" />
+
+### Initial Values and Value Assignment
+
+1. [Show User] defaults to No
+
+2. Toggles to Yes when clicking "Set Values"
+
+3. Resets to No when clicking "Reset"
+
+<Previewer src="@@/SchemaForm/demos/init-value-basic-en/index.tsx" />
+
+### Submit Button
+
+The `submitter` prop defaults to false. When enabled, automatically generates submit buttons.
+
+<Previewer src="@@/SchemaForm/demos/submitter/index.tsx" />
+
+Customize button props:
+
+<Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx" />
+
+### Readonly/Editable Toggle
+
+Practical scenarios:
+
+**1. Form Display Simulation**
+
+<Previewer src="@@/SchemaForm/demos/readonly-form-en/index.tsx" />
+
+<Previewer
+  title="readonlyType as descriptions"
+  src="@@/SchemaForm/demos/readonly-form-descriptions-en/index.tsx"
+/>
+
+**2. Dependent Field Display in Readonly Mode**
+
+<Previewer src="@@/SchemaForm/demos/readonly-render-en/index.tsx" />
+
+## Form Data
+
+### Value Retrieval
+
+SchemaForm provides multiple value retrieval methods. The most common is `onFinish`.
+
+Other methods via form instance:
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTable-en/index.tsx" />
+
+These methods have subtle differences in handling formats and transformations.
+
+**Rule of thumb**: Use the first two methods when you need raw values, others for processed values.
+
+<Previewer src="@@/SchemaForm/demos/formValue-en/index.tsx" />
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTableResult-en/index.tsx" />
+
+### ConvertValue and Transform
+
+Backend data often requires transformation before being used in form controls. (ConvertValue)
+
+Similarly, form-collected data may need processing before being sent to the server. (Transform)
+
+This is particularly common in scenarios like file attachments upload, where:
+
+```js
+// there is a upload component
+{
+  title: 'Files',
+  dataIndex: 'fileList',
+  renderFormItem: () => <FormUpload />
+}
+
+// <FormUpload /> expects: [{ name: 'FileA', url: 'www.xx.com/xx' }]
+
+// Backend returns for display: [{ id: 1, fileName: 'FileA', filePath: 'www.xx.com/xx' }]
+
+// Submission requires: fileIds: '1,2'
+```
+
+`convertValue` and `transform` handle these scenarios.
+
+<Previewer src="@@/FormUpload/demos/dataSubmit-en/index" />
+
+> For file uploads, use the [FormUpload](/components/form-upload) component.
+
+### Convention Handling
+
+For components like [Select](https://ant-design.antgroup.com/components/select) and [TreeSelect](https://ant-design.antgroup.com/components/tree-select), when the `labelInValue` property is enabled, the component no longer accepts strings but requires an object `{ label: string, value: string }` for display purposes.
+
+As a result, the frontend needs to transform this data, and when submitting, the object must be split back into its original fields.
+
+```js
+// Example: A user dropdown component with labelInValue enabled
+{
+  title: 'User',
+  dataIndex: 'user',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// Backend returns userId: 1, userName: 'jack' for display
+// => Frontend transforms into user: { value: 1, label: 'jack' }
+// => On submission, the object is converted back to userId: 2, userName: 'tom'
+```
+
+Since this scenario is quite common, RAK aims to simplify the process by introducing a convention for dataIndex, as follows:
+
+- 👉 If dataIndex contains a comma `,`, RAK will automatically assemble an object based on the fields before and after the comma. During submission, the object will be split back. The field before the comma maps to value, and the field after maps to label.
+
+```js | {4,7}
+// Example: A user dropdown component with labelInValue enabled
+{
+  title: 'User',
+  dataIndex: 'userId,userName',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// With this convention, simply provide the values like this:
+initialValues={{ userId: 1, userName: 'jack' }}
+
+// Or:
+formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
+
+// Upon submission, the form will NOT receive:
+`{'userId,userName': { value: 1, label: 'jack' }}`
+
+// Instead, it will receive:
+{
+  userId: 1,
+  userName: 'jack'
+}
+```
+
+- If the component expects object keys other than `value` and `label`, you can customize them using an underscore. For example, `userId,userName_id,name` splits the underscore, where the fields after the underscore are also comma-separated. In this case, when assigning `{userId: 1, userName: 'jack'}` to the component, the value will be transformed into `{` id: 1, name: 'jack' }` before being passed to the component.
+
+<Previewer src="@@/SchemaForm/demos/conventionSimple-en/index.tsx" />
+
+### Storing Additional Data with innerRef
+
+`innerRef` is a utility ref containing helpful methods for special scenarios.
+
+Use `innerRef.current?.setData()` to store extra data, consumable by other fields.
+
+> Similar to React's setState, setData merges updates.
+
+<Previewer src="@@/SchemaForm/demos/innerRefData-en/index.tsx" />
+
+> For Embed Mode, pass innerRef to ProForm:
+>
+> ```js
+> import { ProForm } from 'react-admin-kit';
+> import { useRef } from 'react'
+>
+> const innerRef = useRef();
+> ...
+>
+> <ProForm
+>   innerRef={innerRef}
+>   ...
+> >
+> ...
+> </>
+> ```
+
+## Advanced Layouts
+
+### Embed Mode
+
+For complex forms, using embed mode allows each section to have its own layout configuration while collecting data in separate objects through the `valueBaseName` property.
+
+```js | {4,6,7,12,13,19,20}
+import { ProForm, SchemaForm } from 'react-admin-kit';
+import { Card } from 'antd';
+
+<ProForm>
+  <SchemaForm embed valueBaseName="one" />
+
+  <div>
+    <SchemaForm embed valueBaseName="two" />
+  </div>
+
+  <Card>
+    <SchemaForm embed valueBaseName="three" />
+  </Card>
+</ProForm>;
+
+// The collected form values upon submission will be: { one: ..., two: ..., three: ... }`
+```
+
+<Previewer src="@@/SchemaForm/demos/embed-simple-en/index.tsx" />
+
+<Previewer
+  title="readonlyType as descriptions in embed mode"
+  src="@@/SchemaForm/demos/embed-simple-descriptions-en/index.tsx"
+/>
+
+> 👉 Important note: In embed mode, the `valueBaseName` implementation simply converts the schema's dataIndex into an array format. See this Ant Design [example](https://ant.design/components/form/#components-form-demo-nest-messages).
+>
+> Therefore, when using setFieldsValue, you must include the valueBaseName in the value structure.
+>
+> ```js
+> setFieldsValue({ business: { company: 'xxx' } });
+> ```
+>
+> For dependency controls, when valueType='dependency' and `valueBaseName` has a value, the `name` property should use nested array syntax.
+>
+> ```js
+> { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
+>
+> ```
+
+### Group Layout
+
+When `valueType` is set to group, it enables grouped layout mode. Each group functions as a distinct section, with form items generated from the contents of columns.
+
+By default, these form items are wrapped in Ant Design's [Space](https://ant.design/components/space/) component. Therefore, you can pass Space component's API properties through fieldProps.
+
+<Previewer src="@@/SchemaForm/demos/group-en/index.tsx" />
+
+### Group Layout grid
+
+The group layout operates at two levels:
+
+1. Outer layer (section title)
+
+2. Inner layer (form items within **columns**)
+
+Accordingly, `colProps` configurations must be specified separately for each level.
+
+<Previewer
+  title="Group Grid Layout"
+  src="@@/SchemaForm/demos/groupGrid-en/index.tsx"
+/>
+
+<Previewer
+  title="Horizontal Group Grid Layout"
+  src="@@/SchemaForm/demos/groupGridHorizontal-en/index.tsx"
+/>
+
+## Form Array
+
+When `valueType` is set to `formList`, it generates a form array, which is particularly useful for collecting **array-type** data.
+
+For example, the following demo allows collecting multiple shop infomation:
+
+<Previewer src="@@/SchemaForm/demos/formList-en/index.tsx" />
+
+`formList` is essentially a component, and its [API](https://procomponents.ant.design/en-US/components/group#proformlist-api) can be configured via fieldProps.
+
+### Grid Layout
+
+The form items must be wrapped in valueType='group'.
+
+<Previewer src="@@/SchemaForm/demos/formListGrid-en/index.tsx" />
+
+### Custom Styling
+
+You can further customize the styling and action buttons using the `itemRender` property. See the example for usage.
+
+> The `itemRender` function signature: `({ listDom, action }, options) => ReactNode`
+>
+> The `options` signature: `{name, field, index, record, fields, operations, meta}`
+
+<Previewer src="@@/SchemaForm/demos/formListGridCustom-en/index.tsx" />
+
+## API
+
+### SchemaForm
+
+SchemaForm type is a combination of [SchemaFormSelfType](/components/schema-form#schemaformselftype) and [SchemaFormOriginType](/components/schema-form#schemaformorigintype).
+
+#### SchemaFormSelfType
+
+<API name="SchemaFormSelfType" />
+
+#### SchemaFormOriginType
+
+<API name="SchemaFormOriginType" />
+
+### SchemaFormInnerRefType
+
+<table className="dumi-default-table-content">
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| data | Can be used to store extra data in the form | `Record<string, any>` | `{}` |
+| setData | Store data; setData works like React's setState, you only need to pass the fields you care about, and it will not overwrite other fields. | `(Record<string, any>) => void` | `--` |
+
+</table>
+
+### FormColumnType
+
+<API name="FormColumnTypeComponent" />

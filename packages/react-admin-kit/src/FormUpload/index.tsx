@@ -1,0 +1,157 @@
+import { Upload } from 'antd';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { FormUploadContext } from '../SettingProvider/context';
+import { FormUploadProps, FormUploadSelfProps } from './types';
+import { myMergeOptions } from '../utils';
+import Omit from 'omit.js';
+
+/**
+ * 给 file 对象赋上默认的 status: done
+ * initialValues 和 setFieldsValue 两种情况下的 file 对象需要带上 status, 否则表单收集不到.
+ * beforeUpload 为 false 的 file 对象也会进到 fileList, 它的 status 为空, 所以表单不收集
+ * @param files
+ */
+function withDefaultStatus(files: any = []) {
+  const $files = files || [];
+  return $files.map((file: any) => {
+    if (!file.status) {
+      file.status = 'done';
+    }
+    return file;
+  });
+}
+
+function FormUpload(props: FormUploadProps) {
+  // 全局默认设置
+  const setting = useContext(FormUploadContext) || {};
+
+  const safeProps = Omit(props, ['value', 'onChange']);
+  const mergedProps: Omit<FormUploadProps, 'value' | 'onChange'> =
+    myMergeOptions(
+      setting,
+      safeProps || {},
+      // 默认值放在这里，能合并对象类属性
+      {},
+    );
+
+  const {
+    multiple = true,
+    children,
+    onFinish,
+    errorHandle,
+    responseToFileList,
+    nameKey = 'name',
+    urlKey = 'url',
+    ...rest
+  } = mergedProps;
+
+  const { value, onChange } = props;
+
+  /**
+   * 如果先前的 value 有值 [{name: '', url: ''}], 通过 setFieldsValue 设成空数组[]后, value 会变成 [undefined]
+   */
+  const $value = value
+    ? value
+        .filter(Boolean)
+        .map((val) => ({ ...val, name: val[nameKey], url: val[urlKey] }))
+    : value;
+
+  // 是否有调用父组件的 onChange 函数
+  const emitChangeRef = useRef<boolean | null>(null);
+  const firstTimeRef = useRef(true);
+  const [innerFileList, setInnerFileList] = useState(withDefaultStatus($value));
+
+  const [uploading, setUploading] = useState(false);
+
+  /**
+   * FormUpload 组件的设计是内部维护自己的文件列表, 然后监听外部 value 属性的变化, 来达到近似受控组件的效果.
+   * 为什么说近似, 是因为有一个例外, 当上传的文件列表中有上传错误的文件时, 通过 props.onChnage 传给外面的文件与内部的文件不一致.
+   * 传给外面的文件都是上传成功的, 而内部上包含错误文件的.
+   * 就是这个例外需要两边不同步, 通过一个 emitChangeRef 来标记并阻止他们同步.
+   */
+  useEffect(() => {
+    // 忽略第一次
+    if (firstTimeRef.current) {
+      firstTimeRef.current = false;
+      return;
+    }
+
+    /**
+     * 监听 value, 外部和内部同步. (emitChange 阻止的除外)
+     */
+    if (!emitChangeRef.current) {
+      setInnerFileList(withDefaultStatus($value));
+    }
+
+    emitChangeRef.current = false;
+  }, [value]);
+
+  const handleOnChange = (info) => {
+    setUploading(true);
+    const fileList = [...info.fileList];
+
+    const $fileList = fileList.map((file) => {
+      /**
+       * 将后端的返回合并进file对象
+       */
+      if (file.response) {
+        const res = file.response;
+        const resObj = responseToFileList ? responseToFileList(res) : {};
+
+        return { ...file, ...resObj };
+      }
+      return file;
+    });
+
+    if (info.file.status === 'error') {
+      if (errorHandle) {
+        errorHandle(info.file.response || {});
+      }
+    }
+
+    flushSync(() => setInnerFileList($fileList));
+
+    //  beforeUpload为false的文件也会进到onChange里
+    if ($fileList.every((file) => file.status !== 'uploading')) {
+      setUploading(false);
+      emitChangeRef.current = true;
+
+      const successFiles = $fileList.filter((file) =>
+        ['done', 'success'].includes(file.status),
+      );
+      if (onChange) {
+        onChange(successFiles);
+      }
+
+      if (onFinish) onFinish(successFiles);
+    }
+  };
+
+  const renderChildren = () => {
+    if (children && typeof children === 'function') {
+      return children({ loading: uploading });
+    }
+
+    return children;
+  };
+
+  return (
+    <Upload
+      multiple={multiple}
+      fileList={innerFileList}
+      onChange={handleOnChange}
+      {...rest}
+    >
+      {renderChildren()}
+    </Upload>
+  );
+}
+
+export default FormUpload;
+
+// 用于生成api文档
+/* istanbul ignore next */
+export const FormUploadType: React.FC<FormUploadSelfProps> = () => {
+  return null;
+};

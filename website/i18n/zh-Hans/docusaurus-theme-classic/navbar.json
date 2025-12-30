@@ -1,0 +1,30 @@
+{
+  "title": {
+    "message": "React Admin Kit",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "RAK Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.intro": {
+    "message": "简介",
+    "description": "Navbar item with label intro"
+  },
+  "item.label.components": {
+    "message": "组件",
+    "description": "Navbar item with label 组件"
+  },
+  "item.label.changelog": {
+    "message": "更新日志",
+    "description": "Navbar item with label 更新日志"
+  },
+  "item.label.case": {
+    "message": "用例",
+    "description": "展示测试用例"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

@@ -1,0 +1,154 @@
+@import url('docusaurus-lib-dev/styles');
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+/**
+  vue官网 字体颜色 #213547
+          footer 背景 #F9F9F9
+          footer 字体 rgba(60, 60, 60, 0.7)
+*/
+:root {
+  --ifm-color-primary: #1677ff;
+  --ifm-color-primary-dark: #3c89e8;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-color-base: #213547;
+  --ifm-footer-background-color: #f0f3fa; /* antd */
+  --ifm-footer-background-color: #f9f9f9; /*vue */
+  --ifm-container-width: 1180px;
+  --ifm-container-width-xl: 1420px;
+  --ifm-table-border-color: #e4e9ec;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+/**
+vue官网 字体颜色 rgba(255, 255, 255, 0.87)
+       背景颜色 #1a1a1a
+       footer背景 #242424
+*/
+[data-theme='dark'] {
+  --ifm-color-primary: #1677ff;
+  --ifm-color-primary-dark: #3c89e8;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-button-color: #fff;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  /* --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);  dumi 版本*/
+  --docusaurus-highlighted-code-line-bg: #ffffff0d; /* vue 版本 */
+  --ifm-font-color-base: rgba(255, 255, 255, 0.87);
+  --ifm-heading-color: rgba(255, 255, 255, 0.87);
+  --ifm-background-color: #1a1a1a;
+  --ifm-navbar-background-color: #1a1a1a;
+  --ifm-footer-background-color: #242424;
+  --ifm-toc-link-color: rgba(235, 235, 235, 0.7);
+  --ifm-table-border-color: #303030;
+}
+
+.hero {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.45' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.footer__col {
+  text-align: center;
+}
+
+.footer__copyright {
+  font-style: italic;
+  font-size: small;
+}
+
+.footer--dark {
+  --ifm-footer-background-color: unset;
+  --ifm-footer-title-color: #213547;
+  --ifm-footer-link-color: rgba(60, 60, 60, 0.7); /*vue*/
+  --ifm-footer-link-color: rgba(0, 0, 0, 0.7); /*antd*/
+}
+
+[data-theme='dark'] .footer--dark {
+  --ifm-footer-background-color: unset;
+  --ifm-footer-title-color: rgba(255, 255, 255, 0.87);
+  --ifm-footer-link-color: rgba(235, 235, 235, 0.6); /*vue*/
+}
+
+[data-theme='light'] .theme-code-block {
+  background-color: #f5f5f5;
+  box-shadow: none;
+}
+
+[data-theme='light'] .theme-code-block pre.prism-code {
+  background-color: unset !important;
+}
+
+.markdown code:not(pre code) {
+  color: rgb(213, 97, 97);
+  padding: 2px 5px;
+  background: rgb(240, 244, 248);
+  border-radius: 2px;
+  border: none;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .markdown code:not(pre code) {
+  background: #2f2f2f;
+}
+
+/* 调整博客页布局 */
+.myblogwrapper .container > .row {
+  flex-wrap: nowrap;
+  margin: 0;
+  /* 右侧的 toc 视觉上往右偏一点. 整体跟左侧的sider 平衡一点 */
+  margin-right: calc(var(--ifm-spacing-horizontal) * -1);
+}
+
+.myblogwrapper .container > .row > aside {
+  width: 200px;
+  flex: none;
+  padding: 0;
+  max-width: none;
+}
+
+.myblogwrapper .container > .row > main {
+  flex: auto;
+  max-width: none;
+  overflow: hidden;
+  padding: 0 48px;
+}
+
+.myblogwrapper .container > .row > div {
+  width: 220px;
+  max-width: none;
+  flex: none;
+  padding: 0;
+  margin-left: 24px;
+}
+
+@media (max-width: 996px) {
+  .myblogwrapper .container > .row {
+    margin-right: 0;
+  }
+
+  .myblogwrapper .container > .row > main {
+    padding: 0;
+  }
+
+  .myblogwrapper .container > .row > div {
+    display: none;
+  }
+}
+
+/* 在 Antd Descriptions 组件 bordered 开启时覆盖 docusaurus 样式 */
+.ant-descriptions table th,
+.ant-descriptions table td {
+  border: unset;
+}

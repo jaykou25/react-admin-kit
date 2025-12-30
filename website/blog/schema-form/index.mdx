@@ -1,0 +1,560 @@
+---
+date: 2025-01-01
+sidebar_label: SchemaForm - JSON 表单:0:核心组件:0
+---
+
+# SchemaForm - JSON 表单
+
+通过一个配置式的 schema 来生成表单。schema 与 Antd Table 的 columns 非常类似。
+
+## 基本概念
+
+一个基本的 Schema 表单：
+
+<Previewer
+  title="一个基本的 Schema 表单"
+  src="@@/SchemaForm/demos/basic/index.tsx"
+/>
+
+在开始深入之前，让我们先来了解几个重要的概念。
+
+SchemaForm 的底层还是 [Antd Form](https://ant-design.antgroup.com/components/form-cn) 组件。它通过遍历 **schema 数组** 来生成表单项。
+
+以这个例子来说，<i>columns 数组</i> 中的每一个对象都是一个 **schema**。
+
+```js
+{
+  title: '用户名',
+  dataIndex: 'username',
+  fieldProps: {
+    Placeholder: '请输入用户名'
+  },
+  formItemProps: {
+    rules: [
+      {
+        required: true,
+      },
+    ],
+  },
+},
+```
+
+如果用 Antd Form 的方式来书写，那么这个 schema 生成的表单项是这样的：
+
+```js
+import { Form, Input } from 'antd';
+
+<Form>
+  <Form.Item
+    label="用户名"
+    name="username"
+    rules={[
+      {
+        required: true,
+      },
+    ]}
+  >
+    <Input placeholder="请输入用户名" />
+  </Form.Item>
+</Form>;
+```
+
+不难看出，在 schema 中:
+
+- `title` 对应的 Form.Item 中的 `label`。
+- `dataIndex` 对应的 Form.Item 中的 `name`。
+- `formItemProps` 的值会传递给 Form.Item 组件。
+- `fieldProps` 的值会传递给被 Form.Item 包裹的组件 (对这个例子来说这个组件是 Input)。
+
+我们再来看一下第二个 schema:
+
+```js | {4}
+{
+  title: "性别",
+  dataIndex: "gender",
+  valueType: "radio",
+  fieldProps: {
+    options: [
+      { label: "男", value: "男" },
+      { label: "女", value: "女" },
+      { label: "其它", value: "其它" },
+    ],
+  },
+};
+```
+
+与第一个 schema 不同的地方在于，它多了一个 `valueType` 字段，很显然 SchemaForm 通过 `valueType` 字段渲染出了不同的组件，以这个例子来说 valueType：'radio' 对应的是一个 Radio.Group 组件，并且通过 fieldProps 给它传入了 options 属性。
+
+这是使用 SchemaForm 的优点之一，大部分常用的组件都能通过 `valueType` 来渲染。
+
+**schema** 部分介绍完了，我们再来看一下 **表单实例 FormInstance**。
+
+[表单实例](https://ant-design.antgroup.com/components/form-cn#forminstance) 是 Antd Form 中一个比较重要的概念，通过实例中的方法，我们可以完成很多操作，比如：提交表单，重置表单，给表单赋值等。
+
+在 SchemaForm 中，我们通过 `formRef` 属性来获取 _表单实例_。
+
+```js | {4}
+import { useRef } from 'react';
+import { ProFormInstance, SchemaForm } from 'react-admin-kit';
+
+const formRef = useRef<ProFormInstance>() // 注意这里使用的类型定义是 ProFormInstance. 它在 antd form instance 的基础上扩展了一些方法
+
+<SchemaForm
+  formRef={formRef}
+>
+
+formRef.current?.submit() // 提交
+formRef.current?.resetFields() // 重置
+formRef.current?.setFieldsValue() // 赋值
+```
+
+在后文中还会详细介绍 _表单实例_ 中的其它一些方法。
+
+以上就是 SchemaForm 的基本概念，看到这你已经可以开始书写一些简单的表单了 ✨。
+
+随着你使用的不断深入，你可以不断查看下面的各种例子来了解 SchemaForm 的其它属性，相信你会越来越得心应手的。
+
+### valueType
+
+valueType 是 schema 里的一个非常重要的字段，通过指定 valueType 就能映射出不同的表单项。常用的 valueType 有 `money` `digit` `date` `dateRange` `select` `radio` `textarea` 等，完整的列表见[这里](https://procomponents.ant.design/components/schema#valuetype-%E5%88%97%E8%A1%A8)。当 valueType 没有指定时，默认渲染的表单项是 Input 组件。
+
+<Previewer src="@@/SchemaForm/demos/valueType/index.tsx" />
+
+如果 valueType 不能满足你的需求，可以使用 `renderFormItem` 完全自定义表单项。
+
+自定义的组件需要满足 Form.Item 的规范，即组件能接受 value 和 onChange 属性。
+
+```js
+{
+  renderFormItem: (schema, config, form) => {
+    return <MyComp />;
+  };
+}
+```
+
+### required
+
+由于表单中设置必选的频率比较高，schema 中新增了 `required` 字段，作为 `formItemProps: { rules: [{ required: true }]}` 的简写。当然 formItemProps 的优先级更高。
+
+<Previewer src="@@/SchemaForm/demos/required/index.tsx" />
+
+## 表单布局
+
+### 传统布局
+
+<Previewer title="Horizontal" src="@@/SchemaForm/demos/horizontal/index.tsx" />
+
+<Previewer title="Vertical" src="@@/SchemaForm/demos/vertical/index.tsx" />
+
+<Previewer title="Inline" src="@@/SchemaForm/demos/inline/index.tsx" />
+
+### grid 栅格模式
+
+grid 栅格模式是把 FormItem 放入 Ant Design 的 [栅格系统](https://ant-design.antgroup.com/components/grid-cn) 中，通过传入 [Row](https://ant-design.antgroup.com/components/grid-cn#row) 和 [Col](https://ant-design.antgroup.com/components/grid-cn#col) 的属性来控制每个 FormItem 的布局。
+
+```js | {2}
+<SchemaForm
+  grid
+  rowProps={{}}
+  colProps={{}}
+  columns=[
+    {
+      title: 'name',
+      colProps: {} // 更高优先级
+    },
+    {
+      title: 'age',
+      colProps: {} // 更高优先级
+    }
+  ]
+>
+```
+
+以这个组件为例，当它开启 `grid` 属性后，它实际上会被渲染成：
+
+```js | {3,4,10}
+// 伪代码, 仅用于示意.
+<Form>
+  <Row {...rowProps}>
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+
+    <Col {...colProps}>
+      <Form.Item>
+        <Field />
+      <Form.Item>
+    </Col>
+  </Row>
+</Form>
+```
+
+通过栅格系统，表单项的布局将会变得更加的灵活，比如：
+
+<Previewer src="@@/SchemaForm/demos/grid/index.tsx" />
+
+### grid 水平方向
+
+当开启 `grid` 并且 `layout` 为 horizontal 时，表单项的 label 宽度很可能会不一致。如下所示:
+
+<Previewer src="@@/SchemaForm/demos/gridHorizontalInit/index.tsx" />
+
+有许多方法能让 label 宽度统一。比如给它设定一个最小宽度：
+
+<Previewer
+  title="label 设最小宽度"
+  src="@@/SchemaForm/demos/gridHorizontalMinWidth/index.tsx"
+/>
+
+或者给每个表单的 label 单独指定宽度。
+
+<Previewer
+  title="单独指定 label"
+  src="@@/SchemaForm/demos/gridHorizontal/index.tsx"
+/>
+
+> `labelCol` 是 Antd Form 的一个属性。同 [Col](https://ant.design/components/grid-cn#col) 组件，可以传入 `{span: 8}` 或者 `{flex: 0 0 30%}` 等属性。
+>
+> `labelCol` 是以其 **所在表单项** 的宽度作为基值（24 份）来进行后续计算的。`{span: 8}` 代表 label 占 **所在表单项** 的宽度的 8 份。`{flex: 0 0 30%}` 代表 label 占 **所在表单项** 的宽度的 30%。
+
+### 空白占位
+
+需要强制换行时可用空白占位.
+
+<Previewer src="@@/SchemaForm/demos/placeholder/index.tsx" />
+
+## 表单操作
+
+### 只读模式
+
+通过 readonly 属性或者 schema 上的 readonly 属性可以设置只读模式. 只读模式有以下几个注意点:
+
+1. 只读模式下的自定义显示用 `render` 方法, 而不是 `renderFormItem`.
+2. 空白占位可以用 `render` 方法返回 null 来实现. `render: () => null`.
+
+> 💡 Rakjs 扩展了只读模式下 render 函数的第二个参数 record. 这个 record 里包含了表单里的所有值, 提高了实用性.
+
+<Previewer
+  title="readonlyType 默认是 form"
+  src="@@/SchemaForm/demos/readonly-basic/index.tsx"
+/>
+
+### 只读表格模式
+
+只读模式还能转化成表格的形式，类似 <Link src={'https://ant-design.antgroup.com/components/descriptions-cn#api'}> Antd Descriptions</Link> 组件。
+
+<Previewer
+  title="readonlyType 为 description"
+  src="@@/SchemaForm/demos/readonly-basic-description/index.tsx"
+/>
+
+### 表单项联动
+
+<Previewer src="@@/SchemaForm/demos/dependency/index.tsx" />
+
+### 初始值和表单项赋值
+
+1. [是否显示用户] 初始值为否。
+2. 点击赋值按钮后显示为是。
+3. 点击重置按钮后显示为否。
+
+<Previewer src="@@/SchemaForm/demos/init-value-basic/index.tsx" />
+
+### 提交按钮 submitter
+
+submitter 属性默认为 false. 开启后可自动生成提交按钮.
+
+<Previewer src="@@/SchemaForm/demos/submitter/index.tsx" />
+
+还可以给生成的按钮传递属性.
+
+<Previewer src="@@/SchemaForm/demos/submitterProps/index.tsx" />
+
+### 只读与编辑切换
+
+下面模拟演示两个真实场景:
+
+**1. 模拟一个表单页的回显**
+
+<Previewer src="@@/SchemaForm/demos/readonly-form/index.tsx" />
+
+<Previewer
+  title="readonlyType 为 descriptions"
+  src="@@/SchemaForm/demos/readonly-form-descriptions/index.tsx"
+/>
+
+**2. 只读表单项的依赖显示**
+
+<Previewer src="@@/SchemaForm/demos/readonly-render/index.tsx" />
+
+## 表单数据
+
+### 表单取值
+
+SchemaForm 提供了多种方法来获取表单值. 最常用的是通过 onFinish 属性来取值.
+
+除了 onFinish 以外还可以通过 **表单实例** 提供的方法来获取表单值.
+
+下面列举了几个常用的取值方法:
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTable/index.tsx" />
+
+这几个方法在取值上有细微的差异，主要的差异点在时间格式的处理，transform 转化等场景下。
+
+**简单来说**，如果你明确知道需要 **转换前** 的值，请使用前两种方法，否则请使用后三种方法。
+
+<Previewer src="@@/SchemaForm/demos/formValue/index.tsx" />
+
+<Previewer inline src="@@/SchemaForm/demos/formValueTableResult/index.tsx" />
+
+### ConvertValue 和 Transform
+
+有的时候后端返回的数据并不能直接用于表单控件, 需要先对数据进行处理. (ConvertValue)
+
+还有的时候, 在提交表单时, 表单收集到的数据并不能直接提交给后台, 需要先对数据进行处理. (Transform)
+
+很典型的场景就是附件上传.
+
+```js
+// 假设有一个附件上传组件
+{
+  title: '附件列表',
+  dataIndex: 'fileList',
+  renderFormItem: () => <FormUpload />
+}
+
+// 该组件需要接收的是一个对象数组, 对象的字段是 name 和 url.
+[
+  { name: '文件A', url: 'www.xx.com/xx' },
+  { name: '文件B', url: 'www.xx.com/xx' },
+];
+
+// 而后端返回的数据是 fileName 和 filePath:
+[
+  { id: 1, fileName: '文件A', filePath: 'www.xx.com/xx' },
+  { id: 2, fileName: '文件B', filePath: 'www.xx.com/xx' },
+];
+
+// 提交给后端的数据需要是 fileIds: '1,2'
+
+```
+
+Schema 中的 `convertValue` 和 `tranform` 字段就可以应对这个场景.
+
+<Previewer src="@@/FormUpload/demos/dataSubmit/index" />
+
+> 附件上传场景可以使用衍生组件中的 [FormUpload 组件](/components/form-upload).
+
+### 约定式
+
+对于 [Select](https://ant-design.antgroup.com/components/select-cn), [TreeSelect](https://ant-design.antgroup.com/components/tree-select-cn) 等组件， 当其开启了 `labelInValue` 属性时，组件不再接受字符串而是需要接收一个对象 `{ label: string, value: string}` 来回显。
+
+因此前端需要转化这个数据，而在提交时又要把这个对象拆成原来的字段。
+
+```js | {4,7}
+// 比如一个用户下拉组件开启了 labelInValue
+{
+  title: '用户',
+  dataIndex: 'user',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// 后端返回 userId: 1, userName: 'jack' 用于回显
+// => 前端需转化成 user: { value: 1, label: 'jack'}
+// => 提交时需要把对象再转化成 userId: 2, userName: 'tom'
+```
+
+由于这类场景比较常见的，RAK 想通过对 `dataIndex` 的约定来简化这一流程，约定如下：
+
+- 👉 如果 `dataIndex` 中包含逗号 `,`, RAK 会根据逗号前后的字段来自动拼接成一个对象，提交时又会把该对象拆分。逗号前的字段映射成 value，逗号后的字段映射成 label。
+
+```js | {4,7}
+// 比如一个用户下拉组件开启了 labelInValue
+{
+  title: '用户',
+  dataIndex: 'userId,userName',
+  valueType: 'select',
+  fieldProps: {
+    labelInValue: true,
+    options: [
+      { value: 1, label: 'jack' },
+      { value: 2, label: 'tom' },
+    ]
+  }
+}
+
+// 由于符合约定式只需要这样给值就可以
+initialValues={{ userId: 1, userName: 'jack' }}
+
+// 或者
+formRef.current?.setFieldsValue({ userId: 1, userName: 'jack' })
+
+// 提交时表单不会拿到：
+`{'userId,userName': { value: 1, label: 'jack' }}`
+
+// 而是会拿到:
+{
+  userId: 1,
+  userName: 'jack'
+}
+```
+
+- 如果组件接受对象的键值不是 value 和 label，还可以通过下划线自定义。比如`userId,userName_id,name`，RAK 会拆分下划线，下划线后面的字段同样用逗号隔开。以这个例子来说，当给组件赋值`{userId: 1, userName: 'jack'}`时, 值会被转换成`{ id: 1, name: 'jack' }` 传给组件。
+
+<Previewer src="@@/SchemaForm/demos/conventionSimple/index.tsx" />
+
+### 利用 innerRef 存储额外信息
+
+`innerRef`是 RAK 提供的一个工具类 ref, 里面包含了一些实用的方法可以用来简化一些特殊的场景.
+
+在 fieldProps 的第二个参数里默认提供了 innerRef, 可以用 `innerRef.current?.setData()`来存储额外的信息, 然后在其它的表单项里消费 innerRef.
+
+> innerRef 中的 setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段.
+
+<Previewer src="@@/SchemaForm/demos/innerRefData/index.tsx" />
+
+> 对于[内嵌模式](#内嵌模式-embed) (embed), innerRef 可以传到 ProForm 上.
+>
+> ```js
+> import { ProForm } from 'react-admin-kit';
+> import { useRef } from 'react'
+>
+> const innerRef = useRef();
+> ...
+>
+> <ProForm
+>   innerRef={innerRef}
+>   ...
+> >
+> ...
+> </>
+> ```
+
+## 高级布局
+
+### 内嵌模式 (Embed)
+
+对于复杂表单, 通过内嵌模式可以让每个区块单独设置布局, 同时通过设置 `valueBaseName` 属性, 数据也可以收集在各自的对象里.
+
+```js | {4,6,7,12,13,19,20}
+import { ProForm, SchemaForm } from 'react-admin-kit';
+import { Card } from 'antd';
+
+<ProForm>
+  <SchemaForm embed valueBaseName="one" />
+
+  <div>
+    <SchemaForm embed valueBaseName="two" />
+  </div>
+
+  <Card>
+    <SchemaForm embed valueBaseName="three" />
+  </Card>
+</ProForm>;
+
+// 表单提交时收集到的值为 { one: ..., two: ..., three: ... }`
+```
+
+<Previewer src="@@/SchemaForm/demos/embed-simple/index.tsx" />
+
+> 👉 需要注意的是, 在 embed 模式下, valueBaseName 的实现仅仅只是把 schema 中的 dataIndex 转换成数组. 见 Antd 的这个[例子](https://ant.design/components/form-cn/#components-form-demo-nest-messages).
+>
+> 所以在 setFieldsValue 的时候, 需要把 valueBaseName 的值也考虑进去.
+>
+> ```js
+> setFieldsValue({ business: { company: 'xxx' } });
+> ```
+>
+> 同时在做联动控制时, 当 valueType='dependency'并且 valueBaseName 有值时, `name` 里的值应该是套嵌数组.
+>
+> ```js
+> { valueType: 'dependency', name: [['business', 'serviceName']] } 👈
+> ```
+
+<Previewer
+  title="readonlyType 为 descriptions 的只读模式"
+  src="@@/SchemaForm/demos/embed-simple-descriptions/index.tsx"
+/>
+
+### 分组布局 (Group)
+
+当 valueType 为 group 时即开启分组布局。每个 group 相当于是一个区块，`columns`里的内容会生成表单项。
+
+默认情况下这些表单项是以 [Space](https://ant.design/components/space-cn/) 组件包裹的。所以你可以在 fieldProps 里传入 Space 的 [api](https://ant.design/components/space-cn/#api)
+
+<Previewer src="@@/SchemaForm/demos/group/index.tsx" />
+
+### 分组布局 (Grid)
+
+group 的布局分为两层，外层（区块标题）和内层（columns 里的表单项），所以 colProps 的设置也要分两层设置。
+
+<Previewer title="分组 grid" src="@@/SchemaForm/demos/groupGrid/index.tsx" />
+
+<Previewer
+  title="分组 grid 左右布局"
+  src="@@/SchemaForm/demos/groupGridHorizontal/index.tsx"
+/>
+
+## 表单数组 FormList
+
+当 `valueType` 为 formList 时能够生成表单数组, 这对于收集 **数组** 信息非常有用.
+
+比如下面的例子能够添加多个店铺.
+
+<Previewer src="@@/SchemaForm/demos/formList/index.tsx" />
+
+formList 实际上是一个组件, [api](https://procomponents.ant.design/components/group#proformlist-api) 见这里, 可以通过 fieldProps 给这个组件传递属性.
+
+### Grid 排列
+
+要让表单数组内的表单项 grid 排列, 除了开启 `grid` 属性以外, 表单项还需要用 `valueType='group'` 包裹.
+
+<Previewer src="@@/SchemaForm/demos/formListGrid/index.tsx" />
+
+### 样式自定义
+
+还可以通过 `itemRender` 属性自定义样式和操作按钮。用法见示例。
+
+> itemRender 的参数类型是 `({ listDom, action }, options) => ReactNode`
+>
+> options: `{name, field, index, record, fields, operations, meta}`
+
+<Previewer src="@@/SchemaForm/demos/formListGridCustom/index.tsx" />
+
+## API
+
+### SchemaForm
+
+SchemaForm 类型是 [SchemaFormSelfType](/components/schema-form#schemaformselftype) 和 [SchemaFormOriginType](/components/schema-form#schemaformorigintype) 的结合。
+
+#### SchemaFormSelfType
+
+<API name="SchemaFormSelfType" />
+
+#### SchemaFormOriginType
+
+<API name="SchemaFormOriginType" />
+
+### SchemaFormInnerRefType
+
+<table className="dumi-default-table-content">
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| data | 可以存储表单中的额外数据 | `Record<string, any>` | `{}` |
+| setData | 存入数据; setData 和 react 的 setState 一样, 只需要传入关心的字段就可以, 不会覆盖其它的字段. | `(Record<string, any>) => void` | `--` |
+
+</table>
+
+### FormColumnType
+
+<API name="FormColumnTypeComponent" />
