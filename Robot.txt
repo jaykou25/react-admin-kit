@@ -1,0 +1,4 @@
+User-agent: *
+Sitemap: https://jaykou25.github.io/react-admin-kit/sitemap.xml
+
+# Algolia-Crawler-Verif: CBC5011A13928CA8
