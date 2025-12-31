@@ -251,6 +251,12 @@ const config: Config = {
       theme: prismThemes.vsLight,
       darkTheme: prismThemes.vsDark,
     },
+    algolia: {
+      appId: 'J6S8ZTF6GS',
+      // Public API key: it is safe to commit it
+      apiKey: 'ce16bd440a0d73fad3765a8910743551',
+      indexName: 'react-admin-kit website',
+    },
   } satisfies Preset.ThemeConfig,
 };
 
