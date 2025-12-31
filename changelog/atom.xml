@@ -50,7 +50,7 @@
         <link href="https://jaykou25.github.io/react-admin-kit/changelog/v0"/>
         <updated>2025-01-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[0.5.11]]></summary>
-        <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0511">0.5.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0511" class="hash-link" aria-label="0.5.11的直接链接" title="0.5.11的直接��链接" translate="no">​</a></h2>
+        <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0511">0.5.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0511" class="hash-link" aria-label="0.5.11的直接链接" title="0.5.11的直接链接" translate="no">​</a></h2>
 <p>ModalForm 组件</p>
 <ul>
 <li class="">style: 修复长表单时的滚动条.</li>
