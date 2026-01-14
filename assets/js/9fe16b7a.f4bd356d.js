@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([["5389"],{22737:function(e){e.exports=JSON.parse('{"metadata":{"permalink":"/react-admin-kit/components/page/2","page":2,"postsPerPage":10,"totalPages":2,"totalCount":11,"previousPage":"/react-admin-kit/components","blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

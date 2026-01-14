@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>React Admin Kit Blog</title>
-        <link>https://jaykou25.github.io/react-admin-kit/changelog</link>
+        <link>https://jaykou25.github.io/react-admin-kit/changelog/</link>
         <description>React Admin Kit Blog</description>
         <lastBuildDate>Wed, 01 Jan 2025 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
@@ -10,23 +10,24 @@
         <language>zh-Hans</language>
         <item>
             <title><![CDATA[v1 更新日志]]></title>
-            <link>https://jaykou25.github.io/react-admin-kit/changelog/v1</link>
-            <guid>https://jaykou25.github.io/react-admin-kit/changelog/v1</guid>
+            <link>https://jaykou25.github.io/react-admin-kit/changelog/v1/</link>
+            <guid>https://jaykou25.github.io/react-admin-kit/changelog/v1/</guid>
             <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[{/* ### 新增]]></description>
             <content:encoded><![CDATA[
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="100">1.0.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1#100" class="hash-link" aria-label="1.0.0的直接链接" title="1.0.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="100">1.0.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#100" class="hash-link" aria-label="1.0.0的直接链接" title="1.0.0的直接链接" translate="no">​</a></h2>
 <p>1.0 版本全面覆盖了测试用例。代码覆盖率大于 90%，分支覆盖率大于 85%。</p>
+<!-- -->
 <p>从 v0 版本迁移请关注下面的变更项。</p>
-<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="新增-">新增 🆕<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1#%E6%96%B0%E5%A2%9E-" class="hash-link" aria-label="新增 🆕的直接链接" title="新增 🆕的直接链接" translate="no">​</a></h4>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="新增-">新增 🆕<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E6%96%B0%E5%A2%9E-" class="hash-link" aria-label="新增 🆕的直接链接" title="新增 🆕的直接链接" translate="no">​</a></h4>
 <ul>
 <li class="">组件库增加多语言支持。</li>
 <li class="">组件库支持 SSR。</li>
-<li class="">增加 utils 工具方法 <a class="" href="https://jaykou25.github.io/react-admin-kit/components/utils-tree">utils-tree</a>。</li>
-<li class="">SchemaForm 组件增加 <a class="" href="https://jaykou25.github.io/react-admin-kit/components/schema-form#%E5%8F%AA%E8%AF%BB%E8%A1%A8%E6%A0%BC%E6%A8%A1%E5%BC%8F">只读表格模式</a>。</li>
+<li class="">增加 utils 工具方法 <a class="" href="https://jaykou25.github.io/react-admin-kit/components/utils-tree/">utils-tree</a>。</li>
+<li class="">SchemaForm 组件增加 <a class="" href="https://jaykou25.github.io/react-admin-kit/components/schema-form/#%E5%8F%AA%E8%AF%BB%E8%A1%A8%E6%A0%BC%E6%A8%A1%E5%BC%8F">只读表格模式</a>。</li>
 <li class="">ProTable 组件增加 <code>delSuccessProps</code> 属性。</li>
 </ul>
-<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="变更-">变更 💥<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1#%E5%8F%98%E6%9B%B4-" class="hash-link" aria-label="变更 💥的直接链接" title="变更 💥的直接链接" translate="no">​</a></h4>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="变更-">变更 💥<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E5%8F%98%E6%9B%B4-" class="hash-link" aria-label="变更 💥的直接链接" title="变更 💥的直接链接" translate="no">​</a></h4>
 <ul>
 <li class="">ProTable 组件属性变更（<code>modalProps</code> 和 <code>formProps</code> 合并成 <code>modalFormProps</code>）。</li>
 <li class="">ProTable 组件属性名变更（<code>confirmModelType</code> 改成 <code>delConfirmType</code>）。</li>
@@ -35,33 +36,34 @@
 <li class="">ProTable 组件导出功能变更：<!-- -->
 <ol>
 <li class="">移除了 exceljs 库的默认依赖，这有助于减少组件库的体积。</li>
-<li class="">对于需要导出的页面，需要先安装 exceljs 库，然后调用相关的方法。<a class="" href="https://jaykou25.github.io/react-admin-kit/components/protable#%E5%AF%BC%E5%87%BA%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE">参考文档</a></li>
+<li class="">对于需要导出的页面，需要先安装 exceljs 库，然后调用相关的方法。<a class="" href="https://jaykou25.github.io/react-admin-kit/components/protable/#%E5%AF%BC%E5%87%BA%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE">参考文档</a></li>
 </ol>
 </li>
 <li class="">FormUpload 组件移除了给 children 默认注入 loading 属性的功能。改成给 children 函数提供 loading 属性。</li>
 </ul>
-<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="类型-">类型 <img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"><a href="https://jaykou25.github.io/react-admin-kit/changelog/v1#%E7%B1%BB%E5%9E%8B-" class="hash-link" aria-label="类型-的直接链接" title="类型-的直接链接" translate="no">​</a></h4>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="类型-">类型 <img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"><a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E7%B1%BB%E5%9E%8B-" class="hash-link" aria-label="类型-的直接链接" title="类型-的直接链接" translate="no">​</a></h4>
 <ul>
 <li class="">ProForm 组件 <code>submitter</code> 属性支持 boolean 类型。</li>
 </ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[v0 更新日志]]></title>
-            <link>https://jaykou25.github.io/react-admin-kit/changelog/v0</link>
-            <guid>https://jaykou25.github.io/react-admin-kit/changelog/v0</guid>
+            <link>https://jaykou25.github.io/react-admin-kit/changelog/v0/</link>
+            <guid>https://jaykou25.github.io/react-admin-kit/changelog/v0/</guid>
             <pubDate>Thu, 02 Jan 2025 00:00:00 GMT</pubDate>
-            <description><![CDATA[0.5.11]]></description>
-            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0511">0.5.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0511" class="hash-link" aria-label="0.5.11的直接链接" title="0.5.11的直接链接" translate="no">​</a></h2>
+            <description><![CDATA[{/ truncate /}]]></description>
+            <content:encoded><![CDATA[
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0511">0.5.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0511" class="hash-link" aria-label="0.5.11的直接链接" title="0.5.11的直接链接" translate="no">​</a></h2>
 <p>ModalForm 组件</p>
 <ul>
 <li class="">style: 修复长表单时的滚动条.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0510">0.5.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0510" class="hash-link" aria-label="0.5.10的直接链接" title="0.5.10的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0510">0.5.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0510" class="hash-link" aria-label="0.5.10的直接链接" title="0.5.10的直接链接" translate="no">​</a></h2>
 <p>ModalForm 组件</p>
 <ul>
 <li class="">🐛 消除 initialValue 相关告警.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="059">0.5.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#059" class="hash-link" aria-label="0.5.9的直接链接" title="0.5.9的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="059">0.5.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#059" class="hash-link" aria-label="0.5.9的直接链接" title="0.5.9的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">🐛 增加 pro-component 警告信息的捕获 <code>antd: Form.Item</code> .</li>
 </ul>
@@ -69,21 +71,21 @@
 <ul>
 <li class="">🐛 initialValues 与 openModal 中初始值的合并处理.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="058">0.5.8<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#058" class="hash-link" aria-label="0.5.8的直接链接" title="0.5.8的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="058">0.5.8<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#058" class="hash-link" aria-label="0.5.8的直接链接" title="0.5.8的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">🐛 增加对 pro-component 警告信息的捕获, 例如 <code>Warning: findDOMNode is deprecated</code></li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="057">0.5.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#057" class="hash-link" aria-label="0.5.7的直接链接" title="0.5.7的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="057">0.5.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#057" class="hash-link" aria-label="0.5.7的直接链接" title="0.5.7的直接链接" translate="no">​</a></h2>
 <p>BusinessSelect 组件</p>
 <ul>
 <li class="">🐛修复 BusinessSelect 分组选项的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="056">0.5.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#056" class="hash-link" aria-label="0.5.6的直接链接" title="0.5.6的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="056">0.5.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#056" class="hash-link" aria-label="0.5.6的直接链接" title="0.5.6的直接链接" translate="no">​</a></h2>
 <p>BusinessSelect 组件</p>
 <ul>
 <li class="">🐛修复 BusinessSelect 组件 disabled 属性未接收问题. 同时增加分组选项.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="055">0.5.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#055" class="hash-link" aria-label="0.5.5的直接链接" title="0.5.5的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="055">0.5.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#055" class="hash-link" aria-label="0.5.5的直接链接" title="0.5.5的直接链接" translate="no">​</a></h2>
 <p>ModalForm 组件</p>
 <ul>
 <li class="">💄ModalForm 弹窗表单有滚动时滚动条贴边.</li>
@@ -92,48 +94,48 @@
 <ul>
 <li class="">🐛修复 schema 中 required 属性在 formItemProps 为函数时失效的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="054">0.5.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#054" class="hash-link" aria-label="0.5.4的直接链接" title="0.5.4的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="054">0.5.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#054" class="hash-link" aria-label="0.5.4的直接链接" title="0.5.4的直接链接" translate="no">​</a></h2>
 <p>BusinessSelect 组件</p>
 <ul>
 <li class="">🆕增加 searchDebounceValue 属性, 控制组件搜索时的 debounce 值.</li>
 <li class="">🐛修复组件搜索时 loading 和 allowClear 冲突的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="053">0.5.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#053" class="hash-link" aria-label="0.5.3的直接链接" title="0.5.3的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="053">0.5.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#053" class="hash-link" aria-label="0.5.3的直接链接" title="0.5.3的直接链接" translate="no">​</a></h2>
 <p>ProTable 组件</p>
 <ul>
 <li class="">🐛修复搜索表单 valueType: dependency 无效的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="051">0.5.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#051" class="hash-link" aria-label="0.5.1的直接链接" title="0.5.1的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="051">0.5.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#051" class="hash-link" aria-label="0.5.1的直接链接" title="0.5.1的直接链接" translate="no">​</a></h2>
 <p>2024-5-20</p>
 <p>ProForm 组件</p>
 <ul>
 <li class="">🐛修复 formRef 约定式赋值没有及时更新的问题.</li>
 <li class="">🐛修复在 <code>embed</code> 模式下对 valueType: formList 的 grid 布局失效的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="050">0.5.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#050" class="hash-link" aria-label="0.5.0的直接链接" title="0.5.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="050">0.5.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#050" class="hash-link" aria-label="0.5.0的直接链接" title="0.5.0的直接链接" translate="no">​</a></h2>
 <p>2024-5-15</p>
 <ul>
 <li class="">✨ 重构 SchemaForm, ProForm 的约定式实现. 修复了 fieldProps 函数中 form 约定式赋值无效的问题. 覆盖了测试用例.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="044">0.4.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#044" class="hash-link" aria-label="0.4.4的直接链接" title="0.4.4的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="044">0.4.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#044" class="hash-link" aria-label="0.4.4的直接链接" title="0.4.4的直接链接" translate="no">​</a></h2>
 <p>2024-5-11</p>
 <p>SchemaForm 组件, ProForm 组件</p>
 <ul>
 <li class="">🐛修复 <strong>表单实例</strong> 的 <code>validateFields</code>, <code>getFieldsFormatValue</code>, <code>validateFieldsReturnFormatValue</code> 方法未对约定式处理的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="043">0.4.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#043" class="hash-link" aria-label="0.4.3的直接链接" title="0.4.3的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="043">0.4.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#043" class="hash-link" aria-label="0.4.3的直接链接" title="0.4.3的直接链接" translate="no">​</a></h2>
 <p>2024-5-6</p>
 <p>ModalForm 组件</p>
 <ul>
 <li class="">🐛修复 ModalForm 组件(或者 ProTable) 套嵌在 ProForm 组件中时, fieldProps 函数中的 form 被覆盖的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="041">0.4.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#041" class="hash-link" aria-label="0.4.1的直接链接" title="0.4.1的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="041">0.4.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#041" class="hash-link" aria-label="0.4.1的直接链接" title="0.4.1的直接链接" translate="no">​</a></h2>
 <p>2024-4-25</p>
 <p>SchemaForm 组件</p>
 <ul>
 <li class="">🐛修复 getFieldsValue 没有对约定式值进行处理的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="040">0.4.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#040" class="hash-link" aria-label="0.4.0的直接链接" title="0.4.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="040">0.4.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#040" class="hash-link" aria-label="0.4.0的直接链接" title="0.4.0的直接链接" translate="no">​</a></h2>
 <p>2024-4-12</p>
 <p>移除掉在 antd v4中过期的 api. 所以在 v0.4 以后只支持 antd v5.</p>
 <p>ModalForm 组件</p>
@@ -144,19 +146,19 @@
 <ul>
 <li class="">🆕在只读模式下 render 函数的第二个参数由 entity 扩展成 record. 这个 record 不仅包含所有表单项的值, 还包含了 initialValues 里除表单项以外的值和 setFieldsValue 里除表单项以外的值, 增加了实用性.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0323">0.3.23<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0323" class="hash-link" aria-label="0.3.23的直接链接" title="0.3.23的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0323">0.3.23<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0323" class="hash-link" aria-label="0.3.23的直接链接" title="0.3.23的直接链接" translate="no">​</a></h2>
 <p>同 0.4.4</p>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0322">0.3.22<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0322" class="hash-link" aria-label="0.3.22的直接链接" title="0.3.22的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0322">0.3.22<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0322" class="hash-link" aria-label="0.3.22的直接链接" title="0.3.22的直接链接" translate="no">​</a></h2>
 <p>同 0.4.3</p>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0319">0.3.19<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0319" class="hash-link" aria-label="0.3.19的直接链接" title="0.3.19的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0319">0.3.19<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0319" class="hash-link" aria-label="0.3.19的直接链接" title="0.3.19的直接链接" translate="no">​</a></h2>
 <p>同 0.4.1</p>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0318">0.3.18<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0318" class="hash-link" aria-label="0.3.18的直接链接" title="0.3.18的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0318">0.3.18<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0318" class="hash-link" aria-label="0.3.18的直接链接" title="0.3.18的直接链接" translate="no">​</a></h2>
 <p>2024-4-9</p>
 <p>ProTable 组件</p>
 <ul>
 <li class=""><img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"> 修复 ProTable 中 search 属性的类型定义.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0317">0.3.17<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0317" class="hash-link" aria-label="0.3.17的直接链接" title="0.3.17的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0317">0.3.17<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0317" class="hash-link" aria-label="0.3.17的直接链接" title="0.3.17的直接链接" translate="no">​</a></h2>
 <p>2024-4-9</p>
 <p>文档用例更新成 antd v5.</p>
 <p>ModalForm 组件</p>
@@ -167,7 +169,7 @@
 <ul>
 <li class=""><img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAiVJREFUWEftmL1rFFEUxc95k//EQjAk61aiWCSN2EawUFQQLISAEPKxO43ZreYFRWz8KCwsIghCOkkZ/4DIzm6hCGnTibGw0GLv1Zk4w+yQTch87G5gphrezH3z23PuvXN3iAk/OOF8OGOAXmduIhR1658ijkEFvc6codkZJ6SozKMCzGFBpWAO8cLQSsFKwaoPnpADVZFURVIVSdlFomA8q52Ub4Qm58sfUN0GdC+II811BS6l98hdxekNjoM0tqvB9X8g26pTj+BOh3DRYbxOCzTrybXRAxLfBbiKRu3bUT/GeP4rkA+ja7kB0xar9tvRBEzbG5jG/1v8Xpq1WwGA2eiuQ7EIlZfi1lvG6y2B+qxQBY/LmcjSwXvUSvOiGwImLSU+QHGz8Bw8PSA3pTl7N847210B8GRY7ua2OAPgVyHvoTGzG8fazhXCLBO4MQEKhggHpHnQb8xsJYEc27ut0McAzhdWJKdXMBnBTVE8hzv7OV5N/dUdg8VHZJvqa/lzsIrW/K+wadveTtTUxwOo0oYxFwaqVqUdtJqwuq2/AXAtOB8poIIfdcpZw8r0l8M2030BBq2F7+R3v41W/eehgv4WwYWRA4YPV7nfd+tvh7UVx/MXlIyLZ6QKJqBWpVl7moZ0rH9HwcDmc6VVcfLVl5pe0jz7UHkTLSqdy4ReK70PDrMu63rhFmcFyfyqK/qBmfYb+n0w027lBp2xb9TlipFp97+108g4U6dDYAAAAABJRU5ErkJggg==" style="vertical-align:-3px"> 修复 TableColumnType 的类型定义, 修复后提示更加准确.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0316">0.3.16<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0316" class="hash-link" aria-label="0.3.16的直接链接" title="0.3.16的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0316">0.3.16<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0316" class="hash-link" aria-label="0.3.16的直接链接" title="0.3.16的直接链接" translate="no">​</a></h2>
 <p>2024-2-11</p>
 <p>ModalForm 组件</p>
 <ul>
@@ -177,38 +179,38 @@
 <ul>
 <li class="">🐛修复 innerRef 与 fieldProps 中的 innerRef 不是同对象的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0315">0.3.15<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0315" class="hash-link" aria-label="0.3.15的直接链接" title="0.3.15的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0315">0.3.15<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0315" class="hash-link" aria-label="0.3.15的直接链接" title="0.3.15的直接链接" translate="no">​</a></h2>
 <p>2024-2-7</p>
 <p>ProTable 组件</p>
 <ul>
 <li class="">🛠schema 中的 type 字段新增 'search' 类型, 代表该项只会被用于 ProTable 的 search 区域.</li>
 <li class="">🆕新增 defaultHideInSearch 属性, 来全局控制 column 是否默认显示在搜索区域.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0314">0.3.14<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0314" class="hash-link" aria-label="0.3.14的直接链接" title="0.3.14的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0314">0.3.14<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0314" class="hash-link" aria-label="0.3.14的直接链接" title="0.3.14的直接链接" translate="no">​</a></h2>
 <p>2024-2-2</p>
 <p>ProTable 组件</p>
 <ul>
 <li class="">🆕新增 reload 全局事件, 用于在其它页面控制表格的刷新.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0313">0.3.13<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0313" class="hash-link" aria-label="0.3.13的直接链接" title="0.3.13的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0313">0.3.13<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0313" class="hash-link" aria-label="0.3.13的直接链接" title="0.3.13的直接链接" translate="no">​</a></h2>
 <p>2023-12-3</p>
 <p>ProTable 组件</p>
 <ul>
 <li class="">🐛删除按钮增加 stopPropogation.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0312">0.3.12<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0312" class="hash-link" aria-label="0.3.12的直接链接" title="0.3.12的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0312">0.3.12<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0312" class="hash-link" aria-label="0.3.12的直接链接" title="0.3.12的直接链接" translate="no">​</a></h2>
 <p>2023-12-1</p>
 <p>SchemaForm 组件</p>
 <ul>
 <li class="">🐛修复约定式赋值问题: setFieldsValue 赋值时会把其它表单项的值赋空.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0311">0.3.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0311" class="hash-link" aria-label="0.3.11的直接链接" title="0.3.11的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0311">0.3.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0311" class="hash-link" aria-label="0.3.11的直接链接" title="0.3.11的直接链接" translate="no">​</a></h2>
 <p>2023-11-29</p>
 <p>SchemaForm 组件</p>
 <ul>
 <li class="">🐛修复约定式赋值问题: 假设组件是 labelInValue 的, dataIndex 是 userId,userName, 当后端返回 userId 和 userName 为空时, 原先会给组件赋上空对象, 现在改成给组件赋 undefined.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0310">0.3.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0310" class="hash-link" aria-label="0.3.10的直接链接" title="0.3.10的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0310">0.3.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0310" class="hash-link" aria-label="0.3.10的直接链接" title="0.3.10的直接链接" translate="no">​</a></h2>
 <p>2023-11-28</p>
 <p>BusinessSelect 组件</p>
 <ul>
@@ -218,7 +220,7 @@
 <ul>
 <li class="">🆕同上, 增加 onLoad 事件.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="039">0.3.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#039" class="hash-link" aria-label="0.3.9的直接链接" title="0.3.9的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="039">0.3.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#039" class="hash-link" aria-label="0.3.9的直接链接" title="0.3.9的直接链接" translate="no">​</a></h2>
 <p>2023-11-27</p>
 <p>ProTable 组件</p>
 <ul>
@@ -229,13 +231,13 @@
 <ul>
 <li class="">🆕增加 optionColumnSpaceProps 属性, 用于全局控制表格操作列中的按钮排列.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="037">0.3.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#037" class="hash-link" aria-label="0.3.7的直接链接" title="0.3.7的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="037">0.3.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#037" class="hash-link" aria-label="0.3.7的直接链接" title="0.3.7的直接链接" translate="no">​</a></h2>
 <p>2023-11-22</p>
 <p>BusinessSelect 组件</p>
 <ul>
 <li class="">修复 allowClear, showSearch 属性被内部默认属性覆盖的问题.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="036">0.3.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#036" class="hash-link" aria-label="0.3.6的直接链接" title="0.3.6的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="036">0.3.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#036" class="hash-link" aria-label="0.3.6的直接链接" title="0.3.6的直接链接" translate="no">​</a></h2>
 <p>2023-11-19</p>
 <p>SchemaForm 组件</p>
 <ul>
@@ -249,7 +251,7 @@
 <ul>
 <li class="">修复 actionRef 没传时, 内部集成的删除功能不会触发 reload</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="035">0.3.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#035" class="hash-link" aria-label="0.3.5的直接链接" title="0.3.5的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="035">0.3.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#035" class="hash-link" aria-label="0.3.5的直接链接" title="0.3.5的直接链接" translate="no">​</a></h2>
 <p>Button 组件</p>
 <ul>
 <li class="">增加类型定义</li>
@@ -260,7 +262,7 @@
 <li class="">组件的 children 也可以是一个函数, 会给 children 函数传入 loading.</li>
 <li class=""><code>文档</code> 增加文件导入的用例</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="034">0.3.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#034" class="hash-link" aria-label="0.3.4的直接链接" title="0.3.4的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="034">0.3.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#034" class="hash-link" aria-label="0.3.4的直接链接" title="0.3.4的直接链接" translate="no">​</a></h2>
 <p>ProTable 组件</p>
 <ul>
 <li class="">ProTable <code>search</code> 属性增加 labelWrap 的 ts 类型.</li>
@@ -272,22 +274,22 @@
 <ul>
 <li class="">SettingProvider 新增针对 ProTable 的全局属性设置, 可以全局设置删除弹框的类型和提示文字等.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="033">0.3.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#033" class="hash-link" aria-label="0.3.3的直接链接" title="0.3.3的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="033">0.3.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#033" class="hash-link" aria-label="0.3.3的直接链接" title="0.3.3的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">ModalForm 组件的 innerRef 增加 formType 字段, 用于表示当前表单类型, <code>new | edit | read</code></li>
 <li class="">SchemaForm 组件的 schema 新增 required 字段, 它是 formItemProps: <code>{ rules: [{ required: true }]}</code> 的简写。</li>
 <li class="">ProTable 组件的 schema 新增 type 字段, <code>form | table</code>, 用于指定该 schema 是被用于表格还是表单, type 为空时既会用于表单也会用于表格.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="032">0.3.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#032" class="hash-link" aria-label="0.3.2的直接链接" title="0.3.2的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="032">0.3.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#032" class="hash-link" aria-label="0.3.2的直接链接" title="0.3.2的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 SchemaForm 在 onFinish 时对数组类型的值转换错误的问题。</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="031">0.3.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#031" class="hash-link" aria-label="0.3.1的直接链接" title="0.3.1的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="031">0.3.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#031" class="hash-link" aria-label="0.3.1的直接链接" title="0.3.1的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 SchemaForm 当 initialValues 有值时 formRef 无效的问题。</li>
 <li class="">修复 ProForm 当 initialValues 有值时 formRef 无效的问题。</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="030">0.3.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#030" class="hash-link" aria-label="0.3.0的直接链接" title="0.3.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="030">0.3.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#030" class="hash-link" aria-label="0.3.0的直接链接" title="0.3.0的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">文档升级成 dumi2.0</li>
 <li class="">ProForm 组件新增 innerRef 属性.</li>
@@ -302,61 +304,61 @@
 </ul>
 </li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="022">0.2.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#022" class="hash-link" aria-label="0.2.2的直接链接" title="0.2.2的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="022">0.2.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#022" class="hash-link" aria-label="0.2.2的直接链接" title="0.2.2的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复同 0.1.23</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0123">0.1.23<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0123" class="hash-link" aria-label="0.1.23的直接链接" title="0.1.23的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0123">0.1.23<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0123" class="hash-link" aria-label="0.1.23的直接链接" title="0.1.23的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 FormUpload 在受控状态下 fileList 状态不同步问题</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="021">0.2.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#021" class="hash-link" aria-label="0.2.1的直接链接" title="0.2.1的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="021">0.2.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#021" class="hash-link" aria-label="0.2.1的直接链接" title="0.2.1的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 SchemaForm 在设置 initialValues 时引起的 fields touched</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="020">0.2.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#020" class="hash-link" aria-label="0.2.0的直接链接" title="0.2.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="020">0.2.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#020" class="hash-link" aria-label="0.2.0的直接链接" title="0.2.0的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">api 改动: 更改 SchemaForm 组件的 valueName 为 valueBaseName</li>
 <li class="">增加表单的约定式处理, 大大简化数据处理流程</li>
 <li class="">修复 当 valueBaseName 有值时, valueType 为 dependency 时 columns 函数里 dataIndex 要处理 valueBaseName 值</li>
 <li class="">修复 readonly 模式下 dependency 的 columns 未处理</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0122">0.1.22<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0122" class="hash-link" aria-label="0.1.22的直接链接" title="0.1.22的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0122">0.1.22<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0122" class="hash-link" aria-label="0.1.22的直接链接" title="0.1.22的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">移除掉多余的 console.log</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0121">0.1.21<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0121" class="hash-link" aria-label="0.1.21的直接链接" title="0.1.21的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0121">0.1.21<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0121" class="hash-link" aria-label="0.1.21的直接链接" title="0.1.21的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">调整 BusinessSelectBuilder 的 api</li>
 <li class="">调整 BusinessTreeSelectBuilder 的 api</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0120">0.1.20<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0120" class="hash-link" aria-label="0.1.20的直接链接" title="0.1.20的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0120">0.1.20<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0120" class="hash-link" aria-label="0.1.20的直接链接" title="0.1.20的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修改 LinkButton type</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0119">0.1.19<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0119" class="hash-link" aria-label="0.1.19的直接链接" title="0.1.19的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0119">0.1.19<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0119" class="hash-link" aria-label="0.1.19的直接链接" title="0.1.19的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">SettingProvider 增加 对 SchemaForm 的全局设置</li>
 <li class="">完善 ProTable 前端导出</li>
 <li class="">新增组件 FormUpload</li>
 <li class="">SettingProvider 增加 对 FormUpload 的全局设置</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0118">0.1.18<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0118" class="hash-link" aria-label="0.1.18的直接链接" title="0.1.18的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0118">0.1.18<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0118" class="hash-link" aria-label="0.1.18的直接链接" title="0.1.18的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">ModalForm 增加 confirmOnClose</li>
 <li class="">BusinessSelect 增加 clearSelectCache 方法</li>
 <li class="">BusinessTreeSelect 增加 clearTreeSelectCache 方法</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0117">0.1.17<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0117" class="hash-link" aria-label="0.1.17的直接链接" title="0.1.17的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0117">0.1.17<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0117" class="hash-link" aria-label="0.1.17的直接链接" title="0.1.17的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">ModalForm 和 ProTable 的 onOpen 方法增加第三个参数 formData</li>
 <li class="">修正 ProColumnType</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0116">0.1.16<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0116" class="hash-link" aria-label="0.1.16的直接链接" title="0.1.16的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0116">0.1.16<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0116" class="hash-link" aria-label="0.1.16的直接链接" title="0.1.16的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 BusinessSelectBuilder 缓存引起的 reRender 问题</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0115">0.1.15<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0115" class="hash-link" aria-label="0.1.15的直接链接" title="0.1.15的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0115">0.1.15<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0115" class="hash-link" aria-label="0.1.15的直接链接" title="0.1.15的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">ModalForm onFinish 失败后不关闭弹窗</li>
 <li class="">修复 BusinessSelectBuilder 分页组件没有抛出 queryParams</li>
@@ -364,72 +366,72 @@
 <li class="">ProTable 的 innerRef 的 openModal 支持 read</li>
 <li class="">修复 ProTable 的 columnsType</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0114">0.1.14<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0114" class="hash-link" aria-label="0.1.14的直接链接" title="0.1.14的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0114">0.1.14<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0114" class="hash-link" aria-label="0.1.14的直接链接" title="0.1.14的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 LinkButton classnames 问题</li>
 <li class="">重构 BusinessTreeSelect 组件, 增加 queryParams</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0113">0.1.13<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0113" class="hash-link" aria-label="0.1.13的直接链接" title="0.1.13的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0113">0.1.13<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0113" class="hash-link" aria-label="0.1.13的直接链接" title="0.1.13的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修改 columns 的 valueType</li>
 <li class="">测试 SchemaFormfieldProps 拿不到 form 实例</li>
 <li class="">去掉 src</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0112">0.1.12<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0112" class="hash-link" aria-label="0.1.12的直接链接" title="0.1.12的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0112">0.1.12<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0112" class="hash-link" aria-label="0.1.12的直接链接" title="0.1.12的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">增加依赖@ant-design/pro-utils</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0111">0.1.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0111" class="hash-link" aria-label="0.1.11的直接链接" title="0.1.11的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0111">0.1.11<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0111" class="hash-link" aria-label="0.1.11的直接链接" title="0.1.11的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">打包中放入 src 文件</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0110">0.1.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#0110" class="hash-link" aria-label="0.1.10的直接链接" title="0.1.10的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="0110">0.1.10<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#0110" class="hash-link" aria-label="0.1.10的直接链接" title="0.1.10的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">ProTable 增加 noPadding</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="019">0.1.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#019" class="hash-link" aria-label="0.1.9的直接链接" title="0.1.9的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="019">0.1.9<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#019" class="hash-link" aria-label="0.1.9的直接链接" title="0.1.9的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修改用例 弃用 renderFormItem 来做显示控制</li>
 <li class="">扩展 valueType 定义</li>
 <li class="">BusinessSelect 和 BusinessTreeSelect 支持传入 type 泛型</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="018">0.1.8<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#018" class="hash-link" aria-label="0.1.8的直接链接" title="0.1.8的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="018">0.1.8<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#018" class="hash-link" aria-label="0.1.8的直接链接" title="0.1.8的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">修复 LinkButton 告警</li>
 <li class="">修复 BusinessTreeSelect loading 错误</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="017">0.1.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#017" class="hash-link" aria-label="0.1.7的直接链接" title="0.1.7的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="017">0.1.7<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#017" class="hash-link" aria-label="0.1.7的直接链接" title="0.1.7的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">增加组件 Button</li>
 <li class="">增加组件 LinkButton</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="016">0.1.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#016" class="hash-link" aria-label="0.1.6的直接链接" title="0.1.6的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="016">0.1.6<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#016" class="hash-link" aria-label="0.1.6的直接链接" title="0.1.6的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">增加 SchemaForm 的 embed 模式</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="015">0.1.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#015" class="hash-link" aria-label="0.1.5的直接链接" title="0.1.5的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="015">0.1.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#015" class="hash-link" aria-label="0.1.5的直接链接" title="0.1.5的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">增加组件 BusinessSelect</li>
 <li class="">增加组件 BusinessTreeSelect</li>
 <li class="">增加组件 SettingProvider</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="014">0.1.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#014" class="hash-link" aria-label="0.1.4的直接链接" title="0.1.4的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="014">0.1.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#014" class="hash-link" aria-label="0.1.4的直接链接" title="0.1.4的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">把 react 移出 dependency</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="013">0.1.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#013" class="hash-link" aria-label="0.1.3的直接链接" title="0.1.3的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="013">0.1.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#013" class="hash-link" aria-label="0.1.3的直接链接" title="0.1.3的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">增加 type <code>ProColumnType</code> 和 <code>InnerRefType</code></li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="012">0.1.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#012" class="hash-link" aria-label="0.1.2的直接链接" title="0.1.2的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="012">0.1.2<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#012" class="hash-link" aria-label="0.1.2的直接链接" title="0.1.2的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">去掉 css modules</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="011">0.1.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#011" class="hash-link" aria-label="0.1.1的直接链接" title="0.1.1的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="011">0.1.1<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#011" class="hash-link" aria-label="0.1.1的直接链接" title="0.1.1的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">调整依赖</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="010">0.1.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0#010" class="hash-link" aria-label="0.1.0的直接链接" title="0.1.0的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="010">0.1.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v0/#010" class="hash-link" aria-label="0.1.0的直接链接" title="0.1.0的直接链接" translate="no">​</a></h2>
 <ul>
 <li class="">初发版测试</li>
 </ul>]]></content:encoded>
