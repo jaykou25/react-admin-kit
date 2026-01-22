@@ -1,7 +1,11 @@
+import React from 'react';
 import { Button as AntButton } from 'antd';
 import { MyButtonProps, MyButtonSelfProps } from './types';
 
-const Button = (props: MyButtonProps) => {
+const Button = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement | null,
+  MyButtonProps
+>((props, ref) => {
   const { visible = true, ...restProps } = props;
 
   const ret = typeof visible === 'function' ? visible() : visible;
@@ -10,8 +14,10 @@ const Button = (props: MyButtonProps) => {
     return null;
   }
 
-  return <AntButton {...restProps} />;
-};
+  return <AntButton {...restProps} ref={ref} />;
+});
+
+Button.displayName = 'Button';
 
 export default Button;
 

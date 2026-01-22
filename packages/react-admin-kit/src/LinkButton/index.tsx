@@ -1,3 +1,4 @@
+import React from 'react';
 import Button from '../Button';
 import styled from 'styled-components';
 
@@ -13,8 +14,13 @@ const ScButton = styled(Button)`
   }
 `;
 
-const LinkButton = (props: MyLinkButtonProps) => {
-  return <ScButton {...props} type="link" />;
-};
+const LinkButton = React.forwardRef<
+  HTMLButtonElement | null,
+  MyLinkButtonProps
+>((props, ref) => {
+  return <ScButton {...props} type="link" ref={ref} />;
+});
+
+LinkButton.displayName = 'LinkButton';
 
 export default LinkButton;
