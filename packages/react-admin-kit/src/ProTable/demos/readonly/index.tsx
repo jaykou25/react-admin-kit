@@ -20,7 +20,14 @@ const Readonly = () => {
         modalFormProps={{
           formProps: {
             layout: 'horizontal',
+            grid: true,
+            colProps: { span: 12 },
             labelCol: { span: 5 },
+            readonlyType: 'descriptions',
+            descriptionsProps: {
+              bordered: true,
+              size: 'small',
+            },
             // 仅用于在文档示例中区分 name
             name: 'protable-readonly',
           },
