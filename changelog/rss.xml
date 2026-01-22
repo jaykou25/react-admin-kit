@@ -15,6 +15,12 @@
             <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[{/* ### 新增]]></description>
             <content:encoded><![CDATA[
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="103">1.0.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#103" class="hash-link" aria-label="1.0.3的直接链接" title="1.0.3的直接链接" translate="no">​</a></h2>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="修复-">修复 🐛<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E4%BF%AE%E5%A4%8D-" class="hash-link" aria-label="修复 🐛的直接链接" title="修复 🐛的直接链接" translate="no">​</a></h4>
+<ul>
+<li class="">Button 组件添加 <code>forwardRef</code> 支持,修复在 Ant Design v6 的 Popconfirm 组件中的定位问题。</li>
+<li class="">LinkButton 组件添加 <code>forwardRef</code> 支持。</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="100">1.0.0<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#100" class="hash-link" aria-label="1.0.0的直接链接" title="1.0.0的直接链接" translate="no">​</a></h2>
 <p>1.0 版本全面覆盖了测试用例。代码覆盖率大于 90%，分支覆盖率大于 85%。</p>
 <!-- -->

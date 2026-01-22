@@ -15,6 +15,12 @@
             <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[{/* ### New]]></description>
             <content:encoded><![CDATA[
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="103">1.0.3<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1/#103" class="hash-link" aria-label="Direct link to 1.0.3" title="Direct link to 1.0.3" translate="no">​</a></h2>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="fixes-">Fixes 🐛<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1/#fixes-" class="hash-link" aria-label="Direct link to Fixes 🐛" title="Direct link to Fixes 🐛" translate="no">​</a></h4>
+<ul>
+<li class="">Added <code>forwardRef</code> support to Button component, fixing positioning issues in Ant Design v6's Popconfirm component.</li>
+<li class="">Added <code>forwardRef</code> support to LinkButton component.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="100">1.0.0<a href="https://jaykou25.github.io/react-admin-kit/en/changelog/v1/#100" class="hash-link" aria-label="Direct link to 1.0.0" title="Direct link to 1.0.0" translate="no">​</a></h2>
 <p>Version 1.0 achieves comprehensive test coverage with over 90% code coverage and 85% branch coverage.</p>
 <p>For migration from v0, please pay attention to the changes below.</p>
