@@ -6,6 +6,7 @@ import enUS from 'antd/locale/en_US';
 import { SettingProvider } from 'react-admin-kit';
 import ProConfigContext, { createIntl } from '@ant-design/pro-provider';
 import proEnUs from '@ant-design/pro-provider/es/locale/en_US';
+import proZhCn from '@ant-design/pro-provider/es/locale/zh_CN';
 import zhCNRak from 'react-admin-kit/locale/zh_CN';
 import enUSRak from 'react-admin-kit/locale/en_US';
 import { useContext } from 'react';
@@ -29,13 +30,25 @@ export default function AntdGlobalWrapper(props: any) {
     }[i18n.currentLocale] || enUSRak;
 
   const values = useContext(ProConfigContext);
-  const enUSIntl = createIntl('en_US', proEnUs);
+  const proLocale =
+    {
+      'zh-Hans': proZhCn,
+      en: proEnUs,
+    }[i18n.currentLocale] || proEnUs;
+
+  const proIntl = createIntl(
+    {
+      'zh-Hans': 'zh_CN',
+      en: 'en_US',
+    }[i18n.currentLocale] || 'en_US',
+    proLocale,
+  );
 
   return (
     <ProConfigContext.Provider
       value={{
         ...values,
-        intl: enUSIntl,
+        intl: proIntl,
       }}
     >
       <ConfigProvider

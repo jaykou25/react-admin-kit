@@ -59,7 +59,6 @@
     "build": "father build",
     "coverage:open": "start coverage/index.html",
     "doctor": "father doctor",
-    "prepublishOnly": "npm run build",
     "test": "set DEBUG_PRINT_LIMIT=1000&& jest --coverage=false ",
     "test:coverage": "jest --coverage"
   },
