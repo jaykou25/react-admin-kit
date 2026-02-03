@@ -429,10 +429,17 @@ const ProTable = (props: MyProTableType) => {
                   ? enableDelete(record, index)
                   : enableDelete;
 
+              // 检查 visible 属性，当 enableDeleteResult 是对象且 visible 为 false 时，不显示删除按钮
+              const shouldShowDelete =
+                typeof enableDeleteResult === 'object' &&
+                enableDeleteResult.visible === false
+                  ? false
+                  : !!enableDeleteResult;
+
               if (
                 delFunction &&
                 hasDelPermission &&
-                enableDeleteResult &&
+                shouldShowDelete &&
                 Array.isArray(renderDom)
               ) {
                 const {
