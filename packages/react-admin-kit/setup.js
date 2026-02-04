@@ -48,8 +48,6 @@ if (typeof window !== 'undefined') {
     writable: true,
   });
 
-  // Fix for rc-field-form in Ant Design v6
-  // https://github.com/react-component/form/issues/539
   if (!window.MessageChannel) {
     window.MessageChannel = class MessageChannel {
       constructor() {
@@ -62,6 +60,15 @@ if (typeof window !== 'undefined') {
           onmessage: null,
         };
       }
+    };
+  }
+
+  if (!window.ResizeObserver) {
+    window.ResizeObserver = class ResizeObserver {
+      constructor() {}
+      disconnect() {}
+      observe() {}
+      unobserve() {}
     };
   }
 }
