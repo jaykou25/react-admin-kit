@@ -59,7 +59,7 @@
     "build": "father build",
     "coverage:open": "start coverage/index.html",
     "doctor": "father doctor",
-    "test": "set DEBUG_PRINT_LIMIT=1000&& jest --coverage=false ",
+    "test": "set DEBUG_PRINT_LIMIT=10000&& jest --coverage=false ",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
@@ -100,7 +100,7 @@
     "xhr-mock": "^2.5.1"
   },
   "peerDependencies": {
-    "antd": ">=5.26.5 || >=6.0.0",
+    "antd": ">=5.26.5",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
