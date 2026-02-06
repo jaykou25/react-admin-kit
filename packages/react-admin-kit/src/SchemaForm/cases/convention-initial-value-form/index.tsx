@@ -23,7 +23,7 @@ const Demo = () => {
   return (
     <div>
       {/* 操作按钮区域 */}
-      <Space direction="vertical">
+      <Space orientation="vertical">
         <Button
           data-testid="set-fields-btn"
           onClick={() => {

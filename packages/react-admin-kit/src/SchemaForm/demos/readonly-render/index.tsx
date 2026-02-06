@@ -8,7 +8,7 @@ const Demo = () => {
 
   return (
     <div>
-      <Space direction="vertical">
+      <Space orientation="vertical">
         <Button
           onClick={() => {
             formRef.current?.setFieldsValue({
