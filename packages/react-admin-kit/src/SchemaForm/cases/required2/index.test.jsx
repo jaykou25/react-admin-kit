@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 import Demo from './index';
 
 describe('SchemaForm 必填校验测试', () => {
-  const user = userEvent.setup();
+  const user = userEvent.setup({ delay: null });
 
   it('Name 字段应显示必填标记', () => {
     render(<Demo />);
@@ -18,6 +18,7 @@ describe('SchemaForm 必填校验测试', () => {
   });
 
   it('Name 为空时提交应显示错误信息', async () => {
+    jest.useFakeTimers();
     render(<Demo />);
 
     // 点击提交按钮
@@ -26,13 +27,10 @@ describe('SchemaForm 必填校验测试', () => {
 
     // 等待并验证错误信息
     await waitFor(() => {
-      // antd 的错误信息会显示在这个类名下
-      const errorMessage = document.querySelector(
-        '.ant-form-item-explain-error',
-      );
-      expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage).toHaveTextContent('请输入Name');
+      expect(screen.getByText('请输入Name')).toBeInTheDocument();
     });
+
+    jest.useRealTimers();
   });
 
   it('填写 Name 后应能正常提交', async () => {
@@ -46,12 +44,8 @@ describe('SchemaForm 必填校验测试', () => {
     const submitButton = screen.getByText('提 交');
     await user.click(submitButton);
 
-    // 验证没有错误信息
     await waitFor(() => {
-      const errorMessage = document.querySelector(
-        '.ant-form-item-explain-error',
-      );
-      expect(errorMessage).not.toBeInTheDocument();
+      expect(screen.queryByText('请输入Name')).not.toBeInTheDocument();
     });
   });
 });

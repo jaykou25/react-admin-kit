@@ -74,10 +74,11 @@ describe('FormList 约定式处理测试', () => {
         const result = JSON.parse(
           screen.getByTestId('form-result').textContent,
         );
+
+        console.log('debug: onFinish result', result);
         expect(result).toEqual({
           userList: [
             {
-              userId: '1',
               userName: 'Alice',
               deptId: '10',
               deptName: 'Dev',

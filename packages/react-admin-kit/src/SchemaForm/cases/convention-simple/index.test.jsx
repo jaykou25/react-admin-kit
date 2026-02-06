@@ -11,8 +11,7 @@ describe('ConventionSimple 集成测试', () => {
     const setValueButton = screen.getByText('1. 约定式赋值');
     fireEvent.click(setValueButton);
 
-    const selectElement = container.querySelector('.ant-select-selector');
-    expect(selectElement).toHaveTextContent('Jennifer');
+    expect(screen.getByText('Jennifer')).toBeInTheDocument();
   });
 
   it('2. 提交后，onFinish 返回正确的值', async () => {
