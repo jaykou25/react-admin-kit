@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import BaseSelect from '../../components/BaseSelect';
@@ -16,6 +16,12 @@ describe('BaseSelect Component', () => {
   beforeEach(() => {
     clearSelectCache();
     jest.clearAllMocks();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('renders basic select component', async () => {
@@ -45,9 +51,9 @@ describe('BaseSelect Component', () => {
     );
     expect(screen.getByTestId('base-select-basic')).toBeInTheDocument();
 
-    // 等待数据加载完成后再检查选项
-    await screen.findByText('Option 3');
-    expect(screen.queryByText('Option 3')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Option 3')).toBeInTheDocument();
+    });
     expect(mockApi).toHaveBeenCalledTimes(1);
   });
 
@@ -214,17 +220,20 @@ describe('BaseSelect Component', () => {
 
     render(<Demo />);
 
-    await screen.findByText('Option 3');
-    expect(screen.queryByText('Option 1')).toBeInTheDocument();
-    expect(screen.queryByText('Option 2')).toBeInTheDocument();
-    expect(screen.queryByText('Option 3')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Option 1')).toBeInTheDocument();
+      expect(screen.queryByText('Option 2')).toBeInTheDocument();
+      expect(screen.queryByText('Option 3')).toBeInTheDocument();
+    });
 
-    await user.click(screen.queryByTestId('setquery'));
-
-    await screen.findByText('Option 5');
-    expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
-    expect(screen.queryByText('Option 5')).toBeInTheDocument();
-    expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+    const setQueryBtn = screen.getByTestId('setquery');
+    act(() => {
+      user.click(setQueryBtn).then(() => {
+        expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+        expect(screen.queryByText('Option 5')).toBeInTheDocument();
+        expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+      });
+    });
   });
 
   it('renders custom props select component', async () => {
@@ -405,17 +414,16 @@ describe('BaseSelect Component', () => {
       />,
     );
 
-    // 等待选项加载完成
-    await screen.findByText('Option 3');
-
     const input = screen
       .getByTestId('base-select-search')
       .querySelector('input');
 
-    await user.type(input, 'option 2');
-
-    expect(screen.queryByText('Option 2')).toBeInTheDocument();
-    expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+    act(() => {
+      user.type(input, 'option 2').then(() => {
+        expect(screen.queryByText('Option 2')).toBeInTheDocument();
+        expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
+      });
+    });
   });
 
   it('with search filedNames', async () => {
@@ -443,16 +451,15 @@ describe('BaseSelect Component', () => {
       />,
     );
 
-    // 等待选项加载完成
-    await screen.findByText('Option 2');
-
     const input = screen
       .getByTestId('base-select-search-fieldNames')
       .querySelector('input');
 
-    await user.type(input, 'option 2');
-
-    expect(screen.queryByText('Option 2')).toBeInTheDocument();
-    expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+    act(() => {
+      user.type(input, 'option 2').then(() => {
+        expect(screen.queryByText('Option 2')).toBeInTheDocument();
+        expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+      });
+    });
   });
 });

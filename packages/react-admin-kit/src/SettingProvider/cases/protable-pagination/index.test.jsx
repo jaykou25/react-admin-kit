@@ -9,6 +9,12 @@ import Demo from './index';
 describe('SettingProvider proTableSetting.pagination 集成测试', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   test('1. 全局 pagination 配置应该生效', async () => {

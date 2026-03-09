@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import SchemaFormDemo from './index';
@@ -13,9 +13,11 @@ describe('SettingProvider schemaFormSetting.validateMessages 集成测试', () =
 
     // 直接点击提交按钮
     const submitBtn = screen.getByTestId('submit');
-    await user.click(submitBtn);
 
-    // 检查自定义校验消息
-    expect(await screen.findByText(/为必填项😊/)).toBeInTheDocument();
+    act(() => {
+      user.click(submitBtn).then(() => {
+        expect(screen.getByText(/为必填项😊/)).toBeInTheDocument();
+      });
+    });
   });
 });

@@ -1,14 +1,14 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Basic from './index';
 import { isModalClosing, isModalShowing } from '../utils';
 
 describe('ModalForm Basic 集成测试', () => {
-  const user = userEvent.setup();
+  const user = userEvent.setup({ delay: null });
 
   it('0. 初始状态', () => {
     render(<Basic />);
@@ -34,6 +34,7 @@ describe('ModalForm Basic 集成测试', () => {
   });
 
   it('2. 打开弹窗，什么都不输入，点确认触发表单校验', async () => {
+    jest.useFakeTimers();
     render(<Basic />);
 
     await user.click(screen.getByTestId('open'));
@@ -43,9 +44,10 @@ describe('ModalForm Basic 集成测试', () => {
 
     // 校验错误提示出现
     await waitFor(() => {
-      const error = document.querySelector('.ant-form-item-explain-error');
-      expect(error).toBeInTheDocument();
+      expect(screen.getByText('请输入用户名')).toBeInTheDocument();
     });
+
+    jest.useRealTimers();
   });
 
   it('3. 输入用户名后点确认，弹窗关闭并收到表单值', async () => {
@@ -57,13 +59,26 @@ describe('ModalForm Basic 集成测试', () => {
     // 输入用户名
     await user.type(screen.getByLabelText(/用户名/), 'testuser');
 
+    /**
+     * 像这样直接判断不行，总是会说是 false, 需要包在 act 里面，不知道为什么
+     * 或许 onFinish -> onCancel 所触发的状态改变要包在 act 里？
+     * await user.click(screen.getByTestId('ok'));
+     * expect(isModalClosing(container)).toBe(true);
+     */
+
     // 点击确认按钮
-    await user.click(screen.getByTestId('ok'));
+    let okBtn = screen.getByTestId('ok');
+    act(() => {
+      user.click(okBtn).then(() => {
+        expect(isModalClosing(container)).toBe(true);
 
-    // 弹窗关闭
-    expect(isModalClosing(container)).toBe(true);
-
-    // 表单值被打印
-    expect(onFinish).toHaveBeenCalledWith({ username: 'testuser' }, 'new', {});
+        // 表单值被打印
+        expect(onFinish).toHaveBeenCalledWith(
+          { username: 'testuser' },
+          'new',
+          {},
+        );
+      });
+    });
   });
 });

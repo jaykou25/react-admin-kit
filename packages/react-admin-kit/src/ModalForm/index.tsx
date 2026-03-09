@@ -104,6 +104,12 @@ const ModalForm = (props: ModalFormProps) => {
   }, [open, visible]);
 
   useEffect(() => {
+    if (open) {
+      setFormData(propsInitialValues);
+    }
+  }, [open]);
+
+  useEffect(() => {
     // @ts-ignore
     const { setInitialValues } = form.getInternalHooks(
       'RC_FORM_INTERNAL_HOOKS',
@@ -167,10 +173,13 @@ const ModalForm = (props: ModalFormProps) => {
     if (onFinish) {
       setConfirmLoading(true);
 
+      console.log('onFinishValues', values, formType, formData);
+
       Promise.resolve(onFinish(values, formType, formData))
         .then(() => {
           setConfirmLoading(false);
           getOnCancel(null);
+          console.log('onFinishSuccess');
         })
         .catch((e) => {
           /* istanbul ignore next */
