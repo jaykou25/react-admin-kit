@@ -482,58 +482,5 @@ describe('BasePaginationSelect 基础组件', () => {
     });
   });
 
-  it('搜索完了再选中后', async () => {
-    render(
-      <BasePaginationSelect
-        data-testid="base-select-search"
-        type="basic"
-        loadFunction={mockApi}
-        getPopupContainer={(trigger) => trigger}
-        open
-      />,
-    );
-
-    await act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    expect(screen.queryByText('Page Option 1')).toBeInTheDocument();
-
-    const input = screen
-      .getByTestId('base-select-search')
-      .querySelector('input');
-
-    fireEvent.change(input, { target: { value: 'page option 30' } });
-
-    await act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByText('Page Option 30')).toBeInTheDocument();
-    });
-
-    const option = screen.queryByTestId('option30');
-    expect(option).toBeInTheDocument();
-
-    // let option;
-
-    // await waitFor(() => {
-    //   option = screen.queryByTestId('option30');
-    //   expect(option).toBeInTheDocument();
-    // });
-
-    await user.click(option);
-
-    // fireEvent.click(option);
-    // expect(screen.queryByText('Page Option 1')).toBeInTheDocument();
-
-    await act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByText('Page Option 1')).toBeInTheDocument();
-    });
-  });
+  // ...剩下的在 vitest
 });
