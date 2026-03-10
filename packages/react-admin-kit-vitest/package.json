@@ -11,11 +11,13 @@
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
     "@vitest/browser-playwright": "^4.0.0-beta.17",
+    "antd": "^6.3.2",
     "playwright": "^1.52.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "~5.8.3",
     "vitest": "^4.0.0-beta.17",
-    "vitest-browser-react": "v2.0.0-beta.4 "
+    "vitest-browser-react": "v2.0.0-beta.4 ",
+    "xhr-mock": "^2.5.1"
   }
 }

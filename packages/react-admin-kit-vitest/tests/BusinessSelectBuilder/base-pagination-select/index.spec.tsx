@@ -1,6 +1,7 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import BasePaginationSelect from '../../../../react-admin-kit/src/BusinessSelectBuilder/components/BasePaginationSelect';
+import { useState } from 'react';
 
 describe('BasePaginationSelect Component', () => {
   const mockApi = async (params) => {
@@ -29,6 +30,72 @@ describe('BasePaginationSelect Component', () => {
       });
     });
   };
+
+  const mockApi2 = vi.fn(async (params) => {
+    const { current = 1, searchValue = '' } = params || {};
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const allData = Array.from({ length: 30 }, (_, index) => ({
+          value: index + 1,
+          label: `Page Option ${index + 1}`,
+          'data-testid': `option${index + 1}`,
+        }));
+
+        const filteredData = searchValue
+          ? allData.filter((item) =>
+              item.label.toLowerCase().includes(searchValue.toLowerCase()),
+            )
+          : allData;
+
+        const pageSize = 10;
+        const startIndex = (current - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+
+        resolve({
+          data: filteredData.slice(startIndex, endIndex),
+          total: filteredData.length,
+        });
+      }, 100);
+    });
+  });
+
+  test('基础受控', async () => {
+    const Demo = ({ result }) => {
+      const [value, setValue] = useState();
+
+      return (
+        <BasePaginationSelect
+          style={{ width: '200px' }}
+          type="basic"
+          virtual={false}
+          open
+          getPopupContainer={(trigger) => trigger}
+          loadFunction={mockApi2}
+          value={value}
+          onChange={(val, option) => {
+            setValue(val);
+            result.val = val;
+            result.option = option;
+          }}
+        />
+      );
+    };
+
+    const result: any = {};
+
+    const { getByTestId } = await render(<Demo result={result} />);
+
+    await expect.element(getByTestId('option2')).toBeInTheDocument();
+    await getByTestId('option2').click();
+
+    expect(result.val).toBe(2);
+    expect(result.option).toEqual({
+      value: 2,
+      label: `Page Option 2`,
+      'data-testid': `option2`,
+    });
+  });
 
   test('搜索完了再选中后搜索项要恢原', async () => {
     const { getByTestId } = await render(

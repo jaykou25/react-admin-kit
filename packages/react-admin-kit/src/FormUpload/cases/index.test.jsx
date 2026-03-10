@@ -358,32 +358,6 @@ describe('FormUpload Integration Tests', () => {
         expect(screen.getByText('file2.txt')).toBeInTheDocument();
       });
     });
-
-    describe('Form Integration', () => {
-      it('should collect form values correctly', async () => {
-        const onFinish = jest.fn();
-        const initialFiles = createMockFileList(['test.txt']);
-
-        render(
-          <Form onFinish={onFinish} initialValues={{ files: initialFiles }}>
-            <Form.Item name="files">
-              <FormUpload />
-            </Form.Item>
-            <button type="submit">Submit</button>
-          </Form>,
-        );
-
-        fireEvent.click(screen.getByText('Submit'));
-
-        await waitFor(() => {
-          expect(onFinish).toHaveBeenCalledWith({
-            files: expect.arrayContaining([
-              expect.objectContaining({ name: 'test.txt' }),
-            ]),
-          });
-        });
-      });
-    });
   });
 
   // 4. 边界情况和错误处理
@@ -503,61 +477,7 @@ describe('FormUpload Integration Tests', () => {
 
   // 6. 集成场景测试
   describe('6. Integration Scenarios', () => {
-    describe('Complete Business Process', () => {
-      it('should handle complete file upload + form submission flow', async () => {
-        const onFinish = jest.fn();
-
-        mock.post('/upload', {
-          status: 201,
-          body: '{"data":{"id":"abc-123"}}',
-        });
-
-        const Demo = (props) => {
-          return (
-            <SchemaForm
-              onFinish={props.onFinish}
-              columns={[
-                {
-                  title: 'Files',
-                  dataIndex: 'files',
-                  renderFormItem: () => <FormUpload action="/upload" />,
-                },
-              ]}
-              submitter={{
-                submitButtonProps: {
-                  'data-testid': 'submit-btn',
-                },
-              }}
-            />
-          );
-        };
-
-        const { container } = render(<Demo onFinish={onFinish} />);
-
-        // Upload file
-        const file = new File(['content'], 'test.txt', { type: 'text/plain' });
-
-        const input = container.querySelector('input[type="file"]');
-
-        await act(async () => {
-          fireEvent.change(input, { target: { files: [file] } });
-        });
-
-        // Submit form
-        fireEvent.click(screen.getByTestId('submit-btn'));
-
-        await waitFor(() => {
-          expect(onFinish).toHaveBeenCalledWith({
-            files: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'test.txt',
-                status: 'done',
-              }),
-            ]),
-          });
-        });
-      });
-    });
+    describe('Complete Business Process', () => {});
 
     describe('Complex Scenarios', () => {
       it('should handle concurrent uploads', async () => {

@@ -17,7 +17,9 @@
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit/**)",
       "Bash(mkdir:*)",
       "Bash(npm view:*)",
-      "Bash(npx jest:*)"
+      "Bash(npx jest:*)",
+      "mcp__web-reader__webReader",
+      "mcp__web-search-prime__web_search_prime"
     ],
     "deny": [],
     "ask": [],

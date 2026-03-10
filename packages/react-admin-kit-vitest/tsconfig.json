@@ -10,6 +10,11 @@
     "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "react-admin-kit": ["../react-admin-kit/src"],
+      "react-admin-kit/*": ["../react-admin-kit/src/*"]
+    }
   }
 }

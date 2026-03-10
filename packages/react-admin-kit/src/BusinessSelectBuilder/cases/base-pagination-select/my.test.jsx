@@ -56,49 +56,6 @@ describe('BasePaginationSelect 基础组件', () => {
     jest.useRealTimers();
   });
 
-  it('基础受控', async () => {
-    const Demo = ({ result }) => {
-      const [value, setValue] = useState();
-
-      return (
-        <BasePaginationSelect
-          type="basic"
-          virtual={false}
-          open
-          getPopupContainer={(trigger) => trigger}
-          loadFunction={mockApi}
-          value={value}
-          onChange={(val, option) => {
-            setValue(val);
-            result.val = val;
-            result.option = option;
-          }}
-        />
-      );
-    };
-
-    const result = {};
-
-    render(<Demo result={result} />);
-
-    await act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    expect(screen.queryByText('Page Option 1')).toBeInTheDocument();
-
-    const option2 = screen.queryByTestId('option2');
-
-    fireEvent.click(option2);
-
-    expect(result.val).toBe(2);
-    expect(result.option).toEqual({
-      value: 2,
-      label: `Page Option 2`,
-      'data-testid': `option2`,
-    });
-  });
-
   it('考察分页功能', async () => {
     const { container } = render(
       <BasePaginationSelect
