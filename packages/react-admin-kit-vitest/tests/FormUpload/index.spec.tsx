@@ -1,11 +1,34 @@
 import { Form } from 'antd';
-import { describe, expect, test, vi } from 'vitest';
+import {
+  describe,
+  expect,
+  test,
+  vi,
+  beforeAll,
+  afterEach,
+  afterAll,
+} from 'vitest';
 import { render } from 'vitest-browser-react';
 import FormUpload from 'react-admin-kit/FormUpload';
 import SchemaForm from 'react-admin-kit/SchemaForm';
-import mock from 'xhr-mock';
+import { setupWorker } from 'msw/browser';
+import { handlers } from '../mocks/handlers';
+
+// 设置 MSW worker
+const worker = setupWorker(...handlers);
 
 describe('FormUpload 组件验证', () => {
+  // 在所有测试前启动 worker
+  beforeAll(async () => {
+    await worker.start();
+  });
+
+  // 每个测试后重置 handlers
+  afterEach(() => worker.resetHandlers());
+
+  // 所有测试后关闭 worker
+  afterAll(() => worker.stop());
+
   const createMockFile = (name, status = 'done', response = null) => ({
     uid: Math.random().toString(),
     name,
@@ -40,11 +63,6 @@ describe('FormUpload 组件验证', () => {
 
   test('should handle complete file upload + form submission flow', async () => {
     const onFinish = vi.fn();
-
-    mock.post('/upload', {
-      status: 201,
-      body: '{"data":{"id":"abc-123"}}',
-    });
 
     const Demo = (props) => {
       return (
