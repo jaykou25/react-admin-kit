@@ -21,7 +21,8 @@
       "mcp__web-reader__webReader",
       "mcp__web-search-prime__web_search_prime",
       "Bash(npx vitest:*)",
-      "Bash(find packages/react-admin-kit/src -name *ModalForm* -type f)"
+      "Bash(find packages/react-admin-kit/src -name *ModalForm* -type f)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "ask": [],

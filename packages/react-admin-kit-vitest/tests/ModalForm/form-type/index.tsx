@@ -1,12 +1,12 @@
 import { Button, Space } from 'antd';
 import { useRef } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
-import { ModalForm } from 'react-admin-kit';
+import ModalForm from 'react-admin-kit/ModalForm';
 import { columns } from './columns';
 
 const Demo = () => {
-  const innerRef = useRef<ModalFormInnerRefType>();
-  const container = useRef<any>();
+  const innerRef = useRef<ModalFormInnerRefType>(undefined);
+  const container = useRef<any>(null);
 
   const onFinish = (values: any) => {
     console.log({ values });
