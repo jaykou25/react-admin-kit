@@ -47,4 +47,28 @@ if (typeof window !== 'undefined') {
     }),
     writable: true,
   });
+
+  // if (!window.MessageChannel) {
+  //   window.MessageChannel = class MessageChannel {
+  //     constructor() {
+  //       this.port1 = {
+  //         postMessage: () => {},
+  //         onmessage: null,
+  //       };
+  //       this.port2 = {
+  //         postMessage: () => {},
+  //         onmessage: null,
+  //       };
+  //     }
+  //   };
+  // }
+
+  if (!window.ResizeObserver) {
+    window.ResizeObserver = class ResizeObserver {
+      constructor() {}
+      disconnect() {}
+      observe() {}
+      unobserve() {}
+    };
+  }
 }

@@ -321,11 +321,13 @@ const ProTable = (props: MyProTableType) => {
       typeof enableDelete === 'function'
         ? enableDelete(option.selectedRowKeys, option.selectedRows)
         : enableDelete;
-    const {
-      disabled = false,
-      danger = false,
-      btnText = rakLocale?.alertDelBtnText,
-    } = typeof alertEnableDelete === 'object' ? alertEnableDelete : {};
+
+    // 检查 visible 属性，当 alertEnableDelete 是对象且 visible 为 false 时，不显示批量删除按钮
+    const shouldShowDelete =
+      typeof alertEnableDelete === 'object' &&
+      alertEnableDelete.visible === false
+        ? false
+        : !!alertEnableDelete;
 
     // 处理 popconfirm title 默认值
     const popconfirmTitle =
@@ -361,7 +363,13 @@ const ProTable = (props: MyProTableType) => {
         : delModalConfirmProps!.content ||
           rakLocale?.alertDelModalConfirmContent?.(option.selectedRowKeys);
 
-    if (delFunction && hasDelPermission && alertEnableDelete) {
+    if (delFunction && hasDelPermission && shouldShowDelete) {
+      const {
+        disabled = false,
+        danger = false,
+        btnText = rakLocale?.alertDelBtnText,
+      } = typeof alertEnableDelete === 'object' ? alertEnableDelete : {};
+
       delDom = getDelDom({
         disabled,
         danger,

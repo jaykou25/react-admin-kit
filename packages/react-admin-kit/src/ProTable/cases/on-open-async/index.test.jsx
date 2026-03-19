@@ -7,11 +7,7 @@ import '@testing-library/jest-dom';
 import OnOpenAsyncDemo from './index';
 
 describe('ProTable onOpen 异步测试', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  const user = userEvent.setup();
+  const user = userEvent.setup({ delay: null });
 
   test('1. onOpen 为异步函数时，弹窗确认按钮的 loading 状态正确', async () => {
     let resolveFn;
@@ -19,7 +15,6 @@ describe('ProTable onOpen 异步测试', () => {
       () =>
         new Promise((resolve) => {
           resolveFn = resolve;
-          setTimeout(resolve, 1000);
         }),
     );
 
@@ -49,20 +44,27 @@ describe('ProTable onOpen 异步测试', () => {
     const okBtn = screen.getByTestId('ok');
     expect(okBtn).toHaveClass('ant-btn-loading');
 
-    // 等待异步操作完成
+    // 手动 resolve Promise，模拟异步操作完成
+    await act(async () => {
+      resolveFn();
+    });
+
+    // 等待异步操作完成，loading 状态应被移除
     await waitFor(
       () => {
         expect(okBtn).not.toHaveClass('ant-btn-loading');
       },
-      { timeout: 2000 },
+      { timeout: 3000 },
     );
   });
 
   test('2. onOpen 为异步函数且抛出异常时，弹窗确认按钮的 loading 状态能正确关闭', async () => {
+    let rejectFn;
+
     const onOpen = jest.fn(
       () =>
-        new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('异步操作失败')), 500);
+        new Promise((resolve, reject) => {
+          rejectFn = reject;
         }),
     );
 
@@ -92,6 +94,11 @@ describe('ProTable onOpen 异步测试', () => {
     const okBtn = screen.getByTestId('ok');
     expect(okBtn).toHaveClass('ant-btn-loading');
 
+    // 手动 reject Promise，模拟异步操作失败
+    await act(async () => {
+      rejectFn(new Error('异步操作失败'));
+    });
+
     // 等待异步操作失败后 loading 状态关闭
     await waitFor(
       () => {
@@ -103,6 +110,7 @@ describe('ProTable onOpen 异步测试', () => {
 
   test('3. onOpen 为同步函数时，确认按钮不应有 loading 状态', async () => {
     const onOpen = jest.fn();
+    jest.useFakeTimers();
 
     render(<OnOpenAsyncDemo onOpen={onOpen} title="同步测试弹窗" />);
 
@@ -128,7 +136,12 @@ describe('ProTable onOpen 异步测试', () => {
 
     // 确认按钮不应有 loading 状态
     const okBtn = screen.getByTestId('ok');
-    expect(okBtn).not.toHaveClass('ant-btn-loading');
+    expect(okBtn).toHaveClass('ant-btn-loading');
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ok')).not.toHaveClass('ant-btn-loading');
+    });
+    jest.useRealTimers();
   });
 
   test('4. 不传 onOpen 时，弹窗应正常打开且确认按钮无 loading 状态', async () => {

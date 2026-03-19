@@ -1,0 +1,23 @@
+{
+  "name": "react-admin-kit-vitest",
+  "description": "React Admin Kit 库的 vitest 测试用例。将原来 Jest 里一些复杂交互的用例移到这边浏览器端",
+  "type": "module",
+  "scripts": {
+    "test": "vitest ",
+    "testrun": "vitest --run"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@vitest/browser-playwright": "^4.0.0-beta.17",
+    "antd": "^6.3.2",
+    "msw": "^2.12.10",
+    "playwright": "^1.52.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "~5.8.3",
+    "vitest": "^4.0.0-beta.17",
+    "vitest-browser-react": "v2.0.0-beta.4 "
+  }
+}

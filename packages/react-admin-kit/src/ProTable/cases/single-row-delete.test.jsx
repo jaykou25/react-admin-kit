@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ProTable from '../index';
@@ -11,8 +10,7 @@ describe('single row delete', () => {
   const user = userEvent.setup();
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.restoreAllMocks();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
@@ -20,8 +18,7 @@ describe('single row delete', () => {
     // document.body.innerHTML = '';
     // 清理可能存在的定时器
     jest.clearAllTimers();
-    // 清理所有 mock
-    jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   describe('默认的行删除行为', () => {
@@ -111,9 +108,9 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        await user.click(screen.queryByText('确 定'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        fireEvent.click(screen.queryByText('确 定'));
         expect(mockDelFn).toHaveBeenCalled();
       });
     });
@@ -156,10 +153,12 @@ describe('single row delete', () => {
 
       const mockDelFn = () =>
         new Promise((resolve) => {
-          setTimeout(() => resolve(true), 1000);
+          setTimeout(() => resolve(true), 800);
         });
-      await render(
+
+      render(
         <ProTable
+          search={false}
           columns={mockColumns}
           request={mockRequest}
           delFunction={mockDelFn}
@@ -170,14 +169,14 @@ describe('single row delete', () => {
       );
 
       const del0Btn = await screen.findByText('删除0');
-
       expect(del0Btn).toBeInTheDocument();
       expect(await screen.findByText('删除1')).toBeInTheDocument();
 
-      await user.click(del0Btn);
+      user.click(del0Btn);
 
       const confirmBtn = await screen.findByText('确 定');
-      await user.click(confirmBtn);
+      expect(confirmBtn).toBeInTheDocument();
+      fireEvent.click(confirmBtn);
 
       expect((await screen.findByText('删除0')).parentNode).toHaveClass(
         'ant-btn-loading',
@@ -735,8 +734,8 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmTitleTest')).toBeInTheDocument();
       });
     });
@@ -774,6 +773,7 @@ describe('single row delete', () => {
 
       render(
         <ProTable
+          search={false}
           columns={mockColumns}
           request={mockRequest}
           delFunction={mockDelFn}
@@ -788,8 +788,8 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmTitleTest1')).toBeInTheDocument();
       });
     });
@@ -841,8 +841,8 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmTitleTest0')).toBeInTheDocument();
       });
     });
@@ -894,8 +894,8 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmDescTest')).toBeInTheDocument();
       });
     });
@@ -947,8 +947,8 @@ describe('single row delete', () => {
         expect(screen.queryByText('删除')).toBeInTheDocument();
       });
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmDescTest1')).toBeInTheDocument();
       });
     });
@@ -996,8 +996,8 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
         expect(screen.queryByText('popconfirmDescTest0')).toBeInTheDocument();
       });
     });
@@ -1042,14 +1042,20 @@ describe('single row delete', () => {
           delFunction={mockDelFn}
           delConfirmType="modal"
           delModalConfirmProps={{
-            title: 'modalTitleTest',
+            title: 'modalTitleTest10',
           }}
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalTitleTest')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(
+          screen.queryAllByText('modalTitleTest10')[0],
+        ).toBeInTheDocument();
       });
     });
 
@@ -1096,9 +1102,13 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalTitleTest1')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(screen.queryAllByText('modalTitleTest1')[0]).toBeInTheDocument();
       });
     });
 
@@ -1145,9 +1155,13 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalTitleTest0')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByText('删除')).toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(screen.queryAllByText('modalTitleTest0')[0]).toBeInTheDocument();
       });
     });
 
@@ -1194,9 +1208,11 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalContentTest')).toBeInTheDocument();
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(
+          screen.queryAllByText('modalContentTest')[0],
+        ).toBeInTheDocument();
       });
     });
 
@@ -1243,9 +1259,11 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalContentTest1')).toBeInTheDocument();
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(
+          screen.queryAllByText('modalContentTest1')[0],
+        ).toBeInTheDocument();
       });
     });
 
@@ -1292,9 +1310,11 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        expect(screen.queryByText('modalContentTest0')).toBeInTheDocument();
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        expect(
+          screen.queryAllByText('modalContentTest0')[0],
+        ).toBeInTheDocument();
       });
     });
   });
@@ -1347,7 +1367,7 @@ describe('single row delete', () => {
       });
 
       // 点击删除按钮
-      await user.click(screen.getByText('删除'));
+      fireEvent.click(screen.getByText('删除'));
 
       // 等待确认弹窗出现
       await waitFor(() => {
@@ -1355,7 +1375,7 @@ describe('single row delete', () => {
       });
 
       // 点击确认按钮
-      await user.click(screen.getByText('确 定'));
+      fireEvent.click(screen.getByText('确 定'));
 
       // 等待成功消息出现
       await waitFor(
@@ -1406,9 +1426,9 @@ describe('single row delete', () => {
         />,
       );
 
-      await waitFor(async () => {
-        await user.click(screen.queryByText('删除'));
-        await user.click(screen.queryByText('确 定'));
+      await waitFor(() => {
+        fireEvent.click(screen.queryByText('删除'));
+        fireEvent.click(screen.queryByText('确 定'));
         expect(screen.queryByText('删除成功')).not.toBeInTheDocument();
       });
     });

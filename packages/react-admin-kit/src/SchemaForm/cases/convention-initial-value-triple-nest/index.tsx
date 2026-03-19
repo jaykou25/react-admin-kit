@@ -28,7 +28,7 @@ const ConventionTripleNestDemo = () => {
   return (
     <div>
       {/* 操作按钮区 */}
-      <Space direction="vertical">
+      <Space orientation="vertical">
         <Button
           data-testid="set-value-btn"
           onClick={() =>

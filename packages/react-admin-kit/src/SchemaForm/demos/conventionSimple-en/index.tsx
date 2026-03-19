@@ -19,7 +19,7 @@ const ConventionSimple = () => {
 
   return (
     <div>
-      <Space direction="vertical" style={{ marginBottom: '20px' }}>
+      <Space orientation="vertical" style={{ marginBottom: '20px' }}>
         <Button onClick={() => formRef.current?.resetFields()}>
           0. Initial State
         </Button>

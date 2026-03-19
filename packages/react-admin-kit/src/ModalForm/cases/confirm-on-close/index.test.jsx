@@ -23,7 +23,7 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await user.click(screen.getByTestId('cancel'));
 
     // 验证确认弹窗
-    expect(screen.getByText('确认关闭')).toBeInTheDocument();
+    expect(screen.queryAllByText('确认关闭')[0]).toBeInTheDocument();
   });
 
   it('取消表单：填写用户名后取消表单有确认弹窗- false', async () => {
@@ -62,7 +62,7 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await user.click(screen.getByTestId('cancel'));
 
     // 验证确认弹窗
-    expect(screen.getByText('confirmtest')).toBeInTheDocument();
+    expect(screen.queryAllByText('confirmtest')[0]).toBeInTheDocument();
     expect(screen.getByText('confirmcontent')).toBeInTheDocument();
 
     // 验证弹窗正在关闭

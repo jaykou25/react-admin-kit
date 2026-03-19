@@ -16,7 +16,13 @@
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit\\src\\ProTable\\cases/**)",
       "Read(d:\\personal-projects\\react-admin-kit-docusaurus\\packages\\react-admin-kit/**)",
       "Bash(mkdir:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(npx jest:*)",
+      "mcp__web-reader__webReader",
+      "mcp__web-search-prime__web_search_prime",
+      "Bash(npx vitest:*)",
+      "Bash(find packages/react-admin-kit/src -name *ModalForm* -type f)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "ask": [],

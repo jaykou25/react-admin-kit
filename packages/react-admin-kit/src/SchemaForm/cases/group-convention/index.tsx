@@ -27,7 +27,7 @@ const GroupConventionDemo = () => {
   return (
     <div>
       {/* 操作按钮区域 */}
-      <Space direction="vertical" style={{ marginBottom: 16 }}>
+      <Space orientation="vertical" style={{ marginBottom: 16 }}>
         <Button
           data-testid="set-fields-btn"
           onClick={() => {

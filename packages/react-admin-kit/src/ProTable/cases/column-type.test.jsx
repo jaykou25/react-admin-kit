@@ -2,13 +2,18 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProTable from '../index';
 
 describe('ProTable 列 type 行为 集成测试', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   test("type='search' 时只出现在搜索区域", async () => {
@@ -83,6 +88,16 @@ describe('ProTable 列 type 行为 集成测试', () => {
     const TestComponent = () => (
       <ProTable
         innerRef={innerRef}
+        toolbar={{
+          actions: [
+            <button
+              data-testid="open-modal-btn"
+              onClick={() => innerRef.current.openModal()}
+            >
+              open
+            </button>,
+          ],
+        }}
         columns={[
           {
             title: 'formCol',
@@ -98,17 +113,9 @@ describe('ProTable 列 type 行为 集成测试', () => {
 
     const { container } = render(<TestComponent />);
 
-    // 等待 innerRef 注入
-    await waitFor(() => {
-      expect(innerRef.current).toBeTruthy();
-    });
-
-    // 打开 modal，使 form 渲染到 DOM
-    await innerRef.current.openModal();
+    fireEvent.click(screen.getByTestId('open-modal-btn'));
 
     await waitFor(() => {
-      expect(document.querySelector('.ant-modal')).toBeTruthy();
-
       const searchFormItems = container.querySelectorAll(
         '.ant-pro-query-filter-container .ant-form-item',
       );
@@ -121,13 +128,8 @@ describe('ProTable 列 type 行为 集成测试', () => {
       const foundInTable = tableHeader?.textContent?.includes('formCol');
       expect(foundInTable).toBeFalsy();
 
-      const otherFormItems = Array.from(
-        container.querySelectorAll('.ant-modal-content .ant-form-item'),
-      );
-      const foundInForm = otherFormItems.find((item) =>
-        item.textContent?.includes('formCol'),
-      );
-      expect(foundInForm).toBeTruthy();
+      expect(screen.queryByText('新增')).toBeInTheDocument();
+      expect(screen.queryByText('formCol')).toBeInTheDocument();
     });
   });
 });

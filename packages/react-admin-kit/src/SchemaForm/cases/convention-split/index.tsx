@@ -33,7 +33,7 @@ const Demo = () => {
 
   return (
     <div>
-      <Space direction="vertical">
+      <Space orientation="vertical">
         <Button onClick={() => formRef.current?.resetFields()}>
           0. 初始状态
         </Button>

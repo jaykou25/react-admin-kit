@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Button, ModalForm } from 'react-admin-kit';
 
-const Basic = ({ onFinish }) => {
+const Basic = ({ onFinish = () => {} }) => {
   const [open, setOpen] = useState(false);
 
   const container = useRef(null);
@@ -21,7 +21,10 @@ const Basic = ({ onFinish }) => {
         okButtonProps={{ ['data-testid']: 'ok' }}
         title={'基本表单'}
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          console.log('onCancel');
+          setOpen(false);
+        }}
         onFinish={onFinish}
         columns={[
           {
