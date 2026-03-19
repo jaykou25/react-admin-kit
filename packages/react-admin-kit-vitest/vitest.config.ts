@@ -8,6 +8,10 @@ export default defineConfig({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
+  ssr: {
+    // 支持混合 ESM/CJS
+    noExternal: ['react-admin-kit'],
+  },
   test: {
     alias: {
       'react-admin-kit': path.resolve(__dirname, '../react-admin-kit/src'),

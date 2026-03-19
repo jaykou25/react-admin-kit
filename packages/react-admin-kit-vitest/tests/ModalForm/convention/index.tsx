@@ -1,7 +1,7 @@
 import { Button, Space } from 'antd';
 import { useRef } from 'react';
 import type { ModalFormInnerRefType } from 'react-admin-kit';
-import { ModalForm } from 'react-admin-kit';
+import ModalForm from 'react-admin-kit/ModalForm';
 import { columns } from './columns';
 
 const Convention = ({ onFinish }) => {
@@ -39,6 +39,7 @@ const Convention = ({ onFinish }) => {
         onFinish={onFinish || defaultOnFinish}
         columns={columns}
         okButtonProps={{ ['data-testid']: 'ok' }}
+        getContainer={false}
       />
     </div>
   );
