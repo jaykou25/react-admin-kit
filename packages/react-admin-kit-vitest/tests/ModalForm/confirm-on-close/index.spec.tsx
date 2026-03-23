@@ -4,7 +4,7 @@ import Demo from './index';
 import { page, userEvent } from 'vitest/browser';
 
 describe('ModalForm confirm-on-close 集成测试', () => {
-  test('ModalForm confirm-on-close', async () => {
+  test('1. ModalForm confirm-on-close', async () => {
     const { getByTestId, getByText, container } = await render(<Demo />);
 
     await getByTestId('open').click();
@@ -21,7 +21,7 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await expect(confirmTitle).toHaveTextContent('确认关闭');
   });
 
-  test('取消表单：填写用户名后取消表单有确认弹窗- false', async () => {
+  test('2. 取消表单：填写用户名后取消表单有确认弹窗- false', async () => {
     const { getByTestId, getByText, container } = await render(
       <Demo confirmOnClose={false} />,
     );
@@ -41,7 +41,7 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await expect(getByText('基本表单')).not.toBeVisible();
   });
 
-  test('取消表单：填写用户名后取消表单有确认弹窗 - title', async () => {
+  test('3. 取消表单：填写用户名后取消表单有确认弹窗 - title', async () => {
     const { getByTestId, container } = await render(
       <Demo
         confirmOnClose={{
