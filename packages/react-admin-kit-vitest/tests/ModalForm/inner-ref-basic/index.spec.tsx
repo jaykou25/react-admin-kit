@@ -55,12 +55,13 @@ describe('ModalForm InnerRef 集成测试', () => {
 
     // 点击确认按钮
     await getByTestId('ok').click();
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     // 验证错误提示出现
-
     const error = document.querySelector('.ant-form-item-explain-error');
     expect(error).toBeInTheDocument();
   });
+
   test('表单提交：填写用户名并提交', async () => {
     const onFinish = vi.fn();
 
