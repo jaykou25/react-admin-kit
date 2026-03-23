@@ -1,34 +1,21 @@
+import { Button } from 'antd';
 import { useRef } from 'react';
-import Button from 'react-admin-kit/Button';
 import ModalForm from 'react-admin-kit/ModalForm';
-import type { ModalFormInnerRefType } from 'react-admin-kit';
 
-const Demo = ({
-  onFinish,
-  fieldPropsFn,
-  onSet,
-}: {
-  onFinish?: (values: any, type: string, data: any) => void;
-  fieldPropsFn?: (data: any) => void;
-  onSet?: (innerRef: React.MutableRefObject<ModalFormInnerRefType | undefined>) => void;
-}) => {
-  const innerRef = useRef<ModalFormInnerRefType>();
+const Demo = ({ onFinish, fieldPropsFn, onSet }) => {
+  const innerRef = useRef<any>();
 
   return (
-    <div>
-      <div style={{ textAlign: 'start' }}>
-        <Button data-testid="set-btn" onClick={() => onSet?.(innerRef)}>
-          set
-        </Button>
-        <Button
-          data-testid="open-btn"
-          type="primary"
-          onClick={() => innerRef.current?.openModal()}
-        >
-          open
-        </Button>
-      </div>
-
+    <>
+      <Button data-testid="set-btn" onClick={() => onSet(innerRef)}>
+        set
+      </Button>
+      <Button
+        data-testid="open-btn"
+        onClick={() => innerRef.current?.openModal()}
+      >
+        open
+      </Button>
       <ModalForm
         onFinish={onFinish}
         innerRef={innerRef}
@@ -61,14 +48,14 @@ const Demo = ({
                   },
                 ],
                 onChange: () => {
-                  fieldPropsFn?.(_innerRef?.current?.data);
+                  fieldPropsFn(_innerRef?.current?.data);
                 },
               };
             },
           },
         ]}
       />
-    </div>
+    </>
   );
 };
 
