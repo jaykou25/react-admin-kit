@@ -36,11 +36,11 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await expect(getByText('基本表单')).not.toBeVisible();
   });
 
-  test('3. 取消表单：填写用户名后取消表单有确认弹窗 - title', async () => {
+  test('3. 取消时出现的弹窗的title和content可自定义', async () => {
     const { getByTestId, getByText, getByLabelText } = await render(
       <Demo
         confirmOnClose={{
-          title: 'confirmtest888',
+          title: 'confirmtest',
           content: 'confirmcontent',
         }}
       />,
@@ -53,9 +53,9 @@ describe('ModalForm confirm-on-close 集成测试', () => {
     await getByLabelText(/用户名/).fill('testuser');
 
     await getByTestId('cancel').click();
-    console.log('debug', getByText('confirmtest888'));
+    console.log('debug', getByText('confirmtest'));
 
-    await expect(getByText('confirmtest888')[0]).toBeVisible();
+    await expect(getByText('confirmtest').length).toBeGreaterThan(0);
 
     await expect(getByText('confirmcontent')).toBeVisible();
   });

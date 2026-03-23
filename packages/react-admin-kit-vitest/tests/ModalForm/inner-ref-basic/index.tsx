@@ -26,6 +26,7 @@ const Demo = ({ onFinish }) => {
         innerRef={innerRef}
         getContainer={() => container.current!}
         okButtonProps={{ ['data-testid']: 'ok' }}
+        cancelButtonProps={{ ['data-testid']: 'cancel' }}
         title={'基本表单'}
         onFinish={onFinish}
         columns={[
