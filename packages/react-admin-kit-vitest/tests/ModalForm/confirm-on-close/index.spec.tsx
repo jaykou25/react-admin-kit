@@ -4,25 +4,22 @@ import Demo from './index';
 import { page, userEvent } from 'vitest/browser';
 
 describe('ModalForm confirm-on-close 集成测试', () => {
-  test('1. ModalForm confirm-on-close', async () => {
-    const { getByTestId, getByText, container } = await render(<Demo />);
+  test('1. 取消表单：填写用户名后取消表单有确认弹窗', async () => {
+    const { getByTestId, getByText, getByLabelText } = await render(<Demo />);
 
     await getByTestId('open').click();
 
     await expect(getByText('基本表单')).toBeInTheDocument();
 
-    const modal = page.getByTestId('dialog');
-    const input = modal.getByLabelText(/用户名/);
-    await userEvent.fill(input, 'testuser');
+    await getByLabelText(/用户名/).fill('testuser');
 
     await getByTestId('cancel').click();
 
-    const confirmTitle = container.querySelector('.ant-modal-confirm-title');
-    await expect(confirmTitle).toHaveTextContent('确认关闭');
+    await expect(getByText('表单项内容未保存')).toBeInTheDocument();
   });
 
   test('2. 取消表单：填写用户名后取消表单有确认弹窗- false', async () => {
-    const { getByTestId, getByText, container } = await render(
+    const { getByTestId, getByText, getByLabelText } = await render(
       <Demo confirmOnClose={false} />,
     );
 
@@ -30,9 +27,7 @@ describe('ModalForm confirm-on-close 集成测试', () => {
 
     await expect(getByText('基本表单')).toBeInTheDocument();
 
-    const modal = page.getByTestId('dialog');
-    const input = modal.getByLabelText(/用户名/);
-    await userEvent.fill(input, 'testuser');
+    await getByLabelText(/用户名/).fill('testuser');
 
     await getByTestId('cancel').click();
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -42,10 +37,10 @@ describe('ModalForm confirm-on-close 集成测试', () => {
   });
 
   test('3. 取消表单：填写用户名后取消表单有确认弹窗 - title', async () => {
-    const { getByTestId, container } = await render(
+    const { getByTestId, getByText, getByLabelText } = await render(
       <Demo
         confirmOnClose={{
-          title: 'confirmtest',
+          title: 'confirmtest888',
           content: 'confirmcontent',
         }}
       />,
@@ -53,27 +48,15 @@ describe('ModalForm confirm-on-close 集成测试', () => {
 
     await getByTestId('open').click();
 
-    const modal = page.getByTestId('dialog');
-    await expect(page.getByText('基本表单')).toBeVisible();
+    await expect(getByText('基本表单')).toBeVisible();
 
-    const input = modal.getByLabelText(/用户名/);
-    await userEvent.fill(input, 'testuser');
+    await getByLabelText(/用户名/).fill('testuser');
 
-    const cancelBtn = modal.getByTestId('cancel');
-    await userEvent.click(cancelBtn);
+    await getByTestId('cancel').click();
+    console.log('debug', getByText('confirmtest888'));
 
-    await expect
-      .poll(() => {
-        return !!container.querySelector('.ant-modal-confirm');
-      })
-      .toBe(true);
+    await expect(getByText('confirmtest888')[0]).toBeVisible();
 
-    const confirmTitle = container.querySelector('.ant-modal-confirm-title');
-    await expect(confirmTitle).toHaveTextContent('confirmtest');
-
-    const confirmContent = container.querySelector(
-      '.ant-modal-confirm-content',
-    );
-    await expect(confirmContent).toHaveTextContent('confirmcontent');
+    await expect(getByText('confirmcontent')).toBeVisible();
   });
 });
