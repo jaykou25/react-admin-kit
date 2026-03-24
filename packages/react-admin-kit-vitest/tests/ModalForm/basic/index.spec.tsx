@@ -50,14 +50,12 @@ describe('ModalForm Basic 集成测试', () => {
 
     await getByTestId('ok').click();
 
-    await expect
-      .poll(() => onFinish)
-      .toHaveBeenCalledWith(
-        expect.objectContaining({
-          username: 'testuser',
-        }),
-        'new',
-        expect.any(Object),
-      );
+    await expect(onFinish).toHaveBeenCalledWith(
+      expect.objectContaining({
+        username: 'testuser',
+      }),
+      'new',
+      expect.any(Object),
+    );
   });
 });

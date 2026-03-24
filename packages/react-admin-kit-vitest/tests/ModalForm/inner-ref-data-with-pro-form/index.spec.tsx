@@ -35,13 +35,11 @@ describe('ModalForm 嵌在 ProForm 中的 innerRefData 集成测试', () => {
 
     await getByTestId('pro-submit-btn').click();
 
-    await expect
-      .poll(() => onProFormFinish)
-      .toHaveBeenCalledWith({ proUserId: 'prouser1' });
+    await expect(onProFormFinish).toHaveBeenCalledWith({
+      proUserId: 'prouser1',
+    });
 
-    await expect
-      .poll(() => proFieldPropsFn)
-      .toHaveBeenCalledWith({ protest: '100' });
+    await expect(proFieldPropsFn).toHaveBeenCalledWith({ protest: '100' });
 
     await getByTestId('open-btn').click();
 
@@ -53,12 +51,12 @@ describe('ModalForm 嵌在 ProForm 中的 innerRefData 集成测试', () => {
 
     await getByTestId('modal-submit-btn').click();
 
-    await expect
-      .poll(() => onModalFinish)
-      .toHaveBeenCalledWith({ userId: 'user1' }, 'new', {});
+    await expect(onModalFinish).toHaveBeenCalledWith(
+      { userId: 'user1' },
+      'new',
+      {},
+    );
 
-    await expect
-      .poll(() => fieldPropsFn)
-      .toHaveBeenCalledWith({ modaltest: '200' });
+    await expect(fieldPropsFn).toHaveBeenCalledWith({ modaltest: '200' });
   });
 });

@@ -30,10 +30,8 @@ describe('ModalForm innerRefData 集成测试', () => {
 
     await getByTestId('submit-btn').click();
 
-    await expect
-      .poll(() => onFinish)
-      .toHaveBeenCalledWith({ userId: 'user1' }, 'new', {});
+    await expect(onFinish).toHaveBeenCalledWith({ userId: 'user1' }, 'new', {});
 
-    await expect.poll(() => fieldPropsFn).toHaveBeenCalledWith({ test: '10' });
+    await expect(fieldPropsFn).toHaveBeenCalledWith({ test: '10' });
   });
 });
