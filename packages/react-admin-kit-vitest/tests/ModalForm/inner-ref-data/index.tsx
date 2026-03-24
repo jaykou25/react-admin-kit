@@ -29,7 +29,6 @@ const Demo = ({ onFinish, fieldPropsFn, onSet }) => {
             valueType: 'select',
             fieldProps: (form, _innerRef) => {
               return {
-                open: true,
                 options: [
                   {
                     'data-testid': 'userOption1',
