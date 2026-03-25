@@ -10,9 +10,9 @@ describe('ProForm onFinish 验证', () => {
       <Demo onFinish={onFinishMock} />,
     );
 
-    await getByLabelText(/Name/).fill('Jack');
+    await getByLabelText('Name').fill('Jack');
 
-    await getByLabelText(/Hobby/).click();
+    await getByLabelText('Hobby').click();
 
     await getByTestId('testOption1').click();
 
