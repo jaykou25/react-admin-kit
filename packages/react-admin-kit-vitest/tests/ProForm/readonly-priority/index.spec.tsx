@@ -26,6 +26,6 @@ describe('ProForm with embedded SchemaForm - readonly priority', () => {
 
     await expect(getByText('Name')).toBeInTheDocument();
 
-    await expect(getByLabelText(/Name/)).toBeInTheDocument();
+    await expect(getByText('-')).not.toBeInTheDocument();
   });
 });

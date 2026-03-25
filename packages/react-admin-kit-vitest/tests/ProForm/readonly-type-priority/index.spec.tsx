@@ -12,10 +12,7 @@ describe('ProForm with embedded SchemaForm - readonlyType priority', () => {
       container.querySelector('.ant-descriptions-view'),
     ).not.toBeInTheDocument();
 
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    const formItemWrapper = container.querySelector('.form-item-wrapper');
-    expect(formItemWrapper).toBeTruthy();
+    await expect(container.querySelector('.form-item-wrapper')).toBeVisible();
   });
 
   test('SchemaForm readonlyType should work when ProForm readonlyType is set', async () => {
@@ -30,9 +27,12 @@ describe('ProForm with embedded SchemaForm - readonlyType priority', () => {
       container.querySelector('.ant-descriptions-view'),
     ).toBeInTheDocument();
 
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await expect(
+      container.querySelector('.form-item-wrapper'),
+    ).toBeInTheDocument();
 
-    const formItemWrapper = container.querySelector('.form-item-wrapper');
-    expect(formItemWrapper).toBeTruthy();
+    await expect(
+      container.querySelector('.form-item-wrapper'),
+    ).not.toBeVisible();
   });
 });
