@@ -1,7 +1,7 @@
 import ProForm from 'react-admin-kit/ProForm';
 import SchemaForm from 'react-admin-kit/SchemaForm';
 
-const Demo = ({ onFinish }) => {
+const Demo = ({ onFinish }: any) => {
   return (
     <ProForm onFinish={onFinish} submitter>
       <SchemaForm

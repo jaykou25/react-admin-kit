@@ -20,12 +20,14 @@ describe('ProForm with embedded SchemaForm - readonly priority', () => {
   });
 
   test('Both ProForm and SchemaForm not readonly should render editable form', async () => {
-    const { getByText, getByLabelText } = await render(
+    const { getByText, getByPlaceholder } = await render(
       <Demo proFormReadonly={undefined} schemaFormReadonly={undefined} />,
     );
 
     await expect(getByText('Name')).toBeInTheDocument();
 
     await expect(getByText('-')).not.toBeInTheDocument();
+
+    await expect(getByPlaceholder('请输入')).toBeInTheDocument();
   });
 });
