@@ -119,7 +119,7 @@ describe('ProTable 基础渲染测试', () => {
         <ProTable columns={mockColumns} request={mockRequest} />,
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       await expect(mockRequest).toHaveBeenCalled();
 
@@ -169,12 +169,12 @@ describe('ProTable 基础渲染测试', () => {
         <ProTable columns={mockColumns} request={mockRequest} rowKey="id" />,
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       await expect(mockRequest).toHaveBeenCalled();
 
       const rows = container.querySelectorAll('.ant-table-tbody tr');
-      await expect(rows.length).toBeGreaterThan(0);
+      await expect(rows.length).toBe(3);
 
       await expect(rows[0]).toHaveAttribute('data-row-key', '1');
     });
@@ -196,12 +196,12 @@ describe('ProTable 基础渲染测试', () => {
         />,
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       await expect(mockRequest).toHaveBeenCalled();
 
       const rows = container.querySelectorAll('.ant-table-tbody tr');
-      await expect(rows.length).toBeGreaterThan(0);
+      await expect(rows.length).toBe(3);
 
       await expect(rowKeyFn).toHaveBeenCalled();
 
