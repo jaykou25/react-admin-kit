@@ -19,7 +19,7 @@ const mockRequest = vi.fn().mockResolvedValue({
 
 let fieldPropsFn: any;
 
-const columns = [
+const columns: any = [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -73,7 +73,7 @@ describe('ProTable innerRef 集成测试', () => {
 
   test('应该正确初始化 innerRef', async () => {
     const TestComponent = () => {
-      const innerRef = useRef();
+      const innerRef = useRef(undefined);
 
       return (
         <ProTable
@@ -104,7 +104,7 @@ describe('ProTable innerRef 集成测试', () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef();
+      const innerRef = useRef(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -143,7 +143,7 @@ describe('ProTable innerRef 集成测试', () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef();
+      const innerRef = useRef(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -176,7 +176,7 @@ describe('ProTable innerRef 集成测试', () => {
 
   test('应该能够通过 setData 方法设置数据', async () => {
     const TestComponent = ({ onSet, fieldPropsFn }: any) => {
-      const innerRef = useRef();
+      const innerRef = useRef<any>(undefined);
 
       return (
         <>
@@ -185,7 +185,7 @@ describe('ProTable innerRef 集成测试', () => {
           </Button>
           <Button
             data-testid="open-btn"
-            onClick={() => innerRef.current.openModal()}
+            onClick={() => innerRef.current?.openModal()}
           >
             open
           </Button>
@@ -275,7 +275,7 @@ describe('ProTable innerRef 集成测试', () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef();
+      const innerRef = useRef(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {

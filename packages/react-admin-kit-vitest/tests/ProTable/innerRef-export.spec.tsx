@@ -1,6 +1,7 @@
 import { render } from 'vitest-browser-react';
 import ProTable from 'react-admin-kit/ProTable';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
+
+import { describe, expect, test, vi } from 'vitest';
 import { useRef, useEffect } from 'react';
 
 // Mock data
@@ -11,10 +12,15 @@ const mockData = [
 
 const mockExportTable = vi.fn(() => Promise.resolve());
 
-vi.mock('react-admin-kit/ProTable/utils', () => ({
-  exportTable: (...args: any[]) => mockExportTable(...args),
-  getAreaFields: vi.fn((columns) => columns || []),
-}));
+vi.mock('react-admin-kit/ProTable/utils', async () => {
+  const actual = await vi.importActual<
+    typeof import('react-admin-kit/ProTable/utils')
+  >('react-admin-kit/ProTable/utils');
+  return {
+    ...actual,
+    exportTable: (...args: any) => mockExportTable(...args),
+  };
+});
 
 const mockRequest = vi.fn(() =>
   Promise.resolve({
@@ -24,7 +30,7 @@ const mockRequest = vi.fn(() =>
   }),
 );
 
-const columns = [
+const columns: any = [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -51,15 +57,11 @@ const columns = [
 ];
 
 describe('ProTable innerRef export 功能测试', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   test('应该为 innerRef 设置 export 方法', async () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef<any>();
+      const innerRef = useRef<any>(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -91,7 +93,7 @@ describe('ProTable innerRef export 功能测试', () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef<any>();
+      const innerRef = useRef<any>(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -151,7 +153,7 @@ describe('ProTable innerRef export 功能测试', () => {
     let capturedInnerRef: any;
 
     const TestComponent = () => {
-      const innerRef = useRef<any>();
+      const innerRef = useRef<any>(undefined);
 
       useEffect(() => {
         const timer = setTimeout(() => {

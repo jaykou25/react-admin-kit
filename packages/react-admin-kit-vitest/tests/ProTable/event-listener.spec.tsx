@@ -22,10 +22,6 @@ const columns = [
 ];
 
 describe('ProTable 事件监听器测试', () => {
-  // afterEach(() => {
-  //   document.removeEventListener('@proTableReload', () => {});
-  // });
-
   test('应该注册和移除 @proTableReload 事件监听器', async () => {
     const mockRequest = vi.fn(() =>
       Promise.resolve({
