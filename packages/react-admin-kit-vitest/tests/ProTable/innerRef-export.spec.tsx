@@ -124,7 +124,21 @@ describe('ProTable innerRef export 功能测试', () => {
     capturedInnerRef.export(mockRows, mockExcelJS, options);
 
     expect(mockExportTable).toHaveBeenCalledWith(
-      expect.any(Array),
+      expect.arrayContaining([
+        {
+          title: 'ID',
+          dataIndex: 'id',
+        },
+        {
+          title: '年龄',
+          dataIndex: 'age',
+        },
+        {
+          title: '邮箱',
+          dataIndex: 'email',
+          hideInSearch: true,
+        },
+      ]),
       mockRows,
       mockExcelJS,
       expect.objectContaining({
