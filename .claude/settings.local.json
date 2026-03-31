@@ -22,7 +22,8 @@
       "mcp__web-search-prime__web_search_prime",
       "Bash(npx vitest:*)",
       "Bash(find packages/react-admin-kit/src -name *ModalForm* -type f)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(,)"
     ],
     "deny": [],
     "ask": [],
