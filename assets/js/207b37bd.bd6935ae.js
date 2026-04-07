@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[674],{52890:e=>{e.exports=JSON.parse('{"blogBasePath":"/react-admin-kit/changelog","blogTitle":"Blog","authorsListPath":"/react-admin-kit/changelog/authors"}')}}]);

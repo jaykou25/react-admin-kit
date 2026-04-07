@@ -14,8 +14,18 @@
         <updated>2025-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[{/* ### 新增]]></summary>
         <content type="html"><![CDATA[
-<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="103">1.0.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#103" class="hash-link" aria-label="1.0.3的直接链接" title="1.0.3的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="105">1.0.5<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#105" class="hash-link" aria-label="1.0.5的直接链接" title="1.0.5的直接链接" translate="no">​</a></h2>
 <h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="修复-">修复 🐛<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E4%BF%AE%E5%A4%8D-" class="hash-link" aria-label="修复 🐛的直接链接" title="修复 🐛的直接链接" translate="no">​</a></h4>
+<ul>
+<li class="">修复 ModalForm 组件当 initialValues 变更后，打开弹窗时应该显示新的值。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="104">1.0.4<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#104" class="hash-link" aria-label="1.0.4的直接链接" title="1.0.4的直接链接" translate="no">​</a></h2>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="修复--1">修复 🐛<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E4%BF%AE%E5%A4%8D--1" class="hash-link" aria-label="修复 🐛的直接链接" title="修复 🐛的直接链接" translate="no">​</a></h4>
+<ul>
+<li class="">ProTable 组件修复 <code>enableDelete</code> 为函数时返回对象中 <code>visible: false</code> 不生效的问题。当 <code>enableDelete</code> 函数返回 <code>{ visible: false }</code> 时，删除按钮现在会正确隐藏。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_dkMQ" id="103">1.0.3<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#103" class="hash-link" aria-label="1.0.3的直接链接" title="1.0.3的直接链接" translate="no">​</a></h2>
+<h4 class="anchor anchorTargetStickyNavbar_dkMQ" id="修复--2">修复 🐛<a href="https://jaykou25.github.io/react-admin-kit/changelog/v1/#%E4%BF%AE%E5%A4%8D--2" class="hash-link" aria-label="修复 🐛的直接链接" title="修复 🐛的直接链接" translate="no">​</a></h4>
 <ul>
 <li class="">Button 组件添加 <code>forwardRef</code> 支持,修复在 Ant Design v6 的 Popconfirm 组件中的定位问题。</li>
 <li class="">LinkButton 组件添加 <code>forwardRef</code> 支持。</li>

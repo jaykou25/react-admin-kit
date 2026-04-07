@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[332],{28140:e=>{e.exports=JSON.parse('{"blogBasePath":"/react-admin-kit/components","blogTitle":"Blog","authorsListPath":"/react-admin-kit/components/authors"}')}}]);
