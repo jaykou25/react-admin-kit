@@ -53,14 +53,14 @@ export class CacheManager {
       for (const [depPath, expectedHash] of Object.entries(
         entry.dependencyHashes,
       )) {
-        if (fs.existsSync(depPath)) {
+        if (fs.existsSync(depPath) && fs.statSync(depPath).isFile()) {
           const currentContent = fs.readFileSync(depPath, 'utf-8');
           const currentHash = this.calculateContentHash(currentContent);
           if (currentHash !== expectedHash) {
             return false;
           }
         } else {
-          // 依赖文件不存在，缓存无效
+          // 依赖文件不存在或不是文件，缓存无效
           return false;
         }
       }
@@ -154,8 +154,8 @@ export class CacheManager {
             depFilePath = dep.resolvedSource || dep.source;
           }
 
-          // 如果文件存在，计算其哈希
-          if (fs.existsSync(depFilePath)) {
+          // 如果文件存在且是文件（不是目录），计算其哈希
+          if (fs.existsSync(depFilePath) && fs.statSync(depFilePath).isFile()) {
             const content = fs.readFileSync(depFilePath, 'utf-8');
             const hash = this.calculateContentHash(content);
             dependencyHashes[depFilePath] = hash;

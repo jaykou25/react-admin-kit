@@ -7,7 +7,7 @@
   "scripts": {
     "build": "docusaurus build",
     "clear": "docusaurus clear",
-    "deploy": "gh-pages -d build",
+    "deploy": "docusaurus deploy --skip-build",
     "docusaurus": "docusaurus",
     "serve": "docusaurus serve",
     "start": "set HOST=0.0.0.0 && docusaurus start --port 3600 --no-open --host 0.0.0.0",

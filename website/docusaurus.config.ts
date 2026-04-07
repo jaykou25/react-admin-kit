@@ -12,10 +12,10 @@ const config: Config = {
   tagline: '中后台应用的最佳伴侣',
   favicon: 'img/rak-r15.png',
 
-  future: {
-    v4: true,
-    experimental_faster: true,
-  },
+  // future: {
+  //   v4: true,
+  //   experimental_faster: true,
+  // },
 
   // 客户端模块，用于在浏览器中执行代码
   clientModules: [require.resolve('./src/clientModules/globalUtils.js')],
