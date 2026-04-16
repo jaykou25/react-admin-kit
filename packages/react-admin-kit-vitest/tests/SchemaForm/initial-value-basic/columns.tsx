@@ -19,7 +19,7 @@ export const getColumns = (): FormColumnType[] => [
       if (showUser) {
         return [
           {
-            title: '用户',
+            title: '用户选择框',
             dataIndex: 'user',
             valueType: 'select',
             fieldProps: {

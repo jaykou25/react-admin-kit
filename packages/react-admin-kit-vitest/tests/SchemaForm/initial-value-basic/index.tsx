@@ -4,7 +4,7 @@ import { SchemaForm, ProFormInstance } from 'react-admin-kit';
 import { getColumns } from './columns';
 
 const Demo = () => {
-  const formRef = useRef<ProFormInstance>();
+  const formRef = useRef<ProFormInstance>(undefined);
 
   return (
     <div>

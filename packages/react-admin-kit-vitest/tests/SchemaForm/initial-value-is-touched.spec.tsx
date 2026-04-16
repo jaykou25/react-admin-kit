@@ -1,16 +1,10 @@
 import { useRef } from 'react';
-
 import { SchemaForm, ProFormInstance, Button } from 'react-admin-kit';
+import { expect, test, vi } from 'vitest';
+import { render } from 'vitest-browser-react';
 
-const setHtml = (query, vals) => {
-  const ele = document.querySelector(query);
-  if (ele) {
-    ele.innerHTML = typeof vals === 'object' ? JSON.stringify(vals) : vals;
-  }
-};
-
-export default function (props) {
-  const formRef = useRef<ProFormInstance>();
+const Demo = (props) => {
+  const formRef = useRef<ProFormInstance>(undefined);
 
   return (
     <div>
@@ -45,4 +39,14 @@ export default function (props) {
       </Button>
     </div>
   );
-}
+};
+
+test('测试 SchemaForm 有初始值时是否 touch 问题', async () => {
+  const touchHandleFn = vi.fn();
+  const { getByText } = await render(<Demo touchHandle={touchHandleFn} />);
+
+  const btn = getByText('是否touch');
+  await btn.click();
+
+  expect(touchHandleFn).toHaveBeenCalledWith(false);
+});
