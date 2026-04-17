@@ -19,7 +19,6 @@ import type {
 
 import { LocaleContext, ModalFormContext } from '../SettingProvider/context';
 import { CreateBaseInner, SchemaFormInnerRefType } from '../context';
-import { normalizeTree } from '../utils/treeUtil';
 import Omit from 'omit.js';
 import type { ModalFormSettingProps } from '../SettingProvider/types';
 import { InnerRefContext } from '../ProForm';
@@ -105,7 +104,11 @@ const ModalForm = (props: ModalFormProps) => {
 
   useEffect(() => {
     if (open) {
-      setFormData(propsInitialValues);
+      // 优先级: formProps.initialValues > columns 上的 initialValue
+      setFormData({
+        ...getColumnsInitialValues(columns, propsInitialValues),
+        ...(propsInitialValues || {}),
+      });
     }
   }, [open]);
 
@@ -189,28 +192,82 @@ const ModalForm = (props: ModalFormProps) => {
     }
   };
 
-  const getColumns = (): any => {
-    const $cols = normalizeTree(
-      columns,
-      (item) => {
-        /** 去掉 width 属性, 因为在表单中不需要 width */
-        const { width, initialValue, ...rest } = item;
+  /**
+   * 从 columns 中收集 initialValue，统一放到 initialValues 里传给 SchemaForm。
+   * 这样可以避免 columns 上的 initialValue 和 SchemaForm 的 initialValues 同名时，
+   * antd 报 "Field can not overwrite it" 的警告。
+   *
+   * 优先级顺序（由低到高）:
+   * 1. columns 上的 initialValue
+   * 2. formProps 上的 initialValues
+   * 3. openModal 传入的 initialData
+   */
+  const getColumnsInitialValues = (
+    cols: any[] = [],
+    values?: Record<string, any>,
+  ): Record<string, any> => {
+    const result: Record<string, any> = {};
+    cols.forEach((col) => {
+      if (typeof col.dataIndex === 'string' && 'initialValue' in col) {
+        result[col.dataIndex] = col.initialValue;
+      }
 
-        // columns 上和 SchemaForm 组件的 initialValues 上不能有相同的字段, 否则会有告警.
-        // Form already set 'initialValues' with path 'name'. Field can not overwrite it
-        if (
-          typeof item.dataIndex === 'string' &&
-          formData.hasOwnProperty(item.dataIndex)
-        ) {
-          return rest;
-        } else {
-          return { initialValue, ...rest };
+      // 处理 dependency 类型的函数 columns，传入当前 values 使其能动态展开
+      if (
+        typeof col.columns === 'function' &&
+        col.valueType === 'dependency'
+      ) {
+        try {
+          const dependencyColumns = col.columns(values || {});
+          Object.assign(
+            result,
+            getColumnsInitialValues(dependencyColumns, values),
+          );
+        } catch (e) {
+          // values 不满足 dependency 函数要求时静默跳过
         }
-      },
-      { replace: true },
-    );
+      } else if (col.columns && Array.isArray(col.columns)) {
+        Object.assign(result, getColumnsInitialValues(col.columns, values));
+      }
 
-    return $cols;
+      if (col.children && Array.isArray(col.children)) {
+        Object.assign(result, getColumnsInitialValues(col.children, values));
+      }
+    });
+    return result;
+  };
+
+  /**
+   * 递归遍历 columns，去掉所有列上的 initialValue 和 width。
+   * 对 dependency 的函数 columns 也进行包装，确保其返回的列中不带 initialValue。
+   */
+  const stripColumnsInitialValue = (cols: any[] = []): any[] => {
+    return cols.map((col) => {
+      const { width, initialValue, ...rest } = col;
+
+      // 处理 dependency 的函数 columns
+      if (
+        typeof rest.columns === 'function' &&
+        rest.valueType === 'dependency'
+      ) {
+        const originalFn = rest.columns;
+        rest.columns = (values: any) => {
+          return stripColumnsInitialValue(originalFn(values));
+        };
+      } else if (rest.columns && Array.isArray(rest.columns)) {
+        rest.columns = stripColumnsInitialValue(rest.columns);
+      }
+
+      if (rest.children && Array.isArray(rest.children)) {
+        rest.children = stripColumnsInitialValue(rest.children);
+      }
+
+      return rest;
+    });
+  };
+
+  const getColumns = (): any => {
+    return stripColumnsInitialValue(columns);
   };
 
   const openModal = (
@@ -221,10 +278,14 @@ const ModalForm = (props: ModalFormProps) => {
     // 将 formType 挂在 innerRef 上
     propsInnerRef!.current!.formType = formType;
 
-    // 合并初始值. openModal 所携带的初始值优先级更大.
-    const initialValues = {
+    // 合并初始值. 优先级: openModal(initialData) > formProps.initialValues > columns 上的 initialValue
+    const baseValues = {
       ...(propsInitialValues || {}),
       ...(initialData || {}),
+    };
+    const initialValues = {
+      ...getColumnsInitialValues(columns, baseValues),
+      ...baseValues,
     };
 
     setFormType(formType);
