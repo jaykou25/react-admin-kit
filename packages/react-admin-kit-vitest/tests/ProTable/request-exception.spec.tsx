@@ -6,7 +6,9 @@ describe('ProTable request 异常处理测试', () => {
   const mockColumns = [{ title: 'Title' }];
 
   test('request 函数抛出异常时应正确处理', async () => {
-    const mockRequest = vi.fn(() => Promise.reject(new Error('Network error')));
+    const mockRequest = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('network error'));
 
     const { getByText } = await render(
       <ProTable columns={mockColumns} request={mockRequest} />,
@@ -16,9 +18,7 @@ describe('ProTable request 异常处理测试', () => {
   });
 
   test('request 函数同步抛出异常时应正确处理', async () => {
-    const mockRequest = vi.fn(() => {
-      throw new Error('Synchronous error');
-    });
+    const mockRequest = vi.fn().mockThrow(new Error('Synchronous error'));
 
     const { getByText } = await render(
       <ProTable columns={mockColumns} request={mockRequest} />,

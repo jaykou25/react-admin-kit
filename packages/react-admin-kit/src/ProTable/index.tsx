@@ -181,19 +181,19 @@ const ProTable = (props: MyProTableType) => {
   const patchRequest = (): any => {
     if (request) {
       return (params, sort, filter) => {
-        return new Promise((resolve, reject) => {
-          request(params, sort, filter)
-            .then((res) => {
-              if (innerRef.current) {
-                innerRef.current.total = res.total;
-                innerRef.current.dataSource = res.data;
-                innerRef.current.params = params;
-              }
+        return Promise.resolve(request(params, sort, filter))
+          .then((res) => {
+            if (innerRef.current) {
+              innerRef.current.total = res.total;
+              innerRef.current.dataSource = res.data;
+              innerRef.current.params = params;
+            }
 
-              resolve(res);
-            })
-            .catch((err) => reject(err));
-        });
+            return res;
+          })
+          .catch(() => {
+            return { data: [], total: 0 };
+          });
       };
     }
   };
