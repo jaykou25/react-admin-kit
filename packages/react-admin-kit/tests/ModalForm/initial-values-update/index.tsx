@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react';
 import { Button } from 'antd';
-import ModalForm from 'react-admin-kit/ModalForm';
+import { ModalForm } from 'react-admin-kit';
 
-const InitialValuesUpdateDemo = ({
-  initialValues,
-  onOpen,
-  title = 'Test Modal',
-}) => {
+const InitialValuesUpdateDemo = (props) => {
+  const { initialValues, title } = props;
+
   const [open, setOpen] = useState(false);
 
   const container = useRef(null);
@@ -28,7 +26,6 @@ const InitialValuesUpdateDemo = ({
       <ModalForm
         getContainer={() => container.current!}
         open={open}
-        onOpen={onOpen}
         title={title}
         formProps={{ initialValues }}
         columns={[

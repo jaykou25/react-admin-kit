@@ -1,4 +1,4 @@
-import BusinessSelectBuilder from '../../../../react-admin-kit/src/BusinessSelectBuilder';
+import { BusinessSelectBuilder } from 'react-admin-kit';
 
 // Mock API function
 const mockApi = async () => {
